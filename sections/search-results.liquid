@@ -16,7 +16,7 @@
   <h1>Search Results</h1>
 
   {% if search.performed %}
-    <p>{{ search.results_count }} result{{ search.results_count != 1 and 's' }} for “{{ search.terms }}”</p>
+    <p>    {{ search.results_count }} result{% if search.results_count != 1 %}s{% endif %} for “{{ search.terms }}”</p>
 
     {% if search.results.size > 0 %}
       <div class="grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; margin-top: 2rem;">
