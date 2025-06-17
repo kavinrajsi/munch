@@ -1,8 +1,8 @@
 {
-  "name": "Blog",
+  "name": "Account Wishlist",
   "sections": {
     "main": {
-      "type": "main-blog"
+      "type": "account-wishlist"
     }
   },
   "order": ["main"]

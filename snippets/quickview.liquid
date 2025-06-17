@@ -1,0 +1,48 @@
+<div id="QuickViewModal-{{ product.id }}" class="quickview-modal" style="display:none;">
+  <div class="quickview-overlay" onclick="closeQuickView({{ product.id }})"></div>
+  <div class="quickview-content" style="max-width: 800px; margin: 5% auto; background: #fff; padding: 2rem; position: relative; z-index: 1001; border-radius: 8px;">
+
+    <button onclick="closeQuickView({{ product.id }})" style="position: absolute; top: 1rem; right: 1rem;">&times;</button>
+
+    <div class="quickview-grid" style="display: flex; gap: 2rem; flex-wrap: wrap;">
+      <!-- Product Image -->
+      <div style="flex: 1;">
+        <img src="{{ product.featured_image | img_url: '600x' }}" alt="{{ product.title }}" style="width: 100%; height: auto;" />
+      </div>
+
+      <!-- Product Details -->
+      <div style="flex: 1;">
+        <h2>{{ product.title }}</h2>
+        <p>{{ product.price | money }}</p>
+        <div class="rte">{{ product.description | strip_html | truncate: 200 }}</div>
+
+        {% form 'product', product %}
+          {% if product.variants.size > 1 %}
+            <label for="quickview-variant-{{ product.id }}">Choose an option:</label>
+            <select name="id" id="quickview-variant-{{ product.id }}">
+              {% for variant in product.variants %}
+                <option value="{{ variant.id }}">{{ variant.title }} — {{ variant.price | money }}</option>
+              {% endfor %}
+            </select>
+          {% else %}
+            <input type="hidden" name="id" value="{{ product.variants.first.id }}">
+          {% endif %}
+
+          <button type="submit" class="btn" style="margin-top: 1rem;">Add to Cart</button>
+        {% endform %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function openQuickView(productId) {
+    document.getElementById('QuickViewModal-' + productId).style.display = 'block';
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeQuickView(productId) {
+    document.getElementById('QuickViewModal-' + productId).style.display = 'none';
+    document.body.style.overflow = '';
+  }
+</script>

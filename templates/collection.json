@@ -1,8 +1,8 @@
 {
-  "name": "Blog",
+  "name": "Collection",
   "sections": {
     "main": {
-      "type": "main-blog"
+      "type": "main-collection"
     }
   },
   "order": ["main"]

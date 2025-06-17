@@ -1,0 +1,18 @@
+{
+  "name": "Home page",
+  "sections": {
+    "hero": {
+      "type": "hero-banner"
+    },
+    "highlight-features": {
+      "type": "highlight-features"
+    },
+    "about-highlight": {
+      "type": "about-highlight"
+    },
+    "short-video": {
+      "type": "short-video"
+    }
+  },
+  "order": ["hero", "highlight-features", "about-highlight", "short-video"]
+}

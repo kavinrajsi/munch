@@ -1,8 +1,8 @@
 {
-  "name": "Blog",
+  "name": "Customer Login",
   "sections": {
     "main": {
-      "type": "main-blog"
+      "type": "customer-login"
     }
   },
   "order": ["main"]

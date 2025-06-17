@@ -1,0 +1,51 @@
+{% schema %}
+{
+  "name": "Customer Login",
+  "tag": "section",
+  "class": "customer-login",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Customer Login Page"
+    }
+  ]
+}
+{% endschema %}
+
+<section style="max-width: 500px; margin: 0 auto; padding: 2rem;">
+  <h1>Login</h1>
+
+  {% form 'customer_login' %}
+    {% if form.errors %}
+      <div style="color: red;">
+        <ul>
+          {% for field in form.errors %}
+            <li>{{ field | capitalize }}: {{ form.errors.messages[field] }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+    {% endif %}
+
+    <label for="CustomerEmail">Email</label>
+    <input type="email" name="customer[email]" id="CustomerEmail" required>
+
+    <label for="CustomerPassword">Password</label>
+    <input type="password" name="customer[password]" id="CustomerPassword" required>
+
+    <button type="submit" class="btn">Sign In</button>
+
+    <p>
+      <a href="{{ routes.account_register_url }}">Create account</a> |
+      <a href="{{ routes.account_login_url }}#recover">Forgot password?</a>
+    </p>
+  {% endform %}
+
+  <div id="recover" style="margin-top: 2rem;">
+    <h2>Reset your password</h2>
+    {% form 'recover_customer_password' %}
+      <label for="RecoverEmail">Email</label>
+      <input type="email" name="email" id="RecoverEmail" required>
+      <button type="submit" class="btn-secondary">Send Reset Link</button>
+    {% endform %}
+  </div>
+</section>

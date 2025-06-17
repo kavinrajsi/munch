@@ -1,0 +1,86 @@
+{% schema %}
+{
+  "name": "About Us Section",
+  "tag": "section",
+  "class": "about-us",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Main heading",
+      "default": "About Us"
+    },
+    {
+      "type": "richtext",
+      "id": "content",
+      "label": "Main content",
+      "default": "<p>We are passionate about what we do. Here's our story.</p>"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "text_block",
+      "name": "Text block",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Our Mission"
+        },
+        {
+          "type": "textarea",
+          "id": "body",
+          "label": "Content",
+          "default": "We strive to deliver quality and integrity in everything we do."
+        }
+      ]
+    },
+    {
+      "type": "image_block",
+      "name": "Image block",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "alt_text",
+          "label": "Alt text"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 10,
+  "presets": [
+    {
+      "name": "Default About Us"
+    }
+  ]
+}
+{% endschema %}
+
+<section class="about-us" style="max-width: 1000px; margin: 0 auto; padding: 2rem;">
+  <h1>{{ section.settings.heading }}</h1>
+  <div class="about-content rte" style="margin-bottom: 2rem;">
+    {{ section.settings.content }}
+  </div>
+
+  {% for block in section.blocks %}
+    {% case block.type %}
+      {% when 'text_block' %}
+        <div class="about-block" style="margin-bottom: 2rem;">
+          <h2>{{ block.settings.title }}</h2>
+          <p>{{ block.settings.body }}</p>
+        </div>
+      {% when 'image_block' %}
+        {% if block.settings.image %}
+          <div class="about-image" style="margin-bottom: 2rem;">
+            <img src="{{ block.settings.image | img_url: '800x' }}" alt="{{ block.settings.alt_text | escape }}" style="width: 100%; height: auto;" />
+          </div>
+        {% endif %}
+    {% endcase %}
+  {% endfor %}
+</section>

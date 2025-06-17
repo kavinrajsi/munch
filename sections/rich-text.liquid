@@ -1,0 +1,24 @@
+{% schema %}
+{
+  "name": "Rich Text",
+  "tag": "section",
+  "class": "rich-text",
+  "settings": [
+    {
+      "type": "richtext",
+      "id": "content",
+      "label": "Content",
+      "default": "<p>We're located at 123 Example St. Contact us for questions about products, orders, or business inquiries.</p>"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Contact Info Text"
+    }
+  ]
+}
+{% endschema %}
+
+<div class="rich-text" style="max-width: 800px; margin: 2rem auto;">
+  {{ section.settings.content }}
+</div>

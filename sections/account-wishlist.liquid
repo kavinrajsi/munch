@@ -1,0 +1,47 @@
+{% schema %}
+{
+  "name": "Account Wishlist",
+  "tag": "section",
+  "class": "account-wishlist",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Account Wishlist"
+    }
+  ]
+}
+{% endschema %}
+
+<div class="wishlist-page" style="max-width: 1000px; margin: 0 auto; padding: 2rem;">
+  <h1>Your Wishlist</h1>
+
+  {% if customer %}
+    <div id="wishlist-container">
+      <!-- Example Placeholder — replace this logic with real wishlist app integration or JavaScript/metafield rendering -->
+      <p>Loading your wishlist...</p>
+    </div>
+  {% else %}
+    <p>Please <a href="/account/login">log in</a> to view your wishlist.</p>
+  {% endif %}
+</div>
+
+{% javascript %}
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    // You'd replace this with actual logic to fetch and render wishlist items
+    const container = document.getElementById('wishlist-container');
+    if (container) {
+      container.innerHTML = `
+        <div style="display: grid; gap: 1rem;">
+          <div>
+            <a href="/products/example-product">
+              <img src="https://via.placeholder.com/200x200" alt="Product Image">
+              <p>Example Product</p>
+            </a>
+          </div>
+        </div>
+      `;
+    }
+  });
+</script>
+{% endjavascript %}

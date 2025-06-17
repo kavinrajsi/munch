@@ -1,0 +1,67 @@
+{%- comment -%} Breadcrumb Navigation with JSON-LD and Metafield Support {%- endcomment -%}
+
+<nav class="breadcrumb-wrapper" style="margin-bottom: 2rem;" role="navigation" aria-label="breadcrumbs">
+  <ol class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList" style="list-style: none; display: flex; flex-wrap: wrap; gap: 0.5rem;">
+
+    <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+      <a href="{{ routes.root_url }}" itemprop="item" style="text-decoration: none; color: #555;">
+        <span itemprop="name">Home</span>
+      </a>
+      <meta itemprop="position" content="1" />
+    </li>
+
+    {% assign position = 2 %}
+
+    {% if template contains 'collection' and collection %}
+      <li>&raquo;</li>
+      <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a href="{{ collection.url }}" itemprop="item" style="text-decoration: none; color: #555;">
+          <span itemprop="name">
+            {{ collection.metafields.custom.breadcrumb_title | default: collection.title }}
+          </span>
+        </a>
+        <meta itemprop="position" content="{{ position }}" />
+      </li>
+      {% assign position = position | plus: 1 %}
+    {% endif %}
+
+    {% if template contains 'product' and product %}
+      {% if collection %}
+        <li>&raquo;</li>
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="{{ collection.url }}" itemprop="item" style="text-decoration: none; color: #555;">
+            <span itemprop="name">
+              {{ collection.metafields.custom.breadcrumb_title | default: collection.title }}
+            </span>
+          </a>
+          <meta itemprop="position" content="{{ position }}" />
+        </li>
+        {% assign position = position | plus: 1 %}
+      {% endif %}
+      <li>&raquo;</li>
+      <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <span itemprop="name">{{ product.metafields.custom.breadcrumb_title | default: product.title }}</span>
+        <meta itemprop="position" content="{{ position }}" />
+      </li>
+    {% elsif template contains 'article' and article %}
+      <li>&raquo;</li>
+      <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a href="{{ blog.url }}" itemprop="item" style="text-decoration: none; color: #555;">
+          <span itemprop="name">{{ blog.title }}</span>
+        </a>
+        <meta itemprop="position" content="{{ position }}" />
+      </li>
+      <li>&raquo;</li>
+      <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <span itemprop="name">{{ article.title }}</span>
+        <meta itemprop="position" content="{{ position | plus: 1 }}" />
+      </li>
+    {% elsif template contains 'page' and page %}
+      <li>&raquo;</li>
+      <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <span itemprop="name">{{ page.metafields.custom.breadcrumb_title | default: page.title }}</span>
+        <meta itemprop="position" content="{{ position }}" />
+      </li>
+    {% endif %}
+  </ol>
+</nav>

@@ -1,0 +1,76 @@
+{%- comment -%}
+  Social meta tags: Open Graph, Twitter Cards, Pinterest Rich Pins, JSON-LD
+{%- endcomment -%}
+
+{%- assign meta_title = page_title | escape -%}
+{%- assign meta_description = page_description | escape -%}
+{%- assign meta_image = settings.default_social_image | img_url: '800x800' | prepend: 'https:' -%}
+{%- assign meta_url = canonical_url -%}
+
+{%- if template contains 'product' and product %}
+  {%- assign meta_title = product.title | escape -%}
+  {%- assign meta_description = product.description | strip_html | truncate: 160 | escape -%}
+  {%- assign meta_image = product.featured_image | img_url: '800x800' | prepend: 'https:' -%}
+  {%- assign meta_url = shop.url | append: product.url -%}
+{%- elsif template contains 'article' and article %}
+  {%- assign meta_title = article.title | escape -%}
+  {%- assign meta_description = article.excerpt_or_content | strip_html | truncate: 160 | escape -%}
+  {%- assign meta_image = article.image | img_url: '800x800' | prepend: 'https:' -%}
+  {%- assign meta_url = shop.url | append: article.url -%}
+{%- elsif template contains 'collection' and collection %}
+  {%- assign meta_title = collection.title | escape -%}
+  {%- assign meta_description = collection.description | strip_html | truncate: 160 | escape -%}
+  {%- assign meta_image = collection.image | img_url: '800x800' | prepend: 'https:' -%}
+  {%- assign meta_url = shop.url | append: collection.url -%}
+{%- elsif template contains 'page' and page %}
+  {%- assign meta_title = page.title | escape -%}
+  {%- assign meta_description = page.content | strip_html | truncate: 160 | escape -%}
+{%- endif -%}
+
+<!-- Open Graph -->
+<meta property="og:site_name" content="{{ shop.name }}" />
+<meta property="og:title" content="{{ meta_title }}" />
+<meta property="og:description" content="{{ meta_description }}" />
+<meta property="og:url" content="{{ meta_url }}" />
+<meta property="og:type" content="{% if template contains 'product' %}product{% else %}website{% endif %}" />
+{% if meta_image != blank %}
+  <meta property="og:image" content="{{ meta_image }}" />
+{% endif %}
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="{{ meta_title }}" />
+<meta name="twitter:description" content="{{ meta_description }}" />
+{% if meta_image != blank %}
+  <meta name="twitter:image" content="{{ meta_image }}" />
+{% endif %}
+
+<!-- Pinterest Rich Pins -->
+{% if template contains 'product' and product %}
+  <meta property="product:price:amount" content="{{ product.price | money_without_currency | replace: ',', '' }}" />
+  <meta property="product:price:currency" content="{{ shop.currency }}" />
+{% endif %}
+
+<!-- JSON-LD Structured Data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "{% if template contains 'product' and product %}Product{% else %}WebPage{% endif %}",
+  "name": "{{ meta_title }}",
+  "description": "{{ meta_description }}",
+  "url": "{{ meta_url }}",
+  {% if meta_image != blank %}
+  "image": "{{ meta_image }}",
+  {% endif %}
+  {% if template contains 'product' and product %}
+  "sku": "{{ product.selected_or_first_available_variant.sku }}",
+  "offers": {
+    "@type": "Offer",
+    "priceCurrency": "{{ shop.currency }}",
+    "price": "{{ product.price | money_without_currency | replace: ',', '' }}",
+    "availability": "https://schema.org/{% if product.available %}InStock{% else %}OutOfStock{% endif %}",
+    "url": "{{ meta_url }}"
+  }
+  {% endif %}
+}
+</script>

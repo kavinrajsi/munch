@@ -1,0 +1,54 @@
+{% schema %}
+{
+  "name": "Main Collection",
+  "tag": "section",
+  "class": "main-collection",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Collection product grid"
+    }
+  ]
+}
+{% endschema %}
+
+<div class="collection-page" style="max-width: 1200px; margin: 0 auto; padding: 2rem;">
+  <h1>{{ collection.title }}</h1>
+
+  {% if collection.description != blank %}
+    <div class="collection-description" style="margin-bottom: 1.5rem;">
+      {{ collection.description }}
+    </div>
+  {% endif %}
+
+  <!-- Sort Dropdown -->
+  <form method="get" style="margin-bottom: 2rem;">
+    <label for="SortBy">Sort by:</label>
+    <select name="sort_by" id="SortBy" onchange="this.form.submit()">
+      <option value="best-selling" {% if collection.sort_by == "best-selling" %}selected{% endif %}>Best Selling</option>
+      <option value="title-ascending" {% if collection.sort_by == "title-ascending" %}selected{% endif %}>Alphabetically, A-Z</option>
+      <option value="title-descending" {% if collection.sort_by == "title-descending" %}selected{% endif %}>Alphabetically, Z-A</option>
+      <option value="price-ascending" {% if collection.sort_by == "price-ascending" %}selected{% endif %}>Price, Low to High</option>
+      <option value="price-descending" {% if collection.sort_by == "price-descending" %}selected{% endif %}>Price, High to Low</option>
+      <option value="created-descending" {% if collection.sort_by == "created-descending" %}selected{% endif %}>Date, New to Old</option>
+      <option value="created-ascending" {% if collection.sort_by == "created-ascending" %}selected{% endif %}>Date, Old to New</option>
+    </select>
+  </form>
+
+  <!-- Products Grid -->
+  {% if collection.products.size > 0 %}
+    <div class="grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 2rem;">
+      {% for product in collection.products %}
+        <div class="product-card" style="text-align: center;">
+          <a href="{{ product.url }}">
+            <img src="{{ product.featured_image | img_url: '400x' }}" alt="{{ product.title }}" style="width: 100%; height: auto;" />
+            <h3>{{ product.title }}</h3>
+            <p>{{ product.price | money }}</p>
+          </a>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p>No products found in this collection.</p>
+  {% endif %}
+</div>

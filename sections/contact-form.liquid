@@ -1,0 +1,38 @@
+{% schema %}
+{
+  "name": "Contact Form",
+  "tag": "section",
+  "class": "contact-form",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Contact Form"
+    }
+  ]
+}
+{% endschema %}
+
+<section style="max-width: 800px; margin: 0 auto; padding: 2rem;">
+  <h1>Contact Us</h1>
+  <form method="post" action="/contact#contact_form" id="contact_form" accept-charset="UTF-8" class="contact-form">
+    <input type="hidden" name="form_type" value="contact">
+    <input type="hidden" name="utf8" value="✓">
+
+    <label for="ContactFormName">Name</label>
+    <input type="text" id="ContactFormName" name="contact[name]" required>
+
+    <label for="ContactFormEmail">Email</label>
+    <input type="email" id="ContactFormEmail" name="contact[email]" required>
+
+    <label for="ContactFormMessage">Message</label>
+    <textarea id="ContactFormMessage" name="contact[body]" rows="5" required></textarea>
+
+    <button type="submit" class="btn">Send</button>
+  </form>
+
+  {% if form.posted_successfully? %}
+    <p style="color: green;">Thank you! Your message has been sent.</p>
+  {% elsif form.errors %}
+    <p style="color: red;">There was a problem submitting the form. Please check the fields and try again.</p>
+  {% endif %}
+</section>

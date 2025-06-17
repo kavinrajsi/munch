@@ -1,0 +1,49 @@
+{% schema %}
+{
+  "name": "Customer Addresses",
+  "tag": "section",
+  "class": "customer-addresses",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Default Address Book"
+    }
+  ]
+}
+{% endschema %}
+
+<section style="max-width: 900px; margin: 0 auto; padding: 2rem;">
+  <h1>Your Addresses</h1>
+
+  {% if customer %}
+    <a href="{{ routes.account_address_new_url }}" class="btn">Add New Address</a>
+
+    {% paginate customer.addresses by 10 %}
+      <ul>
+        {% for address in customer.addresses %}
+          <li style="margin-bottom: 1.5rem;">
+            <strong>{{ address.first_name }} {{ address.last_name }}</strong><br>
+            {{ address.address1 }}<br>
+            {% if address.address2 != blank %}{{ address.address2 }}<br>{% endif %}
+            {{ address.city }}, {{ address.province }} {{ address.zip }}<br>
+            {{ address.country }}<br>
+            Phone: {{ address.phone }}<br>
+
+            {% if address.default %}
+              <em>(Default address)</em><br>
+            {% endif %}
+
+            <a href="{{ address.url }}" class="btn">Edit</a>
+            <form method="post" action="{{ address.url }}" style="display:inline;">
+              <input type="hidden" name="_method" value="delete">
+              <button type="submit" class="btn-secondary">Delete</button>
+            </form>
+          </li>
+        {% endfor %}
+      </ul>
+      {{ paginate | default_pagination }}
+    {% endpaginate %}
+  {% else %}
+    <p>Please <a href="/account/login">log in</a> to manage your addresses.</p>
+  {% endif %}
+</section>

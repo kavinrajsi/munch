@@ -1,8 +1,8 @@
 {
-  "name": "Blog",
+  "name": "About Us",
   "sections": {
     "main": {
-      "type": "main-blog"
+      "type": "about-us"
     }
   },
   "order": ["main"]

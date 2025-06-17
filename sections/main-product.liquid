@@ -1,0 +1,41 @@
+{% schema %}
+{
+  "name": "Main Product",
+  "tag": "section",
+  "class": "main-product",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Default product"
+    }
+  ]
+}
+{% endschema %}
+
+<section class="product" style="max-width: 1200px; margin: 0 auto; padding: 2rem;">
+  <div class="grid" style="display: flex; flex-wrap: wrap; gap: 2rem;">
+    <!-- Product Images -->
+    <div class="product-images" style="flex: 1;">
+      {% for media in product.media %}
+        <img src="{{ media | img_url: '800x' }}" alt="{{ media.alt }}" style="width: 100%; margin-bottom: 1rem;" />
+      {% endfor %}
+    </div>
+
+    <!-- Product Info -->
+    <div class="product-info" style="flex: 1;">
+      <h1>{{ product.title }}</h1>
+      <p>{{ product.price | money }}</p>
+
+      {% form 'product', product %}
+        {{ form | product_option_dropdowns }}
+        <button type="submit" class="btn">Add to cart</button>
+      {% endform %}
+
+      {% if product.description != blank %}
+        <div class="product-description" style="margin-top: 2rem;">
+          {{ product.description }}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</section>

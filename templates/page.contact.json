@@ -1,0 +1,12 @@
+{
+  "name": "Contact",
+  "sections": {
+    "main": {
+      "type": "contact-form"
+    },
+    "rich-text": {
+      "type": "rich-text"
+    }
+  },
+  "order": ["main", "rich-text"]
+}

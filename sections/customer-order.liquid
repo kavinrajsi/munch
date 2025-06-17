@@ -1,0 +1,48 @@
+{% schema %}
+{
+  "name": "Customer Order",
+  "tag": "section",
+  "class": "customer-order",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Order Detail"
+    }
+  ]
+}
+{% endschema %}
+
+{% if customer and order %}
+  <section style="max-width: 800px; margin: 2rem auto; padding: 2rem;">
+    <h1>Order {{ order.name }}</h1>
+    <p><strong>Date:</strong> {{ order.created_at | date: "%B %d, %Y" }}</p>
+    <p><strong>Total:</strong> {{ order.total_price | money }}</p>
+    <p><strong>Status:</strong> {{ order.financial_status_label }}</p>
+
+    <h2>Items</h2>
+    <ul>
+      {% for line_item in order.line_items %}
+        <li style="margin-bottom: 1rem;">
+          <strong>{{ line_item.title }}</strong><br>
+          Quantity: {{ line_item.quantity }}<br>
+          Price: {{ line_item.final_line_price | money }}
+        </li>
+      {% endfor %}
+    </ul>
+
+    <h2>Shipping Address</h2>
+    <p>
+      {{ order.shipping_address.name }}<br>
+      {{ order.shipping_address.address1 }}<br>
+      {% if order.shipping_address.address2 != blank %}
+        {{ order.shipping_address.address2 }}<br>
+      {% endif %}
+      {{ order.shipping_address.city }}, {{ order.shipping_address.province }} {{ order.shipping_address.zip }}<br>
+      {{ order.shipping_address.country }}
+    </p>
+
+    <p><a href="{{ routes.account_url }}">Back to Account</a></p>
+  </section>
+{% else %}
+  <p>Please <a href="/account/login">log in</a> to view your order.</p>
+{% endif %}

@@ -1,0 +1,49 @@
+{% schema %}
+{
+  "name": "About Highlight",
+  "tag": "section",
+  "class": "about-highlight",
+  "settings": [
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "<h2>Nithya Amirtham – Chennai’s Finest Sweets, Now Delivered All Across India!</h2>"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description",
+      "default": "<p>Your description goes here.</p>"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    }
+  ],
+  "presets": [
+    {
+      "name": "About Highlight Block"
+    }
+  ]
+}
+{% endschema %}
+
+<div class="about-highlight-wrapper" style="max-width: 1400px; margin: auto; padding: 2rem;">
+  <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 2rem;">
+    <div style="flex: 1; min-width: 300px;">
+      <div class="richtext-heading" style="font-size: 1.5rem; font-weight: bold; color: #7c0f13;">
+        {{ section.settings.heading }}
+      </div>
+      <div class="richtext-description" style="margin-top: 1rem;">
+        {{ section.settings.description }}
+      </div>
+    </div>
+    <div style="flex: 1; min-width: 300px;">
+      {% if section.settings.image %}
+        <img src="{{ section.settings.image | img_url: '800x' }}" alt="About Image" style="width: 100%; border-radius: 12px;">
+      {% endif %}
+    </div>
+  </div>
+</div>

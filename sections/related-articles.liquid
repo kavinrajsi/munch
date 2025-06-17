@@ -1,0 +1,26 @@
+{% schema %}
+{
+  "name": "Related Articles",
+  "tag": "section",
+  "class": "related-articles",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Related posts"
+    }
+  ]
+}
+{% endschema %}
+
+<div class="related-articles" style="max-width: 800px; margin: 3rem auto;">
+  <h2>More from this blog</h2>
+  <ul>
+    {% for article in blog.articles limit: 3 %}
+      {% unless article.handle == request.path %}
+        <li>
+          <a href="{{ article.url }}">{{ article.title }}</a>
+        </li>
+      {% endunless %}
+    {% endfor %}
+  </ul>
+</div>

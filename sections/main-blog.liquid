@@ -1,0 +1,91 @@
+{% schema %}
+{
+  "name": "Main Blog",
+  "tag": "section",
+  "class": "main-blog",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Blog listing with filters"
+    }
+  ]
+}
+{% endschema %}
+
+<div class="blog-page" style="max-width: 1000px; margin: 0 auto; padding: 2rem;">
+  <h1>{{ blog.title }}</h1>
+
+  <!-- Filters -->
+  <form method="get" style="display: flex; flex-wrap: wrap; gap: 1rem; margin-bottom: 2rem;">
+    <!-- Tag Filter -->
+    {% if blog.all_tags.size > 0 %}
+      <select name="tag" onchange="this.form.submit()">
+        <option value="">Filter by tag</option>
+        {% for tag in blog.all_tags %}
+          <option value="{{ tag | url_encode }}" {% if current_tags contains tag %}selected{% endif %}>
+            {{ tag }}
+          </option>
+        {% endfor %}
+      </select>
+    {% endif %}
+
+    <!-- Search -->
+    <input type="text" name="q" placeholder="Search articles..." value="{{ request.params.q | escape }}" />
+
+    <!-- Date Filter (Year Only) -->
+    <select name="year" onchange="this.form.submit()">
+      <option value="">Filter by year</option>
+      {% assign years = "" | split: "," %}
+      {% for article in blog.articles %}
+        {% assign year = article.published_at | date: "%Y" %}
+        {% unless years contains year %}
+          {% assign years = years | push: year %}
+          <option value="{{ year }}" {% if request.params.year == year %}selected{% endif %}>{{ year }}</option>
+        {% endunless %}
+      {% endfor %}
+    </select>
+
+    <button type="submit">Apply</button>
+  </form>
+
+  {% assign filtered_articles = blog.articles %}
+
+  <!-- Apply Search Filter -->
+  {% if request.params.q %}
+    {% assign filtered_articles = filtered_articles | where: "title", request.params.q %}
+  {% endif %}
+
+  <!-- Apply Year Filter -->
+  {% if request.params.year %}
+    {% assign filtered_articles = filtered_articles | where_exp: "item", "item.published_at contains request.params.year" %}
+  {% endif %}
+
+  {% paginate filtered_articles by 5 %}
+    <ul class="article-list" style="list-style: none; padding: 0;">
+      {% for article in filtered_articles %}
+        <li class="article-item" style="margin-bottom: 2rem; display: flex; gap: 1rem;">
+          {% if article.image %}
+            <div style="flex-shrink: 0; width: 150px;">
+              <a href="{{ article.url }}">
+                <img src="{{ article.image | img_url: '300x300' }}" alt="{{ article.title }}" style="width: 100%; object-fit: cover;" />
+              </a>
+            </div>
+          {% endif %}
+          <div>
+            <h2><a href="{{ article.url }}">{{ article.title }}</a></h2>
+            <p><em>{{ article.published_at | date: "%B %d, %Y" }}</em></p>
+            {% if article.excerpt != blank %}
+              <p>{{ article.excerpt }}</p>
+            {% else %}
+              <p>{{ article.content | strip_html | truncate: 150 }}</p>
+            {% endif %}
+          </div>
+        </li>
+      {% endfor %}
+    </ul>
+
+    <div class="pagination">
+      {{ paginate | default_pagination }}
+    </div>
+  {% endpaginate %}
+</div>

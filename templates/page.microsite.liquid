@@ -1,0 +1,54 @@
+{% layout 'page' %}
+
+<style>
+  .microsite-hero {
+    text-align: center;
+    padding: 4rem 2rem;
+    background: #f4f4f4;
+  }
+
+  .microsite-hero h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .microsite-content {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 2rem;
+    line-height: 1.7;
+  }
+
+  .microsite-cta {
+    text-align: center;
+    margin-top: 2rem;
+  }
+
+  .microsite-cta a {
+    display: inline-block;
+    padding: 1rem 2rem;
+    background-color: #000;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 4px;
+  }
+</style>
+
+<div class="microsite-hero">
+  <h1>{{ page.title }}</h1>
+  <p>{{ page.metafields.custom.tagline.value | default: "Welcome to our featured experience." }}</p>
+</div>
+
+<div class="microsite-content">
+  {% if page.content != blank %}
+    <div class="rte">
+      {{ page.content }}
+    </div>
+  {% else %}
+    <p>This microsite is ready to go. Add your content in the page editor.</p>
+  {% endif %}
+
+  <div class="microsite-cta">
+    <a href="/collections/all">Explore Products</a>
+  </div>
+</div>

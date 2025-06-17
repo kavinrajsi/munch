@@ -1,0 +1,62 @@
+{% schema %}
+{
+  "name": "Main Cart",
+  "tag": "section",
+  "class": "main-cart",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Cart contents"
+    }
+  ]
+}
+{% endschema %}
+
+<div class="cart-page" style="max-width: 800px; margin: 0 auto; padding: 2rem;">
+  <h1>Your Cart</h1>
+
+  {% if cart.item_count == 0 %}
+    <p>Your cart is currently empty.</p>
+    <a href="/" class="btn" style="margin-top: 1rem;">Continue Shopping</a>
+  {% else %}
+    <form action="/cart" method="post" novalidate>
+      <table style="width: 100%; border-collapse: collapse; margin-bottom: 2rem;">
+        <thead>
+          <tr>
+            <th style="text-align: left;">Product</th>
+            <th>Price</th>
+            <th>Qty</th>
+            <th>Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in cart.items %}
+            <tr style="border-bottom: 1px solid #eee;">
+              <td>
+                <a href="{{ item.url }}">
+                  {% if item.image %}
+                    <img src="{{ item.image | img_url: '100x' }}" alt="{{ item.title }}" style="width: 50px; margin-right: 10px; vertical-align: middle;" />
+                  {% endif %}
+                  {{ item.product.title }}<br />
+                  <small>{{ item.variant.title }}</small>
+                </a>
+              </td>
+              <td>{{ item.original_price | money }}</td>
+              <td>
+                <input type="number" name="updates[]" value="{{ item.quantity }}" min="0" style="width: 50px;" />
+              </td>
+              <td>{{ item.line_price | money }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+      <p><strong>Subtotal:</strong> {{ cart.total_price | money }}</p>
+
+      <div style="margin-top: 1rem;">
+        <button type="submit" name="update" class="btn">Update Cart</button>
+        <a href="/checkout" class="btn" style="margin-left: 1rem;">Checkout</a>
+      </div>
+    </form>
+  {% endif %}
+</div>

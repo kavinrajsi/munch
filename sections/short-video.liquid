@@ -1,0 +1,94 @@
+{% schema %}
+{
+  "name": "Short Video Grid",
+  "tag": "section",
+  "class": "short-video",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Section Heading",
+      "default": "Tasty in Action"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "video_card",
+      "name": "Video Card",
+      "settings": [
+        {
+          "type": "select",
+          "id": "source",
+          "label": "Video Source",
+          "options": [
+            { "value": "shopify", "label": "Shopify File URL" },
+            { "value": "youtube", "label": "YouTube Embed URL" }
+          ],
+          "default": "shopify"
+        },
+        {
+          "type": "url",
+          "id": "video_url",
+          "label": "Video URL",
+          "info": "Paste Shopify-hosted video file URL or YouTube embed URL"
+        },
+        {
+          "type": "image_picker",
+          "id": "poster",
+          "label": "Poster image (used only for Shopify video)"
+        },
+        {
+          "type": "checkbox",
+          "id": "loop",
+          "label": "Loop video",
+          "default": true
+        },
+        {
+          "type": "checkbox",
+          "id": "preload",
+          "label": "Preload video",
+          "default": true
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Short Video Grid",
+      "blocks": []
+    }
+  ]
+}
+{% endschema %}
+
+<div class="short-video-wrapper" style="max-width: 1440px; margin: auto; padding: 2rem;">
+  <h2 style="color: #7c0f13;">{{ section.settings.heading }}</h2>
+  <div class="short-video-grid" style="display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 1rem;">
+    {% for block in section.blocks %}
+      <div class="video-card" style="flex: 1 1 250px; max-width: 300px; border-radius: 12px; overflow: hidden;">
+        {% if block.settings.source == "shopify" %}
+          <video
+            src="{{ block.settings.video_url }}"
+            {% if block.settings.poster %}poster="{{ block.settings.poster | img_url: '600x' }}"{% endif %}
+            {% if block.settings.loop %}loop{% endif %}
+            {% if block.settings.preload %}preload="auto"{% else %}preload="metadata"{% endif %}
+            muted
+            autoplay
+            playsinline
+            style="width: 100%; height: auto; display: block; border-radius: 12px;"
+          ></video>
+        {% elsif block.settings.source == "youtube" %}
+          <iframe
+            width="100%"
+            height="200"
+            src="{{ block.settings.video_url }}?autoplay=1&mute=1&loop=1&playlist={{ block.settings.video_url | split: '/' | last }}"
+            frameborder="0"
+            allow="autoplay; encrypted-media"
+            allowfullscreen
+            style="width: 100%; border-radius: 12px;"
+          ></iframe>
+        {% endif %}
+      </div>
+    {% endfor %}
+  </div>
+</div>

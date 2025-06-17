@@ -1,0 +1,43 @@
+{% schema %}
+{
+  "name": "Search Results",
+  "tag": "section",
+  "class": "search-results",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Search page"
+    }
+  ]
+}
+{% endschema %}
+
+<section style="max-width: 1200px; margin: 0 auto; padding: 2rem;">
+  <h1>Search Results</h1>
+
+  {% if search.performed %}
+    <p>{{ search.results_count }} result{{ search.results_count != 1 and 's' }} for “{{ search.terms }}”</p>
+
+    {% if search.results.size > 0 %}
+      <div class="grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; margin-top: 2rem;">
+        {% for item in search.results %}
+          <div class="search-result-card">
+            <a href="{{ item.url }}">
+              {% if item.image %}
+                <img src="{{ item.image | img_url: '400x' }}" alt="{{ item.title }}" style="width: 100%;" />
+              {% endif %}
+              <h3>{{ item.title }}</h3>
+              {% if item.object_type == 'product' %}
+                <p>{{ item.price | money }}</p>
+              {% endif %}
+            </a>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <p>No results found. Try another search.</p>
+    {% endif %}
+  {% else %}
+    <p>Start typing to search for products, articles, or pages.</p>
+  {% endif %}
+</section>

@@ -1,0 +1,28 @@
+{% schema %}
+{
+  "name": "Main Article",
+  "tag": "section",
+  "class": "main-article",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Main article content"
+    }
+  ]
+}
+{% endschema %}
+
+<article class="article" style="max-width: 800px; margin: 0 auto; padding: 2rem;">
+  <h1>{{ article.title }}</h1>
+  {% if article.image %}
+    <img src="{{ article.image | img_url: '1200x' }}" alt="{{ article.title }}" style="width: 100%; margin: 1rem 0;">
+  {% endif %}
+  <div class="article-meta">
+    <p>Published on {{ article.published_at | date: "%B %d, %Y" }}</p>
+  </div>
+  <div class="article-content">
+    {{ article.content }}
+  </div>
+</article>
+
+

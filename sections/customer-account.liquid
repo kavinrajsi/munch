@@ -1,0 +1,44 @@
+{% schema %}
+{
+  "name": "Customer Account",
+  "tag": "section",
+  "class": "customer-account",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Customer Account"
+    }
+  ]
+}
+{% endschema %}
+
+{% if customer %}
+  <section style="max-width: 800px; margin: 2rem auto; padding: 2rem;">
+    <h1>Welcome, {{ customer.first_name }}!</h1>
+
+    <h2>Your Orders</h2>
+    {% paginate customer.orders by 10 %}
+      {% if customer.orders.size > 0 %}
+        <ul>
+          {% for order in customer.orders %}
+            <li>
+              <a href="{{ order.customer_url }}">Order #{{ order.name }}</a><br/>
+              <strong>Date:</strong> {{ order.created_at | date: "%B %d, %Y" }}<br/>
+              <strong>Total:</strong> {{ order.total_price | money }}
+            </li>
+          {% endfor %}
+        </ul>
+        {{ paginate | default_pagination }}
+      {% else %}
+        <p>You have no orders yet.</p>
+      {% endif %}
+    {% endpaginate %}
+
+    <h2>Account Details</h2>
+    <p><strong>Email:</strong> {{ customer.email }}</p>
+    <p><a href="/account/addresses">Manage Addresses</a></p>
+    <p><a href="/account/logout">Log Out</a></p>
+  </section>
+{% else %}
+  <p>Please <a href="/account/login">log in</a> to view your account.</p>
+{% endif %}

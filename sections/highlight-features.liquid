@@ -1,0 +1,76 @@
+{% schema %}
+{
+  "name": "Highlight Features",
+  "tag": "section",
+  "class": "highlight-features",
+  "settings": [],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Feature",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Icon"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Feature title"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Description",
+          "default": "Feature description text goes here."
+        }
+      ]
+    }
+  ],
+  "max_blocks": 3,
+  "presets": [
+    {
+      "name": "Feature Highlights",
+      "blocks": [
+        {
+          "type": "feature",
+          "settings": {
+            "title": "True to Taste",
+            "text": "Our sweets are crafted from age-old recipes handed down through generations, capturing the true essence of Indian heritage in every bite."
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "title": "Freshness Guaranteed",
+            "text": "At Nithya Amirtham, we ensure that every sweet and snack is freshly made, giving you a taste that’s unbeatable."
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "title": "Order Online",
+            "text": "Whether you’re in Chennai or anywhere in India, you can now order from our online store and enjoy our delicious sweets and snacks delivered to your home."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+<div class="highlight-features-section" style="max-width: 1440px; margin: auto; padding: 2rem;">
+  <div style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 2rem;">
+    {% for block in section.blocks %}
+      <div class="feature-item" style="flex: 1; min-width: 250px; text-align: center;">
+        {% if block.settings.icon %}
+          <img src="{{ block.settings.icon | img_url: '100x' }}" alt="" style="height: 60px; margin-bottom: 1rem;">
+        {% endif %}
+        <h3 style="color: #8b0000;">{{ block.settings.title }}</h3>
+        <p style="color: #333;">{{ block.settings.text }}</p>
+      </div>
+    {% endfor %}
+  </div>
+</div>
