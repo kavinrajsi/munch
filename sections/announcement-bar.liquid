@@ -1,0 +1,47 @@
+{% schema %}
+{
+  "name": "Announcement Bar",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_announcement",
+      "label": "Show announcement",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "announcement_text",
+      "label": "Announcement text",
+      "default": "Welcome to our store!"
+    },
+    {
+      "type": "color",
+      "id": "announcement_color",
+      "label": "Background color",
+      "default": "#f4f4f4"
+    },
+    {
+      "type": "color",
+      "id": "announcement_text_color",
+      "label": "Text color",
+      "default": "#333333"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Default announcement bar",
+      "category": "Header"
+    }
+  ]
+}
+{% endschema %}
+
+{% if section.settings.show_announcement %}
+  <div
+    class="announcement-bar"
+    style="background-color: {{ section.settings.announcement_color }}; color: {{ section.settings.announcement_text_color }}; text-align: center; padding: 10px; overflow: hidden;">
+    <div class="announcement-scroll">
+      <p>{{ section.settings.announcement_text }}</p>
+    </div>
+  </div>
+{% endif %}
