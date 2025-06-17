@@ -27,12 +27,6 @@
         "description": "<p>Your description goes here.</p>"
       }
     },
-    "short-video": {
-      "type": "short-video",
-      "settings": {
-        "heading": "Tasty in Action"
-      }
-    },
     "hero_banner_qkqyw3": {
       "type": "hero-banner",
       "name": "Hero Banner",
@@ -87,7 +81,6 @@
     "product-slider",
     "highlight-features",
     "about-highlight",
-    "short-video",
     "hero_banner_qkqyw3",
     "hero_slider_wVtQ7t"
   ]
