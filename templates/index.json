@@ -1,27 +1,94 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
-  "name": "Home page",
   "sections": {
-    "hero": {
-      "type": "hero-banner"
-    },
     "product-slider": {
-      "type": "product-slider"
+      "type": "product-slider",
+      "settings": {
+        "heading": "Pick a combo",
+        "collection": ""
+      }
     },
     "highlight-features": {
-      "type": "highlight-features"
+      "type": "highlight-features",
+      "settings": {}
     },
     "about-highlight": {
-      "type": "about-highlight"
+      "type": "about-highlight",
+      "settings": {
+        "heading": "<h2>Nithya Amirtham – Chennai’s Finest Sweets, Now Delivered All Across India!</h2>",
+        "description": "<p>Your description goes here.</p>"
+      }
     },
     "short-video": {
-      "type": "short-video"
+      "type": "short-video",
+      "settings": {
+        "heading": "Tasty in Action"
+      }
+    },
+    "hero_banner_qkqyw3": {
+      "type": "hero-banner",
+      "name": "Hero Banner",
+      "settings": {
+        "image_desktop": "shopify://shop_images/test-slider-1.jpg",
+        "image_tablet": "shopify://shop_images/NithyaAmirtham_1729_68d1b540-7433-4a2f-9a56-b646aa658f6c.jpg",
+        "image_mobile": "shopify://shop_images/IMG_0627_V2_35eab8e2-1394-48c5-8a0e-0b4e3766770e.jpg",
+        "link": "https://google.com",
+        "heading": "",
+        "subheading": "",
+        "button_label": "",
+        "button_link": ""
+      }
+    },
+    "hero_slider_wVtQ7t": {
+      "type": "hero-slider",
+      "blocks": {
+        "slide_nYyUxr": {
+          "type": "slide",
+          "settings": {
+            "image_desktop": "shopify://shop_images/a-hand-removes-a-sweater-from-a-clothing-rack.jpg",
+            "image_tablet": "shopify://shop_images/rack-of-womens-clothing.jpg",
+            "image_mobile": "shopify://shop_images/person-stands-on-rocks-poking-out-of-the-ocean-shoreline.jpg",
+            "heading": "",
+            "subheading": "",
+            "button_label": "",
+            "button_link": "shopify://products/andhra-murukku"
+          }
+        },
+        "slide_zcwXRV": {
+          "type": "slide",
+          "settings": {
+            "image_desktop": "shopify://shop_images/a-hand-removes-a-sweater-from-a-clothing-rack.jpg",
+            "image_tablet": "shopify://shop_images/rack-of-womens-clothing.jpg",
+            "image_mobile": "shopify://shop_images/person-stands-on-rocks-poking-out-of-the-ocean-shoreline.jpg",
+            "heading": "",
+            "subheading": "",
+            "button_label": "",
+            "button_link": ""
+          }
+        }
+      },
+      "block_order": [
+        "slide_nYyUxr",
+        "slide_zcwXRV"
+      ],
+      "name": "Hero Slider",
+      "settings": {}
     }
   },
   "order": [
-    "hero",
     "product-slider",
     "highlight-features",
     "about-highlight",
-    "short-video"
+    "short-video",
+    "hero_banner_qkqyw3",
+    "hero_slider_wVtQ7t"
   ]
 }
