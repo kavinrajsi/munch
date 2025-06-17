@@ -3,47 +3,30 @@
   "name": "Hero Slider",
   "tag": "section",
   "class": "hero-slider",
-  "settings": [],
+  "settings": [
+    { "type": "number", "id": "items", "label": "Items", "default": 3 },
+    { "type": "checkbox", "id": "loop", "label": "Loop", "default": false },
+    { "type": "checkbox", "id": "center", "label": "Center Items", "default": false },
+    { "type": "checkbox", "id": "mouseDrag", "label": "Enable Mouse Drag", "default": true },
+    { "type": "checkbox", "id": "touchDrag", "label": "Enable Touch Drag", "default": true },
+    { "type": "checkbox", "id": "pullDrag", "label": "Enable Pull Drag", "default": true },
+    { "type": "checkbox", "id": "freeDrag", "label": "Enable Free Drag", "default": false },
+    { "type": "checkbox", "id": "nav", "label": "Show Arrows", "default": false },
+    { "type": "checkbox", "id": "dots", "label": "Show Dots", "default": true },
+    { "type": "text", "id": "slideBy", "label": "Slide By", "default": "1", "info": "Enter a number or 'page'" }
+  ],
   "blocks": [
     {
       "type": "slide",
       "name": "Slide",
       "settings": [
-        {
-          "type": "image_picker",
-          "id": "image_desktop",
-          "label": "Desktop Image"
-        },
-        {
-          "type": "image_picker",
-          "id": "image_tablet",
-          "label": "Tablet Image"
-        },
-        {
-          "type": "image_picker",
-          "id": "image_mobile",
-          "label": "Mobile Image"
-        },
-        {
-          "type": "text",
-          "id": "heading",
-          "label": "Heading"
-        },
-        {
-          "type": "text",
-          "id": "subheading",
-          "label": "Subheading"
-        },
-        {
-          "type": "text",
-          "id": "button_label",
-          "label": "Button Label"
-        },
-        {
-          "type": "url",
-          "id": "button_link",
-          "label": "Button Link"
-        }
+        { "type": "image_picker", "id": "image_desktop", "label": "Desktop Image" },
+        { "type": "image_picker", "id": "image_tablet", "label": "Tablet Image" },
+        { "type": "image_picker", "id": "image_mobile", "label": "Mobile Image" },
+        { "type": "text", "id": "heading", "label": "Heading" },
+        { "type": "text", "id": "subheading", "label": "Subheading" },
+        { "type": "text", "id": "button_label", "label": "Button Label" },
+        { "type": "url", "id": "button_link", "label": "Button Link" }
       ]
     }
   ],
@@ -62,17 +45,13 @@
 <div class="owl-carousel owl-theme hero-slider-wrapper">
   {% for block in section.blocks %}
     {% if block.type == 'slide' %}
-      <div class="hero-slide item">
+      <div class="hero-slide item" style="position: relative;">
         <picture>
           {% if block.settings.image_mobile %}
-            <source
-              media="(max-width: 767px)"
-              srcset="{{ block.settings.image_mobile | image_url: width: 768 }}">
+            <source media="(max-width: 767px)" srcset="{{ block.settings.image_mobile | image_url: width: 768 }}">
           {% endif %}
           {% if block.settings.image_tablet %}
-            <source
-              media="(max-width: 1024px)"
-              srcset="{{ block.settings.image_tablet | image_url: width: 1024 }}">
+            <source media="(max-width: 1024px)" srcset="{{ block.settings.image_tablet | image_url: width: 1024 }}">
           {% endif %}
           {% if block.settings.image_desktop %}
             <img
@@ -106,16 +85,23 @@
   {% endfor %}
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+<!-- External scripts with defer to prevent blocking -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" defer></script>
 
-<script>
+<script defer>
   document.addEventListener("DOMContentLoaded", function () {
     $('.hero-slider-wrapper').owlCarousel({
-      items: 1,
-      loop: true,
-      nav: true,
-      dots: true,
+      items: {{ section.settings.items | default: 3 }},
+      loop: {{ section.settings.loop | default: false }},
+      center: {{ section.settings.center | default: false }},
+      mouseDrag: {{ section.settings.mouseDrag | default: true }},
+      touchDrag: {{ section.settings.touchDrag | default: true }},
+      pullDrag: {{ section.settings.pullDrag | default: true }},
+      freeDrag: {{ section.settings.freeDrag | default: false }},
+      nav: {{ section.settings.nav | default: false }},
+      dots: {{ section.settings.dots | default: true }},
+      slideBy: '{{ section.settings.slideBy | default: "1" }}',
       autoplay: true,
       autoplayTimeout: 5000,
       autoplayHoverPause: true

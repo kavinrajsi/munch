@@ -17,25 +17,21 @@
       "name": "Video Card",
       "settings": [
         {
-          "type": "select",
-          "id": "source",
-          "label": "Video Source",
-          "options": [
-            { "value": "shopify", "label": "Shopify File URL" },
-            { "value": "youtube", "label": "YouTube Embed URL" }
-          ],
-          "default": "shopify"
+          "type": "video_url",
+          "id": "product_description_video",
+          "label": "YouTube or Vimeo video",
+          "accept": ["youtube", "vimeo"]
         },
         {
-          "type": "url",
+          "type": "image_picker",
           "id": "video_url",
-          "label": "Video URL",
-          "info": "Paste Shopify-hosted video file URL or YouTube embed URL"
+          "label": "Shopify video file",
+          "info": "Select an uploaded MP4 video from your Shopify Files"
         },
         {
           "type": "image_picker",
           "id": "poster",
-          "label": "Poster image (used only for Shopify video)"
+          "label": "Poster image (for video or fallback)"
         },
         {
           "type": "checkbox",
@@ -66,28 +62,56 @@
   <div class="short-video-grid" style="display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 1rem;">
     {% for block in section.blocks %}
       <div class="video-card" style="flex: 1 1 250px; max-width: 300px; border-radius: 12px; overflow: hidden;">
-        {% if block.settings.source == "shopify" %}
+
+        {% comment %} Shopify file-hosted MP4 (takes priority) {% endcomment %}
+        {% if block.settings.video_url %}
           <video
             src="{{ block.settings.video_url }}"
-            {% if block.settings.poster %}poster="{{ block.settings.poster | img_url: '600x' }}"{% endif %}
-            {% if block.settings.loop %}loop{% endif %}
-            {% if block.settings.preload %}preload="auto"{% else %}preload="metadata"{% endif %}
+            {% if block.settings.poster %}
+              poster="{{ block.settings.poster | image_url: width: 600 }}"
+              width="{{ block.settings.poster.width }}"
+              height="{{ block.settings.poster.height }}"
+            {% endif %}
+            {% if block.settings.loop %} loop {% endif %}
+            {% if block.settings.preload %} preload="auto" {% else %} preload="metadata" {% endif %}
             muted
             autoplay
             playsinline
+            fetchpriority="high"
             style="width: 100%; height: auto; display: block; border-radius: 12px;"
           ></video>
-        {% elsif block.settings.source == "youtube" %}
-          <iframe
-            width="100%"
-            height="200"
-            src="{{ block.settings.video_url }}?autoplay=1&mute=1&loop=1&playlist={{ block.settings.video_url | split: '/' | last }}"
-            frameborder="0"
-            allow="autoplay; encrypted-media"
-            allowfullscreen
-            style="width: 100%; border-radius: 12px;"
-          ></iframe>
+
+        {% elsif block.settings.product_description_video %}
+          {% assign embed_url = block.settings.product_description_video | strip %}
+          {% if embed_url contains "watch?v=" %}
+            {% assign embed_url = embed_url | replace: "watch?v=", "embed/" %}
+          {% elsif embed_url contains "youtu.be/" %}
+            {% assign video_id = embed_url | split: "/" | last %}
+            {% assign embed_url = "https://www.youtube.com/embed/" | append: video_id %}
+          {% else %}
+            {% assign embed_url = embed_url %}
+          {% endif %}
+
+          <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 12px;">
+            <iframe
+              src="{{ embed_url }}"
+              frameborder="0"
+              allow="autoplay; encrypted-media"
+              allowfullscreen
+              title="Embedded video"
+              style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;"
+            ></iframe>
+          </div>
+
+        {% elsif block.settings.poster %}
+          <img
+            src="{{ block.settings.poster | image_url: width: 600 }}"
+            alt="{{ section.settings.heading | default: 'Video preview' }}"
+            width="{{ block.settings.poster.width }}"
+            height="{{ block.settings.poster.height }}"
+            style="width: 100%; display: block; border-radius: 12px;">
         {% endif %}
+
       </div>
     {% endfor %}
   </div>
