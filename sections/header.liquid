@@ -1,0 +1,15 @@
+{% comment %} // sections/header.liquid {% endcomment %}
+<header class="site-header">
+  <div class="wrapper">
+    <h1 class="site-title">
+      <a href="/">{{ shop.name }}</a>
+    </h1>
+    <nav class="site-nav">
+      <ul>
+        {% for link in linklists.main-menu.links %}
+          <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+        {% endfor %}
+      </ul>
+    </nav>
+  </div>
+</header>

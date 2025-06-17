@@ -1,0 +1,93 @@
+<!doctype html>
+<html class="no-js" lang="{{ request.locale.iso_code }}">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="theme-color" content="#1d5d31">
+    {% if settings.favicon != blank %}
+      <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
+    {% endif %}
+    <title>
+      {{ page_title }}
+      {% if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif %}
+      {% if current_page != 1 %} &ndash; Page {{ current_page }}{% endif %}
+      {% unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless %}
+    </title>
+    {% if page_description %}
+      <meta name="description" content="{{ page_description | escape }}">
+    {% endif %}
+    {% comment %} {% render 'social-meta-tags' %} {% endcomment %}
+    <link rel="canonical" href="{{ canonical_url }}">
+    <link rel="dns-prefetch" href="https://cdn.shopify.com">
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.net">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preload" as="font" href="{{ header_font | font_url }}" type="font/woff2" crossorigin>
+    <link rel="preload" as="font" href="{{ body_font | font_url }}" type="font/woff2" crossorigin>
+    <link rel="preload" href="{{'base.css' | asset_url}}" as="style">
+
+    {{ content_for_header }}
+
+    {% style %}
+      {{ header_font | font_face: font_display: 'swap' }}
+      {{ body_font | font_face: font_display: 'swap' }}
+
+      :root {
+      --font-playfair: {{ header_font.family }}, {{ header_font.fallback_families }};
+      --font-montserrat: {{ body_font.family }}, {{ body_font.fallback_families }};
+      --background-color: {{ settings.background_color }}; }
+    {% endstyle %}
+    <link rel="stylesheet" href="{{'base.css' | asset_url }}">
+  </head>
+
+  <body class="template-{{ template | split : '.' | first }}  {{ page_title | handleize }}">
+    <!--[if IE]>
+      <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+    {% comment %} {% section 'announcement-bar' %} {% endcomment %}
+    <section class="fullpage" role="main">
+      {% section 'header' %}
+      <main class="content-for-layout"></main>
+    </section>
+    {{ content_for_layout }}
+    {% assign potential_action_target = request.origin
+      | append: routes.search_url
+      | append: '?q={search_term_string}'
+    %}
+    <script type="application/ld+json">
+      {
+        "@context": "http://schema.org",
+        "@type": "WebSite",
+        "name": {{ shop.name | json }},
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": {{ potential_action_target | json }},
+          "query-input": "required name=search_term_string"
+        },
+        "url": {{ request.origin | append: page.url | json }}
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "http://schema.org",
+        "@type": "Organization",
+        "name": {{ shop.name | json }},
+        {% if settings.brand_logo != blank %}
+        "logo": "https://cdn.shopify.com/s/files/1/0490/1158/9282/files/sundari-silks-logo.png",
+        {% endif %}
+        "sameAs": [
+          {{ settings.social_twitter_link | json }},
+          {{ settings.social_facebook_link | json }},
+          {{ settings.social_pinterest_link | json }},
+          {{ settings.social_instagram_link | json }},
+          {{ settings.social_youtube_link | json }}
+        ],
+        "url": {{ request.origin | append: page.url | json }}
+      }
+    </script>
+  </body>
+</html>

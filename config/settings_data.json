@@ -1,0 +1,38 @@
+{
+  "current": "default",
+  "presets": {
+    "default": {
+      "name": "Default",
+      "settings": {
+        "color_background": "#ffffff",
+        "color_text": "#000000",
+        "font_family": "sans-serif",
+        "show_announcement": true,
+        "announcement_text": "Welcome to our store!",
+        "announcement_color": "#f4f4f4",
+        "announcement_text_color": "#333333"
+      },
+      "blocks": {
+        "hero-1": {
+          "type": "hero",
+          "settings": {
+            "heading": "Big Sale!",
+            "subheading": "Up to 50% off all items",
+            "image": "shopify://shop_images/sale-banner.jpg",
+            "button_label": "Shop Now",
+            "button_link": "/collections/all"
+          }
+        },
+        "feature-1": {
+          "type": "feature",
+          "settings": {
+            "title": "Free Shipping",
+            "icon": "truck",
+            "description": "On all orders over $50"
+          }
+        }
+      },
+      "order": ["hero-1", "feature-1"]
+    }
+  }
+}
