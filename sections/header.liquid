@@ -1,15 +1,189 @@
-{% comment %} // sections/header.liquid {% endcomment %}
+{% schema %}
+{
+  "name": "Header",
+  "tag": "header",
+  "class": "site-header",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo (Image)"
+    },
+    {
+      "type": "textarea",
+      "id": "logo_svg",
+      "label": "Logo (SVG Code)",
+      "info": "Paste raw <svg> code. This will override the image logo."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Sticky Responsive Header"
+    }
+  ]
+}
+{% endschema %}
+
+{% style %}
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: #fff;
+    border-top: 2px solid #c61a1a;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+  }
+
+  .header-container {
+    max-width: 1440px;
+    margin: auto;
+    padding: 1rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .header-logo svg {
+    height: 40px;
+  }
+
+  .desktop-menu {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .mobile-toggle {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+  }
+
+  .mobile-nav {
+    display: none;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  .mobile-nav.show {
+    display: flex !important;
+  }
+
+  @media (max-width: 768px) {
+    .desktop-menu {
+      display: none;
+    }
+    .mobile-toggle {
+      display: inline-flex;
+    }
+  }
+
+  .search-bar {
+    display: none;
+    padding: 0 2rem 1rem;
+  }
+
+  .search-bar form {
+    position: relative;
+    max-width: 600px;
+    margin: auto;
+  }
+
+  .search-bar input[type="search"] {
+    width: 100%;
+    padding: 0.75rem 2.5rem 0.75rem 1rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+  }
+
+  .search-bar button {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+  }
+{% endstyle %}
+
 <header class="site-header">
-  <div class="wrapper">
-    <h1 class="site-title">
-      <a href="/">{{ shop.name }}</a>
-    </h1>
-    <nav class="site-nav">
-      <ul>
+  <div class="header-container">
+
+    <!-- Logo -->
+    <div class="header-logo" style="flex-shrink: 0;">
+      <a href="{{ routes.root_url }}" style="display: flex; align-items: center;">
+        {% if section.settings.logo_svg != blank %}
+          <div class="logo-svg" style="height: 40px;">{{ section.settings.logo_svg }}</div>
+        {% elsif section.settings.logo %}
+          <img src="{{ section.settings.logo | img_url: '120x' }}" alt="{{ shop.name }}" style="height: 40px;">
+        {% endif %}
+        <span style="margin-left: 0.5rem; font-size: 1.2rem; font-weight: bold; color: #c61a1a;">{{ shop.name }}</span>
+      </a>
+    </div>
+
+    <!-- Hamburger Toggle (Mobile) -->
+    <button id="menu-toggle" class="mobile-toggle" aria-label="Toggle menu">☰</button>
+
+    <!-- Navigation -->
+    <nav style="flex: 1;">
+      <ul class="desktop-menu">
         {% for link in linklists.main-menu.links %}
-          <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+          <li><a href="{{ link.url }}" style="text-decoration: none; color: #661414;">{{ link.title }}</a></li>
+        {% endfor %}
+      </ul>
+
+      <ul class="mobile-nav" id="mobile-nav">
+        {% for link in linklists.main-menu.links %}
+          <li><a href="{{ link.url }}" style="text-decoration: none; color: #661414;">{{ link.title }}</a></li>
         {% endfor %}
       </ul>
     </nav>
+
+    <!-- Icons -->
+    <div class="header-icons" style="display: flex; gap: 1.5rem;">
+      <button id="search-toggle" style="background: none; border: none;" aria-label="Search">
+        {% render 'icon-search' %}
+      </button>
+      <a href="/account" title="Account">{% render 'icon-user' %}</a>
+      <a href="/pages/wishlist" title="Wishlist">{% render 'icon-heart' %}</a>
+      <a href="/cart" title="Cart" style="position: relative;">
+        {% render 'icon-cart' %}
+        {% if cart.item_count > 0 %}
+          <span style="position: absolute; top: -0.3rem; right: -0.5rem; background: #c61a1a; color: #fff; font-size: 0.7rem; border-radius: 9999px; padding: 0.2rem 0.5rem;">{{ cart.item_count }}</span>
+        {% endif %}
+      </a>
+    </div>
+  </div>
+
+  <!-- Search Bar -->
+  <div id="search-bar" class="search-bar">
+    <form action="/search" method="get" role="search">
+      <input type="search" name="q" placeholder="Search products">
+      <button type="submit">{% render 'icon-search' %}</button>
+    </form>
   </div>
 </header>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const menuToggle = document.getElementById("menu-toggle");
+    const mobileNav = document.getElementById("mobile-nav");
+    const searchToggle = document.getElementById("search-toggle");
+    const searchBar = document.getElementById("search-bar");
+
+    menuToggle.addEventListener("click", function () {
+      mobileNav.classList.toggle("show");
+    });
+
+    searchToggle.addEventListener("click", function () {
+      searchBar.style.display = searchBar.style.display === "block" ? "none" : "block";
+    });
+  });
+</script>

@@ -1,0 +1,100 @@
+{% schema %}
+{
+  "name": "Collection Grid",
+  "tag": "section",
+  "class": "collection-grid",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Pick a combo"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Collection Grid Enhanced"
+    }
+  ]
+}
+{% endschema %}
+
+<section style="padding: 2rem;">
+  {% if section.settings.heading %}
+    <h2 style="text-align: center; font-size: 2rem; color: #a00; margin-bottom: 1rem;">{{ section.settings.heading }}</h2>
+  {% endif %}
+
+  <!-- Sort & Tag Filter -->
+  <form method="get" style="display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; margin-bottom: 2rem;">
+    <select name="sort_by" onchange="this.form.submit()">
+      <option value="">Sort by</option>
+      <option value="title-ascending" {% if collection.sort_by == "title-ascending" %}selected{% endif %}>Title A-Z</option>
+      <option value="title-descending" {% if collection.sort_by == "title-descending" %}selected{% endif %}>Title Z-A</option>
+      <option value="price-ascending" {% if collection.sort_by == "price-ascending" %}selected{% endif %}>Price Low–High</option>
+      <option value="price-descending" {% if collection.sort_by == "price-descending" %}selected{% endif %}>Price High–Low</option>
+    </select>
+
+    {% if collection.all_tags.size > 0 %}
+      <select name="constraint" onchange="this.form.submit()">
+        <option value="">Filter by tag</option>
+        {% for tag in collection.all_tags %}
+          <option value="{{ tag | escape }}" {% if current_tags contains tag %}selected{% endif %}>{{ tag }}</option>
+        {% endfor %}
+      </select>
+    {% endif %}
+  </form>
+
+  {% paginate collection.products by 12 %}
+    {% if collection.products.size > 0 %}
+      <div class="grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 2rem;">
+        {% for product in collection.products %}
+          <div class="product-card" style="background: #f8f8f8; border-radius: 12px; overflow: hidden; position: relative;">
+            <a href="{{ product.url }}">
+              <img src="{{ product.featured_image | img_url: '500x' }}" alt="{{ product.title }}" style="width: 100%;">
+            </a>
+            <div style="padding: 1rem; background: #c61a1a; color: #fff; text-align: center;">
+              <strong>{{ product.title }}</strong>
+              {% if product.price %}
+                <div style="margin-top: 0.25rem;">{{ product.price | money }}</div>
+              {% endif %}
+
+              {% if product.variants.size == 1 %}
+                <form method="post" action="/cart/add">
+                  <input type="hidden" name="id" value="{{ product.variants.first.id }}">
+                  <button type="submit" style="margin-top: 0.5rem; background: #fff; color: #000; padding: 0.4rem 1rem; border-radius: 6px;">Add to Cart</button>
+                </form>
+              {% else %}
+                <button type="button" onclick="openQuickView({{ product.id }})" style="margin-top: 0.5rem; background: #fff; color: #000; padding: 0.4rem 1rem; border-radius: 6px;">Quick View</button>
+              {% endif %}
+            </div>
+
+            <!-- Quick View Modal -->
+            <div id="quickview-{{ product.id }}" class="quickview-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.7); justify-content: center; align-items: center; z-index: 9999;">
+              <div style="background: white; padding: 2rem; max-width: 600px; width: 100%; border-radius: 12px; position: relative;">
+                <button onclick="closeQuickView({{ product.id }})" style="position: absolute; top: 1rem; right: 1rem;">✕</button>
+                <h2>{{ product.title }}</h2>
+                <p>{{ product.description | strip_html | truncatewords: 40 }}</p>
+                <a href="{{ product.url }}" style="color: #a00;">View full details</a>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+
+      <div style="text-align: center; margin-top: 2rem;">
+        {{ paginate | default_pagination }}
+      </div>
+    {% else %}
+      <p style="text-align: center;">No products found.</p>
+    {% endif %}
+  {% endpaginate %}
+</section>
+
+<script>
+  function openQuickView(id) {
+    document.getElementById('quickview-' + id).style.display = 'flex';
+  }
+  function closeQuickView(id) {
+    document.getElementById('quickview-' + id).style.display = 'none';
+  }
+</script>

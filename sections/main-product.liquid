@@ -3,39 +3,107 @@
   "name": "Main Product",
   "tag": "section",
   "class": "main-product",
-  "settings": [],
+  "settings": [
+    {
+      "type": "collection",
+      "id": "related_collection",
+      "label": "Related Collection"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "feature_icon",
+      "name": "Feature Icon",
+      "settings": [
+        { "type": "image_picker", "id": "icon", "label": "Icon" },
+        { "type": "text", "id": "label", "label": "Label", "default": "Contain Sugar" }
+      ]
+    }
+  ],
   "presets": [
     {
-      "name": "Default product"
+      "name": "Default Product"
     }
   ]
 }
 {% endschema %}
 
-<section class="product" style="max-width: 1200px; margin: 0 auto; padding: 2rem;">
-  <div class="grid" style="display: flex; flex-wrap: wrap; gap: 2rem;">
-    <!-- Product Images -->
-    <div class="product-images" style="flex: 1;">
-      {% for media in product.media %}
-        <img src="{{ media | img_url: '800x' }}" alt="{{ media.alt }}" style="width: 100%; margin-bottom: 1rem;" />
-      {% endfor %}
-    </div>
-
-    <!-- Product Info -->
-    <div class="product-info" style="flex: 1;">
-      <h1>{{ product.title }}</h1>
-      <p>{{ product.price | money }}</p>
-
-      {% form 'product', product %}
-        {{ form | product_option_dropdowns }}
-        <button type="submit" class="btn">Add to cart</button>
-      {% endform %}
-
-      {% if product.description != blank %}
-        <div class="product-description" style="margin-top: 2rem;">
-          {{ product.description }}
+<section class="product-page" style="max-width: 1200px; margin: auto; padding: 2rem;">
+  <!-- Product Top Grid -->
+  <div style="display: flex; flex-wrap: wrap; gap: 2rem;">
+    <!-- Gallery -->
+    <div style="flex: 1;">
+      {% if product.images.size > 1 %}
+        <div style="display: flex; gap: 0.5rem; flex-direction: column;">
+          {% for image in product.images %}
+            <img src="{{ image | img_url: '100x100' }}" style="width: 80px; cursor: pointer;" onclick="document.getElementById('main-product-image').src='{{ image | img_url: '800x' }}'">
+          {% endfor %}
         </div>
       {% endif %}
+      <img id="main-product-image" src="{{ product.featured_image | img_url: '800x' }}" alt="{{ product.title }}" style="width: 100%; border-radius: 12px;">
+    </div>
+
+    <!-- Product Details -->
+    <div style="flex: 1;">
+      <h1 style="color: #900;">{{ product.title }}</h1>
+      <div style="margin: 1rem 0;">{{ product.description }}</div>
+
+      {% if product.metafields.custom.contents.value %}
+        <p><strong>This box contains a pack of:</strong></p>
+        <ul>
+          {% for item in product.metafields.custom.contents.value %}
+            <li>{{ item }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+
+      <p><strong>{{ product.price | money }}</strong></p>
+
+      {% form 'product', product %}
+        <label for="Quantity">Quantity</label>
+        <input type="number" name="quantity" value="1" min="1" id="Quantity" style="width: 60px; margin-bottom: 1rem;">
+        <br />
+        <button type="submit" class="btn" style="padding: 0.75rem 1.5rem; background: #900; color: white; border: none; border-radius: 6px;">Add to cart</button>
+      {% endform %}
+
+      <p style="margin-top: 1rem;"><small>Tax included</small></p>
     </div>
   </div>
+
+  <!-- Features -->
+  <div style="margin-top: 3rem;">
+    <h2 style="color: #900;">Made with love</h2>
+    <div style="display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 1rem;">
+      {% for block in section.blocks %}
+        {% if block.type == 'feature_icon' %}
+          <div style="text-align: center;">
+            {% if block.settings.icon %}
+              <img src="{{ block.settings.icon | img_url: '80x' }}" alt="{{ block.settings.label }}" style="width: 40px; margin-bottom: 0.5rem;">
+            {% endif %}
+            <div style="font-size: 0.9rem;">{{ block.settings.label }}</div>
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- Related Products -->
+  {% if section.settings.related_collection %}
+    <div style="margin-top: 3rem;">
+      <h2 style="color: #900;">Complete the Meal</h2>
+      <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+        {% assign related = section.settings.related_collection.products | slice: 0, 4 %}
+        {% for product in related %}
+          <div style="width: 220px; background: #f9f9f9; border-radius: 12px; overflow: hidden;">
+            <a href="{{ product.url }}">
+              <img src="{{ product.featured_image | img_url: '400x' }}" alt="{{ product.title }}" style="width: 100%;">
+              <div style="background: #c61a1a; color: #fff; padding: 0.5rem; text-align: center;">
+                {{ product.title }}
+              </div>
+            </a>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  {% endif %}
 </section>

@@ -4,6 +4,9 @@
     "hero": {
       "type": "hero-banner"
     },
+    "product-slider": {
+      "type": "product-slider"
+    },
     "highlight-features": {
       "type": "highlight-features"
     },
@@ -14,5 +17,11 @@
       "type": "short-video"
     }
   },
-  "order": ["hero", "highlight-features", "about-highlight", "short-video"]
+  "order": [
+    "hero",
+    "product-slider",
+    "highlight-features",
+    "about-highlight",
+    "short-video"
+  ]
 }
