@@ -21,7 +21,7 @@
             "heading": "",
             "subheading": "",
             "button_label": "",
-            "button_link": ""
+            "button_link": "shopify://products/achu-murukku-traditional-sweet-snack"
           }
         },
         "slide_r7LtTT": {
@@ -33,26 +33,13 @@
             "heading": "",
             "subheading": "",
             "button_label": "",
-            "button_link": ""
-          }
-        },
-        "slide_nYyUxr": {
-          "type": "slide",
-          "settings": {
-            "image_desktop": "shopify://shop_images/slider-desktop-1.jpg",
-            "image_tablet": "shopify://shop_images/slider-desktop-1.jpg",
-            "image_mobile": "shopify://shop_images/slider-mobile-1.jpg",
-            "heading": "",
-            "subheading": "",
-            "button_label": "",
-            "button_link": "shopify://products/andhra-murukku"
+            "button_link": "shopify://products/adhirasam-ghee"
           }
         }
       },
       "block_order": [
         "slide_zcwXRV",
-        "slide_r7LtTT",
-        "slide_nYyUxr"
+        "slide_r7LtTT"
       ],
       "name": "Hero Slider",
       "settings": {}
