@@ -30,6 +30,10 @@
     <link rel="preload" as="font" href="{{ body_font | font_url }}" type="font/woff2" crossorigin>
     <link rel="preload" href="{{'base.css' | asset_url}}" as="style">
 
+    {{ 'jquery.js' | asset_url | preload_tag: as: 'script' }}
+    {{ 'global.js' | asset_url | preload_tag: as: 'script' }}
+    {{ 'drawer.js' | asset_url | preload_tag: as: 'script' }}
+
     {{ content_for_header }}
 
     {% style %}
@@ -42,6 +46,7 @@
       --background-color: {{ settings.background_color }}; }
     {% endstyle %}
     <link rel="stylesheet" href="{{'base.css' | asset_url }}">
+    <script src="{{ 'jquery.js' | asset_url }}"></script>
   </head>
 
   <body class="template-{{ template | split : '.' | first }}  {{ page_title | handleize }}">
@@ -53,6 +58,7 @@
       {% section 'header' %}
       <main class="content-for-layout"></main>
     </section>
+    {% section 'drawer' %}
     {{ content_for_layout }}
     {% assign potential_action_target = request.origin
       | append: routes.search_url
@@ -89,5 +95,7 @@
         "url": {{ request.origin | append: page.url | json }}
       }
     </script>
+    <script defer src="{{ 'global.js' | asset_url }}"></script>
+    <script defer src="{{ 'drawer.js' | asset_url }}"></script>
   </body>
 </html>

@@ -1,109 +1,190 @@
-{% schema %}
-{
-  "name": "Main Product",
-  "tag": "section",
-  "class": "main-product",
-  "settings": [
-    {
-      "type": "collection",
-      "id": "related_collection",
-      "label": "Related Collection"
-    }
-  ],
-  "blocks": [
-    {
-      "type": "feature_icon",
-      "name": "Feature Icon",
-      "settings": [
-        { "type": "image_picker", "id": "icon", "label": "Icon" },
-        { "type": "text", "id": "label", "label": "Label", "default": "Contain Sugar" }
-      ]
-    }
-  ],
-  "presets": [
-    {
-      "name": "Default Product"
-    }
-  ]
-}
-{% endschema %}
+{% assign current_product = product.selected_or_first_available_variant %}
+{% assign product_image = current_product.featured_image | default: product.featured_image %}
+{% assign product_collection = collection.title | link_to: product_collection.url %}
+{% assign collectProductName = '' %}
+{% unless product_collection == blank %}
+  {% assign collectProductName = product_collection %}
+{% endunless %}
 
-<section class="product-page" style="max-width: 1200px; margin: auto; padding: 2rem;">
-  <!-- Product Top Grid -->
-  <div style="display: flex; flex-wrap: wrap; gap: 2rem;">
-    <!-- Gallery -->
-    <div style="flex: 1;">
-      {% if product.images.size > 1 %}
-        <div style="display: flex; gap: 0.5rem; flex-direction: column;">
-          {% for image in product.images %}
-            <img src="{{ image | img_url: '100x100' }}" style="width: 80px; cursor: pointer;" onclick="document.getElementById('main-product-image').src='{{ image | img_url: '800x' }}'">
-          {% endfor %}
-        </div>
-      {% endif %}
-      <img id="main-product-image" src="{{ product.featured_image | img_url: '800x' }}" alt="{{ product.title }}" style="width: 100%; border-radius: 12px;">
-    </div>
+{% for product_image in product.images %}
+  <link rel="preload" as="image" href="{{ product_image.src | image_url }}">
+  <link rel="prefetch" href="{{ product_image.src | image_url }}">
+{% endfor %}
 
-    <!-- Product Details -->
-    <div style="flex: 1;">
-      <h1 style="color: #900;">{{ product.title }}</h1>
-      <div style="margin: 1rem 0;">{{ product.description }}</div>
+{% unless product == empty %}
+  <script type="application/json" id="ProductJson-{{ section.id }}">
+    {{ product | json }}
+  </script>
+{% endunless %}
 
-      {% if product.metafields.custom.contents.value %}
-        <p><strong>This box contains a pack of:</strong></p>
-        <ul>
-          {% for item in product.metafields.custom.contents.value %}
-            <li>{{ item }}</li>
-          {% endfor %}
-        </ul>
-      {% endif %}
+<script type="application/ld+json">
+  {
+    "@context": "http://schema.org/",
+    "@type": "Product",
+    "name": {{ product.title | json }},
+    "url": {{ shop.secure_url  | append: product.url | json }},
+    {%- if product.featured_media -%}
+      {%- assign media_size = product.featured_media.preview_image.width | append: 'x' -%}
+      "image": [
+        {{ product.featured_media | image_url: media_size | prepend: "https:" | json }}
+      ],
+    {%- endif -%}
+    "description": {{ product.description | strip_html | json }},
+    {%- if current_variant.sku != blank -%}
+      "sku": {{ current_variant.sku | json }},
+    {%- endif -%}
+    "brand": {
+      "@type": "Thing",
+      "name": {{ product.vendor | json }}
+    },
+    "offers": [
+      {%- for variant in product.variants -%}
+        {
+          "@type" : "Offer",
+          {%- if variant.sku != blank -%}
+            "sku": {{ variant.sku | json }},
+          {%- endif -%}
+          "availability" : "http://schema.org/{% if product.available %}InStock{% else %}OutOfStock{% endif %}",
+          "price" : {{ variant.price | divided_by: 100.00 | json }},
+          "priceCurrency" : {{ cart.currency.iso_code | json }},
+          "url" : {{ shop.secure_url  | append: variant.url | json }}
+        }{% unless forloop.last %},{% endunless %}
+      {%- endfor -%}
+    ]
+  }
+</script>
 
-      <p><strong>{{ product.price | money }}</strong></p>
-
-      {% form 'product', product %}
-        <label for="Quantity">Quantity</label>
-        <input type="number" name="quantity" value="1" min="1" id="Quantity" style="width: 60px; margin-bottom: 1rem;">
-        <br />
-        <button type="submit" class="btn" style="padding: 0.75rem 1.5rem; background: #900; color: white; border: none; border-radius: 6px;">Add to cart</button>
-      {% endform %}
-
-      <p style="margin-top: 1rem;"><small>Tax included</small></p>
-    </div>
-  </div>
-
-  <!-- Features -->
-  <div style="margin-top: 3rem;">
-    <h2 style="color: #900;">Made with love</h2>
-    <div style="display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 1rem;">
-      {% for block in section.blocks %}
-        {% if block.type == 'feature_icon' %}
-          <div style="text-align: center;">
-            {% if block.settings.icon %}
-              <img src="{{ block.settings.icon | img_url: '80x' }}" alt="{{ block.settings.label }}" style="width: 40px; margin-bottom: 0.5rem;">
-            {% endif %}
-            <div style="font-size: 0.9rem;">{{ block.settings.label }}</div>
-          </div>
-        {% endif %}
+<section class="page-product-detail">
+  <div class="product-images">
+    <div id="gallery_01" class="product-images-thumbnails">
+      {% for product_image in product.images %}
+        <a
+          href="javascript:void(0)"
+          data-image="{{ product_image | image_url }}"
+          data-zoom-image="{{ product_image | image_url: width:"1256", height: "1886" }}"
+        >
+          <img
+            alt="{{ product.title }}"
+            id="img_{{ forloop.index }}"
+            src="{{ product_image | image_url: width:"320", height:"480" }}"
+          >
+        </a>
       {% endfor %}
     </div>
+    <img
+      alt="{{ product.title }}"
+      src="{{ product_image | image_url: width:"640", height:"960" }}"
+      data-zoom-image="{{ product_image | image_url: width:"1256", height:"1886" }}"
+      class="test-gallery"
+      id="zoom_03"
+    >
   </div>
 
-  <!-- Related Products -->
-  {% if section.settings.related_collection %}
-    <div style="margin-top: 3rem;">
-      <h2 style="color: #900;">Complete the Meal</h2>
-      <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
-        {% assign related = section.settings.related_collection.products | slice: 0, 4 %}
-        {% for product in related %}
-          <div style="width: 220px; background: #f9f9f9; border-radius: 12px; overflow: hidden;">
-            <a href="{{ product.url }}">
-              <img src="{{ product.featured_image | img_url: '400x' }}" alt="{{ product.title }}" style="width: 100%;">
-              <div style="background: #c61a1a; color: #fff; padding: 0.5rem; text-align: center;">
-                {{ product.title }}
-              </div>
-            </a>
-          </div>
+  <div class="product-content">
+    <h2 class="product-title">{{ product.title }}</h2>
+
+    {% if customer and customer.tags contains 'admin' %}
+      <div class="product-sku">
+        {% assign current_variant = product.selected_or_first_available_variant %}
+        <span class="product__variant--sku"> Product Code : {{ current_variant.sku }} </span>
+      </div>
+    {% endif %}
+
+    <p class="product-price">
+      {% if product.compare_at_price_max > product.price %}
+        <span
+          ><s>{{ product.compare_at_price_max | money_with_currency }}</s></span
+        >
+        <span>{{ product.price | money_with_currency }}</span>
+      {% else %}
+        <span>{{ product.price | money_with_currency }}</span>
+      {% endif %}
+    </p>
+    <p class="product-description">{{ product.description | strip_html | truncatewords: 50 }}</p>
+
+    {%- if product.available -%}
+      <p class="product-availability">In Stock</p>
+    {%- else -%}
+      <p class="product-availability">Out of Stock</p>
+    {%- endif -%}
+
+    {%- if product.tags.size > 0 -%}
+      <div class="product-tags">
+        <span>Tags:</span>
+        {% for tag in product.tags %}
+          <a href="{{ routes.search_url }}?q={{ tag | url_encode }}" class="tag">{{ tag }}</a>
         {% endfor %}
       </div>
-    </div>
-  {% endif %}
+    {%- endif -%}
+    {%- form 'product', product, class: 'form', novalidate: 'novalidate', data-type: 'add-to-cart-form' -%}
+      {%- unless product.has_only_default_variant -%}
+        {%- for option in product.options_with_values -%}
+          <fieldset
+            class="product-variant-fielset"
+            id="ProductSelect-option-{{ forloop.index0 }}"
+            name="{{ option.name | handleize }}"
+          >
+            <legend>
+              {{ option.name | escape }}
+              {% if option.name contains 'Size' or option.name contains 'size' %}
+                <span>
+                  <nav class="product-guide-line">
+                    <div class="modal-size-toggle" id="measurement-guide">Size Guidelines</div>
+                  </nav>
+                </span>
+              {% endif %}
+            </legend>
+            {%- for value in option.values -%}
+              {%- assign variant_label_state = true -%}
+              {% assign inputStyle = '' %}
+              {% if option.name contains 'Color'
+                or option.name contains 'color'
+                or option.name contains 'Size'
+                or option.name contains 'size'
+              %}
+                {% assign inputStyle = 'input-radio-label-circle' %}
+              {% else %}
+                {% assign inputStyle = 'input-radio-label-chip' %}
+              {% endif %}
+              <label
+                class="{{ inputStyle }} {{ option.name }}"
+                {% if option.name contains 'Color' or option.name contains 'color' %}
+                  data-color="{{ value }}"
+                  style="text-indent: -9999px; background:{{ value | downcase | escape | remove:" " }}"
+                {% endif %}
+                for="ProductSelect-option-{{ option.name | handleize }}-{{ value | escape }}"
+              >
+                <input
+                  type="radio"
+                  {% if option.selected_value == value %}
+                    checked="checked"
+                  {% endif %}
+                  {% unless variant_label_state %}
+                    disabled="disabled"
+                  {% endunless %}
+                  value="{{ value }}"
+                  data-index="option{{ forloop.index }}"
+                  name="{{ option.name | handleize }}"
+                  id="ProductSelect-option-{{ option.name | handleize }}-{{ value | escape }}"
+                >
+                {{ value | escape }}
+              </label>
+            {%- endfor -%}
+          </fieldset>
+        {%- endfor -%}
+      {%- endunless -%}
+
+      <div class="product-form__buttons">
+        <div class="button-add-to-cart">
+          <button
+            type="submit"
+            name="add"
+            class="button product-form__submit button--primary"
+          >
+            <span>ADD TO CART</span>
+          </button>
+        </div>
+      </div>
+    {%- endform -%}
+  </div>
 </section>
