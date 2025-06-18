@@ -16,7 +16,7 @@
     color: #c61d23;
     padding-bottom: 24px;
   }
-}
+
 
 .product__slider--card {
   position: relative;
@@ -27,7 +27,7 @@
   flex-direction: column;
   gap: 0;
   a {
-    display: inline-block;
+    // display: inline-block;
     img {
       vertical-align: baseline;
       position: relative;
@@ -102,10 +102,13 @@
   }
 }
 
+
 .slick-list {
   padding: 0 20% 0 0 !important;
 
   @media (min-width: 768px) {
     padding: 0;
   }
+}
+
 }
