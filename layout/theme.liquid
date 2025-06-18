@@ -30,13 +30,18 @@
     <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
     <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
     <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
-    <link rel="preload" as="font" href="{{ header_font | font_url }}" type="font/woff2" crossorigin>
-    <link rel="preload" as="font" href="{{ body_font | font_url }}" type="font/woff2" crossorigin>
-    <link rel="preload" href="{{'base.css' | asset_url}}" as="style">
+
+    {{ header_font | font_url | preload_tag: as: 'style' }}
+    {{ body_font | font_url | preload_tag: as: 'style' }}
+
+    {{ 'slick.css' | asset_url | preload_tag: as: 'style' }}
+    {{ 'slick-theme.css' | asset_url | preload_tag: as: 'style' }}
+    {{ 'base.css' | asset_url | preload_tag: as: 'style' }}
 
     {{ 'jquery.js' | asset_url | preload_tag: as: 'script' }}
     {{ 'global.js' | asset_url | preload_tag: as: 'script' }}
     {{ 'drawer.js' | asset_url | preload_tag: as: 'script' }}
+    {{ 'slick.min.js' | asset_url | preload_tag: as: 'script' }}
 
     {{ content_for_header }}
 
@@ -47,10 +52,11 @@
       :root {
       --font-playfair: {{ header_font.family }}, {{ header_font.fallback_families }};
       --font-montserrat: {{ body_font.family }}, {{ body_font.fallback_families }};
-      --background-color: {{ settings.background_color }}; }
     {% endstyle %}
+
+    <link rel="stylesheet" href="{{'slick.css' | asset_url }}">
+    <link rel="stylesheet" href="{{'slick-theme.css' | asset_url }}">
     <link rel="stylesheet" href="{{'base.css' | asset_url }}">
-    <script src="{{ 'jquery.js' | asset_url }}"></script>
   </head>
 
   <body class="template-{{ template | split : '.' | first }}  {{ page_title | handleize }}">
@@ -100,7 +106,9 @@
         "url": {{ request.origin | append: page.url | json }}
       }
     </script>
+    <script defer src="{{ 'jquery.js' | asset_url }}"></script>
     <script defer src="{{ 'global.js' | asset_url }}"></script>
     <script defer src="{{ 'drawer.js' | asset_url }}"></script>
+    <script defer src="{{ 'slick.min.js' | asset_url }}"></script>
   </body>
 </html>

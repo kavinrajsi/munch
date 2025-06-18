@@ -24,9 +24,6 @@
 }
 {% endschema %}
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css" />
-
 <div class="product-slider-section">
   {% if section.settings.heading %}
     <h2 class="product-slider-heading">{{ section.settings.heading }}</h2>
@@ -35,7 +32,7 @@
   {% assign products = section.settings.collection.products | sort: 'created_at' | reverse | slice: 0, 8 %}
 
   <div class="product-slider-wrapper">
-    <div class="slider-track">
+    <div class="slider-track" >
       {% for product in products %}
         <div class="slider-card">
           <a href="{{ product.url }}">
@@ -62,82 +59,3 @@
     </div>
   </div>
 </div>
-
-<script src="https://code.jquery.com/jquery-3.6.0.min.js" defer></script>
-<script src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js" defer></script>
-
-<script defer>
-  document.addEventListener("DOMContentLoaded", function() {
-    $('.slider-track').slick({
-      slidesToShow: 4,
-      slidesToScroll: 1,
-      infinite: false,
-      dots: true,
-      arrows: true,
-      responsive: [
-        {
-          breakpoint: 1024,
-          settings: {
-            slidesToShow: 2
-          }
-        },
-        {
-          breakpoint: 768,
-          settings: {
-            slidesToShow: 1.5,
-            variableWidth: false
-          }
-        }
-      ]
-    });
-  });
-</script>
-
-<style>
-  .product-slider-section {
-    padding: 2rem;
-  }
-  .product-slider-heading {
-    color: #a00;
-    font-size: 1.8rem;
-    margin-bottom: 1rem;
-  }
-  .slider-card {
-    background: #f8f8f8;
-    border-radius: 12px;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    padding: 0.5rem;
-  }
-  .slider-card a {
-    display: block;
-  }
-  .slider-card img {
-    width: 100%;
-    height: auto;
-    display: block;
-    border-radius: 8px;
-  }
-  .slider-info {
-    padding: 1rem 0 0 0;
-    color: #fff;
-    text-align: center;
-    background: #c61a1a;
-    flex-grow: 1;
-    border-radius: 0 0 12px 12px;
-  }
-  .slider-info strong {
-    display: block;
-    margin-bottom: 0.5rem;
-  }
-  .select-option-link {
-    display: inline-block;
-    margin-top: 1rem;
-    background: #fff;
-    color: #000;
-    padding: 0.5rem 1rem;
-    border-radius: 6px;
-    text-decoration: none;
-  }
-</style>
