@@ -31,9 +31,6 @@
     <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
     <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
 
-    {{ header_font | font_url | preload_tag: as: 'style' }}
-    {{ body_font | font_url | preload_tag: as: 'style' }}
-
     {{ 'slick.css' | asset_url | preload_tag: as: 'style' }}
     {{ 'slick-theme.css' | asset_url | preload_tag: as: 'style' }}
     {{ 'base.css' | asset_url | preload_tag: as: 'style' }}
