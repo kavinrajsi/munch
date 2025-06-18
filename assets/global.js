@@ -1,6 +1,9 @@
 (function ($) {
   console.log("functions");
 
+   $('.slick-slider').slick();
+
+
   // product variant
   $('.product-variant-fielset input[type="radio"]').click(function () {
     var productVariant = "";

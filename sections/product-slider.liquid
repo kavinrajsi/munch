@@ -32,9 +32,35 @@
   {% assign products = section.settings.collection.products | sort: 'created_at' | reverse | slice: 0, 8 %}
 
   <div class="product-slider-wrapper">
-    <div class="slider-track" >
+    <div
+      class="slider-track slick-slider"
+      data-slick='
+        {
+          "centerPadding": "30px",
+          "slidesToShow": 4,
+          "infinite": false,
+          "arrows": true,
+          "responsive": [
+            {
+              "breakpoint": 768,
+              "settings": {
+                "centerPadding": "15px",
+                "slidesToShow": 3
+              }
+            },
+            {
+              "breakpoint": 480,
+              "settings": {
+                "centerPadding": "20px",
+                "slidesToShow": 1
+              }
+            }
+          ]
+        }
+      '
+    >
       {% for product in products %}
-        <div class="slider-card">
+        <div class="product__slider--card">
           <a href="{{ product.url }}">
             <img
               src="{{ product.featured_image | image_url: width: 400 }}"
@@ -45,13 +71,23 @@
               decoding="async"
             >
           </a>
-          <div class="slider-info">
-            <strong>{{ product.title }}</strong>
-            {% if product.price %}
-              <div>{{ product.price | money }}</div>
-            {% endif %}
+          <div class="product__info">
+            <strong class="product__title">{{ product.title }}</strong>
+            {% comment %}
+               {% if product.variants.size > 1 %}
+                <div>{{ product.price_min | money }}<sup>+</sup></div>
+              {% else %}
+                <div>{{ product.price | money }}</div>
+              {% endif %}
+            {% endcomment %}
             {% if product.variants.size > 1 %}
-              <a href="{{ product.url }}" class="select-option-link">Select Option</a>
+              <button
+                class="product__select-option-button select-option-button"
+                data-product-handle="{{ product.handle }}"
+                type="button"
+              >
+                Select Option
+              </button>
             {% endif %}
           </div>
         </div>
