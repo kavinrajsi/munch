@@ -46,7 +46,6 @@
     },
     "product_slider_teCPg9": {
       "type": "product-slider",
-      "disabled": true,
       "name": "Latest Products Slider",
       "settings": {
         "heading": "Pick a combo",
@@ -146,7 +145,6 @@
     },
     "product_slider_BbrWe7": {
       "type": "product-slider",
-      "disabled": true,
       "name": "Latest Products Slider",
       "settings": {
         "heading": "Pick a combo",
