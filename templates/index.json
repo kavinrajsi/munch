@@ -55,21 +55,11 @@
         "slide_nYyUxr"
       ],
       "name": "Hero Slider",
-      "settings": {
-        "items": 1,
-        "loop": false,
-        "center": false,
-        "mouseDrag": true,
-        "touchDrag": true,
-        "pullDrag": true,
-        "freeDrag": false,
-        "nav": false,
-        "dots": true,
-        "slideBy": "1"
-      }
+      "settings": {}
     },
     "product_slider_teCPg9": {
       "type": "product-slider",
+      "disabled": true,
       "name": "Latest Products Slider",
       "settings": {
         "heading": "Pick a combo",
@@ -169,6 +159,7 @@
     },
     "product_slider_BbrWe7": {
       "type": "product-slider",
+      "disabled": true,
       "name": "Latest Products Slider",
       "settings": {
         "heading": "Pick a combo",
