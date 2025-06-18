@@ -14,6 +14,12 @@
       "id": "logo_svg",
       "label": "Logo (SVG Code)",
       "info": "Paste raw <svg> code. This will override the image logo."
+    },
+    {
+      "type": "link_list",
+      "id": "main_menu",
+      "label": "Main menu",
+      "default": "main-menu"
     }
   ],
   "presets": [
@@ -24,165 +30,84 @@
 }
 {% endschema %}
 
-{% style %}
-  .site-header {
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-    background: #fff;
-    border-top: 2px solid #c61a1a;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.05);
-  }
-
-  .header-container {
-    max-width: 1440px;
-    margin: auto;
-    padding: 1rem 2rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 1rem;
-  }
-
-  .header-logo svg {
-    height: 40px;
-  }
-
-  .desktop-menu {
-    display: flex;
-    gap: 2rem;
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-
-  .mobile-toggle {
-    display: none;
-    background: none;
-    border: none;
-    font-size: 1.5rem;
-    cursor: pointer;
-  }
-
-  .mobile-nav {
-    display: none;
-    flex-direction: column;
-    gap: 1rem;
-    margin-top: 1rem;
-  }
-
-  .mobile-nav.show {
-    display: flex !important;
-  }
-
-  @media (max-width: 768px) {
-    .desktop-menu {
-      display: none;
-    }
-    .mobile-toggle {
-      display: inline-flex;
-    }
-  }
-
-  .search-bar {
-    display: none;
-    padding: 0 2rem 1rem;
-  }
-
-  .search-bar form {
-    position: relative;
-    max-width: 600px;
-    margin: auto;
-  }
-
-  .search-bar input[type="search"] {
-    width: 100%;
-    padding: 0.75rem 2.5rem 0.75rem 1rem;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-  }
-
-  .search-bar button {
-    position: absolute;
-    right: 1rem;
-    top: 50%;
-    transform: translateY(-50%);
-    background: none;
-    border: none;
-  }
-{% endstyle %}
-
-<header class="site-header">
-  <div class="header-container">
-
-    <!-- Logo -->
-    <div class="header-logo" style="flex-shrink: 0;">
-      <a href="{{ routes.root_url }}" style="display: flex; align-items: center;">
-        {% if section.settings.logo_svg != blank %}
-          <div class="logo-svg" style="height: 40px;">{{ section.settings.logo_svg }}</div>
-        {% elsif section.settings.logo %}
-          <img src="{{ section.settings.logo | img_url: '120x' }}" alt="{{ shop.name }}" style="height: 40px;">
-        {% endif %}
-      </a>
-    </div>
-
-    <!-- Hamburger Toggle (Mobile) -->
-    <button id="menu-toggle" class="mobile-toggle" aria-label="Toggle menu">☰</button>
-
-    <!-- Navigation -->
-    <nav style="flex: 1;">
-      <ul class="desktop-menu">
-        {% for link in linklists.main-menu.links %}
-          <li><a href="{{ link.url }}" style="text-decoration: none; color: #661414;">{{ link.title }}</a></li>
-        {% endfor %}
-      </ul>
-
-      <ul class="mobile-nav" id="mobile-nav">
-        {% for link in linklists.main-menu.links %}
-          <li><a href="{{ link.url }}" style="text-decoration: none; color: #661414;">{{ link.title }}</a></li>
-        {% endfor %}
-      </ul>
-    </nav>
-
-    <!-- Icons -->
-    <div class="header-icons" style="display: flex; gap: 1.5rem;">
-      <button id="search-toggle" style="background: none; border: none;" aria-label="Search">
-        {% render 'icon-search' %}
-      </button>
-      <a href="/account" title="Account">{% render 'icon-user' %}</a>
-      <a href="/pages/wishlist" title="Wishlist">{% render 'icon-heart' %}</a>
-      <a href="/cart" title="Cart" style="position: relative;">
-        {% render 'icon-cart' %}
-        {% if cart.item_count > 0 %}
-          <span style="position: absolute; top: -0.3rem; right: -0.5rem; background: #c61a1a; color: #fff; font-size: 0.7rem; border-radius: 9999px; padding: 0.2rem 0.5rem;">{{ cart.item_count }}</span>
-        {% endif %}
-      </a>
-    </div>
+<div class="header-container">
+  <!-- Logo -->
+  <div class="header-logo">
+    <a href="{{ routes.root_url }}">
+      {% if section.settings.logo_svg != blank %}
+        <div class="logo-svg">{{ section.settings.logo_svg }}</div>
+      {% elsif section.settings.logo %}
+        <img
+          src="{{ section.settings.logo | image_url: width: 164 }}"
+          alt="{{ shop.name }}"
+          width="{{ section.settings.logo.width | default: 164 }}"
+          height="{{ section.settings.logo.height | default: 40 }}"
+        >
+      {% endif %}
+    </a>
   </div>
 
-  <!-- Search Bar -->
-  <div id="search-bar" class="search-bar">
-    <form action="/search" method="get" role="search">
-      <input type="search" name="q" placeholder="Search products">
-      <button type="submit">{% render 'icon-search' %}</button>
-    </form>
+  <!-- Navigation -->
+  <nav class="header-nav">
+    <ul class="header-nav-lists">
+      {% assign menu = linklists[section.settings.main_menu] %}
+      {% if menu and menu.links.size > 0 %}
+        {% for link in menu.links %}
+          <li class="header-nav-list">
+            <a class="header-nav-list--item" href="{{ link.url }}">{{ link.title }}</a>
+          </li>
+        {% endfor %}
+      {% else %}
+        <li class="header-nav-list"><a class="header-nav-list--item" href="{{ routes.root_url }}">Home</a></li>
+      {% endif %}
+    </ul>
+  </nav>
+
+  <!-- Icons -->
+  <div class="header-icons">
+    <a href="#" id="search-toggle" aria-label="Search">
+      {% render 'icon-search' %}
+    </a>
+    <a href="{{ routes.root_url }}account" title="Account">{% render 'icon-user' %}</a>
+    <a href="{{ routes.root_url }}pages/wishlist" title="Wishlist">{% render 'icon-heart' %}</a>
+    <a href="{{ routes.root_url }}cart" title="Cart" class="cart-link">
+      {% render 'icon-cart' %}
+      {% if cart.item_count > 0 %}
+        <span class="cart-count">{{ cart.item_count }}</span>
+      {% endif %}
+    </a>
+
+  <button id="menu-toggle" class="mobile-toggle" aria-label="Toggle menu">
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M0.222229 17.1111C0.222229 16.8754 0.31588 16.6493 0.482579 16.4826C0.649278 16.3159 0.87537 16.2222 1.11112 16.2222H18.8889C19.1246 16.2222 19.3507 16.3159 19.5174 16.4826C19.6841 16.6493 19.7778 16.8754 19.7778 17.1111C19.7778 17.3469 19.6841 17.573 19.5174 17.7397C19.3507 17.9064 19.1246 18 18.8889 18H1.11112C0.87537 18 0.649278 17.9064 0.482579 17.7397C0.31588 17.573 0.222229 17.3469 0.222229 17.1111ZM0.222229 10C0.222229 9.76425 0.31588 9.53816 0.482579 9.37146C0.649278 9.20476 0.87537 9.11111 1.11112 9.11111H18.8889C19.1246 9.11111 19.3507 9.20476 19.5174 9.37146C19.6841 9.53816 19.7778 9.76425 19.7778 10C19.7778 10.2357 19.6841 10.4618 19.5174 10.6285C19.3507 10.7952 19.1246 10.8889 18.8889 10.8889H1.11112C0.87537 10.8889 0.649278 10.7952 0.482579 10.6285C0.31588 10.4618 0.222229 10.2357 0.222229 10ZM0.222229 2.88889C0.222229 2.65314 0.31588 2.42705 0.482579 2.26035C0.649278 2.09365 0.87537 2 1.11112 2H18.8889C19.1246 2 19.3507 2.09365 19.5174 2.26035C19.6841 2.42705 19.7778 2.65314 19.7778 2.88889C19.7778 3.12464 19.6841 3.35073 19.5174 3.51743C19.3507 3.68413 19.1246 3.77778 18.8889 3.77778H1.11112C0.87537 3.77778 0.649278 3.68413 0.482579 3.51743C0.31588 3.35073 0.222229 3.12464 0.222229 2.88889Z" fill="#660808"/>
+</svg>
+
+  </button>
   </div>
-</header>
+
+</div>
+
+<!-- Search Bar -->
+<div id="search-bar" class="search-bar" style="display:none;">
+  <form action="{{ routes.root_url }}search" method="get" role="search">
+    <input type="search" name="q" placeholder="Search products">
+    <button type="submit">{% render 'icon-search' %}</button>
+  </form>
+</div>
 
 <script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const menuToggle = document.getElementById("menu-toggle");
-    const mobileNav = document.getElementById("mobile-nav");
-    const searchToggle = document.getElementById("search-toggle");
-    const searchBar = document.getElementById("search-bar");
+  document.addEventListener('DOMContentLoaded', function () {
+    const menuToggle = document.getElementById('menu-toggle');
+    const mobileNav = document.getElementById('mobile-nav');
+    const searchToggle = document.getElementById('search-toggle');
+    const searchBar = document.getElementById('search-bar');
 
-    menuToggle.addEventListener("click", function () {
-      mobileNav.classList.toggle("show");
+    menuToggle.addEventListener('click', function () {
+      mobileNav.classList.toggle('show');
     });
 
-    searchToggle.addEventListener("click", function () {
-      searchBar.style.display = searchBar.style.display === "block" ? "none" : "block";
+    searchToggle.addEventListener('click', function () {
+      searchBar.style.display = searchBar.style.display === 'block' ? 'none' : 'block';
     });
   });
 </script>

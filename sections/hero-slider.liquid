@@ -39,48 +39,38 @@
 }
 {% endschema %}
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css"
+>
 
 <div class="owl-carousel owl-theme hero-slider-wrapper">
   {% for block in section.blocks %}
     {% if block.type == 'slide' %}
-      <div class="hero-slide item" style="position: relative;">
-        <picture>
-          {% if block.settings.image_mobile %}
-            <source media="(max-width: 767px)" srcset="{{ block.settings.image_mobile | image_url: width: 768 }}">
-          {% endif %}
-          {% if block.settings.image_tablet %}
-            <source media="(max-width: 1024px)" srcset="{{ block.settings.image_tablet | image_url: width: 1024 }}">
-          {% endif %}
-          {% if block.settings.image_desktop %}
-            <img
-              src="{{ block.settings.image_desktop | image_url: width: 1600 }}"
-              alt="{{ block.settings.heading | escape }}"
-              width="{{ block.settings.image_desktop.width }}"
-              height="{{ block.settings.image_desktop.height }}"
-              loading="eager"
-              fetchpriority="high"
-              style="width: 100%; height: auto; display: block;">
-          {% endif %}
-        </picture>
-
-        {% if block.settings.heading or block.settings.button_link %}
-          <div class="hero-caption" style="position: absolute; bottom: 10%; left: 10%; color: white;">
-            {% if block.settings.heading %}
-              <h2>{{ block.settings.heading }}</h2>
+      {% if block.settings.button_link %}
+        <div class="hero-slide item" style="position: relative;">
+          <picture>
+            {% if block.settings.image_mobile %}
+              <source media="(max-width: 767px)" srcset="{{ block.settings.image_mobile | image_url: width: 768 }}">
             {% endif %}
-            {% if block.settings.subheading %}
-              <p>{{ block.settings.subheading }}</p>
+            {% if block.settings.image_tablet %}
+              <source media="(max-width: 1024px)" srcset="{{ block.settings.image_tablet | image_url: width: 1024 }}">
             {% endif %}
-            {% if block.settings.button_label and block.settings.button_link %}
-              <a href="{{ block.settings.button_link }}" class="btn" style="margin-top: 1rem;">
-                {{ block.settings.button_label }}
-              </a>
+            {% if block.settings.image_desktop %}
+              <img
+                src="{{ block.settings.image_desktop | image_url: width: 1600 }}"
+                alt="{{ block.settings.heading | escape }}"
+                width="{{ block.settings.image_desktop.width }}"
+                height="{{ block.settings.image_desktop.height }}"
+                loading="eager"
+                fetchpriority="high"
+                style="width: 100%; height: auto; display: block;"
+              >
             {% endif %}
-          </div>
-        {% endif %}
+          </picture>
       </div>
+        {% endif %}
     {% endif %}
   {% endfor %}
 </div>

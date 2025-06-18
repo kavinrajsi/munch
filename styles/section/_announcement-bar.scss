@@ -1,16 +1,23 @@
-.announcement-scroll {
-  display: inline-block;
-  white-space: nowrap;
-  animation: scroll-left 30s linear infinite;
-  // background-color is getting from the parent
-  .announcement-text {
-    font-family: "Instrument Sans";
-    font-style: normal;
-    font-weight: 400;
-    font-size: 12px;
-    line-height: 15px;
-    /* Neutral/White1 */
-    color: #ffffff;
+.announcement-bar {
+  // background-color is from setting page
+  // text color is from setting page
+  display: block;
+  position: relative;
+  overflow: hidden;
+  padding: 8px 48px;
+  .announcement-scroll {
+    white-space: nowrap;
+    animation: scroll-left 30s linear infinite;
+    .announcement-text {
+      display: inline-block;
+      font-family: "Instrument Sans";
+      font-style: normal;
+      font-weight: 400;
+      font-size: 12px;
+      line-height: 15px;
+      padding-left: 16px;
+      padding-right: 16px;
+    }
   }
 }
 

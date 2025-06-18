@@ -24,36 +24,46 @@
 }
 {% endschema %}
 
-<div class="slider-section" style="padding: 2rem;">
+<style>
+
+</style>
+
+<div class="product-slider-section">
   {% if section.settings.heading %}
-    <h2 style="color: #a00; font-size: 1.8rem; margin-bottom: 1rem;">{{ section.settings.heading }}</h2>
+    <h2 class="product-slider-heading">{{ section.settings.heading }}</h2>
   {% endif %}
 
   {% assign products = section.settings.collection.products | sort: 'created_at' | reverse | slice: 0, 8 %}
 
-  <div class="product-slider-wrapper" style="overflow: hidden; position: relative;">
-    <div id="slider-track" class="slider-track" style="display: flex; gap: 1rem; transition: transform 0.3s ease;">
+  <div class="product-slider-wrapper">
+    <div id="slider-track" class="slider-track">
       {% for product in products %}
-        <div class="slider-card" style="flex: 0 0 250px; background: #f8f8f8; border-radius: 12px; overflow: hidden;">
-          <a href="{{ product.url }}" style="display: block;">
-            <img src="{{ product.featured_image | img_url: '400x' }}" alt="{{ product.title }}" style="width: 100%; display: block;">
+        <div class="slider-card">
+          <a href="{{ product.url }}">
+            <img
+              src="{{ product.featured_image | image_url: width: 400 }}"
+              alt="{{ product.title }}"
+              width="400"
+              height="400"
+              loading="lazy"
+              decoding="async"
+            >
           </a>
-          <div style="padding: 1rem; background: #c61a1a; color: #fff; text-align: center;">
+          <div class="slider-info">
             <strong>{{ product.title }}</strong>
             {% if product.price %}
-              <div style="margin-top: 0.25rem;">{{ product.price | money }}</div>
+              <div>{{ product.price | money }}</div>
             {% endif %}
             {% if product.variants.size > 1 %}
-              <a href="{{ product.url }}" style="display: inline-block; margin-top: 1rem; background: #fff; color: #000; padding: 0.5rem 1rem; border-radius: 6px;">Select Option</a>
+              <a href="{{ product.url }}" class="select-option-link">Select Option</a>
             {% endif %}
           </div>
         </div>
       {% endfor %}
     </div>
 
-    <!-- Arrows -->
-    <button onclick="moveSlider(-1)" style="position: absolute; left: 0; top: 45%; background: #fff; border: none; border-radius: 50%; padding: 0.5rem;">←</button>
-    <button onclick="moveSlider(1)" style="position: absolute; right: 0; top: 45%; background: #fff; border: none; border-radius: 50%; padding: 0.5rem;">→</button>
+    <button class="slider-arrow left" onclick="moveSlider(-1)" aria-label="Previous">&#8592;</button>
+    <button class="slider-arrow right" onclick="moveSlider(1)" aria-label="Next">&#8594;</button>
   </div>
 </div>
 
@@ -61,6 +71,7 @@
   let position = 0;
   const visibleCards = 4;
   const cardWidth = 260;
+
   function moveSlider(direction) {
     const track = document.getElementById('slider-track');
     const maxScroll = (track.children.length - visibleCards) * cardWidth;
