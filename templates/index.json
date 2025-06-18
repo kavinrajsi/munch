@@ -35,11 +35,24 @@
             "button_label": "",
             "button_link": "shopify://products/signature-bundle-of-4"
           }
+        },
+        "slide_HAb3Bj": {
+          "type": "slide",
+          "settings": {
+            "image_desktop": "shopify://shop_images/slider-desktop-1.jpg",
+            "image_tablet": "shopify://shop_images/slider-desktop-1.jpg",
+            "image_mobile": "shopify://shop_images/slider-mobile-1.jpg",
+            "heading": "",
+            "subheading": "",
+            "button_label": "",
+            "button_link": "shopify://products/thoothukudi-macaroon"
+          }
         }
       },
       "block_order": [
         "slide_zcwXRV",
-        "slide_r7LtTT"
+        "slide_r7LtTT",
+        "slide_HAb3Bj"
       ],
       "name": "Hero Slider",
       "settings": {}
