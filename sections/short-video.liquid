@@ -17,12 +17,6 @@
       "name": "Video Card",
       "settings": [
         {
-          "type": "video_url",
-          "id": "product_description_video",
-          "label": "YouTube or Vimeo video",
-          "accept": ["youtube", "vimeo"]
-        },
-        {
           "type": "url",
           "id": "video_url",
           "label": "Shopify video file",
@@ -57,20 +51,18 @@
 }
 {% endschema %}
 
-<div class="short-video-wrapper" style="max-width: 1440px; margin: auto; padding: 2rem;">
-  <h2 style="color: #7c0f13;">{{ section.settings.heading }}</h2>
-  <div class="short-video-grid" style="display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 1rem;">
+<div class="short-video-wrapper">
+  <h2 class="short-video-heading">{{ section.settings.heading }}</h2>
+  <div class="short-video-grid">
     {% for block in section.blocks %}
-      <div class="video-card" style="flex: 1 1 250px; max-width: 300px; border-radius: 12px; overflow: hidden;">
+      <div class="video-card">
 
-        {% comment %} Shopify file-hosted MP4 (takes priority) {% endcomment %}
         {% if block.settings.video_url %}
           <video
             src="{{ block.settings.video_url }}"
             {% if block.settings.poster %}
-              poster="{{ block.settings.poster | image_url: width: 600 }}"
-              width="{{ block.settings.poster.width }}"
-              height="{{ block.settings.poster.height }}"
+              poster="{{ block.settings.poster | image_url: width: 265 }}"
+
             {% endif %}
             {% if block.settings.loop %} loop {% endif %}
             {% if block.settings.preload %} preload="auto" {% else %} preload="metadata" {% endif %}
@@ -78,30 +70,8 @@
             autoplay
             playsinline
             fetchpriority="high"
-            style="width: 100%; height: auto; display: block; border-radius: 12px;"
+            class="video-element"
           ></video>
-
-        {% elsif block.settings.product_description_video %}
-          {% assign embed_url = block.settings.product_description_video | strip %}
-          {% if embed_url contains "watch?v=" %}
-            {% assign embed_url = embed_url | replace: "watch?v=", "embed/" %}
-          {% elsif embed_url contains "youtu.be/" %}
-            {% assign video_id = embed_url | split: "/" | last %}
-            {% assign embed_url = "https://www.youtube.com/embed/" | append: video_id %}
-          {% else %}
-            {% assign embed_url = embed_url %}
-          {% endif %}
-
-          <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 12px;">
-            <iframe
-              src="{{ embed_url }}"
-              frameborder="0"
-              allow="autoplay; encrypted-media"
-              allowfullscreen
-              title="Embedded video"
-              style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;"
-            ></iframe>
-          </div>
 
         {% elsif block.settings.poster %}
           <img
@@ -109,7 +79,8 @@
             alt="{{ section.settings.heading | default: 'Video preview' }}"
             width="{{ block.settings.poster.width }}"
             height="{{ block.settings.poster.height }}"
-            style="width: 100%; display: block; border-radius: 12px;">
+            class="video-poster"
+          >
         {% endif %}
 
       </div>

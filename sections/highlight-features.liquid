@@ -54,7 +54,7 @@
           "settings": {
             "title": "Freshness Guaranteed",
             "text": "Every sweet and snack is freshly made for unbeatable taste.",
-            "icon_image": "shopify:\/\/shop_images\/your-icon.png"
+            "icon_image": "shopify://shop_images/your-icon.png"
           }
         },
         {
@@ -70,19 +70,27 @@
 }
 {% endschema %}
 
-<div class="highlight-features-section" style="max-width: 1440px; margin: auto; padding: 2rem;">
-  <div style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 2rem;">
+<div class="highlight-features-section">
+  <div class="highlight-features-wrapper">
     {% for block in section.blocks %}
-      <div class="feature-item" style="flex: 1; min-width: 250px; text-align: center;">
+      <div class="feature-item">
         {% if block.settings.icon_svg != blank %}
-          <div class="feature-icon" style="margin-bottom: 1rem;">
-            {{ block.settings.icon_svg | raw }}
+          <div class="feature-icon">
+            {{ block.settings.icon_svg }}
           </div>
         {% elsif block.settings.icon_image != blank %}
-          <img src="{{ block.settings.icon_image | img_url: '64x64' }}" alt="{{ block.settings.title }}" style="margin-bottom: 1rem; max-width: 64px;">
+          <img
+            src="{{ block.settings.icon_image | image_url: width: 64, height: 64 }}"
+            alt="{{ block.settings.title }}"
+            width="64"
+            height="64"
+            class="feature-icon-image"
+          >
         {% endif %}
-        <h3 style="color: #8b0000;">{{ block.settings.title }}</h3>
-        <p style="color: #333;">{{ block.settings.text }}</p>
+        <div class="feature-content">
+          <h3 class="feature-title">{{ block.settings.title }}</h3>
+          <p class="feature-text">{{ block.settings.text }}</p>
+        </div>
       </div>
     {% endfor %}
   </div>

@@ -30,19 +30,26 @@
 }
 {% endschema %}
 
-<div class="about-highlight-wrapper" style="max-width: 1400px; margin: auto; padding: 2rem;">
-  <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 2rem;">
-    <div style="flex: 1; min-width: 300px;">
-      <div class="richtext-heading" style="font-size: 1.5rem; font-weight: bold; color: #7c0f13;">
+<div class="about-highlight-wrapper">
+  <div class="about-highlight-content">
+    <div class="about-highlight-text">
+      <div class="richtext-heading">
         {{ section.settings.heading }}
       </div>
-      <div class="richtext-description" style="margin-top: 1rem;">
+      <div class="richtext-description">
         {{ section.settings.description }}
       </div>
     </div>
-    <div style="flex: 1; min-width: 300px;">
+    <div class="about-highlight-image">
       {% if section.settings.image %}
-        <img src="{{ section.settings.image | img_url: '800x' }}" alt="About Image" style="width: 100%; border-radius: 12px;">
+        <img
+          src="{{ section.settings.image | image_url: width: 800 }}"
+          alt="About Image"
+          width="800"
+          height="{{ section.settings.image.height }}"
+          loading="lazy"
+          decoding="async"
+        >
       {% endif %}
     </div>
   </div>

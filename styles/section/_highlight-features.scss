@@ -1,0 +1,46 @@
+.highlight-features-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding-top: 56px;
+  padding-bottom: 56px;
+  max-width: 1120px;
+  width: 100%;
+  margin: 0 auto;
+  padding-left: 16px;
+  padding-right: 16px;
+  .feature-item {
+    display: flex;
+    .feature-icon {
+      width: 60px;
+      height: 60px;
+    }
+    .feature-content {
+      max-width: 268px;
+      padding-left: 24px;
+
+      .feature-title {
+        font-family: "Minion Pro Cond Capt";
+        font-style: normal;
+        font-weight: 700;
+        font-size: 20px;
+        line-height: 20px;
+        /* identical to box height, or 100% */
+
+        /* Primary/Red2 */
+        color: #a5161a;
+        padding-bottom: 8px;
+      }
+      .feature-text {
+        font-family: "Instrument Sans";
+        font-style: normal;
+        font-weight: 400;
+        font-size: 12px;
+        line-height: 15px;
+
+        /* Primary/Red3 */
+        color: #660808;
+      }
+    }
+  }
+}

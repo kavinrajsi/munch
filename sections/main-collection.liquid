@@ -3,7 +3,13 @@
   "name": "Main Collection",
   "tag": "section",
   "class": "main-collection",
-  "settings": [],
+  "settings": [
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Select collection"
+    }
+  ],
   "presets": [
     {
       "name": "Collection product grid"
@@ -12,43 +18,190 @@
 }
 {% endschema %}
 
-<div class="collection-page" style="max-width: 1200px; margin: 0 auto; padding: 2rem;">
-  <h1>{{ collection.title }}</h1>
+{% assign current_collection = section.settings.collection %}
+{% if current_collection == blank %}
+  {% assign current_collection = collection %}
+{% endif %}
 
-  {% if collection.description != blank %}
-    <div class="collection-description" style="margin-bottom: 1.5rem;">
-      {{ collection.description }}
-    </div>
-  {% endif %}
+{% if current_collection %}
+  <div class="collection-page">
+    {% if current_collection.title %}
+      <h1 class="collection-title">{{ current_collection.title }}</h1>
+    {% endif %}
 
-  <!-- Sort Dropdown -->
-  <form method="get" style="margin-bottom: 2rem;">
-    <label for="SortBy">Sort by:</label>
-    <select name="sort_by" id="SortBy" onchange="this.form.submit()">
-      <option value="best-selling" {% if collection.sort_by == "best-selling" %}selected{% endif %}>Best Selling</option>
-      <option value="title-ascending" {% if collection.sort_by == "title-ascending" %}selected{% endif %}>Alphabetically, A-Z</option>
-      <option value="title-descending" {% if collection.sort_by == "title-descending" %}selected{% endif %}>Alphabetically, Z-A</option>
-      <option value="price-ascending" {% if collection.sort_by == "price-ascending" %}selected{% endif %}>Price, Low to High</option>
-      <option value="price-descending" {% if collection.sort_by == "price-descending" %}selected{% endif %}>Price, High to Low</option>
-      <option value="created-descending" {% if collection.sort_by == "created-descending" %}selected{% endif %}>Date, New to Old</option>
-      <option value="created-ascending" {% if collection.sort_by == "created-ascending" %}selected{% endif %}>Date, Old to New</option>
-    </select>
-  </form>
+    {% if current_collection.image %}
+      <div class="collection-image-wrapper">
+        <img
+          src="{{ current_collection.image | image_url: width: 1200 }}"
+          alt="{{ current_collection.title }}"
+          width="1200"
+          height="{{ current_collection.image.height }}"
+          loading="lazy"
+          decoding="async"
+          class="collection-image"
+        >
+      </div>
+    {% endif %}
 
-  <!-- Products Grid -->
-  {% if collection.products.size > 0 %}
-    <div class="grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 2rem;">
-      {% for product in collection.products %}
-        <div class="product-card" style="text-align: center;">
-          <a href="{{ product.url }}">
-            <img src="{{ product.featured_image | img_url: '400x' }}" alt="{{ product.title }}" style="width: 100%; height: auto;" />
-            <h3>{{ product.title }}</h3>
-            <p>{{ product.price | money }}</p>
-          </a>
-        </div>
-      {% endfor %}
-    </div>
-  {% else %}
-    <p>No products found in this collection.</p>
-  {% endif %}
-</div>
+    {% if current_collection.description != blank %}
+      <div class="collection-description">
+        {{ current_collection.description }}
+      </div>
+    {% endif %}
+
+    <form method="get" class="collection-sort-form">
+      <label for="SortBy">Sort by:</label>
+      <select name="sort_by" id="SortBy" onchange="this.form.submit()">
+        <option value="best-selling" {% if current_collection.sort_by == "best-selling" %}selected{% endif %}>Best Selling</option>
+        <option value="title-ascending" {% if current_collection.sort_by == "title-ascending" %}selected{% endif %}>Alphabetically, A-Z</option>
+        <option value="title-descending" {% if current_collection.sort_by == "title-descending" %}selected{% endif %}>Alphabetically, Z-A</option>
+        <option value="price-ascending" {% if current_collection.sort_by == "price-ascending" %}selected{% endif %}>Price, Low to High</option>
+        <option value="price-descending" {% if current_collection.sort_by == "price-descending" %}selected{% endif %}>Price, High to Low</option>
+        <option value="created-descending" {% if current_collection.sort_by == "created-descending" %}selected{% endif %}>Date, New to Old</option>
+        <option value="created-ascending" {% if current_collection.sort_by == "created-ascending" %}selected{% endif %}>Date, Old to New</option>
+      </select>
+
+      <label for="Limit">Show:</label>
+      <select name="limit" id="Limit" onchange="this.form.submit()">
+        {% assign limits = '8,12,24,48' | split: ',' %}
+        {% assign current_limit = request.params.limit | default: '8' %}
+        {% for l in limits %}
+          <option value="{{ l }}" {% if l == current_limit %}selected{% endif %}>{{ l }}</option>
+        {% endfor %}
+      </select>
+
+      <label for="Columns">Grid:</label>
+      <select name="columns" id="Columns" onchange="this.form.submit()">
+        {% assign cols = '1,2,3,4' | split: ',' %}
+        {% assign current_cols = request.params.columns | default: '4' %}
+        {% for col in cols %}
+          <option value="{{ col }}" {% if col == current_cols %}selected{% endif %}>{{ col }}</option>
+        {% endfor %}
+      </select>
+    </form>
+
+    {% assign limit = request.params.limit | default: 8 | plus: 0 %}
+    {% assign columns = request.params.columns | default: 4 | plus: 0 %}
+    {% assign products = current_collection.products | sort: 'created_at' | reverse | slice: 0, limit %}
+
+    {% if products.size > 0 %}
+      <div class="collection-products-grid" style="grid-template-columns: repeat({{ columns }}, 1fr); display: grid; gap: 2rem;">
+        {% for product in products %}
+          <div class="product-slider-card">
+            <a href="{{ product.url }}">
+              <img
+                src="{{ product.featured_image | image_url: width: 265, height: 320 }}"
+                alt="{{ product.title }}"
+                width="265"
+                height="320"
+                loading="lazy"
+                decoding="async"
+                class="product-image"
+              >
+            </a>
+            <div class="product-info">
+              <strong class="product-title">{{ product.title }}</strong>
+              {% if product.variants.size > 1 %}
+                <div class="product-price">{{ product.price_min | money }}<sup>+</sup></div>
+              {% else %}
+                <div class="product-price">{{ product.price | money }}</div>
+              {% endif %}
+              {% if product.variants.size > 1 %}
+                <button
+                  class="product-select-option-button select-option-button"
+                  data-product-handle="{{ product.handle }}"
+                  type="button"
+                >
+                  Select Option
+                </button>
+              {% endif %}
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <p>No products found in this collection.</p>
+    {% endif %}
+  </div>
+{% else %}
+  <p>No collection selected or collection not found.</p>
+{% endif %}
+
+<style>
+  .collection-page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+  .collection-title {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+  }
+  .collection-image-wrapper {
+    margin-bottom: 1.5rem;
+  }
+  .collection-image {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 12px;
+  }
+  .collection-description {
+    margin-bottom: 1.5rem;
+    font-size: 1rem;
+    color: #444;
+  }
+  .collection-sort-form {
+    margin-bottom: 2rem;
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .collection-sort-form label {
+    white-space: nowrap;
+  }
+  .collection-products-grid {
+    display: grid;
+    gap: 2rem;
+  }
+  .product-slider-card {
+    background: #f8f8f8;
+    border-radius: 12px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .product-image {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-bottom: 1px solid #ddd;
+  }
+  .product-info {
+    padding: 1rem;
+    background-color: #c61a1a;
+    color: #fff;
+    text-align: center;
+    flex-grow: 1;
+    border-radius: 0 0 12px 12px;
+  }
+  .product-title {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+  }
+  .product-price {
+    margin-bottom: 0.5rem;
+  }
+  .product-select-option-button {
+    display: inline-block;
+    background: #fff;
+    color: #000;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    border: none;
+  }
+</style>

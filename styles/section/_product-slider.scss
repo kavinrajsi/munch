@@ -17,98 +17,100 @@
     padding-bottom: 24px;
   }
 
-
-.product__slider--card {
-  position: relative;
-  overflow: hidden;
-  border-radius: 10px;
-  margin: 0px 30px 0px 0px;
-  display: inline-flex;
-  flex-direction: column;
-  gap: 0;
-  a {
-    // display: inline-block;
-    img {
-      vertical-align: baseline;
-      position: relative;
-      top: 0;
-      transition: top 0.3s ease-in-out;
-    }
-  }
-  .product__info {
-    width: 100%;
-    transition: bottom 0.3s ease-in-out;
-    background-color: #c61d23;
-    padding-top: 24px;
-    padding-left: 16px;
-    padding-right: 16px;
-    padding-bottom: 16px;
-    border-radius: 10px;
-    margin-top: -14px;
+  .product__slider--card {
     position: relative;
-    z-index: 2;
+    overflow: hidden;
+    border-radius: 10px;
+    margin: 0px 30px 0px 0px;
     @media (min-width: 768px) {
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: -60px;
+      &:last-child {
+        margin-right: 0px;
+      }
     }
-  }
-  .product__title {
-    display: block;
-    /* Heading4 */
-    font-family: "Minion Pro Cond Capt";
-    font-style: normal;
-    font-weight: 700;
-    font-size: 20px;
-    line-height: 20px;
-    /* identical to box height, or 100% */
-    text-align: center;
-    /* Neutral/White1 */
-    color: #ffffff;
-  }
-  .product__select-option-button {
-    display: block;
-    margin: 24px auto 0;
-    width: 100%;
-    padding: 12px 24px;
-    /* Neutral/White1 */
-    background: #ffffff;
-    border-radius: 4px;
-    /* Select Option */
-    font-family: "Instrument Sans";
-    font-style: normal;
-    font-weight: 500;
-    font-size: 12px;
-    line-height: 15px;
-    /* identical to box height */
-    text-align: center;
-    color: #000000;
-  }
-  @media (min-width: 768px) {
-    &:hover {
-      a {
-        img {
-          position: relative;
-          top: -60px;
-          transition: top 0.3s ease-in-out;
+    display: inline-flex;
+    flex-direction: column;
+    gap: 0;
+    a {
+      // display: inline-block;
+      img {
+        vertical-align: baseline;
+        position: relative;
+        top: 0;
+        transition: top 0.3s ease-in-out;
+      }
+    }
+    .product__info {
+      width: 100%;
+      transition: bottom 0.3s ease-in-out;
+      background-color: #c61d23;
+      padding-top: 24px;
+      padding-left: 16px;
+      padding-right: 16px;
+      padding-bottom: 16px;
+      border-radius: 10px;
+      margin-top: -14px;
+      position: relative;
+      z-index: 2;
+      @media (min-width: 768px) {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: -60px;
+      }
+    }
+    .product__title {
+      display: block;
+      /* Heading4 */
+      font-family: "Minion Pro Cond Capt";
+      font-style: normal;
+      font-weight: 700;
+      font-size: 20px;
+      line-height: 20px;
+      /* identical to box height, or 100% */
+      text-align: center;
+      /* Neutral/White1 */
+      color: #ffffff;
+    }
+    .product__select-option-button {
+      display: block;
+      margin: 24px auto 0;
+      width: 100%;
+      padding: 12px 24px;
+      /* Neutral/White1 */
+      background: #ffffff;
+      border-radius: 4px;
+      /* Select Option */
+      font-family: "Instrument Sans";
+      font-style: normal;
+      font-weight: 500;
+      font-size: 12px;
+      line-height: 15px;
+      /* identical to box height */
+      text-align: center;
+      color: #000000;
+    }
+    @media (min-width: 768px) {
+      &:hover {
+        a {
+          img {
+            position: relative;
+            top: -60px;
+            transition: top 0.3s ease-in-out;
+          }
+        }
+        .product__info {
+          bottom: 0;
+          transition: bottom 0.3s ease-in-out;
         }
       }
-      .product__info {
-        bottom: 0;
-        transition: bottom 0.3s ease-in-out;
-      }
     }
   }
-}
 
+  .slick-list {
+    padding: 0 20% 0 0;
 
-.slick-list {
-  padding: 0 20% 0 0 !important;
-
-  @media (min-width: 768px) {
-    padding: 0;
+    @media (min-width: 768px) {
+      padding: 0;
+    }
   }
-}
-
 }
