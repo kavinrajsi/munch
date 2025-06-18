@@ -56,10 +56,11 @@
     {% section 'announcement-bar' %}
     <section class="fullpage" role="main">
       {% section 'header' %}
-      <main class="content-for-layout"></main>
+      <main class="content-for-layout">
+    {{ content_for_layout }}
+      </main>
     </section>
     {% section 'drawer' %}
-    {{ content_for_layout }}
     {% assign potential_action_target = request.origin
       | append: routes.search_url
       | append: '?q={search_term_string}'

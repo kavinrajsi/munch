@@ -1,7 +1,17 @@
 .announcement-scroll {
   display: inline-block;
   white-space: nowrap;
-  animation: scroll-left 15s linear infinite;
+  animation: scroll-left 30s linear infinite;
+  // background-color is getting from the parent
+  .announcement-text {
+    font-family: "Instrument Sans";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 15px;
+    /* Neutral/White1 */
+    color: #ffffff;
+  }
 }
 
 @keyframes scroll-left {

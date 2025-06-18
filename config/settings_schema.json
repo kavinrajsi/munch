@@ -4,7 +4,7 @@
     "theme_name": "Munch",
     "theme_version": "0.1.0",
     "theme_author": "Kavinraj",
-    "theme_documentation_url": "https:\/\/sikavinraj.me\/contact\/",
+    "theme_documentation_url": "https://sikavinraj.me/contact/",
     "theme_support_email": "sikavinraj@gmail.com"
   },
   {
@@ -22,57 +22,57 @@
     "settings": [
       {
         "type": "color",
-        "id": "background_color",
-        "label": "Background Color",
-        "default": "#fef1e1"
+        "id": "primary_color_1",
+        "label": "Primary Red 1",
+        "default": "#C61D23"
       },
       {
         "type": "color",
-        "id": "neutral_color_1",
-        "label": "Neutral Colors (white)",
-        "default": "#fff"
+        "id": "primary_color_2",
+        "label": "Primary Red 2",
+        "default": "#A5161A"
       },
       {
         "type": "color",
-        "id": "neutral_color_2",
-        "label": "Neutral Colors (black)",
-        "default": "#000"
-      },
-      {
-        "type": "color",
-        "id": "border_color",
-        "label": "Border Color",
-        "default": "#e8e8e1"
-      },
-      {
-        "type": "color",
-        "id": "body_font_color",
-        "label": "Body Font Color",
-        "default": "#222"
-      },
-      {
-        "type": "color",
-        "id": "primary_color",
-        "label": "Primary Color",
-        "default": "#1d5d31"
+        "id": "primary_color_3",
+        "label": "Primary Red 3",
+        "default": "#660808"
       },
       {
         "type": "color",
         "id": "secondary_color",
-        "label": "Secondary Color",
-        "default": "#f58220"
+        "label": "Secondary Peach",
+        "default": "#FDDECF"
       },
       {
         "type": "color",
-        "id": "tertiary_color",
-        "label": "Tertiary Color",
-        "default": "#fdd933"
+        "id": "black_color_1",
+        "label": "Black 1",
+        "default": "#0B090A"
       },
       {
         "type": "color",
-        "id": "fourth_color",
-        "label": "Fourth Color",
-        "default": "#90181b"
+        "id": "black_color_2",
+        "label": "Black 2",
+        "default": "#161A1D"
+      },
+      {
+        "type": "color",
+        "id": "white_color_1",
+        "label": "White 1",
+        "default": "#FFFFFF"
+      },
+      {
+        "type": "color",
+        "id": "white_color_2",
+        "label": "White 2",
+        "default": "#F5F3F4"
+      },
+      {
+        "type": "color",
+        "id": "white_color_3",
+        "label": "White 3",
+        "default": "#D3D3D3"
       }
     ]
   },
@@ -886,111 +886,6 @@
         "step": 2,
         "unit": "px",
         "default": 8
-      }
-    ]
-  },
-  {
-    "name": "Wash care for Silk",
-    "settings": [
-      {
-        "type": "image_picker",
-        "id": "silk_washcare_icon_1",
-        "label": "Wash Care Icon"
-      },
-      {
-        "type": "text",
-        "id": "silk_washcare_text_1",
-        "label": "Wash Care Text"
-      },
-      {
-        "type": "image_picker",
-        "id": "silk_washcare_icon_2",
-        "label": "Wash Care Icon"
-      },
-      {
-        "type": "text",
-        "id": "silk_washcare_text_2",
-        "label": "Wash Care Text"
-      },
-      {
-        "type": "image_picker",
-        "id": "silk_washcare_icon_3",
-        "label": "Wash Care Icon"
-      },
-      {
-        "type": "text",
-        "id": "silk_washcare_text_3",
-        "label": "Wash Care Text"
-      }
-    ]
-  },
-  {
-    "name": "Wash care for Cotton",
-    "settings": [
-      {
-        "type": "image_picker",
-        "id": "cotton_washcare_icon_1",
-        "label": "Wash Care Icon"
-      },
-      {
-        "type": "text",
-        "id": "cotton_washcare_text_1",
-        "label": "Wash Care Text"
-      },
-      {
-        "type": "image_picker",
-        "id": "cotton_washcare_icon_2",
-        "label": "Wash Care Icon"
-      },
-      {
-        "type": "text",
-        "id": "cotton_washcare_text_2",
-        "label": "Wash Care Text"
-      },
-      {
-        "type": "image_picker",
-        "id": "cotton_washcare_icon_3",
-        "label": "Wash Care Icon"
-      },
-      {
-        "type": "text",
-        "id": "cotton_washcare_text_3",
-        "label": "Wash Care Text"
-      }
-    ]
-  },
-  {
-    "name": "Wash care for Silver",
-    "settings": [
-      {
-        "type": "image_picker",
-        "id": "silver_washcare_icon_1",
-        "label": "Wash Care Icon"
-      },
-      {
-        "type": "text",
-        "id": "silver_washcare_text_1",
-        "label": "Wash Care Text"
-      },
-      {
-        "type": "image_picker",
-        "id": "silver_washcare_icon_2",
-        "label": "Wash Care Icon"
-      },
-      {
-        "type": "text",
-        "id": "silver_washcare_text_2",
-        "label": "Wash Care Text"
-      },
-      {
-        "type": "image_picker",
-        "id": "silver_washcare_icon_3",
-        "label": "Wash Care Icon"
-      },
-      {
-        "type": "text",
-        "id": "silver_washcare_text_3",
-        "label": "Wash Care Text"
       }
     ]
   },

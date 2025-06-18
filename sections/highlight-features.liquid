@@ -10,9 +10,16 @@
       "name": "Feature",
       "settings": [
         {
+          "type": "textarea",
+          "id": "icon_svg",
+          "label": "Icon SVG code",
+          "info": "Paste the full raw SVG markup here (takes priority)"
+        },
+        {
           "type": "image_picker",
-          "id": "icon",
-          "label": "Icon"
+          "id": "icon_image",
+          "label": "Icon image (PNG, JPG, etc.)",
+          "info": "Used only if no SVG code is provided"
         },
         {
           "type": "text",
@@ -38,21 +45,23 @@
           "type": "feature",
           "settings": {
             "title": "True to Taste",
-            "text": "Our sweets are crafted from age-old recipes handed down through generations, capturing the true essence of Indian heritage in every bite."
+            "text": "Our sweets are crafted from age-old recipes handed down through generations.",
+            "icon_svg": "<svg xmlns='http://www.w3.org/2000/svg' fill='#8b0000' viewBox='0 0 24 24' width='48' height='48'><circle cx='12' cy='12' r='10'/></svg>"
           }
         },
         {
           "type": "feature",
           "settings": {
             "title": "Freshness Guaranteed",
-            "text": "At Nithya Amirtham, we ensure that every sweet and snack is freshly made, giving you a taste that’s unbeatable."
+            "text": "Every sweet and snack is freshly made for unbeatable taste.",
+            "icon_image": "shopify:\/\/shop_images\/your-icon.png"
           }
         },
         {
           "type": "feature",
           "settings": {
             "title": "Order Online",
-            "text": "Whether you’re in Chennai or anywhere in India, you can now order from our online store and enjoy our delicious sweets and snacks delivered to your home."
+            "text": "Order from anywhere and get delicious sweets delivered to your home."
           }
         }
       ]
@@ -65,8 +74,12 @@
   <div style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 2rem;">
     {% for block in section.blocks %}
       <div class="feature-item" style="flex: 1; min-width: 250px; text-align: center;">
-        {% if block.settings.icon %}
-          <img src="{{ block.settings.icon | img_url: '100x' }}" alt="" style="height: 60px; margin-bottom: 1rem;">
+        {% if block.settings.icon_svg != blank %}
+          <div class="feature-icon" style="margin-bottom: 1rem;">
+            {{ block.settings.icon_svg | raw }}
+          </div>
+        {% elsif block.settings.icon_image != blank %}
+          <img src="{{ block.settings.icon_image | img_url: '64x64' }}" alt="{{ block.settings.title }}" style="margin-bottom: 1rem; max-width: 64px;">
         {% endif %}
         <h3 style="color: #8b0000;">{{ block.settings.title }}</h3>
         <p style="color: #333;">{{ block.settings.text }}</p>
