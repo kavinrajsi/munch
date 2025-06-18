@@ -1,5 +1,51 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
-  "current": "default",
+  "current": {
+    "name": "Default",
+    "settings": {
+      "color_background": "#ffffff",
+      "color_text": "#000000",
+      "font_family": "sans-serif",
+      "show_announcement": true,
+      "announcement_text": "Welcome to our store!",
+      "announcement_color": "#f4f4f4",
+      "announcement_text_color": "#333333"
+    },
+    "order": [
+      "hero-1",
+      "feature-1"
+    ],
+    "sections": {
+      "announcement-bar": {
+        "type": "announcement-bar",
+        "settings": {
+          "show_announcement": true,
+          "announcement_text": "Welcome to our store!",
+          "announcement_color": "#c61d23",
+          "announcement_text_color": "#ffffff"
+        }
+      },
+      "header": {
+        "type": "header",
+        "settings": {
+          "logo_svg": ""
+        }
+      },
+      "drawer": {
+        "type": "drawer",
+        "settings": {}
+      }
+    },
+    "content_for_index": []
+  },
   "presets": {
     "default": {
       "name": "Default",
@@ -32,7 +78,10 @@
           }
         }
       },
-      "order": ["hero-1", "feature-1"]
+      "order": [
+        "hero-1",
+        "feature-1"
+      ]
     }
   }
 }
