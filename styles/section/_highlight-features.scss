@@ -2,6 +2,12 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
+  flex-direction: column;
+  gap: 40px;
+  @media (min-width: 768px) {
+    flex-direction: row;
+    gap: 20px;
+  }
   padding-top: 56px;
   padding-bottom: 56px;
   max-width: 1120px;

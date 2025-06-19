@@ -26,8 +26,19 @@
     justify-content: space-between;
     align-items: flex-start;
     gap: 20px;
+    overflow-x: scroll;
+
+    @media (min-width: 768px) {
+      overflow: hidden;
+    }
   }
-  .video-card video{
-    border-radius: 10px;
+  .video-card {
+    flex: 1 0 265px;
+    @media (min-width: 768px) {
+      flex: 0 0 auto;
+    }
+    video {
+      border-radius: 10px;
+    }
   }
 }
