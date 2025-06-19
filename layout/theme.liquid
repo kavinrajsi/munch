@@ -65,7 +65,7 @@
       {{ content_for_layout }}
     </main>
     {% section 'footer' %}
-    {% section 'cart-drawer' %}
+    {% section 'drawer' %}
     {% section 'quickview-modal' %}
     {% assign potential_action_target = request.origin
       | append: routes.search_url
@@ -102,12 +102,12 @@
         "url": {{ request.origin | append: page.url | json }}
       }
     </script>
-    <script src="{{ 'jquery.js' | asset_url }}"></script>
+    <script defer src="{{ 'jquery.js' | asset_url }}"></script>
     <script defer src="{{ 'shopify-money.js' | asset_url }}"></script>
     <script defer src="{{ 'predictive-search.js' | asset_url }}"></script>
     <script defer src="{{ 'quick-view-main.js' | asset_url }}"></script>
-    <script src="{{ 'drawer.js' | asset_url }}"></script>
-    <script src="{{ 'slick.min.js' | asset_url }}"></script>
-    <script src="{{ 'global.js' | asset_url }}"></script>
+    <script defer src="{{ 'drawer.js' | asset_url }}"></script>
+    <script defer src="{{ 'slick.min.js' | asset_url }}"></script>
+    <script defer src="{{ 'global.js' | asset_url }}"></script>
   </body>
 </html>

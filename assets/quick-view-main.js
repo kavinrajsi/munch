@@ -1,173 +1,139 @@
-var productInfoAnchors = document.querySelectorAll("#productInfoAnchor");
-var productModal;
+const modal = document.getElementById("productInfoModal");
+const closeBtn = modal.querySelector(".btn-close");
 
-if (document.getElementById("productInfoModal") != null) {
-  productModal = new bootstrap.Modal(
-    document.getElementById("productInfoModal"),
-    {}
-  );
-}
+document.getElementById("productInfoAnchor").addEventListener("click", function (e) {
+  e.preventDefault(); // prevent default anchor behavior
 
-if (productInfoAnchors.length > 0) {
-  productInfoAnchors.forEach((item) => {
-    item.addEventListener("click", (event) => {
-      var url = "/products/" + item.getAttribute("product-handle") + ".js";
-      var url2 = "/products/" + item.getAttribute("product-handle") + ".json";
-      // console.log(url2);
+  const productHandle = this.dataset.productHandle;
+  const productUrl = `/products/${productHandle}.js`;
 
-      fetch(url)
-        .then((resp) => resp.json())
-        .then(function (data) {
-          console.log(data);
-          // console.log(data.title);
-          // console.log(data.handle);
-          // console.log(data.type);
-          // console.log(data.tags);
-          // console.log(data.price);
-          // console.log(data.price_min);
-          // console.log(data.price_max);
-          // console.log(data.price_varies);
-          // console.log(data.compare_at_price);
-          // console.log(data.compare_at_price_min);
-          // console.log(data.compare_at_price_max);
-          // console.log(data.compare_at_price_varies);
-          // console.log(data.featured_image);
-          let ImagesMe = data.images;
+  fetch(productUrl)
+    .then((resp) => resp.json())
+    .then(function (data) {
+      console.log(data);
 
-          let dataContentType = `
-          <div class="col-12 col-md-6">
-          <div class="single-item" data-slick='{"slidesToShow": 4, "slidesToScroll": 4}'>`;
+      let ImagesMe = data.images;
+      let dataContentType = `
+        <div class="col-12 col-md-6" style="flex:1; min-width: 280px;">
+          <div class="single-item" style="display:flex; flex-direction: column; gap:10px;">`;
 
-          for (face of ImagesMe) {
-            dataContentType += `<div><img class="" width="240" height="240" src="${face}" alt="${data.title}"></div>`;
-          }
+      for (const face of ImagesMe) {
+        const imgSrc = face.startsWith("http") ? face : "https:" + face;
+        dataContentType += `<div><img width="240" height="240" src="${imgSrc}" alt="${data.title}" style="max-width: 100%; border-radius: 8px;"></div>`;
+      }
 
-          dataContentType += ` </div>
-          </div>
-          <div class="col-12 col-md-6">
-            <div class="modalDescription">
-              <p class="modalDescription-Title">${data.title}</p>
-              <p  class="product-price">`;
-          if (data.price_varies) {
-            dataContentType += `
-                <p>From
-                <span class="money" data-currency-inr="INR ${Shopify.formatMoney(
-                  data.price_min
-                )} >
-                ${Shopify.formatMoney(data.price_min)} </span> to
-                <span class="money" data-currency-inr="INR ${Shopify.formatMoney(
-                  data.price_max
-                )} >
-                ${Shopify.formatMoney(data.price_max)}
-                </span>
-                </p>`;
-          } else {
-            dataContentType += `
-                <p>else</p>
-                <span class="money" data-currency-inr="INR ${Shopify.formatMoney(
-                  data.price
-                )}">INR ${Shopify.formatMoney(data.price)}</span>
-                `;
-          }
-          dataContentType += `
-            </p>
-              <p class="modalDescription-Price">${data.variants.length}</p>
-            </div>
-          </div>
-          `;
+      dataContentType += `</div></div><div class="col-12 col-md-6" style="flex:1; min-width: 280px;">
+        <div class="modalDescription" style="font-family: Arial, sans-serif; line-height: 1.4;">
+          <p class="modalDescription-Title" style="font-weight: bold; font-size: 1.5em; margin-bottom: 8px;">${data.title}</p>
+          <p class="modalDescription-Vendor" style="margin-bottom: 12px;"><strong>Vendor:</strong> ${data.vendor}</p>
+          <div class="modalDescription-Description" style="margin-bottom: 12px;">${data.description}</div>`;
 
-          document.getElementById("productInfoModalContent").innerHTML =
-            dataContentType;
+      // Variants list
+      dataContentType += `<form id="variantForm" style="margin-bottom: 15px;"><p><strong>Variants:</strong></p>`;
 
-          // document.getElementById("productInfoPrice").innerHTML = item.getAttribute("product-price");
-          // // document.getElementById("productInfoDescription").innerHTML =
-          // //   data.description;
-
-          // var variants = data.variants;
-          // var variantSelect = document.getElementById("modalItemID");
-
-          // variantSelect.innerHTML = "";
-
-          // variants.forEach(function (variant, index) {
-          //   console.log(variant);
-
-          //   variantSelect.options[variantSelect.options.length] = new Option(
-          //     variant.option1,
-          //     variant.id
-          //   );
-          // });
-
-          productModal.show();
-        });
-    });
-  });
-}
-
-var modalAddToCartForm = document.querySelector("#addToCartForm");
-
-var err = "";
-if (modalAddToCartForm != null) {
-  modalAddToCartForm.addEventListener("submit", function (e) {
-    e.preventDefault();
-    let formData = {
-      items: [
-        {
-          id: document.getElementById("modalItemID").value,
-          quantity: document.getElementById("modalItemQuantity").value,
-        },
-      ],
-    };
-
-    fetch("/cart/add.js", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
-    })
-      .then((resp) => {
-        return resp.json();
-      })
-      .then((data) => {
-        update_cart();
-        jQuery.getJSON("/cart.js", function (cart) {
-          console.log(
-            "There are now " + cart.item_count + " items in the cart."
-          );
-        });
-        var cartItemCounter = document.querySelector(".cart-count");
-        jQuery
-          .ajax({
-            url: "/cart.js",
-            dataType: "json",
-          })
-          .done(function (data) {
-            var newCount = data.item_count;
-            if (newCount > 0) {
-              $(".cart-count").removeAttr("hidden");
-            }
-            cartItemCounter.innerText = newCount;
-          });
-      })
-      .catch((err) => {
-        console.error("Error: " + err);
-        console.log(err);
+      data.variants.forEach((variant, index) => {
+        const variantPrice = Shopify.formatMoney(variant.price);
+        const checked = index === 0 ? "checked" : "";
+        dataContentType += `
+          <label style="display:block; margin-bottom: 6px; cursor: pointer;">
+            <input type="radio" name="variant" value="${variant.id}" data-price="${variant.price}" ${checked} style="margin-right: 8px;">
+            ${variant.title} - INR ${variantPrice}
+          </label>
+        `;
       });
-  });
-}
 
-document.addEventListener("DOMContentLoaded", function () {
-  update_cart();
+      dataContentType += `</form>`;
+
+      // Buttons
+      dataContentType += `
+        <button id="addToCartBtn" style="padding: 10px 16px; margin-right: 10px; cursor: pointer;">Add to Cart</button>
+        <button id="buyNowBtn" style="padding: 10px 16px; cursor: pointer;">Buy Now</button>
+      </div></div>`;
+
+      document.getElementById("productInfoModalContent").innerHTML = dataContentType;
+
+      // Show modal and prevent background scroll
+      modal.style.display = "block";
+      document.body.style.overflow = "hidden";
+
+      // Add button listeners
+      const addToCartBtn = document.getElementById("addToCartBtn");
+      const buyNowBtn = document.getElementById("buyNowBtn");
+
+      addToCartBtn.addEventListener("click", () => {
+        const selectedVariantId = document.querySelector('input[name="variant"]:checked').value;
+        addToCart(selectedVariantId, 1);
+      });
+
+      buyNowBtn.addEventListener("click", () => {
+        const selectedVariantId = document.querySelector('input[name="variant"]:checked').value;
+        buyNow(selectedVariantId, 1);
+      });
+    })
+    .catch(function (error) {
+      console.error("Error fetching product data:", error);
+      showToast("Failed to load product details. Please try again.", false);
+    });
 });
 
-function update_cart() {
-  fetch("/cart.js")
-    .then((resp) => resp.json())
-    .then(
-      (data) =>
-        (document.getElementsByClassName("cart-count span").innerHTML =
-          data.items.length)
-    )
-    .catch((err) => console.error(err));
-  console.log(err);
+// Close modal when clicking close button
+closeBtn.addEventListener("click", () => {
+  modal.style.display = "none";
+  document.body.style.overflow = ""; // restore scroll
+});
+
+// Close modal if clicking outside modal content
+modal.addEventListener("click", (e) => {
+  if (e.target === modal) {
+    modal.style.display = "none";
+    document.body.style.overflow = "";
+  }
+});
+
+// Add to cart using Shopify AJAX API
+function addToCart(variantId, quantity) {
+  fetch("/cart/add.js", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      id: variantId,
+      quantity: quantity,
+    }),
+  })
+    .then((response) => {
+      if (!response.ok) throw new Error("Network response was not ok");
+      return response.json();
+    })
+    .then((data) => {
+      showToast("Added to cart!", true);
+      console.log("Cart updated:", data);
+    })
+    .catch((error) => {
+      showToast("Failed to add to cart.", false);
+      console.error("Error:", error);
+    });
+}
+
+// Buy now - redirect to checkout with selected variant and quantity
+function buyNow(variantId, quantity) {
+  const checkoutUrl = `/cart/${variantId}:${quantity}`;
+  window.location.href = checkoutUrl;
+}
+
+// Toast notification helper
+function showToast(message, isSuccess = true) {
+  const toast = document.getElementById("toast");
+  toast.textContent = message;
+  toast.style.backgroundColor = isSuccess ? "#4BB543" : "#e74c3c"; // green or red
+  toast.style.visibility = "visible";
+  toast.style.opacity = "1";
+
+  setTimeout(() => {
+    toast.style.opacity = "0";
+    setTimeout(() => {
+      toast.style.visibility = "hidden";
+    }, 500);
+  }, 3000); // visible for 3 seconds
 }
