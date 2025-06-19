@@ -107,7 +107,6 @@
         "video_card_DXh84A": {
           "type": "video_card",
           "settings": {
-            "product_description_video": "",
             "video_url": "https://cdn.shopify.com/videos/c/o/v/85c18a109409414c8b784a1d3a1195e5.webm",
             "poster": "shopify://shop_images/tasty-action-1.png",
             "loop": true,
@@ -117,7 +116,6 @@
         "video_card_tQMDNX": {
           "type": "video_card",
           "settings": {
-            "product_description_video": "",
             "video_url": "https://cdn.shopify.com/videos/c/o/v/fbcace297a534f7eba05e18cbbb0bc5b.webm",
             "poster": "shopify://shop_images/tasty-action-2.png",
             "loop": true,
@@ -127,7 +125,6 @@
         "video_card_fecXPY": {
           "type": "video_card",
           "settings": {
-            "product_description_video": "",
             "video_url": "https://cdn.shopify.com/videos/c/o/v/5d3d3f52ab8948a9a37977ee1e8dc433.webm",
             "poster": "shopify://shop_images/tasty-action-3.png",
             "loop": true,
@@ -137,7 +134,6 @@
         "video_card_aDJwJR": {
           "type": "video_card",
           "settings": {
-            "product_description_video": "",
             "video_url": "https://cdn.shopify.com/videos/c/o/v/54fb4f8ab46149ea8887705f9b196ee0.webm",
             "poster": "shopify://shop_images/tasty-action-4.png",
             "loop": true,
@@ -168,7 +164,7 @@
       "type": "about-highlight",
       "settings": {
         "heading": "<h2>Nithya Amirtham – Chennai’s Finest Sweets, Now Delivered All Across India!</h2>",
-        "description": "<p>Your description goes here.</p>",
+        "description": "<p>At Nithya Amirtham, we bring you the authentic taste of India’s finest sweets and snacks, now available for delivery anywhere in India. What started as a single shop in Arumbakkam, Chennai, has grown into one of the most loved and trusted sweet shops in Chennai, with multiple outlets in Chennai, Kanchipuram, and Tiruvallur.</p><p>Our online store allows you to enjoy the same delicious treats from the comfort of your home. From traditional sweets to crispy savouries, order online and have fresh sweets delivered to your doorstep across India.</p>",
         "image": "shopify://shop_images/test-photo.jpg"
       }
     }
