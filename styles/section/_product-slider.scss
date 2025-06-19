@@ -22,14 +22,15 @@
     overflow: hidden;
     border-radius: 10px;
     margin: 0px 30px 0px 0px;
+
+    display: inline-flex;
+    flex-direction: column;
+    gap: 0;
     @media (min-width: 768px) {
       &:last-child {
         margin-right: 0px;
       }
     }
-    display: inline-flex;
-    flex-direction: column;
-    gap: 0;
     a {
       // display: inline-block;
       img {
