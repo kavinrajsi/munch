@@ -9,14 +9,6 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-top: 24px;
-  padding-bottom: 24px;
-  padding-left: 20px;
-  padding-right: 20px;
-  @media (min-width: 768px) {
-    padding-left: 160px;
-    padding-right: 160px;
-  }
 }
 
 .header-logo .logo-svg {

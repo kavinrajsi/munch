@@ -24,7 +24,7 @@
 }
 {% endschema %}
 
-<div class="product-slider-section">
+<div class="grid-box product-slider-section">
   {% if section.settings.heading %}
     <h2 class="product-slider-heading">{{ section.settings.heading }}</h2>
   {% endif %}
@@ -50,22 +50,48 @@
           </a>
           <div class="product__info">
             <strong class="product__title">{{ product.title }}</strong>
-            {% comment %}
-               {% if product.variants.size > 1 %}
-                <div>{{ product.price_min | money }}<sup>+</sup></div>
+            <div class="product__variant--price">
+              {% if product.price_varies %}
+                <p>
+                  From {{ product.price_min | money_with_currency }} to {{ product.price_max | money_without_currency }}
+                </p>
               {% else %}
-                <div>{{ product.price | money }}</div>
+                <p>
+                  {% if product.compare_at_price_max > product.price %}
+                    <span
+                      ><s>{{ product.compare_at_price_max | money_with_currency }}</s></span
+                    >
+                    <span>{{ product.price | money_with_currency }}</span>
+                  {% else %}
+                    <span>{{ product.price | money_with_currency }}</span>
+                  {% endif %}
+                </p>
               {% endif %}
-            {% endcomment %}
+            </div>
+            <div class="product__variant--sku">
+              {% assign current_variant = product.selected_or_first_available_variant %}
+              <span class="variant-sku">{{ current_variant.sku }}</span>
+            </div>
+
             {% if product.variants.size > 1 %}
-              <button
-                class="product__select-option-button select-option-button"
-                data-product-handle="{{ product.handle }}"
-                type="button"
-              >
-                Select Option
-              </button>
+              <div class="product__variant--list">
+                <span class="product__variant--list-title"> {{ product.options }} : </span>
+                {% for variant in product.variants %}
+                  {% if variant.inventory_quantity == 0 %} <s> {% endif %}
+                  <span class="product__variant--list-name"> {{ variant.title }} </span>
+                  {% if variant.inventory_quantity == 0 %} </s> {% endif %}
+                {% endfor %}
+              </div>
             {% endif %}
+
+            <button
+              id="productInfoAnchor"
+              class="product__select-option-button select-option-button"
+              data-product-handle="{{ product.handle }}"
+              type="button"
+            >
+              Select Option
+            </button>
           </div>
         </div>
       {% endfor %}

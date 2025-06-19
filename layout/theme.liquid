@@ -24,18 +24,17 @@
     {% comment %} {% render 'social-meta-tags' %} {% endcomment %}
     <link rel="canonical" href="{{ canonical_url }}">
     <link rel="dns-prefetch" href="https://cdn.shopify.com">
-    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
-    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.net">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
     <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
 
     {{ 'slick.css' | asset_url | preload_tag: as: 'style' }}
     {{ 'slick-theme.css' | asset_url | preload_tag: as: 'style' }}
     {{ 'base.css' | asset_url | preload_tag: as: 'style' }}
 
     {{ 'jquery.js' | asset_url | preload_tag: as: 'script' }}
+    {{ 'shopify-money.js' | asset_url | preload_tag: as: 'script' }}
+    {{ 'predictive-search.js' | asset_url | preload_tag: as: 'script' }}
+    {{ 'quick-view-main.js' | asset_url | preload_tag: as: 'script' }}
     {{ 'global.js' | asset_url | preload_tag: as: 'script' }}
     {{ 'drawer.js' | asset_url | preload_tag: as: 'script' }}
     {{ 'slick.min.js' | asset_url | preload_tag: as: 'script' }}
@@ -60,14 +59,14 @@
     <!--[if IE]>
       <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
-    <section class="fullpage" role="main">
-      {% section 'announcement-bar' %}
-      {% section 'header' %}
-      <main class="content-for-layout">
-        {{ content_for_layout }}
-      </main>
-    </section>
-    {% section 'drawer' %}
+    {% section 'announcement-bar' %}
+    {% section 'header' %}
+    <main class="content-for-layout">
+      {{ content_for_layout }}
+    </main>
+    {% section 'footer' %}
+    {% section 'cart-drawer' %}
+    {% section 'quickview-modal' %}
     {% assign potential_action_target = request.origin
       | append: routes.search_url
       | append: '?q={search_term_string}'
@@ -103,9 +102,12 @@
         "url": {{ request.origin | append: page.url | json }}
       }
     </script>
-    <script  src="{{ 'jquery.js' | asset_url }}"></script>
-    <script  src="{{ 'drawer.js' | asset_url }}"></script>
-    <script  src="{{ 'slick.min.js' | asset_url }}"></script>
-    <script  src="{{ 'global.js' | asset_url }}"></script>
+    <script src="{{ 'jquery.js' | asset_url }}"></script>
+    <script defer src="{{ 'shopify-money.js' | asset_url }}"></script>
+    <script defer src="{{ 'predictive-search.js' | asset_url }}"></script>
+    <script defer src="{{ 'quick-view-main.js' | asset_url }}"></script>
+    <script src="{{ 'drawer.js' | asset_url }}"></script>
+    <script src="{{ 'slick.min.js' | asset_url }}"></script>
+    <script src="{{ 'global.js' | asset_url }}"></script>
   </body>
 </html>
