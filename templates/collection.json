@@ -11,10 +11,20 @@
   "sections": {
     "main": {
       "type": "main-collection",
-      "settings": {}
+      "settings": {
+        "collection": ""
+      }
+    },
+    "collection_grid_brPcki": {
+      "type": "collection-grid",
+      "name": "Collection Grid Enhanced",
+      "settings": {
+        "heading": "Pick a combo"
+      }
     }
   },
   "order": [
-    "main"
+    "main",
+    "collection_grid_brPcki"
   ]
 }
