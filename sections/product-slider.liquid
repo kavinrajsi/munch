@@ -37,63 +37,7 @@
       data-slick='{"slidesToShow": 4, "slidesToScroll": 1, "infinite": false, "dots": false, "arrows": true, "responsive": [{"breakpoint": 1024, "settings": {"slidesToShow": 3, "slidesToScroll": 1}}, {"breakpoint": 768, "settings": {"slidesToShow": 2, "slidesToScroll": 1}}, {"breakpoint": 480, "settings": {"slidesToShow": 1, "slidesToScroll": 1}}]}'
     >
       {% for product in products %}
-        <div class="product__slider--card">
-          <a href="{{ product.url }}">
-            <img
-              src="{{ product.featured_image | image_url: width: 265, height: 320 }}"
-              alt="{{ product.title }}"
-              width="265"
-              height="320"
-              loading="lazy"
-              decoding="async"
-            >
-          </a>
-          <div class="product__info">
-            <strong class="product__title">{{ product.title }}</strong>
-            <div class="product__variant--price">
-              {% if product.price_varies %}
-                <p>
-                  From {{ product.price_min | money_with_currency }} to {{ product.price_max | money_without_currency }}
-                </p>
-              {% else %}
-                <p>
-                  {% if product.compare_at_price_max > product.price %}
-                    <span
-                      ><s>{{ product.compare_at_price_max | money_with_currency }}</s></span
-                    >
-                    <span>{{ product.price | money_with_currency }}</span>
-                  {% else %}
-                    <span>{{ product.price | money_with_currency }}</span>
-                  {% endif %}
-                </p>
-              {% endif %}
-            </div>
-            <div class="product__variant--sku">
-              {% assign current_variant = product.selected_or_first_available_variant %}
-              <span class="variant-sku">{{ current_variant.sku }}</span>
-            </div>
-
-            {% if product.variants.size > 1 %}
-              <div class="product__variant--list">
-                <span class="product__variant--list-title"> {{ product.options }} : </span>
-                {% for variant in product.variants %}
-                  {% if variant.inventory_quantity == 0 %} <s> {% endif %}
-                  <span class="product__variant--list-name"> {{ variant.title }} </span>
-                  {% if variant.inventory_quantity == 0 %} </s> {% endif %}
-                {% endfor %}
-              </div>
-            {% endif %}
-
-            <button
-              id="productInfoAnchor"
-              class="product__select-option-button select-option-button"
-              data-product-handle="{{ product.handle }}"
-              type="button"
-            >
-              Select Option
-            </button>
-          </div>
-        </div>
+          {% render 'product-card', product: product %}
       {% endfor %}
     </div>
   </div>

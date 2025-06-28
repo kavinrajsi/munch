@@ -1,3 +1,4 @@
+// Drawer open/close logic
 var drawer = function () {
   if (!Element.prototype.closest) {
     if (!Element.prototype.matches) {
@@ -16,6 +17,7 @@ var drawer = function () {
       return null;
     };
   }
+
   var settings = {
     speedOpen: 50,
     speedClose: 350,
@@ -26,19 +28,18 @@ var drawer = function () {
     selectorClose: "[data-drawer-close]",
   };
 
-  var toggleccessibility = function (event) {
-    if (event.getAttribute("aria-expanded") === "true") {
-      event.setAttribute("aria-expanded", false);
-    } else {
-      event.setAttribute("aria-expanded", true);
-    }
+  var toggleAccessibility = function (event) {
+    event.setAttribute(
+      "aria-expanded",
+      event.getAttribute("aria-expanded") === "true" ? "false" : "true"
+    );
   };
 
   var openDrawer = function (trigger) {
     var target = document.getElementById(trigger.getAttribute("aria-controls"));
     target.classList.add(settings.activeClass);
     document.documentElement.style.overflow = "hidden";
-    toggleccessibility(trigger);
+    toggleAccessibility(trigger);
 
     setTimeout(function () {
       target.classList.add(settings.visibleClass);
@@ -46,21 +47,24 @@ var drawer = function () {
   };
 
   var closeDrawer = function (event) {
-    var closestParent = event.closest(settings.selectorTarget),
-      childrenTrigger = document.querySelector(
-        '[aria-controls="' + closestParent.id + '"'
-      );
+    var closestParent = event.closest(settings.selectorTarget);
+    var childrenTrigger = document.querySelector(
+      '[aria-controls="' + closestParent.id + '"]'
+    );
+
     closestParent.classList.remove(settings.visibleClass);
     document.documentElement.style.overflow = "";
-    toggleccessibility(childrenTrigger);
+    toggleAccessibility(childrenTrigger);
+
     setTimeout(function () {
       closestParent.classList.remove(settings.activeClass);
     }, settings.speedClose);
   };
+
   var clickHandler = function (event) {
-    var toggle = event.target,
-      open = toggle.closest(settings.selectorTrigger),
-      close = toggle.closest(settings.selectorClose);
+    var toggle = event.target;
+    var open = toggle.closest(settings.selectorTrigger);
+    var close = toggle.closest(settings.selectorClose);
 
     if (open) {
       openDrawer(open);
@@ -68,44 +72,57 @@ var drawer = function () {
       fetch("/cart.js")
         .then((resp) => resp.json())
         .then((data) => {
-          let daad = "";
-          console.log('popup: ' + data.items[0]);
+          let drawerHTML = "";
+
           if (data.items.length > 0) {
-            $('.cart-item-no').attr('hidden', true);
+            $(".cart-item-no").attr("hidden", true);
+
             data.items.forEach(function (product, index) {
-              console.log(data.items);
-              daad +=
-                '<div class="cart__item cartpopup-item"><div class="card__item-image"><img src="' +
-                product.featured_image.url +
-                '" alt="' +
-                product.featured_image.alt +
-                '"></div><div class="card__item-content"><h5>' +
-                product.title +
-                '</h5><p class="productPrice">' +
-                product.quantity +
-                " x " +
-                '<span class="money"  data-currency-inr="' +
-                data.currency +
-                "." +
-                Shopify.formatMoney(product.price) +
-                '">' +
-                Shopify.formatMoney(product.price) +
-                '</span></p><p class="delete"><a class="remove removeCta" data-variant="'+product.variant_id+'" href="/cart/change?line=' +
-                index +
-                1 +
-                '&amp;quantity=1"><svg width="16" height="16"> <use href="#trash-mini" /> </svg> Remove</a></p></div></div>';
+              drawerHTML += `
+                <div class="cart__item cartpopup-item" data-line="${index + 1}" data-variant-id="${product.variant_id}">
+                  <div class="card__item-image">
+                    <img src="${product.featured_image.url}" alt="${product.featured_image.alt}">
+                  </div>
+                  <div class="card__item-content">
+                    <h5>${product.title}</h5>
+                    <p class="productPrice">
+                      <span class="money">${Shopify.formatMoney(product.price)}</span>
+                    </p>
+                    <div class="cart-item__qty">
+                      <button type="button" class="qty-btn qty-decrease" data-line="${index + 1}">−</button>
+                      <input type="number" class="cart-qty-input" value="${product.quantity}" min="1" data-line="${index + 1}">
+                      <button type="button" class="qty-btn qty-increase" data-line="${index + 1}">+</button>
+                    </div>
+                    <p class="delete">
+                      <a class="remove removeCta" data-line="${index + 1}" href="#">
+                        <svg width="16" height="16"><use href="#trash-mini" /></svg> Remove
+                      </a>
+                    </p>
+                  </div>
+                </div>`;
             });
-            document.getElementById("cart__drawer_items").innerHTML = daad;
+
+            $("#cart__drawer_items").html(drawerHTML);
+
+            // Initialize minus button state
+            $('.cart-qty-input').each(function () {
+              const qty = parseInt($(this).val());
+              if (qty <= 1) {
+                $(this).siblings('.qty-decrease').addClass('qty-disabled');
+              }
+            });
           }
 
-          document.getElementById('cart__total_price').innerHTML = '<p><span class="money" data-currency-inr="'+data.currency+'.'+Shopify.formatMoney(data.original_total_price)+'">'+ data.currency +'. '+ Shopify.formatMoney(data.original_total_price) + '</span></p>';
-
-          console.log('popup: ' + JSON.stringify(data));
+          $("#cart__total_price").html(
+            `<span class="money">${Shopify.formatMoney(data.original_total_price)}</span>`
+          );
         });
     }
+
     if (close) {
       closeDrawer(close);
     }
+
     if (open || close) {
       event.preventDefault();
     }
@@ -113,9 +130,8 @@ var drawer = function () {
 
   var keydownHandler = function (event) {
     if (event.key === "Escape" || event.keyCode === 27) {
-      var drawers = document.querySelectorAll(settings.selectorTarget),
-        i;
-      for (i = 0; i < drawers.length; ++i) {
+      var drawers = document.querySelectorAll(settings.selectorTarget);
+      for (let i = 0; i < drawers.length; ++i) {
         if (drawers[i].classList.contains(settings.activeClass)) {
           closeDrawer(drawers[i]);
         }
@@ -129,51 +145,77 @@ var drawer = function () {
 
 drawer();
 
-
-
-// remove
-$(' .cart-popup .cartpopup-body').on('click', '.cartpopup-item .remove', function (e) {
-  var obj = $(this);
+// REMOVE ITEM
+$(document).on('click', '.cartpopup-body .remove', function (e) {
   e.preventDefault();
-  e.stopPropagation();
-  console.log('data' + this );
-  var productId = $(this).attr('data-variant');
+  const $item = $(this).closest('.cartpopup-item');
+  const line = parseInt($(this).data('line'));
+
+  $item.remove();
 
   $.ajax({
     type: 'POST',
     url: '/cart/change.js',
     dataType: 'json',
     data: {
-      quantity: 0,
-      id: productId
+      line: line,
+      quantity: 0
     },
-    success: function (data) {
-      $.ajax({
-        type: 'GET',
-        dataType: 'jsonp',
-        url: '/cart.json',
-        success: function (cart) {
+    success: function (cart) {
+      $('.cart-count, .cart-item-count').text(cart.item_count);
+      $('#cart__total_price').html(
+        `<span class="money">${(cart.total_price / 100).toFixed(2)}</span>`
+      );
+      if (cart.item_count === 0) {
+        $('.cart-item-no').removeAttr('hidden');
+        $('.cart-count').attr('hidden', true);
+      }
+    },
+    error: function () {
+      alert('Error removing item. Please refresh.');
+    }
+  });
+});
 
-          var item_count = cart['item_count'];
-          var total_price = cart['total_price'] / 100;
+// QTY UPDATE (buttons)
+$(document).on('click', '.qty-btn', function () {
+  const $btn = $(this);
+  const $input = $btn.siblings('.cart-qty-input');
+  const line = parseInt($btn.data('line'));
+  let qty = parseInt($input.val());
 
-          $('.cart-count').text(item_count);
-          $('.cart-count').text(item_count);
+  if ($btn.hasClass('qty-increase')) {
+    qty += 1;
+  } else if ($btn.hasClass('qty-decrease') && qty > 1) {
+    qty -= 1;
+  }
 
-          if (item_count == 0) {
-            $('.cart-item-no').removeAttr('hidden');
-            $('.cart-count').attr('hidden', 'hidden');
-          }
-          $('.cart-item-count').text(item_count);
+  $input.val(qty);
 
-          // mini cart data
-          $('.cartpopup-total .price').html('<span class="price"><span class="money" data-currency-inr="' + total_price.toFixed(2) + '">' + total_price.toFixed(2) + '</span></span> ');
+  // Toggle minus button state
+  const $decreaseBtn = $btn.parent().find('.qty-decrease');
+  if (qty <= 1) {
+    $decreaseBtn.addClass('qty-disabled');
+  } else {
+    $decreaseBtn.removeClass('qty-disabled');
+  }
 
-          // Remove item
-          $(obj).parents('.cartpopup-item').remove();
-
-        }
-      });
+  $.ajax({
+    type: 'POST',
+    url: '/cart/change.js',
+    dataType: 'json',
+    data: {
+      line: line,
+      quantity: qty
+    },
+    success: function (cart) {
+      $('#cart__total_price').html(
+        `<span class="money">${(cart.total_price / 100).toFixed(2)}</span>`
+      );
+      $('.cart-count, .cart-item-count').text(cart.item_count);
+    },
+    error: function () {
+      alert('Failed to update quantity. Please refresh.');
     }
   });
 });

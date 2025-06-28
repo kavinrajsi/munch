@@ -53,7 +53,7 @@ document.getElementById("productInfoAnchor").addEventListener("click", function 
       document.getElementById("productInfoModalContent").innerHTML = dataContentType;
 
       // Show modal and prevent background scroll
-      modal.style.display = "block";
+      modal.style.display = "flex";
       document.body.style.overflow = "hidden";
 
       // Add button listeners

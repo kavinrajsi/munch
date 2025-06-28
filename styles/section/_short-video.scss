@@ -30,10 +30,6 @@
 
   }
   .video-card {
-    // flex: 1 0 265px;
-    @media (min-width: 768px) {
-      // flex: 0 0 auto;
-    }
     video {
       border-radius: 10px;
     }

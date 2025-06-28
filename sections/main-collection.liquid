@@ -1,31 +1,36 @@
 {% schema %}
 {
-  "name": "Main Collection",
-  "tag": "section",
-  "class": "main-collection",
+  "name": "Main Collection", // Section name for Shopify Editor
+  "tag": "section", // HTML tag for section
+  "class": "main-collection", // CSS class for styling
   "settings": [
     {
-      "type": "collection",
+      "type": "collection", // Allows admin to select a collection
       "id": "collection",
       "label": "Select collection"
     }
   ],
   "presets": [
     {
-      "name": "Collection product grid"
+      "name": "Collection product grid" // Default section preset
     }
   ]
 }
 {% endschema %}
 
+<!-- Main container for the collection page -->
 <div class="collection-page">
+  <!-- Display the collection title if it's not blank -->
   {% if collection.title != blank %}
     <h1>{{ collection.title }}</h1>
   {% endif %}
-  {%- if collection.description != blank -%}
-    <p>{{ collection.description }}</p>
-  {%- endif -%}
 
+  <!-- Display the collection description if available -->
+  {% if collection.description != blank %}
+    <p>{{ collection.description }}</p>
+  {% endif %}
+
+  <!-- Display collection image if one is assigned -->
   <div class="grid-box">
     {% if collection.image %}
       <div class="collection-image">
@@ -38,82 +43,59 @@
       </div>
     {% endif %}
   </div>
+
+  <!-- Product listing section with pagination -->
   <section class="grid-box">
     {% paginate collection.products by 8 %}
+      <!-- Paginate 8 products per page -->
+
+      <!-- Responsive product grid -->
       <div
         class="collection-list-grid"
         collection-list-mobile="2"
         collection-list-tablet="3"
         collection-list-desktop="4"
       >
+        <!-- Loop through up to 28 products in the collection -->
         {% for product in collection.products limit: 28 %}
-          <div class="product__slider--card">
-            <a href="{{ product.url }}">
-              <img
-                src="{{ product.featured_image | image_url: width: 265, height: 320 }}"
-                alt="{{ product.title }}"
-                width="265"
-                height="320"
-                loading="lazy"
-                decoding="async"
-              >
-            </a>
-            <div class="product__info">
-              <strong class="product__title">{{ product.title }}</strong>
-
-              {% if product.variants.size > 1 %}
-                <div>
-                  {{ product.price_min | money -}}
-                  <sup>+</sup>
-                </div>
-              {% else %}
-                <div>{{ product.price | money }}</div>
-              {% endif %}
-
-              {% if product.variants.size > 1 %}
-                <button
-                  id="productInfoAnchor"
-                  class="product__select-option-button select-option-button"
-                  data-product-handle="{{ product.handle }}"
-                  type="button"
-                >
-                  Select Option
-                </button>
-              {% endif %}
-            </div>
-          </div>
+          {% render 'product-card', product: product %}
+          {% comment %} {% render 'product-card', product: product, show_vendor: true %} {% endcomment %}
         {% endfor %}
       </div>
+      <!-- End .collection-list-grid -->
+
+      <!-- Pagination controls -->
       <div class="pagination--number">
         {{ paginate | default_pagination: next: 'Next', previous: 'Previous' }}
       </div>
     {% endpaginate %}
   </section>
 </div>
+<!-- End .collection-page -->
 
-
-
+<!-- SEO Structured Data using JSON-LD for Google -->
 <script type="application/ld+json">
   {
     "@context":"https://schema.org",
     "@type":"ItemList",
     "itemListElement":[
-    {% for product in collection.products limit: 9 %}
-    {
-      "@type":"ListItem",
-      "position": {{ forloop.index }},
-      "name": "{{ product.title }}",
-      "url":"{{ shop.secure_url}}{{ product.url}}"
-    },
-    {% endfor %}
-    {% for product in collection.products offset:2 limit: 1 %}
-    {
-      "@type":"ListItem",
-      "position": 10,
-      "name": "{{ product.title }}",
-      "url":"{{ shop.secure_url}}{{ product.url}}"
-    }
-    {% endfor %}
+      {% for product in collection.products limit: 9 %}
+      {
+        "@type":"ListItem",
+        "position": {{ forloop.index }},
+        "name": "{{ product.title }}",
+        "url":"{{ shop.secure_url }}{{ product.url }}"
+      },
+      {% endfor %}
+
+      {% for product in collection.products offset:2 limit: 1 %}
+      {
+        "@type":"ListItem",
+        "position": 10,
+        "name": "{{ product.title }}",
+        "url":"{{ shop.secure_url }}{{ product.url }}"
+      }
+      {% endfor %}
     ]
   }
 </script>

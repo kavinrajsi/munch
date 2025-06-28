@@ -1,26 +1,121 @@
-<article class="product-card" style="border: 1px solid #eee; padding: 1rem; border-radius: 8px; text-align: center;">
-  <a href="{{ product.url }}" style="text-decoration: none; color: inherit;">
-    {% if product.featured_image %}
-      <img src="{{ product.featured_image | img_url: '400x400' }}" alt="{{ product.title | escape }}" style="width: 100%; border-radius: 6px;" />
-    {% else %}
-      <div style="background: #f5f5f5; width: 100%; height: 300px; border-radius: 6px;">No Image</div>
-    {% endif %}
+{% assign current_variant = product.selected_or_first_available_variant %}
+{% assign featured_media = current_variant.featured_media | default: product.featured_image %}
 
-    <h3 style="margin: 0.5rem 0 0;">{{ product.title }}</h3>
-
-    {% if product.compare_at_price > product.price %}
-      <p style="color: red;">
-        <span style="text-decoration: line-through;">{{ product.compare_at_price | money }}</span>
-        <span style="margin-left: 0.5rem;">{{ product.price | money }}</span>
-      </p>
-    {% else %}
-      <p>{{ product.price | money }}</p>
-    {% endif %}
-
-    {% if product.available %}
-      <p style="font-size: 0.9rem; color: #4CAF50;">In stock</p>
-    {% else %}
-      <p style="font-size: 0.9rem; color: #999;">Sold out</p>
+<div class="product__slider--card">
+  <!-- Product image or media preview -->
+  <a href="{{ product.url }}">
+    {% if featured_media.media_type == 'image' or featured_media.media_type == blank %}
+      <img
+        src="{{ featured_media | image_url: width: 265, height: 320 }}"
+        alt="{{ product.title }}"
+        width="265"
+        height="320"
+        loading="lazy"
+        decoding="async"
+      >
     {% endif %}
   </a>
-</article>
+
+  <!-- Product information block -->
+  <div class="product__info">
+    <strong class="product__title">{{ product.title }}</strong>
+
+    <!-- Compare at price (if discounted) -->
+    <div class="prpdice">
+      {% if product.compare_at_price > product.price %}
+        <span class="product__compare-price">
+          {{ product.compare_at_price | money }}
+        </span>
+      {% endif %}
+    </div>
+
+    <!-- Current price -->
+    <div class="product__price">
+      {% if product.price < product.compare_at_price %}
+        <span class="product__sale-price">
+          {{ product.price | money }}
+        </span>
+      {% else %}
+        <span class="product__regular-price">
+          {{ product.price | money }}
+        </span>
+      {% endif %}
+    </div>
+
+    <!-- Select Option button for multi-variant products -->
+
+      <button
+        class="product__select-option-button select-option-button"
+        data-product-handle="{{ product.handle }}"
+        type="button"
+        onclick="openProductModal({{ product.id }})"
+      >
+        Select Option
+      </button>
+
+  </div>
+
+  <!-- Product Modal -->
+  <div id="product-modal-{{ product.id }}" class="product-modal" style="display: none;">
+    <div class="product-modal-content">
+      <span class="product-modal-close" onclick="closeProductModal({{ product.id }})">&times;</span>
+      <h3>{{ product.title }}</h3>
+    <!-- Product Description -->
+    <div class="product-description">
+      {{ product.description }}
+    </div>
+
+      <!-- Variant price -->
+      <div class="price">
+        <span class="price-reg">{{ current_variant.price | money }}</span>
+        {% if current_variant.compare_at_price > current_variant.price %}
+          <span class="price-sale">
+            <s>{{ current_variant.compare_at_price | money }}</s>
+          </span>
+        {% endif %}
+      </div>
+
+      <!-- Variant media preview (no padding) -->
+      {% if featured_media.media_type == 'image' or featured_media.media_type == blank %}
+        <div class="product-single__media" data-media-id="{{ featured_media.id }}">
+          {{ featured_media | image_url: width: 2048 | image_tag }}
+        </div>
+      {% elsif featured_media.media_type == 'external_video' %}
+        <div class="product-single__media" data-media-id="{{ featured_media.id }}">
+          {{ featured_media | external_video_tag }}
+        </div>
+      {% elsif featured_media.media_type == 'video' %}
+        <div class="product-single__media" data-media-id="{{ featured_media.id }}">
+          {{ featured_media | video_tag: controls: true }}
+        </div>
+      {% elsif featured_media.media_type == 'model' %}
+        <div class="product-single__media" data-media-id="{{ featured_media.id }}">
+          {{ featured_media | model_viewer_tag }}
+        </div>
+      {% endif %}
+
+    <!-- Add to Cart Form -->
+<!-- Add to Cart Form (AJAX) -->
+<form class="product-form-ajax" data-product-id="{{ product.id }}">
+  <select name="id" class="variant-select">
+    {% for variant in product.variants %}
+      <option
+        value="{{ variant.id }}"
+        {% if variant == current_variant %}
+          selected="selected"
+        {% endif %}
+      >
+        {{ variant.title }} - {{ variant.price | money }}
+      </option>
+    {% endfor %}
+  </select>
+
+  <button type="submit" class="btn product__buy-button">Buy Now</button>
+  <div class="ajax-cart-response" style="display:none;"></div>
+</form>
+
+
+
+    </div>
+  </div>
+</div>
