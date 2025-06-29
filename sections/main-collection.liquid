@@ -20,18 +20,8 @@
 
 <!-- Main container for the collection page -->
 <div class="collection-page">
-  <!-- Display the collection title if it's not blank -->
-  {% if collection.title != blank %}
-    <h1>{{ collection.title }}</h1>
-  {% endif %}
-
-  <!-- Display the collection description if available -->
-  {% if collection.description != blank %}
-    <p>{{ collection.description }}</p>
-  {% endif %}
-
   <!-- Display collection image if one is assigned -->
-  <div class="grid-box">
+  <div class="grid-fluid pl-0 pr-0">
     {% if collection.image %}
       <div class="collection-image">
         <img
@@ -46,6 +36,15 @@
 
   <!-- Product listing section with pagination -->
   <section class="grid-box">
+    <!-- Display the collection title if it's not blank -->
+    {% if collection.title != blank %}
+      <h1 class="collection--title ">{{ collection.title }}</h1>
+    {% endif %}
+
+    <!-- Display the collection description if available -->
+    {% if collection.description != blank %}
+      <p>{{ collection.description }}</p>
+    {% endif %}
     {% paginate collection.products by 8 %}
       <!-- Paginate 8 products per page -->
 

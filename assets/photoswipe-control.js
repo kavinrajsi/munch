@@ -18,16 +18,16 @@
 // });
 
 // Initialize PhotoSwipe Lightbox for product images
-        document.addEventListener('DOMContentLoaded', function () {
-          if (typeof PhotoSwipeLightbox !== 'undefined' && typeof PhotoSwipe !== 'undefined') {
-            const lightbox = new PhotoSwipeLightbox({
-              gallery: '#product-gallery',
-              children: 'a.zoomable',
-              showHideAnimationType: 'fade',
-              pswpModule: PhotoSwipe,
-            });
-            lightbox.init();
-          } else {
-            console.error('❌ PhotoSwipe library not found.');
-          }
-        });
+        // document.addEventListener('DOMContentLoaded', function () {
+        //   if (typeof PhotoSwipeLightbox !== 'undefined' && typeof PhotoSwipe !== 'undefined') {
+        //     const lightbox = new PhotoSwipeLightbox({
+        //       gallery: '#product-gallery',
+        //       children: 'a.zoomable',
+        //       showHideAnimationType: 'fade',
+        //       pswpModule: PhotoSwipe,
+        //     });
+        //     lightbox.init();
+        //   } else {
+        //     console.error('❌ PhotoSwipe library not found.');
+        //   }
+        // });

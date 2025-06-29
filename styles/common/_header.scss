@@ -1,5 +1,5 @@
 .site-header {
-  position: sticky;
+  // position: sticky;
   top: 0;
   z-index: 1000;
   background: #fff;
@@ -9,6 +9,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding: 24px 16px;
 }
 
 .header-logo .logo-svg {
@@ -36,6 +37,26 @@
     @media (min-width: 768px) {
       display: flex;
     }
+    &.show {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 124px;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      background: red;
+      height: calc(100vh - 124px);
+      @media (min-width: 768px) {
+        position: initial;
+        height: auto;
+        flex-direction: row;
+      }
+    }
+    &.hide {
+      display: none;
+    }
+
     .header-nav-list {
       .header-nav-list--item {
         text-align: center;
@@ -48,6 +69,60 @@
         padding: 8px 16px;
         /* Primary/Red3 */
         color: #660808;
+      }
+    }
+  }
+
+  .search-bar {
+    &.show {
+      display: block !important;
+
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 124px;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      background: red;
+      height: calc(100vh - 124px);
+      @media (min-width: 768px) {
+        position: initial;
+        height: auto;
+        flex-direction: row;
+      }
+    }
+    input[type="search"] {
+      border: 1px solid #d3d3d3;
+      /* Search products */
+      padding: 12px 32px 12px 12px;
+      border-radius: 6px;
+      margin: 0 auto;
+      // font-family: 'Inter';
+      font-style: normal;
+      font-weight: 400;
+      font-size: 12px;
+      line-height: 15px;
+      /* identical to box height */
+
+      /* Primary/Red3 */
+      color: #660808;
+      width: calc(100% - 32px - 14px);
+      @media (min-width: 768px) {
+        min-width: 690px;
+        width: initial;
+      }
+    }
+    form {
+      position: relative;
+      button {
+        position: absolute;
+        left: initial;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        border-top-right-radius: 6px;
+        border-bottom-right-radius: 6px;
       }
     }
   }
@@ -84,6 +159,19 @@
     &:nth-child(2),
     &:nth-child(3) {
       display: none;
+
+      @media (min-width: 768px) {
+        display: inline-block;
+      }
+    }
+  }
+
+  #search-toggle {
+    &.hide {
+      display: none;
+    }
+    &.show {
+      display: inline-block;
     }
   }
 }

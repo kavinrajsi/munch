@@ -1,220 +1,170 @@
-<section class="product-section" itemscope itemtype="https://schema.org/Product" aria-labelledby="product-title">
-
-  {% for block in section.blocks %}
-    {% case block.type %}
-      {% when 'gallery' %}
-        <div class="product-gallery" role="region" aria-label="Product gallery">
-          {% for media in product.media %}
-            {% case media.media_type %}
-              {% when 'image' %}
-                <img
-                  src="{{ media | image_url: width: 800 }}"
-                  alt="{{ media.alt | escape }}"
-                  width="800"
-                  height="600"
-                  loading="lazy">
-              {% when 'video' %}
-                <video controls preload="metadata" width="800" height="600">
-                  <source src="{{ media.sources[0].url }}" type="video/mp4">
-                </video>
-            {% endcase %}
-          {% endfor %}
+<div class="product-page" style="display: flex; flex-wrap: wrap; gap: 2rem;">
+  <!-- LEFT: Image Carousel -->
+  <div class="product-gallery" style="flex: 1 1 50%; max-width: 600px;">
+    {% assign index = 0 %}
+    {% for media in product.media %}
+      {% if media.media_type == 'image' %}
+        <div>
+          <a href="{{ media | image_url: width: 1200 }}"
+             class="lightbox-trigger"
+             data-index="{{ index }}"
+             data-full="{{ media | image_url: width: 1200 }}">
+            <img src="{{ media | image_url: width: 800 }}"
+                 alt="{{ media.alt | escape }}"
+                 width="800" height="600"
+                 loading="lazy">
+          </a>
         </div>
-
-      {% when 'buy_box' %}
-        <div class="product-info">
-          <h1 class="product-title" id="product-title">{{ product.title }}</h1>
-
-          {% assign is_on_sale = product.compare_at_price_max > product.price %}
-          {% assign percent_off = 0 %}
-          {% if is_on_sale and product.variants.first.compare_at_price > 0 %}
-            {% assign discount = product.variants.first.compare_at_price | minus: product.variants.first.price %}
-            {% assign percent_off = discount | times: 100 | divided_by: product.variants.first.compare_at_price %}
-          {% endif %}
-
-          {% if is_on_sale %}
-            <span class="sale-badge">
-              {{ section.settings.sale_badge_text }}{% if section.settings.show_percent_off %} — {{ percent_off | round }}% Off{% endif %}
-            </span>
-          {% endif %}
-
-          {% if section.settings.show_meta_info %}
-            <div class="product-meta">
-              {% if product.vendor %}<div><strong>Vendor:</strong> {{ product.vendor }}</div>{% endif %}
-              {% if product.type %}<div><strong>Type:</strong> {{ product.type }}</div>{% endif %}
-              {% if product.metafields.custom.category %}
-                <div><strong>Category:</strong> {{ product.metafields.custom.category.value }}</div>
-              {% endif %}
-              <div><strong>Template:</strong> {{ template.name }}</div>
-              {% if product.tags.size > 0 %}
-                <div><strong>Tags:</strong> {{ product.tags | join: ', ' }}</div>
-              {% endif %}
-            </div>
-          {% endif %}
-
-          <div class="product-price">
-            {% if is_on_sale %}
-              <span class="compare-price">{{ product.compare_at_price_max | money }}</span>
-              <span class="price-display">{{ product.price | money }}</span>
-            {% else %}
-              <span class="price-display">{{ product.price | money }}</span>
-            {% endif %}
-          </div>
-
-          {% if section.settings.show_stock_status %}
-            <div class="stock-status">
-              <span class="stock-label {% if product.available %}in-stock{% else %}out-of-stock{% endif %}">
-                {% if product.available %}In stock{% else %}Out of stock{% endif %}
-              </span>
-            </div>
-          {% endif %}
-
-          <form method="post" action="{{ routes.cart_add_url }}">
-            <input type="hidden" name="id" value="{{ product.variants.first.id }}">
-
-            {% for option in product.options_with_values %}
-              <fieldset>
-                <legend>{{ option.name }}</legend>
-                {% for value in option.values %}
-                  {% assign lower = option.name | downcase %}
-                  {% if lower contains 'color' %}
-                    <label class="swatch-label">
-                      <input type="radio" name="options[{{ option.name }}]" value="{{ value }}" {% if forloop.first %}checked{% endif %}>
-                      <span class="swatch" style="background-color: {{ value | downcase }}"></span>
-                    </label>
-                  {% else %}
-                    <label>
-                      <input type="radio" name="options[{{ option.name }}]" value="{{ value }}" {% if forloop.first %}checked{% endif %}>
-                      {{ value }}
-                    </label>
-                  {% endif %}
-                {% endfor %}
-              </fieldset>
-            {% endfor %}
-
-            <div class="quantity-controls">
-              <button type="button" class="qty-btn qty-minus">−</button>
-              <input type="number" id="quantity" name="quantity" value="1" min="1">
-              <button type="button" class="qty-btn qty-plus">+</button>
-            </div>
-
-            <button type="submit" class="add-to-cart-btn">Add to Cart</button>
-          </form>
-        </div>
-    {% endcase %}
-  {% endfor %}
-
-  {% if section.settings.show_sticky_cart %}
-    <div class="sticky-bar" id="sticky-bar">
-      <span id="sticky-product-title">{{ product.title }}</span>
-      <span id="sticky-product-price">{{ product.price | money }}</span>
-      <form method="post" action="{{ routes.cart_add_url }}">
-        <input type="hidden" name="id" value="{{ product.variants.first.id }}">
-        <button type="submit" class="add-to-cart-btn">Add to Cart</button>
-      </form>
-    </div>
-  {% endif %}
-
-  {% assign is_on_sale = product.compare_at_price_max > product.price %}
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Product",
-    "name": "{{ product.title | escape }}",
-    "image": [{% for media in product.media %}"{{ media | image_url: width: 800 }}"{% unless forloop.last %}, {% endunless %}{% endfor %}],
-    "description": "{{ product.description | strip_html | escape }}",
-    "sku": "{{ product.variants.first.sku }}",
-    "brand": {
-      "@type": "Brand",
-      "name": "{{ product.vendor }}"
-    },
-    "offers": {
-      "@type": "Offer",
-      "url": "{{ shop.url }}{{ product.url }}",
-      "priceCurrency": "{{ shop.currency }}",
-      "price": "{{ product.variants.first.price | divided_by: 100.0 }}",
-      {% if is_on_sale %}
-        "salePrice": "{{ product.variants.first.price | divided_by: 100.0 }}",
-        "priceValidUntil": "2025-07-13",
+        {% assign index = index | plus: 1 %}
       {% endif %}
-      "availability": "https://schema.org/{% if product.available %}InStock{% else %}OutOfStock{% endif %}"
-    }
+    {% endfor %}
+  </div>
+
+  <!-- RIGHT: Product Details -->
+  <div class="product-details" style="flex: 1 1 45%; min-width: 320px;">
+    <h1>{{ product.title }}</h1>
+
+    <p><strong>Price:</strong> <span id="variant-price" class="money">{{ product.price | money_with_currency }}</span></p>
+    <p><strong>SKU:</strong> <span id="variant-sku">{{ product.selected_or_first_available_variant.sku }}</span></p>
+    <p><strong>Brand:</strong> {{ product.vendor }}</p>
+    <p><strong>Type:</strong> {{ product.type }}</p>
+
+    {% if product.collections.size > 0 %}
+      <p><strong>Category:</strong>
+        {% for collection in product.collections %}
+          <a href="{{ collection.url }}">{{ collection.title }}</a>{% unless forloop.last %}, {% endunless %}
+        {% endfor %}
+      </p>
+    {% endif %}
+
+    {% if product.tags.size > 0 %}
+      <p><strong>Tags:</strong>
+        {% for tag in product.tags %}
+          <a href="/collections/all/{{ tag | handle }}">{{ tag }}</a>{% unless forloop.last %}, {% endunless %}
+        {% endfor %}
+      </p>
+    {% endif %}
+
+    <div class="product-description">
+      {{ product.description_html }}
+    </div>
+
+    <form action="/cart/add" method="post" enctype="multipart/form-data">
+      <!-- Dynamic Option Radio Groups -->
+      <div id="variant-selectors">
+        {% for option in product.options_with_values %}
+          <fieldset class="product-option">
+            <legend><strong>{{ option.name }}</strong></legend>
+            {% for value in option.values %}
+              {% assign is_available = false %}
+              {% for variant in product.variants %}
+                {% if variant.options[option.position0] == value and variant.available %}
+                  {% assign is_available = true %}
+                {% endif %}
+              {% endfor %}
+              <label style="margin-right: 1rem; display: inline-block;">
+                <input type="radio"
+                       name="option{{ option.position }}"
+                       value="{{ value }}"
+                       {% if forloop.first %}checked{% endif %}
+                       {% unless is_available %}disabled{% endunless %}>
+                {{ value }}
+                {% unless is_available %}
+                  <span style="font-size: 0.85em; color: red;">(Sold out)</span>
+                {% endunless %}
+              </label>
+            {% endfor %}
+          </fieldset>
+        {% endfor %}
+      </div>
+
+      <input type="hidden" name="id" id="selected-variant-id" value="{{ product.selected_or_first_available_variant.id }}">
+      <p id="inventory-info" style="margin-top: 0.5rem;"></p>
+
+      <!-- Quantity -->
+      <div class="quantity-wrapper" style="margin: 1rem 0;">
+        <label for="Quantity"><strong>Quantity:</strong></label>
+        <div style="display: flex; gap: 0.5rem; align-items: center;">
+          <button type="button" id="qty-minus" class="qty-btn" onclick="updateQty(-1)">−</button>
+          <input type="number" id="Quantity" name="quantity" value="1" min="1" style="width: 60px; text-align: center;" oninput="qtyInputChanged()">
+          <button type="button" class="qty-btn" onclick="updateQty(1)">+</button>
+        </div>
+      </div>
+
+      <!-- Add to Cart Buttons -->
+      <button type="submit" class="btn">Add to Cart</button>
+      <button type="submit" class="btn" name="checkout" value="true">Buy Now</button>
+    </form>
+  </div>
+</div>
+
+<!-- Sticky Buy Bar (mobile only) -->
+<div class="sticky-buy-bar">
+  <form action="/cart/add" method="post">
+    <input type="hidden" id="sticky-variant-id" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+    <button type="submit" class="btn btn-primary">Buy Now</button>
+  </form>
+</div>
+
+<!-- PhotoSwipe Lightbox Markup -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true"></div>
+<script>
+  const variants = {{ product.variants | json }};
+
+  function updateQty(change) {
+    const input = document.getElementById('Quantity');
+    const minusBtn = document.getElementById('qty-minus');
+    let value = parseInt(input.value) || 1;
+    value = Math.max(1, value + change);
+    input.value = value;
+    minusBtn.style.opacity = value <= 1 ? '0.4' : '1';
   }
-  </script>
 
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      document.querySelector('.qty-minus').addEventListener('click', () => {
-        const qty = document.getElementById('quantity');
-        qty.value = Math.max(1, parseInt(qty.value) - 1);
-      });
+  function qtyInputChanged() {
+    const input = document.getElementById('Quantity');
+    const minusBtn = document.getElementById('qty-minus');
+    const value = Math.max(1, parseInt(input.value) || 1);
+    input.value = value;
+    minusBtn.style.opacity = value <= 1 ? '0.4' : '1';
+  }
 
-      document.querySelector('.qty-plus').addEventListener('click', () => {
-        const qty = document.getElementById('quantity');
-        qty.value = parseInt(qty.value) + 1;
-      });
-
-      const sticky = document.getElementById('sticky-bar');
-      const btn = document.querySelector('.add-to-cart-btn');
-      if (sticky && btn) {
-        window.addEventListener('scroll', () => {
-          sticky.style.display = btn.getBoundingClientRect().bottom < 0 ? 'flex' : 'none';
-        });
-      }
+  function updateVariantUI() {
+    const selections = {};
+    document.querySelectorAll('#variant-selectors fieldset').forEach((fieldset, i) => {
+      const input = fieldset.querySelector('input:checked');
+      selections['option' + (i + 1)] = input?.value;
     });
-  </script>
-</section>
 
-{% schema %}
-{
-  "name": "Product Section",
-  "settings": [
-    {
-      "type": "checkbox",
-      "id": "show_meta_info",
-      "default": true,
-      "label": "Show product meta info"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_stock_status",
-      "default": true,
-      "label": "Show stock status"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_sticky_cart",
-      "default": true,
-      "label": "Enable sticky add to cart"
-    },
-    {
-      "type": "text",
-      "id": "sale_badge_text",
-      "default": "On Sale!",
-      "label": "Sale badge text"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_percent_off",
-      "default": true,
-      "label": "Show percent off in badge"
+    const match = variants.find(v => v.options.every((opt, i) => selections['option' + (i + 1)] === opt));
+
+    if (match) {
+      document.getElementById('selected-variant-id').value = match.id;
+      document.getElementById('variant-price').innerHTML = '<span class="money">' + Shopify.formatMoney(match.price, "{{ shop.money_format }}") + '</span>';
+      document.getElementById('variant-sku').textContent = match.sku;
+      document.getElementById('sticky-variant-id').value = match.id;
+
+      const inventoryText = !match.available ? "Sold out" :
+                            match.inventory_management ? "In stock: " + match.inventory_quantity :
+                            "Available";
+      document.getElementById('inventory-info').textContent = inventoryText;
     }
-  ],
-  "blocks": [
-    {
-      "type": "gallery",
-      "name": "Product Gallery"
-    },
-    {
-      "type": "buy_box",
-      "name": "Buy Box"
-    }
-  ],
-  "presets": [
-    {
-      "name": "Default Product Section",
-      "category": "Product"
-    }
-  ]
-}
-{% endschema %}
+
+    // Disable unavailable option combinations
+    document.querySelectorAll('#variant-selectors fieldset').forEach((fieldset, i) => {
+      const name = 'option' + (i + 1);
+      fieldset.querySelectorAll('input[type=radio]').forEach(radio => {
+        const trial = { ...selections, [name]: radio.value };
+        const isAvailable = variants.some(v => v.options.every((opt, j) => trial['option' + (j + 1)] === opt) && v.available);
+        radio.disabled = !isAvailable;
+      });
+    });
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    qtyInputChanged();
+    document.querySelectorAll('#variant-selectors input[type=radio]').forEach(input => {
+      input.addEventListener('change', updateVariantUI);
+    });
+    updateVariantUI();
+  });
+</script>
