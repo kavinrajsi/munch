@@ -1,199 +1,220 @@
-{% assign current_product = product.selected_or_first_available_variant %}
-{% assign product_image = current_product.featured_image | default: product.featured_image %}
-{% assign product_collection = collection.title | link_to: product_collection.url %}
-{% assign collectProductName = '' %}
-{% unless product_collection == blank %}
-  {% assign collectProductName = product_collection %}
-{% endunless %}
+<section class="product-section" itemscope itemtype="https://schema.org/Product" aria-labelledby="product-title">
 
-{% for product_image in product.images %}
-  <link rel="preload" as="image" href="{{ product_image.src | image_url }}">
-  <link rel="prefetch" href="{{ product_image.src | image_url }}">
-{% endfor %}
-
-{% unless product == empty %}
-  <script type="application/json" id="ProductJson-{{ section.id }}">
-    {{ product | json }}
-  </script>
-{% endunless %}
-
-<script type="application/ld+json">
-  {
-    "@context": "http://schema.org/",
-    "@type": "Product",
-    "name": {{ product.title | json }},
-    "url": {{ shop.secure_url  | append: product.url | json }},
-    {%- if product.featured_media -%}
-      {%- assign media_size = product.featured_media.preview_image.width | append: 'x' -%}
-      "image": [
-        {{ product.featured_media | image_url: media_size | prepend: "https:" | json }}
-      ],
-    {%- endif -%}
-    "description": {{ product.description | strip_html | json }},
-    {%- if current_variant.sku != blank -%}
-      "sku": {{ current_variant.sku | json }},
-    {%- endif -%}
-    "brand": {
-      "@type": "Thing",
-      "name": {{ product.vendor | json }}
-    },
-    "offers": [
-      {%- for variant in product.variants -%}
-        {
-          "@type" : "Offer",
-          {%- if variant.sku != blank -%}
-            "sku": {{ variant.sku | json }},
-          {%- endif -%}
-          "availability" : "http://schema.org/{% if product.available %}InStock{% else %}OutOfStock{% endif %}",
-          "price" : {{ variant.price | divided_by: 100.00 | json }},
-          "priceCurrency" : {{ cart.currency.iso_code | json }},
-          "url" : {{ shop.secure_url  | append: variant.url | json }}
-        }{% unless forloop.last %},{% endunless %}
-      {%- endfor -%}
-    ]
-  }
-</script>
-
-<section class="page-product-detail">
-  <div class="product-images">
-    <div id="gallery_01" class="product-images-thumbnails">
-      {% for product_image in product.images %}
-        <a
-          href="javascript:void(0)"
-          data-image="{{ product_image | image_url }}"
-          data-zoom-image="{{ product_image | image_url: width:"1256", height: "1886" }}"
-        >
-          <img
-            alt="{{ product.title }}"
-            id="img_{{ forloop.index }}"
-            src="{{ product_image | image_url: width:"320", height:"480" }}"
-          >
-        </a>
-      {% endfor %}
-    </div>
-    <img
-      alt="{{ product.title }}"
-      src="{{ product_image | image_url: width:"640", height:"960" }}"
-      data-zoom-image="{{ product_image | image_url: width:"1256", height:"1886" }}"
-      class="test-gallery"
-      id="zoom_03"
-    >
-  </div>
-
-  <div class="product-content">
-    <h2 class="product-title">{{ product.title }}</h2>
-
-    {% if customer and customer.tags contains 'admin' %}
-      <div class="product-sku">
-        {% assign current_variant = product.selected_or_first_available_variant %}
-        <span class="product__variant--sku"> Product Code : {{ current_variant.sku }} </span>
-      </div>
-    {% endif %}
-
-    <p class="product-price">
-      {% if product.compare_at_price_max > product.price %}
-        <span
-          ><s>{{ product.compare_at_price_max | money_with_currency }}</s></span
-        >
-        <span>{{ product.price | money_with_currency }}</span>
-      {% else %}
-        <span>{{ product.price | money_with_currency }}</span>
-      {% endif %}
-    </p>
-    <p class="product-description">{{ product.description | strip_html | truncatewords: 50 }}</p>
-
-    {%- if product.available -%}
-      <p class="product-availability">In Stock</p>
-    {%- else -%}
-      <p class="product-availability">Out of Stock</p>
-    {%- endif -%}
-
-    {%- if product.tags.size > 0 -%}
-      <div class="product-tags">
-        <span>Tags:</span>
-        {% for tag in product.tags %}
-          <a href="{{ routes.search_url }}?q={{ tag | url_encode }}" class="tag">{{ tag }}</a>
-        {% endfor %}
-      </div>
-    {%- endif -%}
-    {%- form 'product', product, class: 'form', novalidate: 'novalidate', data-type: 'add-to-cart-form' -%}
-      {%- unless product.has_only_default_variant -%}
-        {%- for option in product.options_with_values -%}
-          <fieldset
-            class="product-variant-fielset"
-            id="ProductSelect-option-{{ forloop.index0 }}"
-            name="{{ option.name | handleize }}"
-          >
-            <legend>
-              {{ option.name | escape }}
-              {% if option.name contains 'Size' or option.name contains 'size' %}
-                <span>
-                  <nav class="product-guide-line">
-                    <div class="modal-size-toggle" id="measurement-guide">Size Guidelines</div>
-                  </nav>
-                </span>
-              {% endif %}
-            </legend>
-            {%- for value in option.values -%}
-              {%- assign variant_label_state = true -%}
-              {% assign inputStyle = '' %}
-              {% if option.name contains 'Color'
-                or option.name contains 'color'
-                or option.name contains 'Size'
-                or option.name contains 'size'
-              %}
-                {% assign inputStyle = 'input-radio-label-circle' %}
-              {% else %}
-                {% assign inputStyle = 'input-radio-label-chip' %}
-              {% endif %}
-              <label
-                class="{{ inputStyle }} {{ option.name }}"
-                {% if option.name contains 'Color' or option.name contains 'color' %}
-                  data-color="{{ value }}"
-                  style="text-indent: -9999px; background:{{ value | downcase | escape | remove:" " }}"
-                {% endif %}
-                for="ProductSelect-option-{{ option.name | handleize }}-{{ value | escape }}"
-              >
-                <input
-                  type="radio"
-                  {% if option.selected_value == value %}
-                    checked="checked"
-                  {% endif %}
-                  {% unless variant_label_state %}
-                    disabled="disabled"
-                  {% endunless %}
-                  value="{{ value }}"
-                  data-index="option{{ forloop.index }}"
-                  name="{{ option.name | handleize }}"
-                  id="ProductSelect-option-{{ option.name | handleize }}-{{ value | escape }}"
-                >
-                {{ value | escape }}
-              </label>
-            {%- endfor -%}
-          </fieldset>
-        {%- endfor -%}
-      {%- endunless -%}
-
-      <div class="product-form__buttons">
-        <div class="button-add-to-cart">
-          <button
-            type="submit"
-            name="add"
-            class="button product-form__submit button--primary"
-          >
-            <span>ADD TO CART</span>
-          </button>
+  {% for block in section.blocks %}
+    {% case block.type %}
+      {% when 'gallery' %}
+        <div class="product-gallery" role="region" aria-label="Product gallery">
+          {% for media in product.media %}
+            {% case media.media_type %}
+              {% when 'image' %}
+                <img
+                  src="{{ media | image_url: width: 800 }}"
+                  alt="{{ media.alt | escape }}"
+                  width="800"
+                  height="600"
+                  loading="lazy">
+              {% when 'video' %}
+                <video controls preload="metadata" width="800" height="600">
+                  <source src="{{ media.sources[0].url }}" type="video/mp4">
+                </video>
+            {% endcase %}
+          {% endfor %}
         </div>
-      </div>
-    {%- endform -%}
 
-    <button
-      id="productInfoAnchor"
-      class="product__select-option-button select-option-button"
-      data-product-handle="{{ product.handle }}"
-      type="button"
-    >
-      Select Option
-    </button>
-  </div>
+      {% when 'buy_box' %}
+        <div class="product-info">
+          <h1 class="product-title" id="product-title">{{ product.title }}</h1>
+
+          {% assign is_on_sale = product.compare_at_price_max > product.price %}
+          {% assign percent_off = 0 %}
+          {% if is_on_sale and product.variants.first.compare_at_price > 0 %}
+            {% assign discount = product.variants.first.compare_at_price | minus: product.variants.first.price %}
+            {% assign percent_off = discount | times: 100 | divided_by: product.variants.first.compare_at_price %}
+          {% endif %}
+
+          {% if is_on_sale %}
+            <span class="sale-badge">
+              {{ section.settings.sale_badge_text }}{% if section.settings.show_percent_off %} — {{ percent_off | round }}% Off{% endif %}
+            </span>
+          {% endif %}
+
+          {% if section.settings.show_meta_info %}
+            <div class="product-meta">
+              {% if product.vendor %}<div><strong>Vendor:</strong> {{ product.vendor }}</div>{% endif %}
+              {% if product.type %}<div><strong>Type:</strong> {{ product.type }}</div>{% endif %}
+              {% if product.metafields.custom.category %}
+                <div><strong>Category:</strong> {{ product.metafields.custom.category.value }}</div>
+              {% endif %}
+              <div><strong>Template:</strong> {{ template.name }}</div>
+              {% if product.tags.size > 0 %}
+                <div><strong>Tags:</strong> {{ product.tags | join: ', ' }}</div>
+              {% endif %}
+            </div>
+          {% endif %}
+
+          <div class="product-price">
+            {% if is_on_sale %}
+              <span class="compare-price">{{ product.compare_at_price_max | money }}</span>
+              <span class="price-display">{{ product.price | money }}</span>
+            {% else %}
+              <span class="price-display">{{ product.price | money }}</span>
+            {% endif %}
+          </div>
+
+          {% if section.settings.show_stock_status %}
+            <div class="stock-status">
+              <span class="stock-label {% if product.available %}in-stock{% else %}out-of-stock{% endif %}">
+                {% if product.available %}In stock{% else %}Out of stock{% endif %}
+              </span>
+            </div>
+          {% endif %}
+
+          <form method="post" action="{{ routes.cart_add_url }}">
+            <input type="hidden" name="id" value="{{ product.variants.first.id }}">
+
+            {% for option in product.options_with_values %}
+              <fieldset>
+                <legend>{{ option.name }}</legend>
+                {% for value in option.values %}
+                  {% assign lower = option.name | downcase %}
+                  {% if lower contains 'color' %}
+                    <label class="swatch-label">
+                      <input type="radio" name="options[{{ option.name }}]" value="{{ value }}" {% if forloop.first %}checked{% endif %}>
+                      <span class="swatch" style="background-color: {{ value | downcase }}"></span>
+                    </label>
+                  {% else %}
+                    <label>
+                      <input type="radio" name="options[{{ option.name }}]" value="{{ value }}" {% if forloop.first %}checked{% endif %}>
+                      {{ value }}
+                    </label>
+                  {% endif %}
+                {% endfor %}
+              </fieldset>
+            {% endfor %}
+
+            <div class="quantity-controls">
+              <button type="button" class="qty-btn qty-minus">−</button>
+              <input type="number" id="quantity" name="quantity" value="1" min="1">
+              <button type="button" class="qty-btn qty-plus">+</button>
+            </div>
+
+            <button type="submit" class="add-to-cart-btn">Add to Cart</button>
+          </form>
+        </div>
+    {% endcase %}
+  {% endfor %}
+
+  {% if section.settings.show_sticky_cart %}
+    <div class="sticky-bar" id="sticky-bar">
+      <span id="sticky-product-title">{{ product.title }}</span>
+      <span id="sticky-product-price">{{ product.price | money }}</span>
+      <form method="post" action="{{ routes.cart_add_url }}">
+        <input type="hidden" name="id" value="{{ product.variants.first.id }}">
+        <button type="submit" class="add-to-cart-btn">Add to Cart</button>
+      </form>
+    </div>
+  {% endif %}
+
+  {% assign is_on_sale = product.compare_at_price_max > product.price %}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": "{{ product.title | escape }}",
+    "image": [{% for media in product.media %}"{{ media | image_url: width: 800 }}"{% unless forloop.last %}, {% endunless %}{% endfor %}],
+    "description": "{{ product.description | strip_html | escape }}",
+    "sku": "{{ product.variants.first.sku }}",
+    "brand": {
+      "@type": "Brand",
+      "name": "{{ product.vendor }}"
+    },
+    "offers": {
+      "@type": "Offer",
+      "url": "{{ shop.url }}{{ product.url }}",
+      "priceCurrency": "{{ shop.currency }}",
+      "price": "{{ product.variants.first.price | divided_by: 100.0 }}",
+      {% if is_on_sale %}
+        "salePrice": "{{ product.variants.first.price | divided_by: 100.0 }}",
+        "priceValidUntil": "2025-07-13",
+      {% endif %}
+      "availability": "https://schema.org/{% if product.available %}InStock{% else %}OutOfStock{% endif %}"
+    }
+  }
+  </script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelector('.qty-minus').addEventListener('click', () => {
+        const qty = document.getElementById('quantity');
+        qty.value = Math.max(1, parseInt(qty.value) - 1);
+      });
+
+      document.querySelector('.qty-plus').addEventListener('click', () => {
+        const qty = document.getElementById('quantity');
+        qty.value = parseInt(qty.value) + 1;
+      });
+
+      const sticky = document.getElementById('sticky-bar');
+      const btn = document.querySelector('.add-to-cart-btn');
+      if (sticky && btn) {
+        window.addEventListener('scroll', () => {
+          sticky.style.display = btn.getBoundingClientRect().bottom < 0 ? 'flex' : 'none';
+        });
+      }
+    });
+  </script>
 </section>
+
+{% schema %}
+{
+  "name": "Product Section",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_meta_info",
+      "default": true,
+      "label": "Show product meta info"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_stock_status",
+      "default": true,
+      "label": "Show stock status"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_sticky_cart",
+      "default": true,
+      "label": "Enable sticky add to cart"
+    },
+    {
+      "type": "text",
+      "id": "sale_badge_text",
+      "default": "On Sale!",
+      "label": "Sale badge text"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_percent_off",
+      "default": true,
+      "label": "Show percent off in badge"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "gallery",
+      "name": "Product Gallery"
+    },
+    {
+      "type": "buy_box",
+      "name": "Buy Box"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Default Product Section",
+      "category": "Product"
+    }
+  ]
+}
+{% endschema %}
