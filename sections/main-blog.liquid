@@ -48,39 +48,62 @@
     <button type="submit">Apply</button>
   </form>
 
-  {% assign filtered_articles = blog.articles %}
-
-  <!-- Apply Search Filter -->
-  {% if request.params.q %}
-    {% assign filtered_articles = filtered_articles | where: "title", request.params.q %}
-  {% endif %}
-
-  <!-- Apply Year Filter -->
-  {% if request.params.year %}
-    {% assign filtered_articles = filtered_articles | where_exp: "item", "item.published_at contains request.params.year" %}
-  {% endif %}
-
-  {% paginate filtered_articles by 5 %}
+  <!-- Paginate blog.articles -->
+  {% paginate blog.articles by 5 %}
     <ul class="article-list" style="list-style: none; padding: 0;">
-      {% for article in filtered_articles %}
-        <li class="article-item" style="margin-bottom: 2rem; display: flex; gap: 1rem;">
-          {% if article.image %}
-            <div style="flex-shrink: 0; width: 150px;">
-              <a href="{{ article.url }}">
-                <img src="{{ article.image | img_url: '300x300' }}" alt="{{ article.title }}" style="width: 100%; object-fit: cover;" />
-              </a>
-            </div>
-          {% endif %}
-          <div>
-            <h2><a href="{{ article.url }}">{{ article.title }}</a></h2>
-            <p><em>{{ article.published_at | date: "%B %d, %Y" }}</em></p>
-            {% if article.excerpt != blank %}
-              <p>{{ article.excerpt }}</p>
-            {% else %}
-              <p>{{ article.content | strip_html | truncate: 150 }}</p>
+      {% for article in blog.articles %}
+        {% assign show_article = true %}
+
+        <!-- Search Filter -->
+        {% if request.params.q %}
+          {% assign search = request.params.q | downcase %}
+          {% assign article_title = article.title | downcase %}
+          {% unless article_title contains search %}
+            {% assign show_article = false %}
+          {% endunless %}
+        {% endif %}
+
+        <!-- Year Filter -->
+        {% if request.params.year %}
+          {% assign article_year = article.published_at | date: "%Y" %}
+          {% unless article_year == request.params.year %}
+            {% assign show_article = false %}
+          {% endunless %}
+        {% endif %}
+
+        <!-- Tag Filter -->
+        {% if current_tags.size > 0 %}
+          {% assign has_tag = false %}
+          {% for tag in article.tags %}
+            {% if current_tags contains tag %}
+              {% assign has_tag = true %}
             {% endif %}
-          </div>
-        </li>
+          {% endfor %}
+          {% unless has_tag %}
+            {% assign show_article = false %}
+          {% endunless %}
+        {% endif %}
+
+        {% if show_article %}
+          <li class="article-item" style="margin-bottom: 2rem; display: flex; gap: 1rem;">
+            {% if article.image %}
+              <div style="flex-shrink: 0; width: 150px;">
+                <a href="{{ article.url }}">
+                  <img src="{{ article.image | img_url: '300x300' }}" alt="{{ article.title }}" style="width: 100%; object-fit: cover;" />
+                </a>
+              </div>
+            {% endif %}
+            <div>
+              <h2><a href="{{ article.url }}">{{ article.title }}</a></h2>
+              <p><em>{{ article.published_at | date: "%B %d, %Y" }}</em></p>
+              {% if article.excerpt != blank %}
+                <p>{{ article.excerpt }}</p>
+              {% else %}
+                <p>{{ article.content | strip_html | truncate: 150 }}</p>
+              {% endif %}
+            </div>
+          </li>
+        {% endif %}
       {% endfor %}
     </ul>
 

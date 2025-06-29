@@ -33,22 +33,20 @@
     padding-left: 16px;
     padding-right: 16px;
     padding-bottom: 16px;
-    // width: calc(100% - 32px);
     border-radius: 10px;
-    margin-top: -14px;
     position: relative;
     z-index: 2;
     @media (min-width: 768px) {
       position: absolute;
       left: 0;
       right: 0;
-      bottom: -60px;
+      bottom: -144px;
     }
   }
   .product__title {
     display: block;
     /* Heading4 */
-    font-family: "Minion Pro Cond Capt";
+    font-family: "Instrument Sans";
     font-style: normal;
     font-weight: 700;
     font-size: 20px;
@@ -59,7 +57,7 @@
     color: #ffffff;
   }
   .product__price {
-    font-family: "Instrument Sans";
+    display: block;
     font-style: normal;
     font-weight: 600;
     font-size: 16px;
@@ -68,6 +66,9 @@
     /* Neutral/White1 */
     color: #ffffff;
     text-align: center;
+    @media (min-width: 768px) {
+      padding-top: 68px;
+    }
   }
   .product__select-option-button {
     display: block;
@@ -99,6 +100,9 @@
       .product__info {
         bottom: 0;
         transition: bottom 0.3s ease-in-out;
+        .product__price {
+          padding-top: 2px;
+        }
       }
     }
   }
@@ -106,7 +110,7 @@
 
 .product-slider-wrapper {
   .product__slider--card {
-    margin: 0px 30px 0px 0px;
+    margin: 0px 20px 0px 0px;
   }
 }
 
@@ -121,27 +125,202 @@
   height: 100%;
   overflow: auto;
   background-color: rgba(0, 0, 0, 0.5);
-
   justify-content: flex-end;
-}
+  overflow: hidden;
 
-.product-modal-content {
-  background-color: #fff;
-  padding: 32px 40px;
-  max-width: 425px;
-  position: relative;
-  border-top-left-radius: 10px;
-  border-bottom-left-radius: 10px;
-}
+  .product-modal__content {
+    background-color: #fff;
+    padding: 32px 40px;
+    max-width: 425px;
+    position: relative;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    overflow-y: scroll;
+    .product-modal__header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      align-items: flex-start;
+      .product-modal__close {
+        cursor: pointer;
+      }
+    }
+    .product-modal__title {
+      /* Heading2 */
+      font-style: normal;
+      font-weight: 700;
+      font-size: 36px;
+      line-height: 36px;
+      /* identical to box height, or 100% */
+      /* Primary/Red2 */
+      color: #a5161a;
+    }
+    .product-modal__price {
+      /* Heading4 */
+      font-style: normal;
+      font-weight: 600;
+      font-size: 24px;
+      line-height: 28px;
+      /* identical to box height, or 117% */
+      /* Primary/Red2 */
+      color: #a5161a;
+    }
+    .product-modal__media {
+      padding-top: 24px;
+      padding-bottom: 16px;
+      img {
+        width: 100%;
+        object-fit: cover;
+        object-position: center;
+        border-radius: 8px;
+      }
+    }
+    .product-options {
+      .product-option {
+        legend {
+          font-style: normal;
+          font-weight: 600;
+          font-size: 12px;
+          line-height: 15px;
+          /* identical to box height */
+          /* Primary/Red3 */
+          color: #660808;
+          display: block;
+          padding-bottom: 4px;
+          text-transform: capitalize;
+        }
+        .swatch {
+          margin-right: 4px;
+          display: inline-block;
+          span {
+            font-style: normal;
+            font-weight: 400;
+            font-size: 14px;
+            line-height: 17px;
+            /* identical to box height */
+            text-align: center;
 
-.product-modal-close {
-  position: absolute;
-  top: 10px;
-  right: 15px;
-  font-size: 28px;
-  cursor: pointer;
-}
+            /* Primary/Red3 */
+            color: #660808;
+          }
+        }
+        &:not(:last-child) {
+          padding-bottom: 8px;
+        }
+      }
+    }
+    .quantity-container {
+      padding-top: 16px;
+      display: flex;
+      flex-direction: column;
 
-.product-modal-section {
-  margin-top: 20px;
+      .quantity-label {
+        font-style: normal;
+        font-weight: 600;
+        font-size: 12px;
+        line-height: 15px;
+        /* identical to box height */
+        /* Primary/Red3 */
+        color: #660808;
+        display: block;
+        padding-bottom: 8px;
+      }
+      .quantity-wrapper {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        justify-content: flex-start;
+        width: 100px;
+        button.qty-btn.minus {
+          position: absolute;
+          left: 0;
+          height: 100%;
+        }
+        button.qty-btn.plus {
+          position: absolute;
+          right: 0;
+          height: 100%;
+        }
+        input.qty-input {
+          /* Frame 28 */
+          box-sizing: border-box;
+          -moz-appearance: textfield;
+          -webkit-appearance: none;
+          padding: 12px 16px;
+          text-align: center;
+
+          width: 100px;
+          height: 41px;
+
+          /* Neutral/White3 */
+          border: 1px solid #d3d3d3;
+          border-radius: 4px;
+
+          font-style: normal;
+          font-weight: 400;
+          font-size: 14px;
+          line-height: 17px;
+          /* identical to box height */
+          text-align: center;
+
+          /* Primary/Red3 */
+          color: #660808;
+        }
+      }
+    }
+
+    .product-modal__buttons {
+      padding-top: 16px;
+      .product-modal__buttons--buy {
+        display: block;
+        /* Primary/Red1 */
+        padding: 12px 16px;
+        background: #c61d23;
+        border-radius: 6px;
+        font-style: normal;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 17px;
+        /* identical to box height */
+        text-align: center;
+        /* Neutral/White1 */
+        color: #ffffff;
+        width: 100%;
+        margin-bottom: 8px;
+      }
+      .product-modal__buttons--cart {
+        display: block;
+        /* Primary/Red1 */
+        padding: 12px 16px;
+        background: #c61d23;
+        border-radius: 6px;
+        font-style: normal;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 17px;
+        /* identical to box height */
+        text-align: center;
+        /* Neutral/White1 */
+        color: #ffffff;
+        width: 100%;
+        margin-bottom: 8px;
+      }
+      .product-modal__buttons--view {
+        display: block;
+        /* Primary/Red1 */
+        padding: 12px 16px;
+        // background: #c61d23;
+        border-radius: 6px;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 17px;
+        /* identical to box height */
+        text-align: center;
+        text-decoration-line: underline;
+        /* Primary/Red3 */
+        color: #660808;
+      }
+    }
+  }
 }

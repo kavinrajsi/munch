@@ -150,6 +150,7 @@
 
 
 // Product Modal
+  // Product Modal
   document.addEventListener("DOMContentLoaded", function () {
     // Utilities
     function updateCartCount() {
@@ -165,12 +166,18 @@
 
     function closeModal(productId) {
       const modal = document.getElementById("product-modal-" + productId);
-      if (modal) modal.style.display = "none";
+      if (modal) {
+        modal.style.display = "none";
+        document.body.classList.remove("overflow-hidden"); // Remove overflow when modal closes
+      }
     }
 
     window.openProductModal = function (productId) {
       const modal = document.getElementById("product-modal-" + productId);
-      if (modal) modal.style.display = "flex";
+      if (modal) {
+        modal.style.display = "flex";
+        document.body.classList.add("overflow-hidden"); // Add overflow when modal opens
+      }
     };
 
     window.closeProductModal = closeModal;
@@ -180,6 +187,7 @@
       document.querySelectorAll(".product-modal").forEach((modal) => {
         if (event.target === modal) {
           modal.style.display = "none";
+          document.body.classList.remove("overflow-hidden"); // Remove overflow when clicked outside
         }
       });
     };
