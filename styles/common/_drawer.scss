@@ -210,5 +210,14 @@
   align-items: center;
   justify-content: center;
   border-radius: 4px;
+}
 
+.drawer__related-products {
+  padding: 1rem;
+  border-top: 1px solid #eee;
+}
+
+.drawer__related-products h4 {
+  font-size: 1rem;
+  margin-bottom: 0.75rem;
 }

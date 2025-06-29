@@ -44,78 +44,100 @@
 
     <!-- Select Option button for multi-variant products -->
 
-      <button
-        class="product__select-option-button select-option-button"
-        data-product-handle="{{ product.handle }}"
-        type="button"
-        onclick="openProductModal({{ product.id }})"
-      >
-        Select Option
-      </button>
-
+    <button
+      class="product__select-option-button select-option-button"
+      data-product-handle="{{ product.handle }}"
+      type="button"
+      onclick="openProductModal({{ product.id }})"
+    >
+      Select Option
+    </button>
   </div>
 
-  <!-- Product Modal -->
-  <div id="product-modal-{{ product.id }}" class="product-modal" style="display: none;">
-    <div class="product-modal-content">
-      <span class="product-modal-close" onclick="closeProductModal({{ product.id }})">&times;</span>
-      <h3>{{ product.title }}</h3>
-    <!-- Product Description -->
-    <div class="product-description">
-      {{ product.description }}
+<!-- Product JSON for JS -->
+<script type="application/json" id="ProductJson-{{ product.id }}">
+  {{ product | json }}
+</script>
+
+<!-- Product Modal -->
+<div id="product-modal-{{ product.id }}" class="product-modal" style="display: none;">
+  <div class="product-modal-content">
+    <span class="product-modal-close" onclick="closeProductModal({{ product.id }})">&times;</span>
+    <h3>{{ product.title }}</h3>
+
+    <!-- Dynamic Price -->
+    <div class="price">
+      <span class="price-reg" id="price-{{ product.id }}">{{ current_variant.price | money }}</span>
+      {% if current_variant.compare_at_price > current_variant.price %}
+        <span class="price-sale" id="compare-price-{{ product.id }}">
+          <s>{{ current_variant.compare_at_price | money }}</s>
+        </span>
+      {% else %}
+        <span class="price-sale" id="compare-price-{{ product.id }}" style="display:none;"></span>
+      {% endif %}
     </div>
 
-      <!-- Variant price -->
-      <div class="price">
-        <span class="price-reg">{{ current_variant.price | money }}</span>
-        {% if current_variant.compare_at_price > current_variant.price %}
-          <span class="price-sale">
-            <s>{{ current_variant.compare_at_price | money }}</s>
-          </span>
-        {% endif %}
+    <!-- Stock Display -->
+    <div class="stock-status" id="stock-status-{{ product.id }}">
+      {% if current_variant.available %}
+        In Stock
+      {% else %}
+        Out of Stock
+      {% endif %}
+    </div>
+
+    <!-- Product Media -->
+    {% if featured_media.media_type == 'image' or featured_media.media_type == blank %}
+      <div class="product-single__media" data-media-id="{{ featured_media.id }}">
+        {{ featured_media | image_url: width: 2048 | image_tag }}
+      </div>
+    {% endif %}
+
+    <!-- Product Form -->
+    <form class="product-form-ajax" data-product-id="{{ product.id }}">
+      <!-- Swatch Radio Buttons -->
+      <div class="product-options">
+        {% for option in product.options_with_values %}
+          <fieldset class="product-option" data-option-index="{{ forloop.index0 }}">
+            <legend>{{ option.name }}</legend>
+            <div class="option-values">
+              {% for value in option.values %}
+                <label class="swatch">
+                  <input
+                    type="radio"
+                    name="option-{{ forloop.parent.index0 }}"
+                    value="{{ value }}"
+                    {% if option.selected_value == value %}checked{% endif %}
+                  >
+                  <span>{{ value }}</span>
+                </label>
+              {% endfor %}
+            </div>
+          </fieldset>
+        {% endfor %}
       </div>
 
-      <!-- Variant media preview (no padding) -->
-      {% if featured_media.media_type == 'image' or featured_media.media_type == blank %}
-        <div class="product-single__media" data-media-id="{{ featured_media.id }}">
-          {{ featured_media | image_url: width: 2048 | image_tag }}
-        </div>
-      {% elsif featured_media.media_type == 'external_video' %}
-        <div class="product-single__media" data-media-id="{{ featured_media.id }}">
-          {{ featured_media | external_video_tag }}
-        </div>
-      {% elsif featured_media.media_type == 'video' %}
-        <div class="product-single__media" data-media-id="{{ featured_media.id }}">
-          {{ featured_media | video_tag: controls: true }}
-        </div>
-      {% elsif featured_media.media_type == 'model' %}
-        <div class="product-single__media" data-media-id="{{ featured_media.id }}">
-          {{ featured_media | model_viewer_tag }}
-        </div>
-      {% endif %}
+      <!-- Hidden Selected Variant ID -->
+      <input type="hidden" name="id" value="{{ current_variant.id }}" class="selected-variant-id">
 
-    <!-- Add to Cart Form -->
-<!-- Add to Cart Form (AJAX) -->
-<form class="product-form-ajax" data-product-id="{{ product.id }}">
-  <select name="id" class="variant-select">
-    {% for variant in product.variants %}
-      <option
-        value="{{ variant.id }}"
-        {% if variant == current_variant %}
-          selected="selected"
-        {% endif %}
-      >
-        {{ variant.title }} - {{ variant.price | money }}
-      </option>
-    {% endfor %}
-  </select>
+      <!-- Quantity Selector -->
+      <div class="quantity-wrapper">
+        <button type="button" class="qty-btn minus" onclick="updateQty(this, -1)">−</button>
+        <input type="number" name="quantity" value="1" min="1" class="qty-input">
+        <button type="button" class="qty-btn plus" onclick="updateQty(this, 1)">+</button>
+      </div>
 
-  <button type="submit" class="btn product__buy-button">Buy Now</button>
-  <div class="ajax-cart-response" style="display:none;"></div>
-</form>
+      <!-- Buttons -->
+      <div class="product-modal-buttons">
+        <button type="submit" class="btn product__buy-button">Buy Now</button>
+        <button type="button" class="btn product__add-to-cart-button" onclick="addToCart(this)">Add to Cart</button>
+        <a href="{{ product.url }}" class="btn product__view-details-button">View in Detail</a>
+      </div>
 
-
-
-    </div>
+      <div class="ajax-cart-response" style="display:none;"></div>
+    </form>
   </div>
+</div>
+
+
 </div>

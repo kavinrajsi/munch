@@ -1,8 +1,7 @@
 (function ($) {
   console.log("functions");
 
-   $('.slick-slider').slick();
-
+  $(".slick-slider").slick();
 
   // // product variant
   // $('.product-variant-fielset input[type="radio"]').click(function () {
@@ -148,3 +147,166 @@
   //Functions, Plugins, Etc.. Here
   //(does not wait for DOM READY STATE)
 })(jQuery);
+
+
+// Product Modal
+  document.addEventListener("DOMContentLoaded", function () {
+    // Utilities
+    function updateCartCount() {
+      fetch("/cart.js")
+        .then((res) => res.json())
+        .then((cart) => {
+          const cartCountEls = document.querySelectorAll(".cart-count");
+          cartCountEls.forEach((el) => {
+            el.textContent = cart.item_count;
+          });
+        });
+    }
+
+    function closeModal(productId) {
+      const modal = document.getElementById("product-modal-" + productId);
+      if (modal) modal.style.display = "none";
+    }
+
+    window.openProductModal = function (productId) {
+      const modal = document.getElementById("product-modal-" + productId);
+      if (modal) modal.style.display = "flex";
+    };
+
+    window.closeProductModal = closeModal;
+
+    // Close when clicking outside modal content
+    window.onclick = function (event) {
+      document.querySelectorAll(".product-modal").forEach((modal) => {
+        if (event.target === modal) {
+          modal.style.display = "none";
+        }
+      });
+    };
+
+    // Quantity buttons
+    window.updateQty = function (button, change) {
+      const input = button.parentElement.querySelector(".qty-input");
+      let qty = parseInt(input.value) || 1;
+      qty = Math.max(qty + change, 1);
+      input.value = qty;
+    };
+
+    // "Add to Cart" button (custom)
+    window.addToCart = function (button) {
+      const form = button.closest("form");
+      const formData = new FormData(form);
+      const productId = form.dataset.productId;
+
+      fetch("/cart/add.js", {
+        method: "POST",
+        body: formData,
+        headers: {
+          Accept: "application/json",
+        },
+      })
+        .then((res) => res.json())
+        .then(() => {
+          alert("✅ Added to cart!");
+          updateCartCount();
+          closeModal(productId);
+        })
+        .catch((err) => {
+          console.error("Add to cart error:", err);
+        });
+    };
+
+    // Form Submit (Buy Now AJAX)
+    document.querySelectorAll(".product-form-ajax").forEach((form) => {
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        const productId = form.dataset.productId;
+        const variantId = form.querySelector(".selected-variant-id").value;
+        const qty = parseInt(form.querySelector(".qty-input").value) || 1;
+        const responseBox = form.querySelector(".ajax-cart-response");
+
+        fetch("/cart/add.js", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify({ items: [{ id: variantId, quantity: qty }] }),
+        })
+          .then((res) => res.json())
+          .then(() => {
+            responseBox.textContent = "✅ Added to cart!";
+            responseBox.style.display = "block";
+            responseBox.style.color = "green";
+            updateCartCount();
+            closeModal(productId);
+          })
+          .catch((error) => {
+            responseBox.textContent = "❌ Error adding to cart.";
+            responseBox.style.display = "block";
+            responseBox.style.color = "red";
+            console.error("Cart error:", error);
+          });
+      });
+
+      // Variant radio logic
+      const productId = form.dataset.productId;
+      const radios = form.querySelectorAll('input[type="radio"]');
+      const productJsonElement = document.getElementById("ProductJson-" + productId);
+      if (!productJsonElement) return;
+
+      const productData = JSON.parse(productJsonElement.textContent);
+
+      // Disable sold-out values
+      form.querySelectorAll("fieldset").forEach((fieldset, optionIndex) => {
+        const valueRadios = fieldset.querySelectorAll("input[type='radio']");
+        valueRadios.forEach((radio) => {
+          const value = radio.value;
+          const isAvailable = productData.variants.some((variant) => {
+            return variant.options[optionIndex] === value && variant.available;
+          });
+
+          radio.disabled = !isAvailable;
+          if (!isAvailable) {
+            radio.parentElement.classList.add("disabled");
+          }
+        });
+      });
+
+      // Handle changes
+      radios.forEach((input) => {
+        input.addEventListener("change", function () {
+          const selectedOptions = [];
+          form.querySelectorAll("fieldset").forEach((fieldset, index) => {
+            const selected = fieldset.querySelector("input:checked");
+            selectedOptions[index] = selected ? selected.value : "";
+          });
+
+          const variant = productData.variants.find((v) =>
+            v.options.every((val, i) => val === selectedOptions[i])
+          );
+
+          if (variant) {
+            form.querySelector(".selected-variant-id").value = variant.id;
+
+            // Update price
+            const priceEl = document.getElementById("price-" + productId);
+            const compareEl = document.getElementById("compare-price-" + productId);
+            if (priceEl) priceEl.textContent = Shopify.formatMoney(variant.price, Shopify.money_format);
+            if (compareEl) {
+              if (variant.compare_at_price > variant.price) {
+                compareEl.style.display = "inline";
+                compareEl.textContent = Shopify.formatMoney(variant.compare_at_price, Shopify.money_format);
+              } else {
+                compareEl.style.display = "none";
+              }
+            }
+
+            // Update stock
+            const stockEl = document.getElementById("stock-status-" + productId);
+            if (stockEl) stockEl.textContent = variant.available ? "In Stock" : "Out of Stock";
+          }
+        });
+      });
+    });
+  });
