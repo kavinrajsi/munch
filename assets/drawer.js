@@ -178,7 +178,7 @@ $(document).on('click', '.cartpopup-body .remove', function (e) {
 });
 
 // QTY UPDATE (buttons)
-$(document).on('click', '.qty-btn', function () {
+$(document).on('click', '.cart__item .qty-btn', function () {
   const $btn = $(this);
   const $input = $btn.siblings('.cart-qty-input');
   const line = parseInt($btn.data('line'));
@@ -219,3 +219,66 @@ $(document).on('click', '.qty-btn', function () {
     }
   });
 });
+
+var openDrawer = function (trigger) {
+  var target = document.getElementById(trigger.getAttribute("aria-controls"));
+  target.classList.add(settings.activeClass);
+  document.documentElement.style.overflow = "hidden";
+  toggleAccessibility(trigger);
+
+  setTimeout(function () {
+    target.classList.add(settings.visibleClass);
+  }, settings.speedOpen);
+
+  fetch("/cart.js")
+    .then((resp) => resp.json())
+    .then((data) => {
+      let drawerHTML = "";
+
+      if (data.items.length > 0) {
+        $(".cart-item-no").attr("hidden", true);
+
+        data.items.forEach(function (product, index) {
+          drawerHTML += `
+            <div class="cart__item cartpopup-item" data-line="${index + 1}" data-variant-id="${product.variant_id}">
+              <div class="card__item-image">
+                <img src="${product.featured_image.url}" alt="${product.featured_image.alt}">
+              </div>
+              <div class="card__item-content">
+                <h5>${product.title}</h5>
+                <p class="productPrice">
+                  <span class="money">${Shopify.formatMoney(product.price)}</span>
+                </p>
+                <div class="cart-item__qty">
+                  <button type="button" class="qty-btn qty-decrease" data-line="${index + 1}">−</button>
+                  <input type="number" class="cart-qty-input" value="${product.quantity}" min="1" data-line="${index + 1}">
+                  <button type="button" class="qty-btn qty-increase" data-line="${index + 1}">+</button>
+                </div>
+                <p class="delete">
+                  <a class="remove removeCta" data-line="${index + 1}" href="#">
+                    <svg width="16" height="16"><use href="#trash-mini" /></svg> Remove
+                  </a>
+                </p>
+              </div>
+            </div>`;
+        });
+
+        $("#cart__drawer_items").html(drawerHTML);
+
+        // Initialize minus button state
+        $('.cart-qty-input').each(function () {
+          const qty = parseInt($(this).val());
+          if (qty <= 1) {
+            $(this).siblings('.qty-decrease').addClass('qty-disabled');
+          }
+        });
+
+        // Call related product logic using the first product's ID
+        loadRelatedProducts(data.items[0].product_id);
+      }
+
+      $("#cart__total_price").html(
+        `<span class="money">${Shopify.formatMoney(data.original_total_price)}</span>`
+      );
+    });
+};
