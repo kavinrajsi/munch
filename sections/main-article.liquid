@@ -12,17 +12,66 @@
 }
 {% endschema %}
 
-<article class="article" style="max-width: 800px; margin: 0 auto; padding: 2rem;">
-  <h1>{{ article.title }}</h1>
+<article class="blog-article">
   {% if article.image %}
-    <img src="{{ article.image | img_url: '1200x' }}" alt="{{ article.title }}" style="width: 100%; margin: 1rem 0;">
+    <div class="blog-article__image grid-box">
+      <picture>
+        <source
+          srcset="{{ article.image | image_url: width: 1200, format: 'avif' }}"
+          type="image/avif">
+        <source
+          srcset="{{ article.image | image_url: width: 1200, format: 'webp' }}"
+          type="image/webp">
+        <img
+          src="{{ article.image | image_url: width: 1200 }}"
+          alt="{{ article.image.alt | escape }}"
+          width="1200"
+          height="{{ article.image.height | divided_by: article.image.width | times: 1200 | round }}"
+          loading="lazy">
+      </picture>
+    </div>
   {% endif %}
-  <div class="article-meta">
-    <p>Published on {{ article.published_at | date: "%B %d, %Y" }}</p>
-  </div>
-  <div class="article-content">
-    {{ article.content }}
+  <div class="blog-article__content">
+    <h1 class="page-title">{{ article.title }}</h1>
+    <div class="article-meta">
+      <p class="date">{{ article.published_at | date: '%B %d, %Y' }}</p>
+    </div>
+    <div class="article-content">
+      {{ article.content }}
+    </div>
   </div>
 </article>
 
-
+<!-- ✅ JSON-LD Structured Data for Google -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "{{ shop.url }}{{ article.url }}"
+  },
+  "headline": "{{ article.title | escape }}",
+  "description": "{{ article.excerpt_or_content | strip_html | truncate: 160 | escape }}",
+  "image": {
+    "@type": "ImageObject",
+    "url": "{{ article.image | image_url: width: 1200 }}",
+    "width": 1200,
+    "height": {{ article.image.height | divided_by: article.image.width | times: 1200 | round }}
+  },
+  "author": {
+    "@type": "Person",
+    "name": "{{ article.author }}"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "{{ shop.name }}",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "{{ shop.logo | image_url: width: 200 }}"
+    }
+  },
+  "datePublished": "{{ article.published_at | date: "%Y-%m-%d" }}",
+  "dateModified": "{{ article.updated_at | date: "%Y-%m-%d" }}"
+}
+</script>
