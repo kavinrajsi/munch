@@ -2,8 +2,6 @@
   position: relative;
   overflow: hidden;
   border-radius: 10px;
-  // margin: 0px 30px 0px 0px;
-
   display: inline-flex;
   flex-direction: column;
   gap: 0;
@@ -123,12 +121,48 @@
   top: 0;
   width: 100%;
   height: 100%;
-  overflow: auto;
-  background-color: rgba(0, 0, 0, 0.5);
-  justify-content: flex-end;
   overflow: hidden;
+  -webkit-transform: translateX(103%);
+  transform: translateX(103%);
+  transition: transform 0.3s;
+
+  .product-modal__overlay {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    @include z-index(drawer_overlayWrapper);
+    opacity: 0;
+    transition: opacity 0.3s;
+    will-change: opacity;
+    background-color: #000;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    transition: transform 0.3s;
+  }
+
+  &.product-modal--show {
+    display: flex;
+    justify-content: flex-end;
+    -webkit-transform: translateX(0);
+    transform: translateX(0);
+  }
+  &.product-modal--show .product-modal__overlay {
+    opacity: 0.5;
+  }
+
+  &.product-modal--show .product-modal__content {
+    transition: transform 0.3s;
+    -webkit-transform: translateX(0);
+    transform: translateX(0);
+  }
 
   .product-modal__content {
+    z-index: 1002;
     background-color: #fff;
     padding: 32px 40px;
     max-width: 425px;
@@ -136,6 +170,16 @@
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
     overflow-y: scroll;
+
+    transition: transform 0.3s;
+    will-change: transform;
+    background-color: #fff;
+    -webkit-overflow-scrolling: touch;
+    -webkit-transform: translateX(103%);
+    transform: translateX(103%);
+    -webkit-overflow-scrolling: touch;
+    box-shadow: 0 2px 6px #777;
+
     .product-modal__header {
       display: flex;
       align-items: center;

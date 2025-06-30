@@ -5,14 +5,17 @@
   <!-- Product image or media preview -->
   <a href="{{ product.url }}">
     {% if featured_media.media_type == 'image' or featured_media.media_type == blank %}
-      <img
-        src="{{ featured_media | image_url: width: 265, height: 320 }}"
-        alt="{{ product.title }}"
-        width="265"
-        height="320"
-        loading="lazy"
-        decoding="async"
-      >
+      <picture>
+        <source srcset="{{ featured_media | image_url: width: 265, format: 'webp' }}" type="image/webp">
+        <img
+          src="{{ featured_media | image_url: width: 265 }}"
+          width="265"
+          height="320"
+          loading="lazy"
+          decoding="async"
+          alt="{{ product.title }}"
+        >
+      </picture>
     {% endif %}
   </a>
 
@@ -60,7 +63,8 @@
   </script>
 
   <!-- Product Modal -->
-  <div id="product-modal-{{ product.id }}" class="product-modal" style="display: none;">
+  <div id="product-modal-{{ product.id }}" class="product-modal">
+    <div class="product-modal__overlay"></div>
     <div class="product-modal__content">
       <div class="product-modal__header">
         <h3 class="product-modal__title">{{ product.title }}</h3>

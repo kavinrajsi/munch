@@ -81,23 +81,25 @@ var drawer = function () {
               drawerHTML += `
                 <div class="cart__item cartpopup-item" data-line="${index + 1}" data-variant-id="${product.variant_id}">
                   <div class="card__item-image">
-                    <img src="${product.featured_image.url}" alt="${product.featured_image.alt}">
+                    <img src="${product.featured_image.url}&width=95&height=100&format=webp" width="95" height="100" alt="${product.featured_image.alt}">
                   </div>
                   <div class="card__item-content">
-                    <h5>${product.title}</h5>
-                    <p class="productPrice">
+                    <h5 class="card__item--title">${product.title}</h5>
+                    <p class="card__item--price productPrice">
                       <span class="money">${Shopify.formatMoney(product.price)}</span>
                     </p>
+                    <div class="cart-item__qtyWrapper">
                     <div class="cart-item__qty">
                       <button type="button" class="qty-btn qty-decrease" data-line="${index + 1}">−</button>
-                      <input type="number" class="cart-qty-input" value="${product.quantity}" min="1" data-line="${index + 1}">
+                      <input type="text" class="cart-qty-input" value="${product.quantity}" min="1" data-line="${index + 1}">
                       <button type="button" class="qty-btn qty-increase" data-line="${index + 1}">+</button>
                     </div>
                     <p class="delete">
                       <a class="remove removeCta" data-line="${index + 1}" href="#">
-                        <svg width="16" height="16"><use href="#trash-mini" /></svg> Remove
+                        Remove
                       </a>
                     </p>
+                    </div>
                   </div>
                 </div>`;
             });
@@ -242,13 +244,14 @@ var openDrawer = function (trigger) {
           drawerHTML += `
             <div class="cart__item cartpopup-item" data-line="${index + 1}" data-variant-id="${product.variant_id}">
               <div class="card__item-image">
-                <img src="${product.featured_image.url}" alt="${product.featured_image.alt}">
+               <img src="${product.featured_image.url}&width=95&height=100&format=webp" width="95" height="100" alt="${product.featured_image.alt}">
               </div>
               <div class="card__item-content">
-                <h5>${product.title}</h5>
-                <p class="productPrice">
+                <h5 class="card__item--title">${product.title}</h5>
+                <p class="card__item--price productPrice">
                   <span class="money">${Shopify.formatMoney(product.price)}</span>
                 </p>
+                <div class="cart-item__qtyWrapper">
                 <div class="cart-item__qty">
                   <button type="button" class="qty-btn qty-decrease" data-line="${index + 1}">−</button>
                   <input type="number" class="cart-qty-input" value="${product.quantity}" min="1" data-line="${index + 1}">
@@ -256,9 +259,10 @@ var openDrawer = function (trigger) {
                 </div>
                 <p class="delete">
                   <a class="remove removeCta" data-line="${index + 1}" href="#">
-                    <svg width="16" height="16"><use href="#trash-mini" /></svg> Remove
+                  Remove
                   </a>
                 </p>
+              </div>
               </div>
             </div>`;
         });

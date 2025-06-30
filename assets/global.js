@@ -150,7 +150,6 @@
 
 
 // Product Modal
-  // Product Modal
   document.addEventListener("DOMContentLoaded", function () {
     // Utilities
     function updateCartCount() {
@@ -167,27 +166,27 @@
     function closeModal(productId) {
       const modal = document.getElementById("product-modal-" + productId);
       if (modal) {
-        modal.style.display = "none";
-        document.body.classList.remove("overflow-hidden"); // Remove overflow when modal closes
+        modal.classList.remove("product-modal--show");
+        document.body.classList.remove("overflow-hidden");
       }
     }
 
     window.openProductModal = function (productId) {
       const modal = document.getElementById("product-modal-" + productId);
       if (modal) {
-        modal.style.display = "flex";
-        document.body.classList.add("overflow-hidden"); // Add overflow when modal opens
+        modal.classList.add("product-modal--show");
+        document.body.classList.add("overflow-hidden");
       }
     };
 
     window.closeProductModal = closeModal;
 
-    // Close when clicking outside modal content
+    // Close modal when clicking outside content
     window.onclick = function (event) {
       document.querySelectorAll(".product-modal").forEach((modal) => {
         if (event.target === modal) {
-          modal.style.display = "none";
-          document.body.classList.remove("overflow-hidden"); // Remove overflow when clicked outside
+          modal.classList.remove("product-modal--show");
+          document.body.classList.remove("overflow-hidden");
         }
       });
     };
@@ -200,7 +199,7 @@
       input.value = qty;
     };
 
-    // "Add to Cart" button (custom)
+    // Add to Cart button
     window.addToCart = function (button) {
       const form = button.closest("form");
       const formData = new FormData(form);
@@ -224,7 +223,7 @@
         });
     };
 
-    // Form Submit (Buy Now AJAX)
+    // Form submit (Buy Now via AJAX)
     document.querySelectorAll(".product-form-ajax").forEach((form) => {
       form.addEventListener("submit", function (e) {
         e.preventDefault();
@@ -257,7 +256,7 @@
           });
       });
 
-      // Variant radio logic
+      // Variant radio button logic
       const productId = form.dataset.productId;
       const radios = form.querySelectorAll('input[type="radio"]');
       const productJsonElement = document.getElementById("ProductJson-" + productId);
@@ -265,7 +264,7 @@
 
       const productData = JSON.parse(productJsonElement.textContent);
 
-      // Disable sold-out values
+      // Disable unavailable variant values
       form.querySelectorAll("fieldset").forEach((fieldset, optionIndex) => {
         const valueRadios = fieldset.querySelectorAll("input[type='radio']");
         valueRadios.forEach((radio) => {
@@ -281,7 +280,7 @@
         });
       });
 
-      // Handle changes
+      // Handle variant changes
       radios.forEach((input) => {
         input.addEventListener("change", function () {
           const selectedOptions = [];
@@ -310,9 +309,11 @@
               }
             }
 
-            // Update stock
+            // Update stock status
             const stockEl = document.getElementById("stock-status-" + productId);
-            if (stockEl) stockEl.textContent = variant.available ? "In Stock" : "Out of Stock";
+            if (stockEl) {
+              stockEl.textContent = variant.available ? "In Stock" : "Out of Stock";
+            }
           }
         });
       });
