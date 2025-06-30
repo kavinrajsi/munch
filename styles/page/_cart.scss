@@ -202,7 +202,7 @@
         flex: 0 0 calc(100% - 95px - 16px);
         max-width: calc(100% - 95px - 16px);
 
-        a {
+        .product-titleWrapper a{
           display: block;
           font-family: "Instrument Sans";
           font-style: normal;
@@ -214,7 +214,7 @@
           /* Primary/Red2 */
           color: #a5161a;
         }
-        small {
+        .product-titleWrapper small {
           display: block;
           font-family: "Instrument Sans";
           font-style: normal;

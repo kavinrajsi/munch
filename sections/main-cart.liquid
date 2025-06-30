@@ -57,12 +57,18 @@
                     <div class="product-text">
                       <div class="product-titleWrapper">
                         <a href="{{ item.url }}">
-                          {{- item.product.title }}
+                          {{- item.product.title -}}
                         </a>
                         <small>{{ item.variant.title }}</small>
                       </div>
                       <!-- Remove Button -->
-                      <div class="remove-col"><span class="remove-btn">Remove</span></div>
+                      <a
+                        class="remove-btn"
+                        aria-label="Remove {{ item.variant.title }}"
+                        href="{{ routes.cart_change_url }}?line={{ forloop.index }}&quantity=0"
+                      >
+                        Remove
+                      </a>
                     </div>
                   </div>
                 </div>
@@ -75,9 +81,9 @@
                 <!-- Quantity Controls -->
                 <div class="cart-col qty-col">
                   <div class="qty-changer">
-                    <button type="button" class="qty-btn qty-decrease">−</button>
-                    <input type="text" class="cart-qty-input" value="{{ item.quantity }}" min="1">
-                    <button type="button" class="qty-btn qty-increase">+</button>
+                    <button type="button" class="qty-btn qty-decrease minus-btn"  data-line-key="{{ item.key }}" >−</button>
+                    <input type="text" class="cart-qty-input quantity-input" value="{{ item.quantity }}" data-line-key="{{ item.key }}" min="1">
+                    <button type="button" class="qty-btn qty-increase plus-btn" data-line-key="{{ item.key }}">+</button>
                   </div>
                 </div>
               </div>
@@ -110,109 +116,50 @@
 </div>
 
 <script>
-  document.addEventListener('DOMContentLoaded', function () {
-    function formatMoney(cents) {
-      if (typeof Shopify !== 'undefined' && typeof Shopify.formatMoney === 'function') {
-        return Shopify.formatMoney(cents);
-      }
-      return '$' + (cents / 100).toFixed(2);
-    }
+  document.querySelectorAll('.quantity-input').forEach((input) => {
+    input.addEventListener('change', updateQuantity);
+  });
 
-    function updateCartUI(cart) {
-      document.getElementById('cart-subtotal').innerHTML = formatMoney(cart.total_price);
+  function updateQuantity(event) {
+    const input = event.target;
+    const lineKey = input.getAttribute('data-line-key');
+    const quantity = input.value;
 
-      if (cart.item_count === 0) {
-        document.getElementById('cart-container').innerHTML = `
-          <p>Your cart is currently empty.</p>
-          <a href="{{ routes.all_products_collection_url }}" class="btn" style="margin-top: 1rem;">Continue Shopping</a>
-        `;
-      }
-    }
-
-    // 🛠 Unbind existing events by replacing elements
-    document.querySelectorAll('.qty-btn, .remove-btn').forEach((btn) => {
-      btn.replaceWith(btn.cloneNode(true));
-    });
-
-    // 🔁 Re-select clean elements
-    document.querySelectorAll('.qty-btn').forEach((btn) => {
-      btn.addEventListener('click', function () {
-        const row = this.closest('.cart-item');
-        const input = row.querySelector('.cart-qty-input');
-        const key = row.getAttribute('data-key');
-        const decreaseBtn = row.querySelector('.qty-decrease');
-
-        let qty = parseInt(input.value);
-
-        if (this.classList.contains('qty-increase')) {
-          qty += 1;
-        } else if (this.classList.contains('qty-decrease') && qty > 1) {
-          qty -= 1;
-        }
-
-        input.value = qty;
-
-        if (qty <= 1) {
-          decreaseBtn.classList.add('qty-disabled');
-        } else {
-          decreaseBtn.classList.remove('qty-disabled');
-        }
-
-        fetch('/cart/change.js', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ id: Number(key), quantity: qty }),
-        })
-          .then((res) => {
-            if (!res.ok) throw new Error('Network response was not ok');
-            return res.json();
-          })
-          .then((cart) => {
-            const updatedItem = cart.items.find((i) => i.variant_id === Number(key));
-            if (updatedItem) {
-              row.querySelector('.line-total').innerHTML = formatMoney(updatedItem.line_price);
-            }
-            updateCartUI(cart);
-          })
-          .catch((err) => {
-            console.error(err);
-            alert('Failed to update quantity. Please refresh.');
-          });
+    fetch(`/cart/change.js`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        id: lineKey,
+        quantity: quantity,
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        // Update cart UI or reload page based on response
+        location.reload();
+      })
+      .catch((error) => {
+        console.error('Error updating cart:', error);
       });
+  }
+
+  document.querySelectorAll('.plus-btn').forEach((button) => {
+    button.addEventListener('click', function () {
+      let _key = this.dataset.lineKey;
+      let input = document.querySelector(`.quantity-input[data-line-key='${_key}']`);
+      input.value = parseInt(input.value) + 1;
+      input.dispatchEvent(new Event('change'));
     });
+  });
 
-    document.querySelectorAll('.remove-btn').forEach((btn) => {
-      btn.addEventListener('click', function () {
-        const row = this.closest('.cart-item');
-        const key = row.getAttribute('data-key');
-
-        fetch('/cart/change.js', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ id: Number(key), quantity: 0 }),
-        })
-          .then((res) => {
-            if (!res.ok) throw new Error('Network response was not ok');
-            return res.json();
-          })
-          .then((cart) => {
-            row.remove();
-            updateCartUI(cart);
-          })
-          .catch((err) => {
-            console.error(err);
-            alert('Failed to remove item. Please refresh.');
-          });
-      });
-    });
-
-    // Disable minus button if quantity is 1
-    document.querySelectorAll('.cart-qty-input').forEach((input) => {
-      const row = input.closest('.cart-item');
-      const minusBtn = row.querySelector('.qty-decrease');
-      if (parseInt(input.value) <= 1) {
-        minusBtn.classList.add('qty-disabled');
-      }
+  document.querySelectorAll('.minus-btn').forEach((button) => {
+    button.addEventListener('click', function () {
+      let _key = this.dataset.lineKey;
+      let input = document.querySelector(`.quantity-input[data-line-key='${_key}']`);
+      input.value = parseInt(input.value) - 1;
+      input.dispatchEvent(new Event('change'));
     });
   });
 </script>
