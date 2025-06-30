@@ -32,62 +32,42 @@
           {% for item in cart.items %}
             <div class="cart-item" data-line="{{ forloop.index }}" data-key="{{ item.variant_id }}">
               <div class="wrapper">
-                <!-- Product Info -->
                 <div class="cart-col product-col">
                   <div class="product-info">
                     {% if item.image %}
                       <picture>
-                        <source
-                          srcset="{{ item.image | image_url: width: 95, height: 100, crop: 'center', format: 'avif' }}"
-                          type="image/avif"
-                        >
-                        <source
-                          srcset="{{ item.image | image_url: width: 95, height: 100, crop: 'center', format: 'webp' }}"
-                          type="image/webp"
-                        >
-                        <img
-                          src="{{ item.image | image_url: width: 95, height: 100, crop: 'center' }}"
-                          alt="{{ item.title }}"
-                          class="product-image"
-                          width="95"
-                          height="100"
-                        >
+                        <source srcset="{{ item.image | image_url: width: 95, height: 100, crop: 'center', format: 'avif' }}" type="image/avif">
+                        <source srcset="{{ item.image | image_url: width: 95, height: 100, crop: 'center', format: 'webp' }}" type="image/webp">
+                        <img src="{{ item.image | image_url: width: 95, height: 100, crop: 'center' }}" alt="{{ item.title }}" class="product-image" width="95" height="100">
                       </picture>
                     {% endif %}
                     <div class="product-text">
                       <div class="product-titleWrapper">
                         <a href="{{ item.url }}">
-                          {{- item.product.title -}}
+                          {{ item.product.title }}
                         </a>
                         <small>{{ item.variant.title }}</small>
                       </div>
-                      <!-- Remove Button -->
-                      <a
-                        class="remove-btn"
-                        aria-label="Remove {{ item.variant.title }}"
-                        href="{{ routes.cart_change_url }}?line={{ forloop.index }}&quantity=0"
-                      >
+                      <button class="remove-btn" data-line-key="{{ item.key }}" aria-label="Remove {{ item.variant.title }}">
                         Remove
-                      </a>
+                      </button>
                     </div>
                   </div>
                 </div>
 
-                <!-- Price -->
                 <div class="cart-col price-col unit-price">
                   {{ item.original_price | money }}
                 </div>
 
-                <!-- Quantity Controls -->
                 <div class="cart-col qty-col">
                   <div class="qty-changer">
-                    <button type="button" class="qty-btn qty-decrease minus-btn"  data-line-key="{{ item.key }}" >−</button>
+                    <button type="button" class="qty-btn qty-decrease minus-btn" data-line-key="{{ item.key }}">−</button>
                     <input type="text" class="cart-qty-input quantity-input" value="{{ item.quantity }}" data-line-key="{{ item.key }}" min="1">
                     <button type="button" class="qty-btn qty-increase plus-btn" data-line-key="{{ item.key }}">+</button>
                   </div>
                 </div>
               </div>
-              <!-- Line Total -->
+
               <div class="cart-col total-col line-total">
                 {{ item.line_price | money }}
               </div>
@@ -115,51 +95,103 @@
   </div>
 </div>
 
+<!-- Loader -->
+<div id="cart-loader" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(255,255,255,0.5);z-index:9999;text-align:center;padding-top:20%;">
+  <p>Updating cart...</p>
+</div>
+
+<!-- INR Money Formatter with Commas -->
 <script>
-  document.querySelectorAll('.quantity-input').forEach((input) => {
-    input.addEventListener('change', updateQuantity);
-  });
-
-  function updateQuantity(event) {
-    const input = event.target;
-    const lineKey = input.getAttribute('data-line-key');
-    const quantity = input.value;
-
-    fetch(`/cart/change.js`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        id: lineKey,
-        quantity: quantity,
-      }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        // Update cart UI or reload page based on response
-        location.reload();
-      })
-      .catch((error) => {
-        console.error('Error updating cart:', error);
-      });
+  if (typeof Shopify === 'undefined') {
+    var Shopify = {};
   }
 
-  document.querySelectorAll('.plus-btn').forEach((button) => {
-    button.addEventListener('click', function () {
-      let _key = this.dataset.lineKey;
-      let input = document.querySelector(`.quantity-input[data-line-key='${_key}']`);
-      input.value = parseInt(input.value) + 1;
-      input.dispatchEvent(new Event('change'));
-    });
-  });
+  Shopify.formatMoney = function(cents, format = "₹{{amount}}") {
+    const formatINR = (amount) => {
+      let [rupees, paise] = amount.toFixed(2).split('.');
+      rupees = rupees.replace(/\B(?=(\d{2})+(?!\d))/g, ",").replace(/,(\d{3})$/, "$1"); // Indian comma rule
+      return `${rupees}.${paise}`;
+    };
+    return format.replace("{{amount}}", formatINR(cents / 100));
+  };
+</script>
 
-  document.querySelectorAll('.minus-btn').forEach((button) => {
-    button.addEventListener('click', function () {
-      let _key = this.dataset.lineKey;
-      let input = document.querySelector(`.quantity-input[data-line-key='${_key}']`);
-      input.value = parseInt(input.value) - 1;
-      input.dispatchEvent(new Event('change'));
+<!-- AJAX Cart Logic -->
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const loader = document.getElementById('cart-loader');
+
+    const showLoader = () => loader.style.display = 'block';
+    const hideLoader = () => loader.style.display = 'none';
+
+    const updateCartLine = (lineKey, quantity) => {
+      showLoader();
+      fetch('/cart/change.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: lineKey, quantity: quantity }),
+      })
+        .then(res => res.json())
+        .then(cart => {
+          updateCartUI(cart);
+          hideLoader();
+        })
+        .catch(err => {
+          console.error('Cart update error:', err);
+          hideLoader();
+        });
+    };
+
+    const updateCartUI = (cart) => {
+      cart.items.forEach(item => {
+        const itemDiv = document.querySelector(`.cart-item[data-key="${item.variant_id}"]`);
+        if (!itemDiv) return;
+        const input = itemDiv.querySelector('.quantity-input');
+        const totalEl = itemDiv.querySelector('.line-total');
+        if (input) input.value = item.quantity;
+        if (totalEl) totalEl.textContent = Shopify.formatMoney(item.line_price);
+      });
+
+      const subtotalEl = document.getElementById('cart-subtotal');
+      if (subtotalEl) subtotalEl.textContent = Shopify.formatMoney(cart.total_price);
+    };
+
+    document.querySelectorAll('.quantity-input').forEach(input => {
+      input.addEventListener('change', () => {
+        let qty = parseInt(input.value);
+        const key = input.dataset.lineKey;
+        if (isNaN(qty) || qty < 1) qty = 1;
+        input.value = qty;
+        updateCartLine(key, qty);
+      });
+    });
+
+    document.querySelectorAll('.plus-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const key = btn.dataset.lineKey;
+        const input = document.querySelector(`.quantity-input[data-line-key='${key}']`);
+        const qty = parseInt(input.value) + 1;
+        input.value = qty;
+        input.dispatchEvent(new Event('change'));
+      });
+    });
+
+    document.querySelectorAll('.minus-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const key = btn.dataset.lineKey;
+        const input = document.querySelector(`.quantity-input[data-line-key='${key}']`);
+        const qty = Math.max(1, parseInt(input.value) - 1);
+        input.value = qty;
+        input.dispatchEvent(new Event('change'));
+      });
+    });
+
+    // AJAX remove item
+    document.querySelectorAll('.remove-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const key = btn.dataset.lineKey;
+        updateCartLine(key, 0);
+      });
     });
   });
 </script>
