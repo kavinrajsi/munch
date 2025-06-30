@@ -13,7 +13,7 @@
 {% endschema %}
 
 <div class="page-cart grid-box">
-  <h1 class="page-title">Your Cart</h1>
+  <h1 class="page-title">Shopping Cart</h1>
 
   <div id="cart-container">
     {% if cart.item_count == 0 %}
@@ -32,55 +32,55 @@
           {% for item in cart.items %}
             <div class="cart-item" data-line="{{ forloop.index }}" data-key="{{ item.variant_id }}">
               <div class="wrapper">
-              <!-- Product Info -->
-              <div class="cart-col product-col">
-                <div class="product-info">
-                  {% if item.image %}
-                    <picture>
-                      <source
-                        srcset="{{ item.image | image_url: width: 95, height: 100, crop: 'center', format: 'avif' }}"
-                        type="image/avif"
-                      >
-                      <source
-                        srcset="{{ item.image | image_url: width: 95, height: 100, crop: 'center', format: 'webp' }}"
-                        type="image/webp"
-                      >
-                      <img
-                        src="{{ item.image | image_url: width: 95, height: 100, crop: 'center' }}"
-                        alt="{{ item.title }}"
-                        class="product-image"
-                        width="95"
-                        height="100"
-                      >
-                    </picture>
-                  {% endif %}
-                  <div class="product-text">
-                    <div class="product-titleWrapper">
-                      <a href="{{ item.url }}">
-                        {{- item.product.title }}
-                      </a>
-                      <small>{{ item.variant.title }}</small>
+                <!-- Product Info -->
+                <div class="cart-col product-col">
+                  <div class="product-info">
+                    {% if item.image %}
+                      <picture>
+                        <source
+                          srcset="{{ item.image | image_url: width: 95, height: 100, crop: 'center', format: 'avif' }}"
+                          type="image/avif"
+                        >
+                        <source
+                          srcset="{{ item.image | image_url: width: 95, height: 100, crop: 'center', format: 'webp' }}"
+                          type="image/webp"
+                        >
+                        <img
+                          src="{{ item.image | image_url: width: 95, height: 100, crop: 'center' }}"
+                          alt="{{ item.title }}"
+                          class="product-image"
+                          width="95"
+                          height="100"
+                        >
+                      </picture>
+                    {% endif %}
+                    <div class="product-text">
+                      <div class="product-titleWrapper">
+                        <a href="{{ item.url }}">
+                          {{- item.product.title }}
+                        </a>
+                        <small>{{ item.variant.title }}</small>
+                      </div>
+                      <!-- Remove Button -->
+                      <div class="remove-col"><span class="remove-btn">Remove</span></div>
                     </div>
-                    <!-- Remove Button -->
-                    <div class="remove-col"><span class="remove-btn">Remove</span></div>
+                  </div>
+                </div>
+
+                <!-- Price -->
+                <div class="cart-col price-col unit-price">
+                  {{ item.original_price | money }}
+                </div>
+
+                <!-- Quantity Controls -->
+                <div class="cart-col qty-col">
+                  <div class="qty-changer">
+                    <button type="button" class="qty-btn qty-decrease">−</button>
+                    <input type="text" class="cart-qty-input" value="{{ item.quantity }}" min="1">
+                    <button type="button" class="qty-btn qty-increase">+</button>
                   </div>
                 </div>
               </div>
-
-              <!-- Price -->
-              <div class="cart-col price-col unit-price">
-                {{ item.original_price | money }}
-              </div>
-
-              <!-- Quantity Controls -->
-              <div class="cart-col qty-col">
-                <div class="qty-changer">
-                  <button type="button" class="qty-btn qty-decrease">−</button>
-                  <input type="text" class="cart-qty-input" value="{{ item.quantity }}" min="1">
-                  <button type="button" class="qty-btn qty-increase">+</button>
-                </div>
-              </div>
-            </div>
               <!-- Line Total -->
               <div class="cart-col total-col line-total">
                 {{ item.line_price | money }}
@@ -91,20 +91,19 @@
 
         <div class="cart-footer">
           <div class="cart-footer-subtotal">
-          <p>
-            <strong>Subtotal:</strong>
-            <small>Tax included. Shipping calculated at checkout.</small>
-          </p>
-          <p>
-             <span id="cart-subtotal">{{ cart.total_price | money }}</span>
-          </p>
+            <p>
+              <strong>Subtotal:</strong>
+              <small>Tax included. Shipping calculated at checkout.</small>
+            </p>
+            <p>
+              <span id="cart-subtotal">{{ cart.total_price | money }}</span>
+            </p>
           </div>
           <div>
             <a href="{{ routes.checkout_url }}" class="cart-footer-checkout">Checkout</a>
             <a href="{{ routes.all_products_collection_url }}" class="cart-footer-continue">Continue Shopping</a>
           </div>
         </div>
-
       </div>
     {% endif %}
   </div>
