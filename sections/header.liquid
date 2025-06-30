@@ -62,11 +62,19 @@
       {% endif %}
     </ul>
     <!-- Search Bar -->
-    <div id="search-bar" class="search-bar" style="display:none;">
+    <div id="search-bar" class="search-bar">
+      <div class="search-bar-wrapper">
       <form action="{{ routes.root_url }}search" method="get" role="search">
         <input type="search" name="q" placeholder="Search products">
         <button type="submit">{% render 'icon-search' %}</button>
       </form>
+      <button id="search-close" class="search-close" aria-label="Close Search">
+        <!-- You can replace this SVG with any other icon or use {% render 'icon-close' %} if available -->
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M15 5L5 15M5 5L15 15" stroke="#000" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </div>
     </div>
   </nav>
 
@@ -127,17 +135,38 @@
     const mobileNav = document.getElementById('mobile-nav');
     const searchToggle = document.getElementById('search-toggle');
     const searchBar = document.getElementById('search-bar');
+    const searchClose = document.getElementById('search-close');
     const searchIcon = document.getElementById('search-toggle');
-    const headerHavList = document.getElementById('header-nav-lists');
+    const headerNavList = document.getElementById('header-nav-lists');
 
     menuToggle.addEventListener('click', function () {
-      headerHavList.classList.toggle('show');
+      headerNavList.classList.toggle('show');
     });
 
     searchToggle.addEventListener('click', function () {
-      headerHavList.classList.toggle('hide');
-      searchBar.classList.toggle('show');
-      searchIcon.classList.toggle('hide');
+      headerNavList.classList.add('hide');
+      searchBar.classList.add('show');
+      searchIcon.classList.add('hide');
     });
+
+    searchClose.addEventListener('click', function () {
+      closeSearchBar();
+    });
+
+    // Close search if clicking outside
+    document.addEventListener('click', function (event) {
+      const isClickInsideSearch = searchBar.contains(event.target);
+      const isClickOnToggle = searchToggle.contains(event.target);
+
+      if (!isClickInsideSearch && !isClickOnToggle && searchBar.classList.contains('show')) {
+        closeSearchBar();
+      }
+    });
+
+    function closeSearchBar() {
+      searchBar.classList.remove('show');
+      searchIcon.classList.remove('hide');
+      headerNavList.classList.remove('hide');
+    }
   });
 </script>
