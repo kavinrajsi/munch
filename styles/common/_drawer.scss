@@ -39,7 +39,13 @@
     bottom: 0;
     height: 100%;
     width: 100%;
-    max-width: 425px;
+    max-width: 100%;
+    @media (min-width: 340px) {
+      max-width: 90%;
+    }
+    @media (min-width: 428px) {
+      max-width: 425px;
+    }
     @include z-index(drawer_overlay);
     overflow: auto;
     transition: transform 0.3s;
@@ -49,12 +55,14 @@
     transform: translateX(103%);
     -webkit-overflow-scrolling: touch;
     box-shadow: 0 2px 6px #777;
-
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
 
-    padding-top: 32px;
-
+    form {
+      display: flex;
+      flex-direction: column;
+      height: 100%; /* Or set specific height like 100vh if needed */
+    }
     .drawer__header {
       display: flex;
       justify-content: space-between;
@@ -63,6 +71,8 @@
       font-weight: 600;
       padding-left: 40px;
       padding-right: 40px;
+      padding-top: 32px;
+      padding-bottom: 32px;
       .drawer__title {
         font-size: 24px;
         line-height: 28px;
@@ -76,7 +86,10 @@
     }
 
     .drawer__content {
-      padding: 32px 40px;
+      padding: 0 24px 32px;
+      @media (min-width: 768px) {
+        padding: 0 40px 32px;
+      }
       .cart__item.cartpopup-item {
         display: flex;
         gap: 16px;
@@ -185,9 +198,13 @@
           color: #9f9f9f;
         }
       }
+      flex: 1 1 auto;
+      overflow-y: auto;
     }
 
     .drawer__footer {
+      flex-shrink: 0;
+
       align-items: flex-start;
       padding: 32px 40px;
 

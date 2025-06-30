@@ -1,0 +1,304 @@
+.page-cart {
+  padding-top: 56px;
+  padding-bottom: 56px;
+
+  .page-title {
+    font-style: normal;
+    font-weight: 700;
+    font-size: 36px;
+    line-height: 36px;
+    /* identical to box height, or 100% */
+
+    /* Primary/Red1 */
+    color: #c61d23;
+    padding-bottom: 24px;
+  }
+
+  .cart-container {
+    // display: flex;
+    // flex-direction: column;
+    // align-items: flex-end;
+  }
+
+  .cart-footer {
+    max-width: 408px;
+    margin-right: initial;
+    margin-left: auto;
+    padding-top: 56px;
+    @media (min-width: 768px) {
+      padding-left: 24px;
+      padding-right: 24px;
+    }
+    .cart-footer-subtotal {
+      display: flex;
+      gap: 20px;
+      padding-bottom: 16px;
+      p {
+        strong {
+          display: block;
+
+          /* Body1 */
+          font-family: "Instrument Sans";
+          font-style: normal;
+          font-weight: 400;
+          font-size: 16px;
+          line-height: 20px;
+          /* identical to box height */
+
+          /* Primary/Red3 */
+          color: #660808;
+        }
+        small {
+          display: block;
+          font-family: "Instrument Sans";
+          font-style: normal;
+          font-weight: 400;
+          font-size: 12px;
+          line-height: 15px;
+          /* identical to box height */
+
+          /* Primary/Red3 */
+          color: #660808;
+        }
+      }
+    }
+    .cart-footer-checkout {
+      display: block;
+      padding: 12px 16px;
+      /* Primary/Red1 */
+      background: #c61d23;
+      border-radius: 6px;
+      font-family: "Instrument Sans";
+      font-style: normal;
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 17px;
+      /* identical to box height */
+      text-align: center;
+      /* Neutral/White1 */
+      color: #ffffff;
+      margin-bottom: 8px;
+    }
+    .cart-footer-continue {
+      display: block;
+
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 17px;
+      /* identical to box height */
+      text-align: center;
+      text-decoration-line: underline;
+
+      /* Primary/Red3 */
+      color: #660808;
+    }
+  }
+
+  .cart-header {
+    /* Primary/Red1 */
+    background: #c61d23;
+    border-radius: 4px;
+    padding: 8px 24px;
+    display: grid;
+    gap: 0 20px;
+    grid-template-columns: 1fr 1fr;
+    @media (min-width: 568px) {
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+    // grid-template-columns: 360px 264px 100px 264px;
+    .cart-col {
+      /* Body2 */
+      font-family: "Instrument Sans";
+      font-style: normal;
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 17px;
+      /* identical to box height */
+
+      /* Neutral/White1 */
+      color: #ffffff;
+      display: none;
+      &:first-child {
+        text-align: left;
+        display: block;
+      }
+      &:last-child {
+        text-align: right;
+        display: block;
+      }
+
+      @media (min-width: 568px) {
+        &:nth-last-child(2) {
+          text-align: center;
+          display: block;
+        }
+      }
+    }
+  }
+
+  .cart-item {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0 20px;
+    align-items: center;
+    padding: 24px 0;
+    border-bottom: 1px solid #d3d3d3;
+    .wrapper {
+      @media (min-width: 568px) {
+        display: flex;
+        align-items: center;
+      }
+
+      @media (min-width: 769px) {
+        flex: 1 0 auto;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        align-items: center;
+      }
+    }
+  }
+
+  .product-col {
+    @media (min-width: 568px) {
+      flex: 0 0 360px;
+      max-width: 360px;
+    }
+
+    .product-info {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      picture {
+        flex: 0 0 95px;
+        max-width: 95px;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+        border-radius: 8px;
+        overflow: hidden;
+      }
+      .product-text {
+        flex: 0 0 calc(100% - 95px - 16px);
+        max-width: calc(100% - 95px - 16px);
+
+        a {
+          display: block;
+          font-family: "Instrument Sans";
+          font-style: normal;
+          font-weight: 600;
+          font-size: 16px;
+          line-height: 20px;
+          /* identical to box height */
+
+          /* Primary/Red2 */
+          color: #a5161a;
+        }
+        small {
+          display: block;
+          font-family: "Instrument Sans";
+          font-style: normal;
+          font-weight: 600;
+          font-size: 16px;
+          line-height: 20px;
+          /* identical to box height */
+
+          /* Primary/Red2 */
+          color: #a5161a;
+          font-size: 60%;
+        }
+      }
+
+      .remove-btn {
+        /* Body2 */
+        font-family: "Instrument Sans";
+        font-style: normal;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 17px;
+        /* identical to box height */
+        color: #9f9f9f;
+      }
+    }
+  }
+
+  .price-col {
+    flex: 0 0 264px;
+    max-width: 264px;
+    display: none;
+    @media (min-width: 768px) {
+      display: block;
+    }
+    span {
+      /* Body1 */
+      font-family: "Instrument Sans";
+      font-style: normal;
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 20px;
+      /* identical to box height */
+
+      /* Primary/Red3 */
+      color: #660808;
+    }
+  }
+
+  .qty-col {
+    width: 100px;
+    .qty-changer {
+      padding-top: 8px;
+      @media (min-width: 568px) {
+        padding-top: 0;
+      }
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: flex-start;
+      width: 100px;
+      .cart-qty-input {
+        /* Frame 28 */
+        box-sizing: border-box;
+        -moz-appearance: textfield;
+        -webkit-appearance: none;
+        padding: 12px 16px;
+        text-align: center;
+
+        width: 100px;
+        height: 41px;
+
+        /* Neutral/White3 */
+        border: 1px solid #d3d3d3;
+        border-radius: 4px;
+
+        font-style: normal;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 17px;
+        /* identical to box height */
+        text-align: center;
+
+        /* Primary/Red3 */
+        color: #660808;
+      }
+
+      .qty-decrease {
+        position: absolute;
+        left: 0;
+        height: 100%;
+      }
+      .qty-increase {
+        position: absolute;
+        right: 0;
+        height: 100%;
+      }
+      .qty-disabled {
+        opacity: 0.5;
+        cursor: none;
+      }
+    }
+  }
+
+  .total-col {
+    text-align: right;
+    max-width: 264px;
+  }
+}

@@ -12,99 +12,99 @@
 }
 {% endschema %}
 
-<style>
-  .qty-changer {
-    display: flex;
-    align-items: center;
-  }
-
-  .qty-changer button {
-    padding: 0.3rem 0.6rem;
-    font-size: 1rem;
-    background: #eee;
-    border: none;
-    cursor: pointer;
-  }
-
-  .qty-changer input {
-    width: 50px;
-    text-align: center;
-    margin: 0 5px;
-  }
-
-  .qty-disabled {
-    opacity: 0.4;
-    pointer-events: none;
-    cursor: not-allowed;
-  }
-
-  .remove-btn {
-    display: inline-block;
-    margin-top: 0.5rem;
-    color: red;
-    font-size: 0.9rem;
-    cursor: pointer;
-  }
-</style>
-
-<div class="cart-page" style="max-width: 800px; margin: 0 auto; padding: 2rem;">
-  <h1>Your Cart</h1>
+<div class="page-cart grid-box">
+  <h1 class="page-title">Your Cart</h1>
 
   <div id="cart-container">
     {% if cart.item_count == 0 %}
       <p>Your cart is currently empty.</p>
       <a href="{{ routes.all_products_collection_url }}" class="btn" style="margin-top: 1rem;">Continue Shopping</a>
     {% else %}
-      <table style="width: 100%; border-collapse: collapse; margin-bottom: 2rem;">
-        <thead>
-          <tr>
-            <th style="text-align: left;">Product</th>
-            <th>Price</th>
-            <th>Qty</th>
-            <th>Total</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody id="cart-items">
+      <div class="cart-container">
+        <div class="cart-header">
+          <div class="cart-col product-col">Product</div>
+          <div class="cart-col price-col">Price</div>
+          <div class="cart-col qty-col">Quantity</div>
+          <div class="cart-col total-col">Total</div>
+        </div>
+
+        <div id="cart-items">
           {% for item in cart.items %}
-            <tr class="cart-item" data-line="{{ forloop.index }}" data-key="{{ item.variant_id }}">
-              <td>
-                <a href="{{ item.url }}">
+            <div class="cart-item" data-line="{{ forloop.index }}" data-key="{{ item.variant_id }}">
+              <div class="wrapper">
+              <!-- Product Info -->
+              <div class="cart-col product-col">
+                <div class="product-info">
                   {% if item.image %}
-                    <img
-                      src="{{ item.image | image_url: width: 100, height: 100, crop: 'center' }}"
-                      alt="{{ item.title }}"
-                      width="50"
-                      height="50"
-                      style="width: 50px; margin-right: 10px; vertical-align: middle;"
-                    >
+                    <picture>
+                      <source
+                        srcset="{{ item.image | image_url: width: 95, height: 100, crop: 'center', format: 'avif' }}"
+                        type="image/avif"
+                      >
+                      <source
+                        srcset="{{ item.image | image_url: width: 95, height: 100, crop: 'center', format: 'webp' }}"
+                        type="image/webp"
+                      >
+                      <img
+                        src="{{ item.image | image_url: width: 95, height: 100, crop: 'center' }}"
+                        alt="{{ item.title }}"
+                        class="product-image"
+                        width="95"
+                        height="100"
+                      >
+                    </picture>
                   {% endif %}
-                  {{ item.product.title }}<br>
-                  <small>{{ item.variant.title }}</small>
-                </a>
-              </td>
-              <td class="unit-price">{{ item.original_price | money }}</td>
-              <td>
+                  <div class="product-text">
+                    <div class="product-titleWrapper">
+                      <a href="{{ item.url }}">
+                        {{- item.product.title }}
+                      </a>
+                      <small>{{ item.variant.title }}</small>
+                    </div>
+                    <!-- Remove Button -->
+                    <div class="remove-col"><span class="remove-btn">Remove</span></div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Price -->
+              <div class="cart-col price-col unit-price">
+                {{ item.original_price | money }}
+              </div>
+
+              <!-- Quantity Controls -->
+              <div class="cart-col qty-col">
                 <div class="qty-changer">
                   <button type="button" class="qty-btn qty-decrease">−</button>
-                  <input type="number" class="cart-qty-input" value="{{ item.quantity }}" min="1">
+                  <input type="text" class="cart-qty-input" value="{{ item.quantity }}" min="1">
                   <button type="button" class="qty-btn qty-increase">+</button>
                 </div>
-              </td>
-              <td class="line-total">{{ item.line_price | money }}</td>
-              <td>
-                <span class="remove-btn">Remove</span>
-              </td>
-            </tr>
+              </div>
+            </div>
+              <!-- Line Total -->
+              <div class="cart-col total-col line-total">
+                {{ item.line_price | money }}
+              </div>
+            </div>
           {% endfor %}
-        </tbody>
-      </table>
+        </div>
 
-      <p><strong>Subtotal:</strong> <span id="cart-subtotal">{{ cart.total_price | money }}</span></p>
+        <div class="cart-footer">
+          <div class="cart-footer-subtotal">
+          <p>
+            <strong>Subtotal:</strong>
+            <small>Tax included. Shipping calculated at checkout.</small>
+          </p>
+          <p>
+             <span id="cart-subtotal">{{ cart.total_price | money }}</span>
+          </p>
+          </div>
+          <div>
+            <a href="{{ routes.checkout_url }}" class="cart-footer-checkout">Checkout</a>
+            <a href="{{ routes.all_products_collection_url }}" class="cart-footer-continue">Continue Shopping</a>
+          </div>
+        </div>
 
-      <div style="margin-top: 1rem;">
-        <a href="{{ routes.all_products_collection_url }}" class="btn">Continue Shopping</a>
-        <a href="{{ routes.checkout_url }}" class="btn" style="margin-left: 1rem;">Checkout</a>
       </div>
     {% endif %}
   </div>
@@ -131,12 +131,12 @@
     }
 
     // 🛠 Unbind existing events by replacing elements
-    document.querySelectorAll('.qty-btn, .remove-btn').forEach(btn => {
+    document.querySelectorAll('.qty-btn, .remove-btn').forEach((btn) => {
       btn.replaceWith(btn.cloneNode(true));
     });
 
     // 🔁 Re-select clean elements
-    document.querySelectorAll('.qty-btn').forEach(btn => {
+    document.querySelectorAll('.qty-btn').forEach((btn) => {
       btn.addEventListener('click', function () {
         const row = this.closest('.cart-item');
         const input = row.querySelector('.cart-qty-input');
@@ -162,27 +162,27 @@
         fetch('/cart/change.js', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ id: Number(key), quantity: qty })
+          body: JSON.stringify({ id: Number(key), quantity: qty }),
         })
-        .then(res => {
-          if (!res.ok) throw new Error('Network response was not ok');
-          return res.json();
-        })
-        .then(cart => {
-          const updatedItem = cart.items.find(i => i.variant_id === Number(key));
-          if (updatedItem) {
-            row.querySelector('.line-total').innerHTML = formatMoney(updatedItem.line_price);
-          }
-          updateCartUI(cart);
-        })
-        .catch(err => {
-          console.error(err);
-          alert('Failed to update quantity. Please refresh.');
-        });
+          .then((res) => {
+            if (!res.ok) throw new Error('Network response was not ok');
+            return res.json();
+          })
+          .then((cart) => {
+            const updatedItem = cart.items.find((i) => i.variant_id === Number(key));
+            if (updatedItem) {
+              row.querySelector('.line-total').innerHTML = formatMoney(updatedItem.line_price);
+            }
+            updateCartUI(cart);
+          })
+          .catch((err) => {
+            console.error(err);
+            alert('Failed to update quantity. Please refresh.');
+          });
       });
     });
 
-    document.querySelectorAll('.remove-btn').forEach(btn => {
+    document.querySelectorAll('.remove-btn').forEach((btn) => {
       btn.addEventListener('click', function () {
         const row = this.closest('.cart-item');
         const key = row.getAttribute('data-key');
@@ -190,25 +190,25 @@
         fetch('/cart/change.js', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ id: Number(key), quantity: 0 })
+          body: JSON.stringify({ id: Number(key), quantity: 0 }),
         })
-        .then(res => {
-          if (!res.ok) throw new Error('Network response was not ok');
-          return res.json();
-        })
-        .then(cart => {
-          row.remove();
-          updateCartUI(cart);
-        })
-        .catch(err => {
-          console.error(err);
-          alert('Failed to remove item. Please refresh.');
-        });
+          .then((res) => {
+            if (!res.ok) throw new Error('Network response was not ok');
+            return res.json();
+          })
+          .then((cart) => {
+            row.remove();
+            updateCartUI(cart);
+          })
+          .catch((err) => {
+            console.error(err);
+            alert('Failed to remove item. Please refresh.');
+          });
       });
     });
 
     // Disable minus button if quantity is 1
-    document.querySelectorAll('.cart-qty-input').forEach(input => {
+    document.querySelectorAll('.cart-qty-input').forEach((input) => {
       const row = input.closest('.cart-item');
       const minusBtn = row.querySelector('.qty-decrease');
       if (parseInt(input.value) <= 1) {

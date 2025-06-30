@@ -138,22 +138,28 @@
     const searchClose = document.getElementById('search-close');
     const searchIcon = document.getElementById('search-toggle');
     const headerNavList = document.getElementById('header-nav-lists');
+    const html = document.documentElement;
+    const body = document.body;
 
     menuToggle.addEventListener('click', function () {
       headerNavList.classList.toggle('show');
+      const isMenuOpen = headerNavList.classList.contains('show');
+
+      togglePageScroll(!isMenuOpen);
     });
 
     searchToggle.addEventListener('click', function () {
       headerNavList.classList.add('hide');
       searchBar.classList.add('show');
       searchIcon.classList.add('hide');
+
+      togglePageScroll(false);
     });
 
     searchClose.addEventListener('click', function () {
       closeSearchBar();
     });
 
-    // Close search if clicking outside
     document.addEventListener('click', function (event) {
       const isClickInsideSearch = searchBar.contains(event.target);
       const isClickOnToggle = searchToggle.contains(event.target);
@@ -167,6 +173,17 @@
       searchBar.classList.remove('show');
       searchIcon.classList.remove('hide');
       headerNavList.classList.remove('hide');
+      togglePageScroll(true);
+    }
+
+    function togglePageScroll(allowScroll) {
+      if (allowScroll) {
+        html.style.overflow = '';
+        body.style.overflow = '';
+      } else {
+        html.style.overflow = 'hidden';
+        body.style.overflow = 'hidden';
+      }
     }
   });
 </script>
