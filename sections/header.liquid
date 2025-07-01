@@ -135,7 +135,7 @@
 </div>
 
 <script>
-  document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', function () {
   const menuToggle = document.getElementById('menu-toggle');
   const searchToggle = document.getElementById('search-toggle');
   const searchBar = document.getElementById('search-bar');
@@ -143,23 +143,54 @@
   const searchIcon = document.getElementById('search-toggle');
   const headerNavList = document.getElementById('header-nav-lists');
   const html = document.documentElement;
+  const body = document.body;
+
+  function updateOverflow() {
+    const menuOpen = headerNavList.classList.contains('show');
+    const searchOpen = searchBar.classList.contains('show');
+
+    if (menuOpen || searchOpen) {
+      html.style.overflow = 'hidden';
+      body.style.overflow = 'hidden';
+    } else {
+      html.style.overflow = '';
+      body.style.overflow = '';
+    }
+  }
 
   menuToggle.addEventListener('click', function () {
+    // Close search if open
+    if (searchBar.classList.contains('show')) {
+      searchBar.classList.remove('show');
+      searchIcon.classList.remove('hide');
+    }
+
+    // Toggle menu
     headerNavList.classList.toggle('show');
+
+    updateOverflow();
   });
 
   searchToggle.addEventListener('click', function () {
-    headerNavList.classList.toggle('hide');
+    // Close menu if open
+    if (headerNavList.classList.contains('show')) {
+      headerNavList.classList.remove('show');
+    }
+
+    // Toggle search
     searchBar.classList.toggle('show');
     searchIcon.classList.toggle('hide');
+    headerNavList.classList.toggle('hide', searchBar.classList.contains('show'));
+
+    updateOverflow();
   });
 
   searchClose.addEventListener('click', function () {
     searchBar.classList.remove('show');
     searchIcon.classList.remove('hide');
     headerNavList.classList.remove('hide');
+
+    updateOverflow();
   });
-
 });
-
 </script>
