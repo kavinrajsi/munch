@@ -1,117 +1,183 @@
 {% assign current_product = product.selected_or_first_available_variant %}
 {% assign product_image = current_product.featured_image | default: product.featured_image %}
 
-
-<div class="product-page" style="display: flex; flex-wrap: wrap; gap: 2rem;">
+<div class="product-page grid-box" style="">
   <!-- LEFT: Image Carousel -->
-  <div class="product-gallery" style="flex: 1 1 50%; max-width: 600px;">
+  <div class="product-gallery" style="">
     <div class="product-images">
-
       <div id="gallery_01" class="product-images-thumbnails">
         {% for product_image in product.images %}
-        <a href="javascript:void(0)" data-image="{{ product_image | image_url }}"
-          data-zoom-image="{{ product_image | image_url: width: '1256', height: '1886' }}">
-          <picture>
-            <source type="image/avif" srcset="{{ product_image | image_url: format: 'avif', width: 320, height: 480 }}"
-              width="320" height="480">
-            <source type="image/webp" srcset="{{ product_image | image_url: format: 'webp', width: 320, height: 480 }}"
-              width="320" height="480">
-            <img alt="{{ product.title }}" id="img_{{ forloop.index }}"
-              src="{{ product_image | image_url: width: 320, height: 480 }}" width="320" height="480" loading="lazy">
-          </picture>
-        </a>
+          <a
+            href="javascript:void(0)"
+            data-image="{{ product_image | image_url }}"
+            data-zoom-image="{{ product_image | image_url: width: '1256', height: '1886' }}"
+          >
+            <picture>
+              <source
+                type="image/pjpg"
+                srcset="{{ product_image | image_url: format: 'pjpg', width: 75, height: 80 }}"
+                width="75"
+                height="80"
+              >
+              <source
+                type="image/webp"
+                srcset="{{ product_image | image_url: format: 'webp', width: 75, height: 80 }}"
+                width="75"
+                height="80"
+              >
+              <img
+                alt="{{ product.title }}"
+                id="img_{{ forloop.index }}"
+                src="{{ product_image | image_url: width: 75, height: 80 }}"
+                width="75"
+                height="80"
+                loading="lazy"
+              >
+            </picture>
+          </a>
         {% endfor %}
       </div>
 
-      <picture>
-        <!-- <source type="image/avif"
-          srcset="{{ product.selected_or_first_available_variant.featured_image | default: product.featured_image | image_url: format: 'avif', width: 640, height: 960 }}"
-          width="640" height="960"> -->
-        <source type="image/webp"
-          srcset="{{ product.selected_or_first_available_variant.featured_image | default: product.featured_image | image_url: format: 'webp', width: 640, height: 960 }}"
-          width="640" height="960">
-        <img alt="{{ product.title }}"
+      <picture class="product-images-large">
+        <source
+          type="image/pjpg"
+          srcset="{{ product.selected_or_first_available_variant.featured_image | default: product.featured_image | image_url: format: 'pjpg', width: 640, height: 960 }}"
+          width="640"
+          height="960"
+        >
+        <source
+          type="image/avif"
+          srcset="{{ product.selected_or_first_available_variant.featured_image | default: product.featured_image | image_url: format: 'avif', width: 372, height: 392 }}"
+          width="372"
+          height="392"
+        >
+        <source
+          type="image/webp"
+          srcset="{{ product.selected_or_first_available_variant.featured_image | default: product.featured_image | image_url: format: 'webp', width: 372, height: 392 }}"
+          width="372"
+          height="392"
+        >
+        <img
+          alt="{{ product.title }}"
           src="{{ product.selected_or_first_available_variant.featured_image | default: product.featured_image | image_url: width: 640, height: 960 }}"
           data-zoom-image="{{ product.selected_or_first_available_variant.featured_image | default: product.featured_image | image_url: width: 1256, height: 1886 }}"
-          class="test-gallery" id="zoom_03" width="640" height="960" loading="lazy">
+          class="test-gallery"
+          id="zoom_03"
+          width="640"
+          height="960"
+          loading="lazy"
+        >
       </picture>
     </div>
   </div>
 
   <!-- RIGHT: Product Details -->
-  <div class="product-details" style="flex: 1 1 45%; min-width: 320px;">
-    <h1>{{ product.title }}</h1>
+  <div class="product-details" style="">
+    <code>
+      {% comment %} {{  product | json }} {% endcomment %}
+    </code>
+    <h1 class="product--title">{{ product.title }}</h1>
 
-    <p><strong>Price:</strong> <span id="variant-price" class="money">{{ product.price | money_with_currency }}</span>
-    </p>
-    <p><strong>SKU:</strong> <span id="variant-sku">{{ product.selected_or_first_available_variant.sku }}</span></p>
-    <p><strong>Brand:</strong> {{ product.vendor }}</p>
-    <p><strong>Type:</strong> {{ product.type }}</p>
-
-    {% if product.collections.size > 0 %}
-    <p><strong>Category:</strong>
-      {% for collection in product.collections %}
-      <a href="{{ collection.url }}">{{ collection.title }}</a>{% unless forloop.last %}, {% endunless %}
-      {% endfor %}
-    </p>
-    {% endif %}
-
-    {% if product.tags.size > 0 %}
-    <p><strong>Tags:</strong>
-      {% for tag in product.tags %}
-      <a href="/collections/all/{{ tag | handle }}">{{ tag }}</a>{% unless forloop.last %}, {% endunless %}
-      {% endfor %}
-    </p>
-    {% endif %}
-
-    <div class="product-description">
-      {{ product.description_html }}
+    <div class="product--description">
+      {{ product.description }}
     </div>
+    <p class="product--price">
+      <span id="variant-price" class="money">{{ product.price | money_with_currency }}</span>
+      <small>Tax included</small>
+    </p>
+    <div class="hidden" style="display: none">
+      <p>
+        <strong>SKU:</strong> <span id="variant-sku">{{ product.selected_or_first_available_variant.sku }}</span>
+      </p>
+      <p><strong>Brand:</strong> {{ product.vendor }}</p>
+      <p><strong>Type:</strong> {{ product.type }}</p>
 
+      {% if product.collections.size > 0 %}
+        <p>
+          <strong>Category:</strong>
+          {% for collection in product.collections %}
+            <a href="{{ collection.url }}">{{ collection.title }}</a>
+            {%- unless forloop.last %}, {% endunless %}
+          {% endfor %}
+        </p>
+      {% endif %}
+
+      {% if product.tags.size > 0 %}
+        <p>
+          <strong>Tags:</strong>
+          {% for tag in product.tags %}
+            <a href="/collections/all/{{ tag | handle }}">{{ tag }}</a>
+            {%- unless forloop.last %}, {% endunless %}
+          {% endfor %}
+        </p>
+      {% endif %}
+    </div>
     <form action="/cart/add" method="post" enctype="multipart/form-data">
       <!-- Dynamic Option Radio Groups -->
       <div id="variant-selectors">
         {% for option in product.options_with_values %}
-        <fieldset class="product-option">
-          <legend><strong>{{ option.name }}</strong></legend>
-          {% for value in option.values %}
-          {% assign is_available = false %}
-          {% for variant in product.variants %}
-          {% if variant.options[option.position0] == value and variant.available %}
-          {% assign is_available = true %}
-          {% endif %}
-          {% endfor %}
-          <label style="margin-right: 1rem; display: inline-block;">
-            <input type="radio" name="option{{ option.position }}" value="{{ value }}" {% if forloop.first %}checked{%
-              endif %} {% unless is_available %}disabled{% endunless %}>
-            {{ value }}
-            {% unless is_available %}
-            <span style="font-size: 0.85em; color: red;">(Sold out)</span>
-            {% endunless %}
-          </label>
-          {% endfor %}
-        </fieldset>
+          <fieldset class="product-option">
+            <legend>
+              <strong>{{ option.name }}</strong>
+            </legend>
+            {% for value in option.values %}
+              {% assign is_available = false %}
+              {% for variant in product.variants %}
+                {% if variant.options[option.position0] == value and variant.available %}
+                  {% assign is_available = true %}
+                {% endif %}
+              {% endfor %}
+              <label style="margin-right: 1rem; display: inline-block;">
+                <input
+                  type="radio"
+                  name="option{{ option.position }}"
+                  value="{{ value }}"
+                  {% if forloop.first %}
+                    checked
+                  {% endif %}
+                  {% unless is_available %}
+                    disabled
+                  {% endunless %}
+                >
+                {{ value }}
+                {% unless is_available %}
+                  <span style="font-size: 0.85em; color: red;">(Sold out)</span>
+                {% endunless %}
+              </label>
+            {% endfor %}
+          </fieldset>
         {% endfor %}
       </div>
 
-      <input type="hidden" name="id" id="selected-variant-id"
-        value="{{ product.selected_or_first_available_variant.id }}">
-      <p id="inventory-info" style="margin-top: 0.5rem;"></p>
+      <input
+        type="hidden"
+        name="id"
+        id="selected-variant-id"
+        value="{{ product.selected_or_first_available_variant.id }}"
+      >
+
 
       <!-- Quantity -->
-      <div class="quantity-wrapper" style="margin: 1rem 0;">
+      <div class="quantity-wrapper" >
         <label for="Quantity"><strong>Quantity:</strong></label>
         <div style="display: flex; gap: 0.5rem; align-items: center;">
           <button type="button" id="qty-minus" class="qty-btn" onclick="updateQty(-1)">−</button>
-          <input type="number" id="Quantity" name="quantity" value="1" min="1" style="width: 60px; text-align: center;"
-            oninput="qtyInputChanged()">
+          <input
+            type="number"
+            id="Quantity"
+            name="quantity"
+            value="1"
+            min="1"
+            style="width: 60px; text-align: center;"
+            oninput="qtyInputChanged()"
+          >
           <button type="button" class="qty-btn" onclick="updateQty(1)">+</button>
         </div>
       </div>
 
       <!-- Add to Cart Buttons -->
-      <button type="submit" class="btn">Add to Cart</button>
-      <button type="submit" class="btn" name="checkout" value="true">Buy Now</button>
+      <button type="submit" class="addcart">Add to Cart</button>
+      <button type="submit" class="buynow" name="checkout" value="true">Buy Now</button>
     </form>
   </div>
 </div>
@@ -124,8 +190,6 @@
   </form>
 </div>
 
-<!-- PhotoSwipe Lightbox Markup -->
-<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true"></div>
 <script>
   const variants = {{ product.variants | json }};
 

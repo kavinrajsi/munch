@@ -1,0 +1,139 @@
+.product-page {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: 1fr 1fr;
+  .product-images {
+    display: grid;
+    gap: 20px;
+    grid-template-columns: 75px 1fr;
+    .product-images-thumbnails {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      img {
+        border-radius: 8px;
+      }
+    }
+    .product-images-large {
+      picture {
+        display: block;
+        width: 100%;
+        height: auto;
+      }
+      img {
+        width: 100%;
+        height: auto;
+        border-radius: 8px;
+      }
+    }
+  }
+
+  .product--title {
+    /* Combo 1 */
+
+    /* Heading2 */
+    font-family: "Minion Pro Cond Capt";
+    font-style: normal;
+    font-weight: 700;
+    font-size: 36px;
+    line-height: 36px;
+    /* identical to box height, or 100% */
+
+    /* Primary/Red2 */
+    color: #a5161a;
+    padding-bottom: 16px;
+  }
+  .product--description {
+    max-width: 581px;
+
+    /* Body2 */
+    font-family: "Instrument Sans";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+
+    /* Primary/Red3 */
+    color: #660808;
+
+    padding-bottom: 24px;
+    img {
+      width: auto;
+      height: auto;
+      display: inline-block;
+    }
+
+    p:not(:last-child) {
+      padding-bottom: 16px;
+    }
+  }
+
+  .product--price {
+    /* Rs. 166.00 */
+    padding-bottom: 24px;
+    small {
+      display: block;
+      /* Body2 */
+      font-family: "Instrument Sans";
+      font-style: normal;
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 17px;
+      /* identical to box height */
+
+      /* Primary/Red3 */
+      color: #660808;
+    }
+    .money {
+      display: block;
+      /* Heading4 */
+      font-family: "Instrument Sans";
+      font-style: normal;
+      font-weight: 600;
+      font-size: 24px;
+      line-height: 28px;
+      /* identical to box height, or 117% */
+
+      /* Primary/Red2 */
+      color: #a5161a;
+    }
+  }
+  .addcart {
+    /* Primary/Red1 */
+    border: 1px solid #c61d23;
+    border-radius: 6px;
+    /* Add to cart */
+    /* Body2 */
+    font-family: "Instrument Sans";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    /* identical to box height */
+    text-align: center;
+    /* Primary/Red1 */
+    color: #c61d23;
+  }
+  .buynow {
+    /* Frame 47 */
+    padding: 12px 16px;
+    gap: 10px;
+    /* Primary/Red1 */
+    background: #c61d23;
+    border-radius: 6px;
+    /* Buy it now */
+    /* Body2 */
+    font-family: "Instrument Sans";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    /* identical to box height */
+    text-align: center;
+    /* Neutral/White1 */
+    color: #ffffff;
+  }
+}
+.sticky-buy-bar {
+  display: none;
+}
