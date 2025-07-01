@@ -6,6 +6,7 @@
   <a href="{{ product.url }}">
     {% if featured_media.media_type == 'image' or featured_media.media_type == blank %}
       <picture>
+        <source srcset="{{ featured_media | image_url: width: 265, format: 'pjpg' }}" type="image/pjpg">
         <source srcset="{{ featured_media | image_url: width: 265, format: 'webp' }}" type="image/webp">
         <img
           src="{{ featured_media | image_url: width: 265 }}"

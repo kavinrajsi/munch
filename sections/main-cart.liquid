@@ -37,8 +37,8 @@
                     {% if item.image %}
                       <picture>
                         <source
-                          srcset="{{ item.image | image_url: width: 95, height: 100, crop: 'center', format: 'avif' }}"
-                          type="image/avif"
+                          srcset="{{ item.image | image_url: width: 95, height: 100, crop: 'center', format: 'pjpg' }}"
+                          type="image/pjpg"
                         >
                         <source
                           srcset="{{ item.image | image_url: width: 95, height: 100, crop: 'center', format: 'webp' }}"
