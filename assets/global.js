@@ -1,7 +1,9 @@
 (function ($) {
   console.log("functions");
 
-  $(".slick-slider").slick();
+$('.slick-slider').slick({
+});
+
 
   $("#gallery_01 a").on("click", function () {
     var dataImage = $(this).data("image");

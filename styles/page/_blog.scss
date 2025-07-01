@@ -97,7 +97,7 @@
 s
     .date {
       /* Body1 */
-      font-family: "Instrument Sans";
+      font-family: var(--font-header);
       font-style: normal;
       font-weight: 400;
       font-size: 16px;
@@ -158,7 +158,7 @@ s
       a,
       div {
         /* Body1 */
-        font-family: "Instrument Sans";
+        font-family: var(--font-header);
         font-style: normal;
         font-weight: 400;
         font-size: 16px;

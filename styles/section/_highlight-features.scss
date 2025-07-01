@@ -1,52 +1,53 @@
-.highlight-features__wrapper {
-  padding-top: 56px;
-  padding-bottom: 56px;
-  max-width: 1120px;
-  width: 100%;
-  margin: 0 auto;
-  padding-left: 16px;
-  padding-right: 16px;
+.highlight-features {
+  &__wrapper {
+    padding-top: 56px;
+    padding-bottom: 56px;
+    max-width: 1120px;
+    width: 100%;
+    margin: 0 auto;
+    padding-left: 16px;
+    padding-right: 16px;
+    gap: 20px;
+    // overflow-x: scroll;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(274px, 1fr));
+  }
 
-  gap: 20px;
-  overflow-x: scroll;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(328px, 1fr));
-
-  .highlight-features__item {
+  &__item {
     display: flex;
+  }
 
-    .highlight-features__icon {
-      width: 60px;
-      height: 60px;
-    }
+  &__icon {
+    flex: 0 0 60px;
+    max-width: 60px;
+    width: 60px;
+    height: 60px;
+  }
 
-    .highlight-features__icon-image {
-      width: 60px;
-      height: 60px;
-    }
-
-    .highlight-features__content {
+  &__content {
+    padding-left: 24px;
+    flex: 0 0 calc(100% - 60px);
+    max-width: calc(100% - 60px);
+    @media (min-width: 578px) {
       max-width: 268px;
-      padding-left: 24px;
-
-      .highlight-features__title {
-        font-family: "Instrument Sans";
-        font-style: normal;
-        font-weight: 700;
-        font-size: 20px;
-        line-height: 20px;
-        color: #a5161a;
-        padding-bottom: 8px;
-      }
-
-      .highlight-features__text {
-        font-family: "Instrument Sans";
-        font-style: normal;
-        font-weight: 400;
-        font-size: 12px;
-        line-height: 15px;
-        color: #660808;
-      }
     }
+  }
+  &__title {
+    font-family: var(--font-header);
+    font-style: normal;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 20px;
+    color: #a5161a;
+    padding-bottom: 8px;
+  }
+
+  &__text {
+    font-family: var(--font-header);
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 15px;
+    color: #660808;
   }
 }

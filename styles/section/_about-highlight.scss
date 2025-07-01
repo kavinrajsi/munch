@@ -49,17 +49,20 @@
       font-family: var(--font-minion);
       font-style: italic;
       font-weight: 700;
-      font-size: 56px;
-      line-height: 56px;
+      font-size: 40px;
+      line-height: 42px;
       /* or 100% */
-
+      @media (min-width: 768px) {
+        font-size: 56px;
+        line-height: 56px;
+      }
       /* Primary/Red2 */
       color: #a5161a;
     }
 
     .about-highlight__description p {
       /* Body1 */
-      font-family: "Instrument Sans";
+      font-family: var(--font-header);
       font-style: normal;
       font-weight: 400;
       font-size: 16px;

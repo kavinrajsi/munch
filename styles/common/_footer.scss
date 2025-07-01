@@ -7,24 +7,29 @@
 
   &__identification {
     padding-top: 8px;
-    padding-bottom: 26px;
+    padding-bottom: 8px;
     /* Motif/2 */
     border-bottom: 1px solid #f7cbcb;
     display: flex;
     justify-content: space-between;
+    flex-wrap: wrap;
     gap: 20px;
     &-logo {
-      svg{
+      svg {
         width: 100%;
         height: 100%;
       }
     }
     &-content {
+      flex: 0 0 100%;
+      max-width: 100%;
+      @media (min-width: 768px) {
       flex: 0 0 456px;
       max-width: 456px;
+      }
     }
     &-title {
-      font-family: "Instrument Sans";
+      font-family: var(--font-header);
       font-style: normal;
       font-weight: 600;
       font-size: 16px;
@@ -36,11 +41,15 @@
     }
     &-lists {
       position: relative;
-      margin-bottom:2px;
+      margin-bottom: 2px;
+      height: 60px;
+      @media (min-width: 768px) {
+        height: 40px;
+      }
     }
     &-list {
       /* Body1 */
-      font-family: "Instrument Sans";
+      font-family: var(--font-header);
       font-style: normal;
       font-weight: 400;
       font-size: 16px;
@@ -87,23 +96,28 @@
       padding-top: 40px;
       padding-bottom: 40px;
       display: grid;
-      grid-template-columns: calc(100% - 33.333% - 20px) 33.333%;
-      gap: 20px;
+      gap: 56px 20px;
       align-items: flex-start;
+      @media (min-width: 768px) {
+        grid-template-columns: calc(100% - 33.333% - 20px) 33.333%;
+      }
     }
     &-lists {
       display: flex;
       gap: 20px;
+      flex-wrap: wrap;
     }
     &-menu {
-      flex: 0 0 calc(33.333% - 20px);
-      max-width: calc(33.333% - 20px);
+      @media (min-width: 768px) {
+        flex: 0 0 calc(33.333% - 20px);
+        max-width: calc(33.333% - 20px);
+      }
       &-title {
         display: none;
       }
       &-link {
         /* Body2 */
-        font-family: "Instrument Sans";
+        font-family: var(--font-header);
         font-style: normal;
         font-weight: 400;
         font-size: 14px;
@@ -130,7 +144,7 @@
         a,
         span {
           /* Body2 */
-          font-family: "Instrument Sans";
+          font-family: var(--font-header);
           font-style: normal;
           font-weight: 400;
           font-size: 14px;
@@ -164,7 +178,10 @@
       text-align: left;
     }
     .image {
-      width: 296px;
+      width: 220px;
+      @media (min-width: 768px) {
+        width: 296px;
+      }
       height: auto;
       svg {
         width: 100%;

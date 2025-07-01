@@ -30,37 +30,116 @@
 }
 {% endschema %}
 
-<div class="layout__grid-box header-container">
-  <!-- Logo -->
-  <div class="header-logo">
-    <a href="{{ routes.root_url }}">
-      {% if section.settings.logo_svg != blank %}
-        <div class="logo-svg">{{ section.settings.logo_svg }}</div>
-      {% elsif section.settings.logo %}
-        <img
-          src="{{ section.settings.logo | image_url: width: 164 }}"
-          alt="{{ shop.name }}"
-          width="{{ section.settings.logo.width | default: 164 }}"
-          height="{{ section.settings.logo.height | default: 40 }}"
-        >
-      {% endif %}
-    </a>
-  </div>
+<div class=" header-container header-normal">
+  <div class="layout__grid-box">
+    <!-- Logo -->
+    <div class="header-logo">
+      <a href="{{ routes.root_url }}">
+        {% if section.settings.logo_svg != blank %}
+          <div class="logo-svg">{{ section.settings.logo_svg }}</div>
+        {% elsif section.settings.logo %}
+          <img
+            src="{{ section.settings.logo | image_url: width: 164 }}"
+            alt="{{ shop.name }}"
+            width="{{ section.settings.logo.width | default: 164 }}"
+            height="{{ section.settings.logo.height | default: 40 }}"
+          >
+        {% endif %}
+      </a>
+    </div>
 
-  <!-- Navigation -->
-  <nav class="header-nav">
-    <ul id="header-nav-lists" class="header-nav-lists">
-      {% assign menu = linklists[section.settings.main_menu] %}
-      {% if menu and menu.links.size > 0 %}
-        {% for link in menu.links %}
-          <li class="header-nav-list">
-            <a class="header-nav-list--item" href="{{ link.url }}">{{ link.title }}</a>
-          </li>
-        {% endfor %}
-      {% else %}
-        <li class="header-nav-list"><a class="header-nav-list--item" href="{{ routes.root_url }}">Home</a></li>
-      {% endif %}
-    </ul>
+    <!-- Navigation -->
+    <nav class="header-nav">
+      <ul id="header-nav-lists" class="header-nav-lists">
+        {% assign menu = linklists[section.settings.main_menu] %}
+        {% if menu and menu.links.size > 0 %}
+          {% for link in menu.links %}
+            <li class="header-nav-list">
+              <a class="header-nav-list--item" href="{{ link.url }}">{{ link.title }}</a>
+            </li>
+          {% endfor %}
+        {% else %}
+          <li class="header-nav-list"><a class="header-nav-list--item" href="{{ routes.root_url }}">Home</a></li>
+        {% endif %}
+      </ul>
+    </nav>
+
+    <!-- Icons -->
+    <div class="header-icons">
+      <a href="#" id="search-toggle" aria-label="Search">
+        {% render 'icon-search' %}
+      </a>
+      <a href="{{ routes.root_url }}account" title="Account">{% render 'icon-user' %}</a>
+      <a href="{{ routes.root_url }}pages/wishlist" title="Wishlist">{% render 'icon-heart' %}</a>
+
+      <a
+        title="cart"
+        href="javascript:void(0)"
+        class="site-header__icon site-header__cart"
+        id="cart-icon-bubble"
+        data-drawer-trigger
+        aria-controls="cart-drawer"
+        aria-expanded="false"
+        aria-label="Open cart drawer"
+        role="button"
+        tabindex="0"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="#000"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="lucide lucide-shopping-cart-icon lucide-shopping-cart"
+        >
+          <circle cx="8" cy="21" r="1" />
+          <circle cx="19" cy="21" r="1" />
+          <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12" />
+        </svg>
+
+        <div
+          class="cart-count"
+          {% if cart.item_count == 0 %}
+            hidden
+          {% endif %}
+        >
+          {% if cart.item_count < 100 %}
+            <span aria-hidden="true">{{ cart.item_count }}</span>
+          {% endif %}
+        </div>
+      </a>
+
+      <button id="menu-toggle" class="mobile-toggle" aria-label="Toggle menu">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M0.222229 17.1111C0.222229 16.8754 0.31588 16.6493 0.482579 16.4826C0.649278 16.3159 0.87537 16.2222 1.11112 16.2222H18.8889C19.1246 16.2222 19.3507 16.3159 19.5174 16.4826C19.6841 16.6493 19.7778 16.8754 19.7778 17.1111C19.7778 17.3469 19.6841 17.573 19.5174 17.7397C19.3507 17.9064 19.1246 18 18.8889 18H1.11112C0.87537 18 0.649278 17.9064 0.482579 17.7397C0.31588 17.573 0.222229 17.3469 0.222229 17.1111ZM0.222229 10C0.222229 9.76425 0.31588 9.53816 0.482579 9.37146C0.649278 9.20476 0.87537 9.11111 1.11112 9.11111H18.8889C19.1246 9.11111 19.3507 9.20476 19.5174 9.37146C19.6841 9.53816 19.7778 9.76425 19.7778 10C19.7778 10.2357 19.6841 10.4618 19.5174 10.6285C19.3507 10.7952 19.1246 10.8889 18.8889 10.8889H1.11112C0.87537 10.8889 0.649278 10.7952 0.482579 10.6285C0.31588 10.4618 0.222229 10.2357 0.222229 10ZM0.222229 2.88889C0.222229 2.65314 0.31588 2.42705 0.482579 2.26035C0.649278 2.09365 0.87537 2 1.11112 2H18.8889C19.1246 2 19.3507 2.09365 19.5174 2.26035C19.6841 2.42705 19.7778 2.65314 19.7778 2.88889C19.7778 3.12464 19.6841 3.35073 19.5174 3.51743C19.3507 3.68413 19.1246 3.77778 18.8889 3.77778H1.11112C0.87537 3.77778 0.649278 3.68413 0.482579 3.51743C0.31588 3.35073 0.222229 3.12464 0.222229 2.88889Z" fill="#660808"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class=" header-container header-hover">
+  <div class="layout__grid-box">
+    <!-- Logo -->
+    <div class="header-logo">
+      <a href="{{ routes.root_url }}">
+        {% if section.settings.logo_svg != blank %}
+          <div class="logo-svg">{{ section.settings.logo_svg }}</div>
+        {% elsif section.settings.logo %}
+          <img
+            src="{{ section.settings.logo | image_url: width: 164 }}"
+            alt="{{ shop.name }}"
+            width="{{ section.settings.logo.width | default: 164 }}"
+            height="{{ section.settings.logo.height | default: 40 }}"
+          >
+        {% endif %}
+      </a>
+    </div>
+
     <!-- Search Bar -->
     <div id="search-bar" class="search-bar">
       <div class="search-bar-wrapper">
@@ -76,121 +155,144 @@
         </button>
       </div>
     </div>
-  </nav>
 
-  <!-- Icons -->
-  <div class="header-icons">
-    <a href="#" id="search-toggle" aria-label="Search">
-      {% render 'icon-search' %}
-    </a>
-    <a href="{{ routes.root_url }}account" title="Account">{% render 'icon-user' %}</a>
-    <a href="{{ routes.root_url }}pages/wishlist" title="Wishlist">{% render 'icon-heart' %}</a>
+    <!-- Icons -->
+    <div class="header-icons">
+      <a href="{{ routes.root_url }}account" title="Account">{% render 'icon-user' %}</a>
+      <a href="{{ routes.root_url }}pages/wishlist" title="Wishlist">{% render 'icon-heart' %}</a>
 
-    <a
-       title="cart"
-      href="javascript:void(0)"
-      class="site-header__icon site-header__cart"
-      id="cart-icon-bubble"
-      data-drawer-trigger
-      aria-controls="cart-drawer"
-      aria-expanded="false"
-      aria-label="Open cart drawer"
-      role="button"
-      tabindex="0">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="#000"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        class="lucide lucide-shopping-cart-icon lucide-shopping-cart"
+      <a
+        title="cart"
+        href="javascript:void(0)"
+        class="site-header__icon site-header__cart"
+        id="cart-icon-bubble"
+        data-drawer-trigger
+        aria-controls="cart-drawer"
+        aria-expanded="false"
+        aria-label="Open cart drawer"
+        role="button"
+        tabindex="0"
       >
-        <circle cx="8" cy="21" r="1" />
-        <circle cx="19" cy="21" r="1" />
-        <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12" />
-      </svg>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="#000"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="lucide lucide-shopping-cart-icon lucide-shopping-cart"
+        >
+          <circle cx="8" cy="21" r="1" />
+          <circle cx="19" cy="21" r="1" />
+          <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12" />
+        </svg>
 
-      <div
-        class="cart-count"
-        {% if cart.item_count == 0 %}
-          hidden
-        {% endif %}
-      >
-        {% if cart.item_count < 100 %}
-          <span aria-hidden="true">{{ cart.item_count }}</span>
-        {% endif %}
-      </div>
-    </a>
+        <div
+          class="cart-count"
+          {% if cart.item_count == 0 %}
+            hidden
+          {% endif %}
+        >
+          {% if cart.item_count < 100 %}
+            <span aria-hidden="true">{{ cart.item_count }}</span>
+          {% endif %}
+        </div>
+      </a>
 
-    <button id="menu-toggle" class="mobile-toggle" aria-label="Toggle menu">
-      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path fill-rule="evenodd" clip-rule="evenodd" d="M0.222229 17.1111C0.222229 16.8754 0.31588 16.6493 0.482579 16.4826C0.649278 16.3159 0.87537 16.2222 1.11112 16.2222H18.8889C19.1246 16.2222 19.3507 16.3159 19.5174 16.4826C19.6841 16.6493 19.7778 16.8754 19.7778 17.1111C19.7778 17.3469 19.6841 17.573 19.5174 17.7397C19.3507 17.9064 19.1246 18 18.8889 18H1.11112C0.87537 18 0.649278 17.9064 0.482579 17.7397C0.31588 17.573 0.222229 17.3469 0.222229 17.1111ZM0.222229 10C0.222229 9.76425 0.31588 9.53816 0.482579 9.37146C0.649278 9.20476 0.87537 9.11111 1.11112 9.11111H18.8889C19.1246 9.11111 19.3507 9.20476 19.5174 9.37146C19.6841 9.53816 19.7778 9.76425 19.7778 10C19.7778 10.2357 19.6841 10.4618 19.5174 10.6285C19.3507 10.7952 19.1246 10.8889 18.8889 10.8889H1.11112C0.87537 10.8889 0.649278 10.7952 0.482579 10.6285C0.31588 10.4618 0.222229 10.2357 0.222229 10ZM0.222229 2.88889C0.222229 2.65314 0.31588 2.42705 0.482579 2.26035C0.649278 2.09365 0.87537 2 1.11112 2H18.8889C19.1246 2 19.3507 2.09365 19.5174 2.26035C19.6841 2.42705 19.7778 2.65314 19.7778 2.88889C19.7778 3.12464 19.6841 3.35073 19.5174 3.51743C19.3507 3.68413 19.1246 3.77778 18.8889 3.77778H1.11112C0.87537 3.77778 0.649278 3.68413 0.482579 3.51743C0.31588 3.35073 0.222229 3.12464 0.222229 2.88889Z" fill="#660808"/>
-      </svg>
-    </button>
+      <button id="menu-toggle" class="mobile-toggle" aria-label="Toggle menu">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M0.222229 17.1111C0.222229 16.8754 0.31588 16.6493 0.482579 16.4826C0.649278 16.3159 0.87537 16.2222 1.11112 16.2222H18.8889C19.1246 16.2222 19.3507 16.3159 19.5174 16.4826C19.6841 16.6493 19.7778 16.8754 19.7778 17.1111C19.7778 17.3469 19.6841 17.573 19.5174 17.7397C19.3507 17.9064 19.1246 18 18.8889 18H1.11112C0.87537 18 0.649278 17.9064 0.482579 17.7397C0.31588 17.573 0.222229 17.3469 0.222229 17.1111ZM0.222229 10C0.222229 9.76425 0.31588 9.53816 0.482579 9.37146C0.649278 9.20476 0.87537 9.11111 1.11112 9.11111H18.8889C19.1246 9.11111 19.3507 9.20476 19.5174 9.37146C19.6841 9.53816 19.7778 9.76425 19.7778 10C19.7778 10.2357 19.6841 10.4618 19.5174 10.6285C19.3507 10.7952 19.1246 10.8889 18.8889 10.8889H1.11112C0.87537 10.8889 0.649278 10.7952 0.482579 10.6285C0.31588 10.4618 0.222229 10.2357 0.222229 10ZM0.222229 2.88889C0.222229 2.65314 0.31588 2.42705 0.482579 2.26035C0.649278 2.09365 0.87537 2 1.11112 2H18.8889C19.1246 2 19.3507 2.09365 19.5174 2.26035C19.6841 2.42705 19.7778 2.65314 19.7778 2.88889C19.7778 3.12464 19.6841 3.35073 19.5174 3.51743C19.3507 3.68413 19.1246 3.77778 18.8889 3.77778H1.11112C0.87537 3.77778 0.649278 3.68413 0.482579 3.51743C0.31588 3.35073 0.222229 3.12464 0.222229 2.88889Z" fill="#660808"/>
+        </svg>
+      </button>
+    </div>
   </div>
 </div>
+<div id="header-overlay" class="header-overlay"></div>
 
 <script>
-document.addEventListener('DOMContentLoaded', function () {
-  const menuToggle = document.getElementById('menu-toggle');
-  const searchToggle = document.getElementById('search-toggle');
-  const searchBar = document.getElementById('search-bar');
-  const searchClose = document.getElementById('search-close');
-  const searchIcon = document.getElementById('search-toggle');
-  const headerNavList = document.getElementById('header-nav-lists');
-  const html = document.documentElement;
-  const body = document.body;
+  document.addEventListener('DOMContentLoaded', function () {
+    const menuToggle = document.getElementById('menu-toggle');
+    const searchToggle = document.getElementById('search-toggle');
+    const searchBar = document.getElementById('search-bar');
+    const searchClose = document.getElementById('search-close');
+    const searchIcon = document.getElementById('search-toggle');
+    const headerNavList = document.getElementById('header-nav-lists');
+    const headerNormal = document.querySelector('.header-container.header-normal');
+    const headerHover = document.querySelector('.header-container.header-hover');
+    const overlay = document.getElementById('header-overlay');
+    const html = document.documentElement;
+    const body = document.body;
 
-  function updateOverflow() {
-    const menuOpen = headerNavList.classList.contains('show');
-    const searchOpen = searchBar.classList.contains('show');
+    function updateOverflow() {
+      const menuOpen = headerNavList.classList.contains('show');
+      const searchOpen = searchBar.classList.contains('show');
 
-    if (menuOpen || searchOpen) {
-      html.style.overflow = 'hidden';
-      body.style.overflow = 'hidden';
-    } else {
-      html.style.overflow = '';
-      body.style.overflow = '';
+      if (menuOpen || searchOpen) {
+        html.style.overflow = 'hidden';
+        body.style.overflow = 'hidden';
+        overlay.classList.add('show');
+      } else {
+        html.style.overflow = '';
+        body.style.overflow = '';
+        overlay.classList.remove('show');
+      }
     }
-  }
 
-  menuToggle.addEventListener('click', function () {
-    // Close search if open
-    if (searchBar.classList.contains('show')) {
+    menuToggle.addEventListener('click', function () {
+      if (searchBar.classList.contains('show')) {
+        searchBar.classList.remove('show');
+        searchIcon.classList.remove('hide');
+        headerHover.classList.remove('show');
+        headerNormal.classList.add('show');
+      }
+
+      headerNavList.classList.toggle('show');
+      updateOverflow();
+    });
+
+    searchToggle.addEventListener('click', function () {
+      if (headerNavList.classList.contains('show')) {
+        headerNavList.classList.remove('show');
+      }
+
+      searchBar.classList.toggle('show');
+      searchIcon.classList.toggle('hide');
+      headerNavList.classList.toggle('hide', searchBar.classList.contains('show'));
+
+      if (searchBar.classList.contains('show')) {
+        headerHover.classList.add('show');
+        headerNormal.classList.remove('show');
+      } else {
+        headerHover.classList.remove('show');
+        headerNormal.classList.add('show');
+      }
+
+      updateOverflow();
+    });
+
+    searchClose.addEventListener('click', function () {
       searchBar.classList.remove('show');
       searchIcon.classList.remove('hide');
-    }
+      headerNavList.classList.remove('hide');
+      headerHover.classList.remove('show');
+      headerNormal.classList.add('show');
 
-    // Toggle menu
-    headerNavList.classList.toggle('show');
+      updateOverflow();
+    });
 
-    updateOverflow();
-  });
-
-  searchToggle.addEventListener('click', function () {
-    // Close menu if open
-    if (headerNavList.classList.contains('show')) {
+    // Optional: Clicking the overlay should close everything
+    overlay.addEventListener('click', function () {
+      searchBar.classList.remove('show');
+      headerHover.classList.remove('show');
+      headerNormal.classList.add('show');
+      searchIcon.classList.remove('hide');
       headerNavList.classList.remove('show');
-    }
+      headerNavList.classList.remove('hide');
 
-    // Toggle search
-    searchBar.classList.toggle('show');
-    searchIcon.classList.toggle('hide');
-    headerNavList.classList.toggle('hide', searchBar.classList.contains('show'));
-
-    updateOverflow();
+      updateOverflow();
+    });
   });
-
-  searchClose.addEventListener('click', function () {
-    searchBar.classList.remove('show');
-    searchIcon.classList.remove('hide');
-    headerNavList.classList.remove('hide');
-
-    updateOverflow();
-  });
-});
 </script>

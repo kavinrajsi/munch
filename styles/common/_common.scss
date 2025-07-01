@@ -147,7 +147,7 @@ $z-index: (
 
 html {
   scroll-behavior: smooth;
-  font-family: "Instrument Sans";
+  font-family: var(--font-header);
   font-size: 14px;
   font-weight: 400;
   line-height: 1.5;
@@ -170,7 +170,7 @@ html {
 body {
   @include z-index(body);
   font-size: 1rem;
-  font-family: "Instrument Sans";
+  font-family: var(--font-header);
   overflow-x: hidden;
   font-size: inherit;
   line-height: inherit;
@@ -210,8 +210,12 @@ main.layout__main-content {
   max-width: 1120px;
   margin-left: auto;
   margin-right: auto;
-  padding-left: 20px;
-  padding-right: 20px;
+  padding-left: 16px;
+  padding-right: 16px;
+  @media (min-width: 768px) {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
   @media (min-width: 1140px) {
     padding-left: 0px;
     padding-right: 0px;
@@ -253,9 +257,13 @@ a {
   font-family: var(--font-minion);
   font-style: italic;
   font-weight: 700;
-  font-size: 56px;
-  line-height: 56px;
+  font-size: 40px;
+  line-height: 42px;
   /* or 100% */
+  @media (min-width: 768px) {
+    font-size: 56px;
+    line-height: 56px;
+  }
 }
 
 .heading--2 {
@@ -270,7 +278,7 @@ a {
 
 .heading--3 {
   /* Heading3 */
-  font-family: "Instrument Sans";
+  font-family: var(--font-header);
   font-style: normal;
   font-weight: 500;
   font-size: 28px;
@@ -296,7 +304,7 @@ a {
 
 .text--body-1 {
   /* Body1 */
-  font-family: "Instrument Sans";
+  font-family: var(--font-header);
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
@@ -306,7 +314,7 @@ a {
 .text--body-2,
 p {
   /* Body2 */
-  font-family: "Instrument Sans";
+  font-family: var(--font-header);
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
@@ -332,7 +340,7 @@ p {
     border: 1px solid transparent;
     border-radius: 2px;
     /* Body1 */
-    font-family: "Instrument Sans";
+    font-family: var(--font-header);
     font-style: normal;
     font-weight: 400;
     font-size: 16px;

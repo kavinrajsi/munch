@@ -47,7 +47,7 @@
     max-width: 550px;
 
     /* Body2 */
-    font-family: "Instrument Sans";
+    font-family: var(--font-header);
     font-style: normal;
     font-weight: 400;
     font-size: 14px;
@@ -74,7 +74,7 @@
     small {
       display: block;
       /* Body2 */
-      font-family: "Instrument Sans";
+      font-family: var(--font-header);
       font-style: normal;
       font-weight: 400;
       font-size: 14px;
@@ -87,7 +87,7 @@
     .money {
       display: block;
       /* Heading4 */
-      font-family: "Instrument Sans";
+      font-family: var(--font-header);
       font-style: normal;
       font-weight: 600;
       font-size: 24px;
@@ -122,7 +122,7 @@
     label {
       display: block;
       padding-bottom: 8px;
-      font-family: "Instrument Sans";
+      font-family: var(--font-header);
       font-style: normal;
       font-weight: 600;
       font-size: 12px;
@@ -178,7 +178,7 @@
     border-radius: 6px;
     /* Add to cart */
     /* Body2 */
-    font-family: "Instrument Sans";
+    font-family: var(--font-header);
     font-style: normal;
     font-weight: 400;
     font-size: 14px;
@@ -198,7 +198,7 @@
     border-radius: 6px;
     /* Buy it now */
     /* Body2 */
-    font-family: "Instrument Sans";
+    font-family: var(--font-header);
     font-style: normal;
     font-weight: 400;
     font-size: 14px;
@@ -286,7 +286,7 @@
       display: block; /* At Your Door in 1–2 Days */
 
 
-      font-family: "Instrument Sans";
+      font-family: var(--font-header);
       font-style: normal;
       font-weight: 600;
       font-size: 16px;

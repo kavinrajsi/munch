@@ -15,11 +15,11 @@
     display: inline-block;
     width: 100%;
     height: 100%;
-    picture{
-    position: relative;
-    display: inline-block;
-    width: 100%;
-    height: 100%;
+    picture {
+      position: relative;
+      display: inline-block;
+      width: 100%;
+      height: 100%;
     }
     img {
       width: 100%;
@@ -57,6 +57,9 @@
     text-align: center;
     /* Neutral/White1 */
     color: #ffffff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   .product__price {
     display: block;
@@ -81,7 +84,7 @@
     background: #ffffff;
     border-radius: 4px;
     /* Select Option */
-    font-family: "Instrument Sans";
+    font-family: var(--font-header);
     font-style: normal;
     font-weight: 500;
     font-size: 12px;
@@ -107,12 +110,6 @@
         }
       }
     }
-  }
-}
-
-.product-slider-wrapper {
-  .product__slider--card {
-    margin: 0px 20px 0px 0px;
   }
 }
 

@@ -10,7 +10,7 @@
     animation: scroll-left 30s linear infinite;
     .announcement-text {
       display: inline-block;
-      font-family: "Instrument Sans";
+      font-family: var(--font-header);
       font-style: normal;
       font-weight: 400;
       font-size: 12px;

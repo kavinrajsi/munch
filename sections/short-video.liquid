@@ -1,3 +1,102 @@
+{% comment %}
+  Shopify Section: Short Video Grid
+  ----------------------------------
+
+  📌 Purpose:
+  - Displays a horizontally scrollable grid of short autoplaying videos with optional poster images.
+
+  🧱 Structure:
+  - Section heading
+  - Video cards (video or fallback poster image)
+
+  🛠 Admin Settings:
+  - Section heading text
+  - Video URL (MP4 from Shopify Files)
+  - Poster image (image fallback or preview)
+  - Loop and preload toggle options
+
+  💡 UX Features:
+  - Videos autoplay, are muted, loop (optional), and load efficiently
+  - Poster image fallback if video not available
+  - Responsive layout using CSS grid and horizontal scrolling
+
+  ✅ BEM Naming Convention:
+  - Block: .short-video
+  - Elements: __heading, __grid, __card, __video, __poster
+
+  🔁 Preset:
+  - Name: "Short Video Grid"
+  - No default blocks
+{% endcomment %}
+
+<div class="short-video">
+  <h2 class="heading--2  short-video__heading">{{ section.settings.heading }}</h2>
+  <div class="short-video__grid">
+    {% for block in section.blocks %}
+      <div class="short-video__card">
+        {% if block.settings.video_url %}
+          {% comment %}
+            NOTE:
+            - Adds dynamic aspect ratio using poster dimensions.
+            - Supports multiple video sources (.mp4, optionally .ogg).
+            - Enables preload, muted autoplay, and playsinline for smooth UX.
+            - Uses BEM class naming.
+          {% endcomment %}
+          <video
+            class="short-video__video"
+            controls
+            {% if block.settings.poster %}
+              poster="{{ block.settings.poster | image_url: width: 265 }}"
+              style="aspect-ratio: {{ block.settings.poster.width }} / {{ block.settings.poster.height }}; width: 100%; height: auto; object-fit: cover; display: block;"
+            {% else %}
+              style="aspect-ratio: 16 / 9; width: 100%; height: auto; object-fit: cover; display: block;"
+            {% endif %}
+            {% if block.settings.loop %}
+              loop
+            {% endif %}
+            {% if block.settings.preload %}
+              preload="auto"
+            {% else %}
+              preload="metadata"
+            {% endif %}
+            muted
+            autoplay
+            playsinline
+            fetchpriority="high"
+          >
+            <source src="{{ block.settings.video_url }}" type="video/mp4">
+            {%- comment -%}
+              You can optionally support other formats like OGG if available:
+              <source src="{{ block.settings.video_url | replace: '.mp4', '.ogg' }}" type="video/ogg">
+            {%- endcomment -%}
+            Your browser does not support the video tag.
+          </video>
+        {% elsif block.settings.poster %}
+          <picture class="short-video__poster-wrapper">
+            <source
+              srcset="{{ block.settings.poster | image_url: width: 600, format: 'webp' }}"
+              type="image/webp"
+            >
+            <source
+              srcset="{{ block.settings.poster | image_url: width: 600, format: 'pjpg' }}"
+              type="image/jpeg"
+            >
+            <img
+              src="{{ block.settings.poster | image_url: width: 600 }}"
+              alt="{{ section.settings.heading | default: 'Video preview' }}"
+              width="{{ block.settings.poster.width }}"
+              height="{{ block.settings.poster.height }}"
+              class="short-video__poster"
+              loading="lazy"
+              style="aspect-ratio: {{ block.settings.poster.width }} / {{ block.settings.poster.height }}; width: 100%; height: auto; object-fit: cover; display: block;"
+            >
+          </picture>
+        {% endif %}
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
 {% schema %}
 {
   "name": "Short Video Grid",
@@ -50,40 +149,3 @@
   ]
 }
 {% endschema %}
-
-<div class="short-video-wrapper">
-  <h2 class="heading--2 short-video-heading">{{ section.settings.heading }}</h2>
-  <div class="short-video-grid">
-    {% for block in section.blocks %}
-      <div class="video-card">
-
-        {% if block.settings.video_url %}
-          <video
-            src="{{ block.settings.video_url }}"
-            {% if block.settings.poster %}
-              poster="{{ block.settings.poster | image_url: width: 265 }}"
-
-            {% endif %}
-            {% if block.settings.loop %} loop {% endif %}
-            {% if block.settings.preload %} preload="auto" {% else %} preload="metadata" {% endif %}
-            muted
-            autoplay
-            playsinline
-            fetchpriority="high"
-            class="video-element"
-          ></video>
-
-        {% elsif block.settings.poster %}
-          <img
-            src="{{ block.settings.poster | image_url: width: 600 }}"
-            alt="{{ section.settings.heading | default: 'Video preview' }}"
-            width="{{ block.settings.poster.width }}"
-            height="{{ block.settings.poster.height }}"
-            class="video-poster"
-          >
-        {% endif %}
-
-      </div>
-    {% endfor %}
-  </div>
-</div>

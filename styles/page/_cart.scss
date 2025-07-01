@@ -38,7 +38,7 @@
           display: block;
 
           /* Body1 */
-          font-family: "Instrument Sans";
+          font-family: var(--font-header);
           font-style: normal;
           font-weight: 400;
           font-size: 16px;
@@ -50,7 +50,7 @@
         }
         small {
           display: block;
-          font-family: "Instrument Sans";
+          font-family: var(--font-header);
           font-style: normal;
           font-weight: 400;
           font-size: 12px;
@@ -68,7 +68,7 @@
       /* Primary/Red1 */
       background: #c61d23;
       border-radius: 6px;
-      font-family: "Instrument Sans";
+      font-family: var(--font-header);
       font-style: normal;
       font-weight: 400;
       font-size: 14px;
@@ -108,7 +108,7 @@
     }
     .cart-col {
       /* Body2 */
-      font-family: "Instrument Sans";
+      font-family: var(--font-header);
       font-style: normal;
       font-weight: 400;
       font-size: 14px;
@@ -204,7 +204,7 @@
 
         .product-titleWrapper a{
           display: block;
-          font-family: "Instrument Sans";
+          font-family: var(--font-header);
           font-style: normal;
           font-weight: 600;
           font-size: 16px;
@@ -216,7 +216,7 @@
         }
         .product-titleWrapper small {
           display: block;
-          font-family: "Instrument Sans";
+          font-family: var(--font-header);
           font-style: normal;
           font-weight: 600;
           font-size: 16px;
@@ -231,7 +231,7 @@
 
       .remove-btn {
         /* Body2 */
-        font-family: "Instrument Sans";
+        font-family: var(--font-header);
         font-style: normal;
         font-weight: 400;
         font-size: 14px;
@@ -256,7 +256,7 @@
 
     span {
       /* Body1 */
-      font-family: "Instrument Sans";
+      font-family: var(--font-header);
       font-style: normal;
       font-weight: 400;
       font-size: 16px;
