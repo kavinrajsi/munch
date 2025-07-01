@@ -1,288 +1,237 @@
-// Drawer open/close logic
-var drawer = function () {
-  if (!Element.prototype.closest) {
-    if (!Element.prototype.matches) {
-      Element.prototype.matches =
-        Element.prototype.msMatchesSelector ||
-        Element.prototype.webkitMatchesSelector;
+
+// Show loader during async operations
+function showLoader() {
+  console.log("showLoader: showing loader");
+  const loader = document.getElementById("loader");
+  if (loader) loader.style.display = "block";
+}
+
+function hideLoader() {
+  console.log("hideLoader: hiding loader");
+  const loader = document.getElementById("loader");
+  if (loader) loader.style.display = "none";
+}
+
+// Update cart count on cart icon
+function updateCartCount(count) {
+  console.log(`updateCartCount: updating cart count to ${count}`);
+  const cartCount = document.querySelector(".cart-count");
+  if (!cartCount) return;
+
+  if (count > 0) {
+    cartCount.hidden = false;
+    const span = cartCount.querySelector("span");
+    const displayCount = count > 99 ? "99+" : count;
+    if (span) {
+      span.textContent = displayCount;
+    } else {
+      const spanEl = document.createElement("span");
+      spanEl.setAttribute("aria-hidden", "true");
+      spanEl.textContent = displayCount;
+      cartCount.appendChild(spanEl);
     }
-    Element.prototype.closest = function (s) {
-      var el = this;
-      var ancestor = this;
-      if (!document.documentElement.contains(el)) return null;
-      do {
-        if (ancestor.matches(s)) return ancestor;
-        ancestor = ancestor.parentElement;
-      } while (ancestor !== null);
-      return null;
-    };
-  }
-
-  var settings = {
-    speedOpen: 50,
-    speedClose: 350,
-    activeClass: "is-active",
-    visibleClass: "is-visible",
-    selectorTarget: "[data-drawer-target]",
-    selectorTrigger: "[data-drawer-trigger]",
-    selectorClose: "[data-drawer-close]",
-  };
-
-  var toggleAccessibility = function (event) {
-    event.setAttribute(
-      "aria-expanded",
-      event.getAttribute("aria-expanded") === "true" ? "false" : "true"
-    );
-  };
-
-  var openDrawer = function (trigger) {
-    var target = document.getElementById(trigger.getAttribute("aria-controls"));
-    target.classList.add(settings.activeClass);
-    document.documentElement.style.overflow = "hidden";
-    toggleAccessibility(trigger);
-
-    setTimeout(function () {
-      target.classList.add(settings.visibleClass);
-    }, settings.speedOpen);
-  };
-
-  var closeDrawer = function (event) {
-    var closestParent = event.closest(settings.selectorTarget);
-    var childrenTrigger = document.querySelector(
-      '[aria-controls="' + closestParent.id + '"]'
-    );
-
-    closestParent.classList.remove(settings.visibleClass);
-    document.documentElement.style.overflow = "";
-    toggleAccessibility(childrenTrigger);
-
-    setTimeout(function () {
-      closestParent.classList.remove(settings.activeClass);
-    }, settings.speedClose);
-  };
-
-  var clickHandler = function (event) {
-    var toggle = event.target;
-    var open = toggle.closest(settings.selectorTrigger);
-    var close = toggle.closest(settings.selectorClose);
-
-    if (open) {
-      openDrawer(open);
-
-      fetch("/cart.js")
-        .then((resp) => resp.json())
-        .then((data) => {
-          let drawerHTML = "";
-
-          if (data.items.length > 0) {
-            $(".cart-item-no").attr("hidden", true);
-
-            data.items.forEach(function (product, index) {
-              drawerHTML += `
-                <div class="cart__item cartpopup-item" data-line="${index + 1}" data-variant-id="${product.variant_id}">
-                  <div class="card__item-image">
-                    <img src="${product.featured_image.url}&width=95&height=100&format=webp" width="95" height="100" alt="${product.featured_image.alt}">
-                  </div>
-                  <div class="card__item-content">
-                    <h5 class="card__item--title">${product.title}</h5>
-                    <p class="card__item--price productPrice">
-                      <span class="money">${Shopify.formatMoney(product.price)}</span>
-                    </p>
-                    <div class="cart-item__qtyWrapper">
-                    <div class="cart-item__qty">
-                      <button type="button" class="qty-btn qty-decrease" data-line="${index + 1}">−</button>
-                      <input type="text" class="cart-qty-input" value="${product.quantity}" min="1" data-line="${index + 1}">
-                      <button type="button" class="qty-btn qty-increase" data-line="${index + 1}">+</button>
-                    </div>
-                    <p class="delete">
-                      <a class="remove removeCta" data-line="${index + 1}" href="#">
-                        Remove
-                      </a>
-                    </p>
-                    </div>
-                  </div>
-                </div>`;
-            });
-
-            $("#cart__drawer_items").html(drawerHTML);
-
-            // Initialize minus button state
-            $('.cart-qty-input').each(function () {
-              const qty = parseInt($(this).val());
-              if (qty <= 1) {
-                $(this).siblings('.qty-decrease').addClass('qty-disabled');
-              }
-            });
-          }
-
-          $("#cart__total_price").html(
-            `<span class="money">${Shopify.formatMoney(data.original_total_price)}</span>`
-          );
-        });
-    }
-
-    if (close) {
-      closeDrawer(close);
-    }
-
-    if (open || close) {
-      event.preventDefault();
-    }
-  };
-
-  var keydownHandler = function (event) {
-    if (event.key === "Escape" || event.keyCode === 27) {
-      var drawers = document.querySelectorAll(settings.selectorTarget);
-      for (let i = 0; i < drawers.length; ++i) {
-        if (drawers[i].classList.contains(settings.activeClass)) {
-          closeDrawer(drawers[i]);
-        }
-      }
-    }
-  };
-
-  document.addEventListener("click", clickHandler, false);
-  document.addEventListener("keydown", keydownHandler, false);
-};
-
-drawer();
-
-// REMOVE ITEM
-$(document).on('click', '.cartpopup-body .remove', function (e) {
-  e.preventDefault();
-  const $item = $(this).closest('.cartpopup-item');
-  const line = parseInt($(this).data('line'));
-
-  $item.remove();
-
-  $.ajax({
-    type: 'POST',
-    url: '/cart/change.js',
-    dataType: 'json',
-    data: {
-      line: line,
-      quantity: 0
-    },
-    success: function (cart) {
-      $('.cart-count, .cart-item-count').text(cart.item_count);
-      $('#cart__total_price').html(
-        `<span class="money">${(cart.total_price / 100).toFixed(2)}</span>`
-      );
-      if (cart.item_count === 0) {
-        $('.cart-item-no').removeAttr('hidden');
-        $('.cart-count').attr('hidden', true);
-      }
-    },
-    error: function () {
-      alert('Error removing item. Please refresh.');
-    }
-  });
-});
-
-// QTY UPDATE (buttons)
-$(document).on('click', '.cart__item .qty-btn', function () {
-  const $btn = $(this);
-  const $input = $btn.siblings('.cart-qty-input');
-  const line = parseInt($btn.data('line'));
-  let qty = parseInt($input.val());
-
-  if ($btn.hasClass('qty-increase')) {
-    qty += 1;
-  } else if ($btn.hasClass('qty-decrease') && qty > 1) {
-    qty -= 1;
-  }
-
-  $input.val(qty);
-
-  // Toggle minus button state
-  const $decreaseBtn = $btn.parent().find('.qty-decrease');
-  if (qty <= 1) {
-    $decreaseBtn.addClass('qty-disabled');
   } else {
-    $decreaseBtn.removeClass('qty-disabled');
+    cartCount.hidden = true;
+  }
+}
+
+// Fetch cart data from Shopify
+function fetchCartData() {
+  console.log("fetchCartData: fetching cart data");
+  fetch("/cart.js")
+    .then(res => res.json())
+    .then(cart => {
+      renderCartItems(cart);
+      updateCartCount(cart.item_count);
+    })
+    .catch(err => console.error("fetchCartData: error", err));
+}
+
+// Render cart items
+function renderCartItems(cart) {
+  console.log("renderCartItems: rendering", cart.items.length, "items");
+
+  const cartDrawer = document.querySelector(".cart__drawer_items");
+  const emptyMessage = document.getElementById("cart-item-empty");
+  const totalPriceElem = document.getElementById("cart__total_price");
+
+  if (!cartDrawer || !emptyMessage || !totalPriceElem) {
+    console.error("renderCartItems: required elements missing");
+    return;
   }
 
-  $.ajax({
-    type: 'POST',
-    url: '/cart/change.js',
-    dataType: 'json',
-    data: {
-      line: line,
-      quantity: qty
-    },
-    success: function (cart) {
-      $('#cart__total_price').html(
-        `<span class="money">${(cart.total_price / 100).toFixed(2)}</span>`
-      );
-      $('.cart-count, .cart-item-count').text(cart.item_count);
-    },
-    error: function () {
-      alert('Failed to update quantity. Please refresh.');
-    }
+  cartDrawer.innerHTML = "";
+
+  if (!cart.items || cart.items.length === 0) {
+    emptyMessage.hidden = false;
+    totalPriceElem.innerHTML = `<strong>Rs. 0.00</strong>`;
+    return;
+  }
+
+  emptyMessage.hidden = true;
+
+  cart.items.forEach(item => {
+    const cartItem = document.createElement("div");
+    cartItem.classList.add("cartpopup-item", "cart-item");
+    cartItem.innerHTML = `
+      <div class="cart__item cartpopup-item">
+        <div class="card__item-image">
+          <img src="${item.image}&width=95&height=100&format=webp" width="95" height="100" alt="${item.title}">
+        </div>
+        <div class="card__item-content">
+          <h4 class="card__item--title">${item.title}</h4>
+          <div class="card__item--price productPrice"><span class="money">Rs. ${(item.price / 100).toFixed(2)}</span></div>
+          <div class="cart-item__qtyWrapper">
+           <div class="cart-item__qty">
+            <button type="button" class="qty-decrease" data-line-key="${item.key}" aria-label="Decrease quantity">-</button>
+            <input type="text" min="1" value="${item.quantity}" class="cart-qty-input" data-line-key="${item.key}" aria-label="Quantity input for ${item.title}" />
+            <button type="button" class="qty-increase" data-line-key="${item.key}" aria-label="Increase quantity">+</button>
+           </div>
+          </div>
+          <div class="delete">
+            <button class="removeCta cart-item__remove-btn" data-line-key="${item.key}" type="button" aria-label="Remove ${item.title} from cart">Remove</button>
+          </div>
+        </div>
+        </div>
+    `;
+    cartDrawer.appendChild(cartItem);
   });
+
+  // Price calculation
+  const subtotal = (cart.items_subtotal_price / 100).toFixed(2);
+  const discount = (cart.total_discount / 100).toFixed(2);
+  const total = (cart.total_price / 100).toFixed(2);
+/** NOTE: Subtotal value is not matching with total value */
+  let priceHTML = ``;
+  // let priceHTML = `<div><strong>Subtotal:</strong> Rs. ${subtotal}</div>`;
+
+  if (cart.total_discount > 0) {
+    priceHTML += `
+      <div><strong>Discount:</strong> -Rs. ${discount}</div>
+      <div><strong>Total:</strong> Rs. ${subtotal}</div>
+    `;
+  } else {
+    priceHTML += `<div>Rs.${subtotal}</div>`;
+  }
+
+  totalPriceElem.innerHTML = priceHTML;
+}
+
+// Remove item
+function removeCartItem(lineKey) {
+  console.log(`removeCartItem: ${lineKey}`);
+  showLoader();
+  fetch("/cart/change.js", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ id: lineKey, quantity: 0 })
+  })
+    .then(res => res.json())
+    .then(cart => {
+      renderCartItems(cart);
+      updateCartCount(cart.item_count);
+      hideLoader();
+    })
+    .catch(err => {
+      console.error("removeCartItem error:", err);
+      alert("Failed to remove item");
+      hideLoader();
+    });
+}
+
+// Change item quantity
+function changeCartItemQuantity(lineKey, quantity) {
+  quantity = quantity < 1 ? 1 : quantity;
+  showLoader();
+  fetch("/cart/change.js", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ id: lineKey, quantity })
+  })
+    .then(res => res.json())
+    .then(cart => {
+      renderCartItems(cart);
+      updateCartCount(cart.item_count);
+      hideLoader();
+    })
+    .catch(err => {
+      console.error("changeCartItemQuantity error:", err);
+      alert("Failed to update quantity");
+      hideLoader();
+    });
+}
+
+// Click handlers for cart buttons
+document.addEventListener("click", e => {
+  const target = e.target;
+
+  if (target.matches(".cart-item__remove-btn")) {
+    const lineKey = target.dataset.lineKey;
+    removeCartItem(lineKey);
+  }
+
+  if (target.matches(".qty-increase") || target.matches(".qty-decrease")) {
+    const lineKey = target.dataset.lineKey;
+    const input = document.querySelector(`input.cart-qty-input[data-line-key="${lineKey}"]`);
+    if (!input) return;
+    let newQty = parseInt(input.value);
+    newQty += target.classList.contains("qty-increase") ? 1 : -1;
+    newQty = newQty < 1 ? 1 : newQty;
+    changeCartItemQuantity(lineKey, newQty);
+  }
 });
 
-var openDrawer = function (trigger) {
-  var target = document.getElementById(trigger.getAttribute("aria-controls"));
-  target.classList.add(settings.activeClass);
-  document.documentElement.style.overflow = "hidden";
-  toggleAccessibility(trigger);
+// Input change handler
+document.addEventListener("change", e => {
+  const target = e.target;
+  if (target.matches("input.cart-qty-input")) {
+    const lineKey = target.dataset.lineKey;
+    let qty = parseInt(target.value);
+    qty = isNaN(qty) || qty < 1 ? 1 : qty;
+    changeCartItemQuantity(lineKey, qty);
+  }
+});
 
-  setTimeout(function () {
-    target.classList.add(settings.visibleClass);
-  }, settings.speedOpen);
+// Drawer toggle and setup
+document.addEventListener("DOMContentLoaded", () => {
+  hideLoader();
+  const trigger = document.getElementById("cart-icon-bubble");
+  const drawer = document.getElementById("cart-drawer");
 
-  fetch("/cart.js")
-    .then((resp) => resp.json())
-    .then((data) => {
-      let drawerHTML = "";
-
-      if (data.items.length > 0) {
-        $(".cart-item-no").attr("hidden", true);
-
-        data.items.forEach(function (product, index) {
-          drawerHTML += `
-            <div class="cart__item cartpopup-item" data-line="${index + 1}" data-variant-id="${product.variant_id}">
-              <div class="card__item-image">
-               <img src="${product.featured_image.url}&width=95&height=100&format=webp" width="95" height="100" alt="${product.featured_image.alt}">
-              </div>
-              <div class="card__item-content">
-                <h5 class="card__item--title">${product.title}</h5>
-                <p class="card__item--price productPrice">
-                  <span class="money">${Shopify.formatMoney(product.price)}</span>
-                </p>
-                <div class="cart-item__qtyWrapper">
-                <div class="cart-item__qty">
-                  <button type="button" class="qty-btn qty-decrease" data-line="${index + 1}">−</button>
-                  <input type="number" class="cart-qty-input" value="${product.quantity}" min="1" data-line="${index + 1}">
-                  <button type="button" class="qty-btn qty-increase" data-line="${index + 1}">+</button>
-                </div>
-                <p class="delete">
-                  <a class="remove removeCta" data-line="${index + 1}" href="#">
-                  Remove
-                  </a>
-                </p>
-              </div>
-              </div>
-            </div>`;
-        });
-
-        $("#cart__drawer_items").html(drawerHTML);
-
-        // Initialize minus button state
-        $('.cart-qty-input').each(function () {
-          const qty = parseInt($(this).val());
-          if (qty <= 1) {
-            $(this).siblings('.qty-decrease').addClass('qty-disabled');
-          }
-        });
-
-        // Call related product logic using the first product's ID
-        loadRelatedProducts(data.items[0].product_id);
-      }
-
-      $("#cart__total_price").html(
-        `<span class="money">${Shopify.formatMoney(data.original_total_price)}</span>`
-      );
+  if (trigger && drawer) {
+    trigger.addEventListener("click", e => {
+      e.preventDefault();
+      drawer.classList.add("is-active", "is-visible");
+      drawer.setAttribute("aria-hidden", "false");
+      document.body.style.overflow = "hidden";
+      fetchCartData();
     });
-};
+
+    drawer.querySelectorAll("[data-drawer-close]").forEach(btn => {
+      btn.addEventListener("click", e => {
+        e.preventDefault();
+        drawer.classList.remove("is-visible");
+        drawer.setAttribute("aria-hidden", "true");
+        drawer.addEventListener("transitionend", () => {
+          drawer.classList.remove("is-active");
+          document.body.style.overflow = "";
+        }, { once: true });
+      });
+    });
+
+    document.addEventListener("keydown", e => {
+      if (e.key === "Escape" && drawer.classList.contains("is-active")) {
+        drawer.classList.remove("is-visible");
+        drawer.setAttribute("aria-hidden", "true");
+        drawer.addEventListener("transitionend", () => {
+          drawer.classList.remove("is-active");
+          document.body.style.overflow = "";
+        }, { once: true });
+      }
+    });
+  }
+
+  fetchCartData(); // Optional preload on page load
+});
+
+console.log("drawer.js loaded");

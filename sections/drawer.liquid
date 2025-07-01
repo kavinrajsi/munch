@@ -1,72 +1,38 @@
-<section class="drawer" id="drawer-name" data-drawer-target>
-  <div class="drawer__overlay" data-drawer-close></div>
-  <div class="drawer__wrapper">
-    <form action="{{ routes.cart_url }}" method="post" novalidate>
-      <div class="drawer__header">
-        <div class="drawer__title">Shopping Cart</div>
-        <button class="drawer__close" data-drawer-close aria-label="Close Drawer">
-          <svg width="11" height="12" viewBox="0 0 11 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path fill-rule="evenodd" clip-rule="evenodd" d="M0.718143 0.969196C0.787811 0.899351 0.870575 0.843936 0.961693 0.806127C1.05281 0.768317 1.15049 0.748856 1.24914 0.748856C1.34779 0.748856 1.44548 0.768317 1.53659 0.806127C1.62771 0.843936 1.71047 0.899351 1.78014 0.969196L5.74914 4.9397L9.71814 0.969196C9.78787 0.899464 9.87066 0.844149 9.96177 0.806411C10.0529 0.768672 10.1505 0.749248 10.2491 0.749248C10.3478 0.749248 10.4454 0.768672 10.5365 0.806411C10.6276 0.844149 10.7104 0.899464 10.7801 0.969196C10.8499 1.03893 10.9052 1.12171 10.9429 1.21282C10.9807 1.30393 11.0001 1.40158 11.0001 1.5002C11.0001 1.59881 10.9807 1.69646 10.9429 1.78757C10.9052 1.87868 10.8499 1.96146 10.7801 2.0312L6.80964 6.0002L10.7801 9.9692C10.8499 10.0389 10.9052 10.1217 10.9429 10.2128C10.9807 10.3039 11.0001 10.4016 11.0001 10.5002C11.0001 10.5988 10.9807 10.6965 10.9429 10.7876C10.9052 10.8787 10.8499 10.9615 10.7801 11.0312C10.7104 11.1009 10.6276 11.1562 10.5365 11.194C10.4454 11.2317 10.3478 11.2511 10.2491 11.2511C10.1505 11.2511 10.0529 11.2317 9.96177 11.194C9.87066 11.1562 9.78787 11.1009 9.71814 11.0312L5.74914 7.0607L1.78014 11.0312C1.71041 11.1009 1.62763 11.1562 1.53652 11.194C1.44541 11.2317 1.34776 11.2511 1.24914 11.2511C1.15053 11.2511 1.05288 11.2317 0.961768 11.194C0.870659 11.1562 0.787875 11.1009 0.718143 11.0312C0.648411 10.9615 0.593097 10.8787 0.555358 10.7876C0.517619 10.6965 0.498195 10.5988 0.498195 10.5002C0.498195 10.4016 0.517619 10.3039 0.555358 10.2128C0.593097 10.1217 0.648411 10.0389 0.718143 9.9692L4.68864 6.0002L0.718143 2.0312C0.648298 1.96153 0.592884 1.87876 0.555074 1.78765C0.517264 1.69653 0.497803 1.59885 0.497803 1.5002C0.497803 1.40154 0.517264 1.30386 0.555074 1.21275C0.592884 1.12163 0.648298 1.03886 0.718143 0.969196Z" fill="#A5161A"/>
-          </svg>
-        </button>
-      </div>
-
-      <div class="drawer__content" id="cart__drawer">
-        <div
-          class="cart-item-no"
-          {% if cart.item_count > 0 %}
-            hidden
-          {% endif %}
-        >
-          Your shopping bag is empty.
+  <section   data-drawer-target  id="cart-drawer" class="cart-drawer drawer" aria-hidden="true">
+    <div class="drawer__overlay" data-drawer-close></div>
+    <div class="drawer__wrapper">
+      <form action="{{ routes.cart_url }}" method="post" novalidate>
+        <div class="drawer__header">
+          <div class="drawer__title">Shopping Cart</div>
+          <button class="drawer__close" data-drawer-close aria-label="Close Drawer">
+            <svg width="11" height="12" viewBox="0 0 11 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M0.718143 0.969196C0.787811 0.899351 0.870575 0.843936 0.961693 0.806127C1.05281 0.768317 1.15049 0.748856 1.24914 0.748856C1.34779 0.748856 1.44548 0.768317 1.53659 0.806127C1.62771 0.843936 1.71047 0.899351 1.78014 0.969196L5.74914 4.9397L9.71814 0.969196C9.78787 0.899464 9.87066 0.844149 9.96177 0.806411C10.0529 0.768672 10.1505 0.749248 10.2491 0.749248C10.3478 0.749248 10.4454 0.768672 10.5365 0.806411C10.6276 0.844149 10.7104 0.899464 10.7801 0.969196C10.8499 1.03893 10.9052 1.12171 10.9429 1.21282C10.9807 1.30393 11.0001 1.40158 11.0001 1.5002C11.0001 1.59881 10.9807 1.69646 10.9429 1.78757C10.9052 1.87868 10.8499 1.96146 10.7801 2.0312L6.80964 6.0002L10.7801 9.9692C10.8499 10.0389 10.9052 10.1217 10.9429 10.2128C10.9807 10.3039 11.0001 10.4016 11.0001 10.5002C11.0001 10.5988 10.9807 10.6965 10.9429 10.7876C10.9052 10.8787 10.8499 10.9615 10.7801 11.0312C10.7104 11.1009 10.6276 11.1562 10.5365 11.194C10.4454 11.2317 10.3478 11.2511 10.2491 11.2511C10.1505 11.2511 10.0529 11.2317 9.96177 11.194C9.87066 11.1562 9.78787 11.1009 9.71814 11.0312L5.74914 7.0607L1.78014 11.0312C1.71041 11.1009 1.62763 11.1562 1.53652 11.194C1.44541 11.2317 1.34776 11.2511 1.24914 11.2511C1.15053 11.2511 1.05288 11.2317 0.961768 11.194C0.870659 11.1562 0.787875 11.1009 0.718143 11.0312C0.648411 10.9615 0.593097 10.8787 0.555358 10.7876C0.517619 10.6965 0.498195 10.5988 0.498195 10.5002C0.498195 10.4016 0.517619 10.3039 0.555074 10.2128C0.592884 10.1217 0.648298 10.0389 0.718143 9.9692L4.68864 6.0002L0.718143 2.0312C0.648298 1.96153 0.592884 1.87876 0.555074 1.78765C0.517264 1.69653 0.497803 1.59885 0.497803 1.5002C0.497803 1.40154 0.517264 1.30386 0.555074 1.21275C0.592884 1.12163 0.648298 1.03886 0.718143 0.969196Z" fill="#A5161A"/>
+            </svg>
+          </button>
         </div>
 
-        <div class="cartpopup-body" id="cart__drawer_items">
-          {% for item in cart.items %}
-            <div class="cart-item" data-variant-id="{{ item.variant_id }}">
-              <div class="cart-item__details">
-                <p class="cart-item__title">{{ item.product.title }}</p>
-                <p class="cart-item__variant">{{ item.variant.title }}</p>
-                <p class="cart-item__price">{{ item.line_price | money }}</p>
-              </div>
-
-              <div class="cart-item__qty">
-                <button type="button" class="qty-btn qty-decrease" data-variant-id="{{ item.variant_id }}">−</button>
-                <input
-                  type="text"
-                  name="updates[]"
-                  class="cart-qty-input"
-                  value="{{ item.quantity }}"
-                  min="1"
-                  data-variant-id="{{ item.variant_id }}"
-                  aria-label="Item quantity"
-                >
-                <button type="button" class="qty-btn qty-increase" data-variant-id="{{ item.variant_id }}">+</button>
-              </div>
-            </div>
-          {% endfor %}
-        </div>
-
-        {% comment %} <div class="drawer__related-products" id="related-products">
-          <h4>You may also like</h4>
-          <div class="related-products-list">
-            <!-- Related products will be inserted here -->
+        <div class="drawer__content" id="cart__drawer">
+          <div class="cart-item-no" id="cart-item-empty" hidden>
+            Your shopping bag is empty.
           </div>
-        </div> {% endcomment %}
-      </div>
+          <div class="cartpopup-body cart__drawer_items" id="cart__drawer_items"></div>
+        </div>
 
-      <div class="drawer__footer">
-        <div class="cartpopup-total">
-          <span>Subtotal</span>
-          <span class="price" class="cart__total-price">
-            {{ cart.total_price | money }}
-          </span>
+        <div class="drawer__footer">
+          <div class="cartpopup-total">
+            <span>Subtotal</span>
+            <span class="price "  id="cart__total_price">Rs. 0.00</span>
+            {% comment %} <span class="price" id="">Rs. 0.00</span> {% endcomment %}
+          </div>
+          <div class="cartpopup-buttons">
+            <button class="button-solid" type="submit" name="checkout">Check Out</button>
+            <a class="button-outline" href="{{ routes.cart_url }}">View Cart</a>
+          </div>
         </div>
-        <div class="cartpopup-buttons">
-          <button class="button-solid" type="submit" name="checkout">Check Out</button>
-          <a class="button-outline" href="{{ routes.cart_url }}">View Cart</a>
-        </div>
-      </div>
-    </form>
+      </form>
+    </div>
+  </section>
+
+  <div id="loader" style="display: none;">
+    <div class="spinner"></div>
   </div>
-</section>

@@ -64,17 +64,17 @@
     <!-- Search Bar -->
     <div id="search-bar" class="search-bar">
       <div class="search-bar-wrapper">
-      <form action="{{ routes.root_url }}search" method="get" role="search">
-        <input type="search" name="q" placeholder="Search products">
-        <button type="submit">{% render 'icon-search' %}</button>
-      </form>
-      <button id="search-close" class="search-close" aria-label="Close Search">
-        <!-- You can replace this SVG with any other icon or use {% render 'icon-close' %} if available -->
-        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M15 5L5 15M5 5L15 15" stroke="#000" stroke-width="2" stroke-linecap="round"/>
-        </svg>
-      </button>
-    </div>
+        <form action="{{ routes.root_url }}search" method="get" role="search">
+          <input type="search" name="q" placeholder="Search products">
+          <button type="submit">{% render 'icon-search' %}</button>
+        </form>
+        <button id="search-close" class="search-close" aria-label="Close Search">
+          <!-- You can replace this SVG with any other icon or use {% render 'icon-close' %} if available -->
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M15 5L5 15M5 5L15 15" stroke="#000" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
     </div>
   </nav>
 
@@ -85,15 +85,18 @@
     </a>
     <a href="{{ routes.root_url }}account" title="Account">{% render 'icon-user' %}</a>
     <a href="{{ routes.root_url }}pages/wishlist" title="Wishlist">{% render 'icon-heart' %}</a>
+
     <a
-      title="cart"
-      href="#"
+       title="cart"
+      href="javascript:void(0)"
       class="site-header__icon site-header__cart"
       id="cart-icon-bubble"
       data-drawer-trigger
-      aria-controls="drawer-name"
+      aria-controls="cart-drawer"
       aria-expanded="false"
-    >
+      aria-label="Open cart drawer"
+      role="button"
+      tabindex="0">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="24"
@@ -106,7 +109,9 @@
         stroke-linejoin="round"
         class="lucide lucide-shopping-cart-icon lucide-shopping-cart"
       >
-        <circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/>
+        <circle cx="8" cy="21" r="1" />
+        <circle cx="19" cy="21" r="1" />
+        <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12" />
       </svg>
 
       <div
@@ -131,59 +136,30 @@
 
 <script>
   document.addEventListener('DOMContentLoaded', function () {
-    const menuToggle = document.getElementById('menu-toggle');
-    const mobileNav = document.getElementById('mobile-nav');
-    const searchToggle = document.getElementById('search-toggle');
-    const searchBar = document.getElementById('search-bar');
-    const searchClose = document.getElementById('search-close');
-    const searchIcon = document.getElementById('search-toggle');
-    const headerNavList = document.getElementById('header-nav-lists');
-    const html = document.documentElement;
-    const body = document.body;
+  const menuToggle = document.getElementById('menu-toggle');
+  const searchToggle = document.getElementById('search-toggle');
+  const searchBar = document.getElementById('search-bar');
+  const searchClose = document.getElementById('search-close');
+  const searchIcon = document.getElementById('search-toggle');
+  const headerNavList = document.getElementById('header-nav-lists');
+  const html = document.documentElement;
 
-    menuToggle.addEventListener('click', function () {
-      headerNavList.classList.toggle('show');
-      const isMenuOpen = headerNavList.classList.contains('show');
-
-      togglePageScroll(!isMenuOpen);
-    });
-
-    searchToggle.addEventListener('click', function () {
-      headerNavList.classList.add('hide');
-      searchBar.classList.add('show');
-      searchIcon.classList.add('hide');
-
-      togglePageScroll(false);
-    });
-
-    searchClose.addEventListener('click', function () {
-      closeSearchBar();
-    });
-
-    document.addEventListener('click', function (event) {
-      const isClickInsideSearch = searchBar.contains(event.target);
-      const isClickOnToggle = searchToggle.contains(event.target);
-
-      if (!isClickInsideSearch && !isClickOnToggle && searchBar.classList.contains('show')) {
-        closeSearchBar();
-      }
-    });
-
-    function closeSearchBar() {
-      searchBar.classList.remove('show');
-      searchIcon.classList.remove('hide');
-      headerNavList.classList.remove('hide');
-      togglePageScroll(true);
-    }
-
-    function togglePageScroll(allowScroll) {
-      if (allowScroll) {
-        html.style.overflow = '';
-        body.style.overflow = '';
-      } else {
-        html.style.overflow = 'hidden';
-        body.style.overflow = 'hidden';
-      }
-    }
+  menuToggle.addEventListener('click', function () {
+    headerNavList.classList.toggle('show');
   });
+
+  searchToggle.addEventListener('click', function () {
+    headerNavList.classList.toggle('hide');
+    searchBar.classList.toggle('show');
+    searchIcon.classList.toggle('hide');
+  });
+
+  searchClose.addEventListener('click', function () {
+    searchBar.classList.remove('show');
+    searchIcon.classList.remove('hide');
+    headerNavList.classList.remove('hide');
+  });
+
+});
+
 </script>
