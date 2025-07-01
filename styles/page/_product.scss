@@ -44,7 +44,7 @@
     padding-bottom: 16px;
   }
   .product--description {
-    max-width: 581px;
+    max-width: 550px;
 
     /* Body2 */
     font-family: "Instrument Sans";
@@ -98,6 +98,80 @@
       color: #a5161a;
     }
   }
+
+  #variant-selectors {
+    margin-bottom: 24px;
+  }
+  .quantity-wrapper {
+    display: flex;
+    align-items: flex-end;
+    gap: 8px;
+  }
+  .product__qty {
+    position: relative;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    width: 100px;
+    div {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    label {
+      display: block;
+      padding-bottom: 8px;
+      font-family: "Instrument Sans";
+      font-style: normal;
+      font-weight: 600;
+      font-size: 12px;
+      line-height: 15px;
+      /* identical to box height */
+      /* Primary/Red3 */
+      color: #660808;
+    }
+    .product__qtyInput {
+      /* Frame 28 */
+      box-sizing: border-box;
+      -moz-appearance: textfield;
+      -webkit-appearance: none;
+      padding: 12px 16px;
+      text-align: center;
+
+      width: 100px;
+      height: 41px;
+
+      /* Neutral/White3 */
+      border: 1px solid #d3d3d3;
+      border-radius: 4px;
+
+      font-style: normal;
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 17px;
+      /* identical to box height */
+      text-align: center;
+
+      /* Primary/Red3 */
+      color: #660808;
+    }
+
+    .qty-decrease {
+      position: absolute;
+      left: 0;
+      height: 100%;
+    }
+    .qty-increase {
+      position: absolute;
+      right: 0;
+      height: 100%;
+    }
+    .qty-disabled {
+      opacity: 0.5;
+      cursor: none;
+    }
+  }
   .addcart {
     /* Primary/Red1 */
     border: 1px solid #c61d23;
@@ -113,11 +187,12 @@
     text-align: center;
     /* Primary/Red1 */
     color: #c61d23;
+    width: 100%;
+    padding: 12px 16px;
   }
   .buynow {
     /* Frame 47 */
     padding: 12px 16px;
-    gap: 10px;
     /* Primary/Red1 */
     background: #c61d23;
     border-radius: 6px;
@@ -132,8 +207,95 @@
     text-align: center;
     /* Neutral/White1 */
     color: #ffffff;
+    width: 100%;
+    margin-top: 8px;
+  }
+  .product__action {
+    // display: flex;
+    // flex-direction: column;
+    max-width: 360px;
   }
 }
 .sticky-buy-bar {
   display: none;
+}
+
+.made-width-love {
+  padding-top: 56px;
+  padding-bottom: 56px;
+  .heading-2 {
+    padding-bottom: 32px;
+  }
+  .made-with-love--lists {
+    display: grid;
+    gap: 16px;
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
+
+.related-product {
+  padding-bottom: 56px;
+  .heading-2 {
+    padding-bottom: 32px;
+  }
+  .related-products-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    @media (min-width: 768px) {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+}
+
+.recently-viewed-section {
+  padding-bottom: 56px;
+  .heading-2 {
+    padding-bottom: 32px;
+  }
+}
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.product-page-footer__items {
+  /* Frame 65 */
+
+  padding: 40px 160px;
+  gap: 20px;
+
+  background: #c61d23;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  justify-content: center;
+  align-items: center;
+  .product-page-footer__item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 24px;
+    i {
+      display: inline-block;
+    }
+    span {
+      display: block; /* At Your Door in 1–2 Days */
+
+
+      font-family: "Instrument Sans";
+      font-style: normal;
+      font-weight: 600;
+      font-size: 16px;
+      line-height: 20px;
+      /* identical to box height */
+
+      /* Neutral/White1 */
+      color: #ffffff;
+
+    }
+  }
 }

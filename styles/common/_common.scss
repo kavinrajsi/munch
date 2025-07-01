@@ -315,54 +315,79 @@ main img {
 //   outline: 1px solid red;
 // }
 
+.pagination {
+  padding-top: 56px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
-  .pagination {
-    padding-top: 56px;
+  .prev svg {
+    transform: rotate(180deg);
+  }
+  .next svg {
+    transform: rotate(-180deg);
+  }
+  .page {
+    margin-left: 10px;
+    margin-right: 10px;
+    padding: 2px 8px;
+    border: 1px solid transparent;
+    border-radius: 2px;
+    /* Body1 */
+    font-family: "Instrument Sans";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 20px;
+    /* identical to box height */
     display: flex;
-    justify-content: center;
     align-items: center;
 
-    .prev svg {
-      transform: rotate(180deg);
+    /* Primary/Red3 */
+    color: #660808;
+
+    cursor: pointer;
+
+    a {
+      display: inline-block;
     }
-    .next svg {
-      transform: rotate(-180deg);
+    &.current {
+      background-color: #c61d23;
+      color: #ffffff;
     }
-    .page {
-      margin-left: 10px;
-      margin-right: 10px;
-      padding: 2px 8px;
-      border: 1px solid transparent;
-      border-radius: 2px;
-      /* Body1 */
-      font-family: "Instrument Sans";
-      font-style: normal;
-      font-weight: 400;
-      font-size: 16px;
-      line-height: 20px;
-      /* identical to box height */
-      display: flex;
-      align-items: center;
-
-      /* Primary/Red3 */
-      color: #660808;
-
-      cursor: pointer;
-
-      a {
-        display: inline-block;
-      }
-      &.current {
-        background-color: #c61d23;
-        color: #ffffff;
-      }
-      &.deco {
-        opacity: 0.4;
-        cursor: hidden;
-        &:hover {
-          border: 1px solid transparent;
-          color: initial;
-        }
+    &.deco {
+      opacity: 0.4;
+      cursor: hidden;
+      &:hover {
+        border: 1px solid transparent;
+        color: initial;
       }
     }
   }
+}
+
+.heading-1 {
+}
+.heading-2 {
+  /* Heading2 */
+  font-family: "Minion Pro Cond Capt";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 36px;
+  line-height: 36px;
+  /* identical to box height, or 100% */
+  /* Primary/Red1 */
+  color: #c61d23;
+}
+.heading-3 {
+}
+.heading-4 {
+}
+.heading-5 {
+}
+.heading-6 {
+}
+.body-1 {
+}
+.body-2 {
+}
