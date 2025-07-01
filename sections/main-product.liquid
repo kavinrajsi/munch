@@ -7,34 +7,75 @@
     <div class="product-images">
       <div id="gallery_01" class="product-images-thumbnails">
         {% for product_image in product.images %}
-        <a href="javascript:void(0)" data-image="{{ product_image | image_url }}"
-          data-zoom-image="{{ product_image | image_url: width: '1256', height: '1886' }}">
-          <picture>
-            <source type="image/pjpg" srcset="{{ product_image | image_url: format: 'pjpg', width: 75, height: 80 }}"
-              width="75" height="80">
-            <source type="image/webp" srcset="{{ product_image | image_url: format: 'webp', width: 75, height: 80 }}"
-              width="75" height="80">
-            <img alt="{{ product.title }}" id="img_{{ forloop.index }}"
-              src="{{ product_image | image_url: width: 75, height: 80 }}" width="75" height="80" loading="lazy">
-          </picture>
-        </a>
+          <a
+            href="javascript:void(0)"
+            data-image="{{ product_image | image_url }}"
+            data-zoom-image="{{ product_image | image_url: width: '1256', height: '1886' }}"
+          >
+            <picture>
+              <source
+                type="image/pjpg"
+                srcset="{{ product_image | image_url: format: 'pjpg', width: 75, height: 80 }}"
+                width="75"
+                height="80"
+              >
+              <source
+                type="image/webp"
+                srcset="{{ product_image | image_url: format: 'webp', width: 75, height: 80 }}"
+                width="75"
+                height="80"
+              >
+              <img
+                alt="{{ product.title }}"
+                id="img_{{ forloop.index }}"
+                src="{{ product_image | image_url: width: 75, height: 80 }}"
+                width="75"
+                height="80"
+                loading="lazy"
+                itemprop="image"
+              >
+              <noscript>
+                <img
+                  src="{{ product_image | image_url: width: 75, height: 80 }}"
+                  width="75"
+                  height="80"
+                  alt="{{ product.title }}"
+                >
+              </noscript>
+            </picture>
+          </a>
         {% endfor %}
       </div>
 
       <picture class="product-images-large">
-        <source type="image/pjpg"
+        <source
+          type="image/pjpg"
           srcset="{{ product.selected_or_first_available_variant.featured_image | default: product.featured_image | image_url: format: 'pjpg', width: 640, height: 960 }}"
-          width="640" height="960">
-        <source type="image/avif"
+          width="640"
+          height="960"
+        >
+        <source
+          type="image/avif"
           srcset="{{ product.selected_or_first_available_variant.featured_image | default: product.featured_image | image_url: format: 'avif', width: 372, height: 392 }}"
-          width="372" height="392">
-        <source type="image/webp"
+          width="372"
+          height="392"
+        >
+        <source
+          type="image/webp"
           srcset="{{ product.selected_or_first_available_variant.featured_image | default: product.featured_image | image_url: format: 'webp', width: 372, height: 392 }}"
-          width="372" height="392">
-        <img alt="{{ product.title }}"
+          width="372"
+          height="392"
+        >
+        <img
+          alt="{{ product.title }}"
           src="{{ product.selected_or_first_available_variant.featured_image | default: product.featured_image | image_url: width: 640, height: 960 }}"
           data-zoom-image="{{ product.selected_or_first_available_variant.featured_image | default: product.featured_image | image_url: width: 1256, height: 1886 }}"
-          class="test-gallery" id="zoom_03" width="640" height="960" loading="lazy">
+          class="test-gallery"
+          id="zoom_03"
+          width="640"
+          height="960"
+          loading="lazy"
+        >
       </picture>
     </div>
   </div>
@@ -44,13 +85,22 @@
     <code>
       <!-- {{  product | json }} -->
     </code>
-    <h1 class="product--title">{{ product.title }}</h1>
+    <h1 itemprop="name" class="product--title">{{ product.title }}</h1>
 
-    <div class="product--description">
+    <div itemprop="description" class="product--description">
       {{ product.description }}
     </div>
     <p class="product--price">
-      <span id="variant-price" class="money">{{ product.price | money_with_currency }}</span>
+      <span id="variant-price" class="money" itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+        <meta itemprop="priceCurrency" content="{{ shop.currency }}">
+        <meta itemprop="price" content="{{ product.price | money_without_currency }}">
+        <link
+          itemprop="availability"
+          href="http://schema.org/{% if product.available %}InStock{% else %}OutOfStock{% endif %}"
+        >
+        {{ product.price | money_with_currency }}
+      </span>
+
       <small>Tax included</small>
     </p>
     <div class="hidden" style="display: block">
@@ -61,55 +111,68 @@
       <p><strong>Type:</strong> {{ product.type }}</p>
       <p id="inventory-info"></p>
       {% if product.collections.size > 0 %}
-      <p>
-        <strong>Category:</strong>
-        {% for collection in product.collections %}
-        <a href="{{ collection.url }}">{{ collection.title }}</a>
-        {%- unless forloop.last %}, {% endunless %}
-        {% endfor %}
-      </p>
+        <p>
+          <strong>Category:</strong>
+          {% for collection in product.collections %}
+            <a href="{{ collection.url }}">{{ collection.title }}</a>
+            {%- unless forloop.last %}, {% endunless %}
+          {% endfor %}
+        </p>
       {% endif %}
 
       {% if product.tags.size > 0 %}
-      <p>
-        <strong>Tags:</strong>
-        {% for tag in product.tags %}
-        <a href="/collections/all/{{ tag | handle }}">{{ tag }}</a>
-        {%- unless forloop.last %}, {% endunless %}
-        {% endfor %}
-      </p>
+        <p>
+          <strong>Tags:</strong>
+          {% for tag in product.tags %}
+            <a href="/collections/all/{{ tag | handle }}">{{ tag }}</a>
+            {%- unless forloop.last %}, {% endunless %}
+          {% endfor %}
+        </p>
       {% endif %}
     </div>
     <form action="/cart/add" method="post" enctype="multipart/form-data">
       <!-- Dynamic Option Radio Groups -->
       <div id="variant-selectors">
         {% for option in product.options_with_values %}
-        <fieldset class="product-option">
-          <legend>
-            <strong>{{ option.name }}</strong>
-          </legend>
-          {% for value in option.values %}
-          {% assign is_available = false %}
-          {% for variant in product.variants %}
-          {% if variant.options[option.position0] == value and variant.available %}
-          {% assign is_available = true %}
-          {% endif %}
-          {% endfor %}
-          <label style="margin-right: 1rem; display: inline-block;">
-            <input type="radio" name="option{{ option.position }}" value="{{ value }}" {% if forloop.first %} checked {%
-              endif %} {% unless is_available %} disabled {% endunless %}>
-            {{ value }}
-            {% unless is_available %}
-            <span style="font-size: 0.85em; color: red;">(Sold out)</span>
-            {% endunless %}
-          </label>
-          {% endfor %}
-        </fieldset>
+          <fieldset class="product-option">
+            <legend>
+              <strong>{{ option.name }}</strong>
+            </legend>
+            {% for value in option.values %}
+              {% assign is_available = false %}
+              {% for variant in product.variants %}
+                {% if variant.options[option.position0] == value and variant.available %}
+                  {% assign is_available = true %}
+                {% endif %}
+              {% endfor %}
+              <label style="margin-right: 1rem; display: inline-block;">
+                <input
+                  type="radio"
+                  name="option{{ option.position }}"
+                  value="{{ value }}"
+                  {% if forloop.first %}
+                    checked
+                  {% endif %}
+                  {% unless is_available %}
+                    disabled
+                  {% endunless %}
+                >
+                {{ value }}
+                {% unless is_available %}
+                  <span style="font-size: 0.85em; color: red;">(Sold out)</span>
+                {% endunless %}
+              </label>
+            {% endfor %}
+          </fieldset>
         {% endfor %}
       </div>
 
-      <input type="hidden" name="id" id="selected-variant-id"
-        value="{{ product.selected_or_first_available_variant.id }}">
+      <input
+        type="hidden"
+        name="id"
+        id="selected-variant-id"
+        value="{{ product.selected_or_first_available_variant.id }}"
+      >
 
       <div class="product__action">
         <!-- Quantity -->
@@ -118,8 +181,15 @@
             <label for="Quantity">Quantity</label>
             <div>
               <button type="button" id="qty-minus" class="qty-btn qty-decrease" onclick="updateQty(-1)">−</button>
-              <input type="text" id="Quantity" name="quantity" value="1" min="1" class="product__qtyInput"
-                oninput="qtyInputChanged()">
+              <input
+                type="text"
+                id="Quantity"
+                name="quantity"
+                value="1"
+                min="1"
+                class="product__qtyInput"
+                oninput="qtyInputChanged()"
+              >
               <button type="button" class="qty-btn qty-increase" onclick="updateQty(1)">+</button>
             </div>
           </div>
@@ -224,23 +294,22 @@
     </li>
   </ul>
 </div>
-
 <div class="related-product grid-box">
   {% if product.collections.size > 0 %}
-  {% assign current_collection = product.collections.first %}
-  <h2 class="heading-2">More from {{ current_collection.title }}</h2>
-  <div class="related-products-grid">
-    {% assign shown_count = 0 %}
-    {% for related_product in current_collection.products %}
-    {% if related_product.id != product.id %}
-    {% render 'product-card', product: related_product %}
-    {% assign shown_count = shown_count | plus: 1 %}
-    {% if shown_count == 4 %}
-    {% break %}
-    {% endif %}
-    {% endif %}
-    {% endfor %}
-  </div>
+    {% assign current_collection = product.collections.first %}
+    <h2 class="heading-2">More from {{ current_collection.title }}</h2>
+    <div class="related-products-grid">
+      {% assign shown_count = 0 %}
+      {% for related_product in current_collection.products %}
+        {% if related_product.id != product.id %}
+          {% render 'product-card', product: related_product %}
+          {% assign shown_count = shown_count | plus: 1 %}
+          {% if shown_count == 4 %}
+            {% break %}
+          {% endif %}
+        {% endif %}
+      {% endfor %}
+    </div>
   {% endif %}
 </div>
 
@@ -303,7 +372,6 @@
             d="M38.0736 46.1851H38.0004C37.4873 46.1485 37.1575 45.7454 37.1942 45.2324L37.2308 44.3162C37.3041 43.8032 37.7072 43.4368 38.2202 43.5101C38.7332 43.5467 39.063 43.9498 39.0264 44.4628L38.9897 45.3789C38.8798 45.8187 38.5134 46.1851 38.0736 46.1851Z"
             fill="white" />
         </svg>
-
       </i>
       <span>At Your Door in 1–2 Days</span>
     </div>
@@ -336,7 +404,6 @@
             </clipPath>
           </defs>
         </svg>
-
       </i>
       <span>100% Natural, Nothing Extra</span>
     </div>
@@ -350,12 +417,38 @@
             d="M57.3633 33.9102H56.1321L51.4311 20.9826C50.8021 19.2523 49.1423 18.0898 47.3012 18.0898H12.6988C10.8577 18.0898 9.19793 19.2523 8.56887 20.9826L3.86789 33.9102H2.63672C1.18289 33.9102 0 35.0929 0 36.5469C0 38.0008 1.18289 39.1836 2.63672 39.1836H5.53664L8.95922 48.5955C9.58828 50.3258 11.248 51.4883 13.0891 51.4883H46.9107C48.7519 51.4883 50.4116 50.3258 51.0407 48.5955L54.4632 39.1836H57.3633C58.8171 39.1836 60 38.0008 60 36.5469C60 35.0929 58.8171 33.9102 57.3633 33.9102ZM23.8477 39.1836V49.7305H22.0898V39.1836H23.8477ZM37.9102 39.1836V49.7305H36.1523V39.1836H37.9102ZM34.3945 49.7305H32.6367V39.1836H34.3945V49.7305ZM30.8789 49.7305H29.1211V39.1836H30.8789V49.7305ZM27.3633 49.7305H25.6055V39.1836H27.3633V49.7305ZM49.3887 47.9948C49.0112 49.033 48.0155 49.7305 46.9107 49.7305H39.668V39.1836H52.5928L49.3887 47.9948ZM57.3633 37.4258H15.4395C14.9539 37.4258 14.5605 37.8193 14.5605 38.3047C14.5605 38.7901 14.9539 39.1836 15.4395 39.1836H20.332V49.7305H13.0891C11.9844 49.7305 10.9887 49.033 10.6112 47.9948L7.40719 39.1836H11.9238C12.4093 39.1836 12.8027 38.7901 12.8027 38.3047C12.8027 37.8193 12.4093 37.4258 11.9238 37.4258H2.63672C2.15203 37.4258 1.75781 37.0316 1.75781 36.5469C1.75781 36.0622 2.15203 35.668 2.63672 35.668H44.516C45.0015 35.668 45.3949 35.2745 45.3949 34.7891C45.3949 34.3037 45.0015 33.9102 44.516 33.9102H37.8217C37.4134 31.9067 35.6379 30.3945 33.5156 30.3945H26.4844C24.3621 30.3945 22.5866 31.9067 22.1783 33.9102H5.73844L10.221 21.5833C10.5984 20.5452 11.5942 19.8477 12.6989 19.8477H47.3012C48.4059 19.8477 49.4017 20.5452 49.7791 21.5833L54.2616 33.9102H48.0316C47.5461 33.9102 47.1527 34.3037 47.1527 34.7891C47.1527 35.2745 47.5461 35.668 48.0316 35.668H57.3633C57.848 35.668 58.2422 36.0622 58.2422 36.5469C58.2422 37.0316 57.848 37.4258 57.3633 37.4258ZM23.9988 33.9102C24.3616 32.8872 25.3386 32.1523 26.4844 32.1523H33.5156C34.6614 32.1523 35.6384 32.8872 36.0012 33.9102H23.9988Z"
             fill="white" />
         </svg>
-
       </i>
       <span>Keeps Fresh Up to 15 Days</span>
     </div>
   </div>
 </div>
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org/",
+    "@type": "Product",
+    "name": "{{ product.title | escape }}",
+    "image": [
+      {% for image in product.images %}
+        "{{ image | image_url }}"{% unless forloop.last %},{% endunless %}
+      {% endfor %}
+    ],
+    "description": {{ product.description | strip_html | json }},
+    "sku": "{{ product.selected_or_first_available_variant.sku }}",
+    "brand": {
+      "@type": "Brand",
+      "name": "{{ product.vendor }}"
+    },
+    "offers": {
+      "@type": "Offer",
+      "url": "{{ shop.url }}{{ product.url }}",
+      "priceCurrency": "{{ shop.currency }}",
+      "price": "{{ product.selected_or_first_available_variant.price | money_without_currency }}",
+      "availability": "https://schema.org/{% if product.available %}InStock{% else %}OutOfStock{% endif %}",
+      "itemCondition": "https://schema.org/NewCondition"
+    }
+  }
+</script>
 
 <script>
   document.addEventListener('DOMContentLoaded', function () {
@@ -378,8 +471,12 @@
               <a href="/products/${product.handle}">
 
       <picture>
-        <source srcset="${product.featured_image}&width=265&height=320&format=webp" width="265" height="320" type="image/pjpg">
-        <source srcset="${product.featured_image}&width=265&height=320&format=webp" width="265" height="320" type="image/webp">
+        <source srcset="${
+          product.featured_image
+        }&width=265&height=320&format=webp" width="265" height="320" type="image/pjpg">
+        <source srcset="${
+          product.featured_image
+        }&width=265&height=320&format=webp" width="265" height="320" type="image/webp">
         <img
           src="${product.featured_image}&width=265&height=320&format=webp" width="265" height="320" "
           width="265"
