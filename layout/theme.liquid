@@ -1,7 +1,3 @@
-{%- liquid
-  assign header_font = settings.type_header
-  assign body_font = settings.type_body
--%}
 <!doctype html>
 <html class="no-js" lang="{{ request.locale.iso_code }}">
   <head>
@@ -44,13 +40,21 @@
     {{ content_for_header }}
 
     {% style %}
-      {{ header_font | font_face: font_display: 'swap' }}
-      {{ body_font | font_face: font_display: 'swap' }}
-
-      :root {
-      --font-playfair: {{ header_font.family }}, {{ header_font.fallback_families }};
-      --font-montserrat: {{ body_font.family }}, {{ body_font.fallback_families }};
-      }
+      {{ settings.type_header | font_face }}
+      {{ settings.type_body | font_face }}
+      @font-face {
+        font-family: 'minion_pro_cond_captregular';
+        src: url('{{ "minion_pro_cond_caption-webfont.woff2" | asset_url }}') format('woff2'),
+              url('{{ "minion_pro_cond_caption-webfont.woff" | asset_url }}') format('woff');
+        font-weight: normal;
+        font-style: normal;
+        font-display: swap;
+    }
+    :root {
+      --font-minion:  'minion_pro_cond_captregular';
+      --font-header: {{settings.type_header.family}};
+      --font-body:  {{settings.type_body.family}};
+    }
     {% endstyle %}
 
     <link rel="stylesheet" href="{{'slick.css' | asset_url }}">
