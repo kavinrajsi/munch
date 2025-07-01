@@ -108,15 +108,15 @@
           "footer_menu_axcdLa": {
             "type": "footer_menu",
             "settings": {
-              "label": "Company",
-              "menu": "main-menu"
+              "label": "Pages",
+              "menu": "pages"
             }
           },
           "footer_menu_pAqKBN": {
             "type": "footer_menu",
             "settings": {
-              "label": "Company",
-              "menu": "main-menu"
+              "label": "Policy",
+              "menu": "footer"
             }
           },
           "social_icon_pF3Exe": {
