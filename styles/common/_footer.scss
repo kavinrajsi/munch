@@ -5,7 +5,7 @@
   // background: url(Pattern2.png), #FDDECF;
   background: #fddecf;
 
-  .footer--payment-follow {
+  &__payment-follow {
     padding-top: 24px;
     padding-bottom: 24px;
     display: grid;
@@ -15,7 +15,7 @@
     @media (min-width: 768px) {
       grid-template-columns: 1fr 1fr;
     }
-    .footer--payment-follow--title {
+    &__title {
       font-style: normal;
       font-weight: 400;
       font-size: 14px;
@@ -34,7 +34,7 @@
         height: 100%;
       }
     }
-    .footer--follow {
+    &__follow {
       max-width: 128px;
       @media (min-width: 768px) {
         margin-left: auto;
@@ -48,50 +48,38 @@
     }
   }
 }
-.copyright-madeby {
+
+.footer-bottom {
   padding-top: 16px;
   padding-bottom: 16px;
   /* Primary/Red1 */
   background: #c61d23;
-  .grid-box {
+  .layout__grid-box {
     display: flex;
     justify-content: space-between;
     align-items: center;
   }
 
-  .copyright {
+  &__copyright,
+  &__madeby {
     font-style: normal;
     font-weight: 400;
     font-size: 12px;
     line-height: 15px;
     /* identical to box height */
-
     /* Neutral/White1 */
     color: #ffffff;
-  }
-  .madeby {
-    font-style: normal;
-    font-weight: 400;
-    font-size: 12px;
-    line-height: 15px;
-    /* identical to box height */
-
-    /* Neutral/White1 */
-    color: #ffffff;
-
     a {
       font-style: normal;
       font-weight: 600;
       font-size: 12px;
       line-height: 15px;
       /* identical to box height */
-
       /* Neutral/White1 */
       color: #ffffff;
     }
   }
 }
-
 
 body.template-collection .footer,
 body.template-product .footer {

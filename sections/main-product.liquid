@@ -1,7 +1,7 @@
 {% assign current_product = product.selected_or_first_available_variant %}
 {% assign product_image = current_product.featured_image | default: product.featured_image %}
 
-<div class="product-page grid-box">
+<div class="product-page layout__grid-box">
   <!-- LEFT: Image Carousel -->
   <div class="product-gallery">
     <div class="product-images">
@@ -103,7 +103,7 @@
 
       <small>Tax included</small>
     </p>
-    <div class="hidden" style="display: block">
+    <div class="hidden" style="display: none;">
       <p>
         <strong>SKU:</strong> <span id="variant-sku">{{ product.selected_or_first_available_variant.sku }}</span>
       </p>
@@ -203,8 +203,8 @@
     </form>
   </div>
 </div>
-<div class="made-width-love grid-box">
-  <h2 class="heading-2">Made with love</h2>
+<div class="made-width-love layout__grid-box">
+  <h2 class="heading--2">Made with love</h2>
   <ul class="made-with-love--lists">
     <li class="made-with-love--list">
       <i class="made-with-love-icon ">
@@ -294,10 +294,10 @@
     </li>
   </ul>
 </div>
-<div class="related-product grid-box">
+<div class="related-product layout__grid-box">
   {% if product.collections.size > 0 %}
     {% assign current_collection = product.collections.first %}
-    <h2 class="heading-2">More from {{ current_collection.title }}</h2>
+    <h2 class="heading--2">More from {{ current_collection.title }}</h2>
     <div class="related-products-grid">
       {% assign shown_count = 0 %}
       {% for related_product in current_collection.products %}
@@ -313,12 +313,12 @@
   {% endif %}
 </div>
 
-<div class="recently-viewed-section grid-box">
-  <h2 class="heading-2">Recently Viewed Products</h2>
+<div class="recently-viewed-section layout__grid-box">
+  <h2 class="heading--2">Recently Viewed Products</h2>
   <div id="recently-viewed-container" class="recently-viewed-grid products-grid"></div>
 </div>
 
-<div class="product-page-footer grid-fluid">
+<div class="product-page-footer layout__grid-fluid">
   <div class="product-page-footer__items">
     <div class="product-page-footer__item">
       <i>
@@ -487,7 +487,7 @@
         >
       </picture>
                   <div class="product__info">
-    <h4 class="heading-4 product__title">${product.title}</h4>
+    <h4 class="heading--4 product__title">${product.title}</h4>
 
 
 

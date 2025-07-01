@@ -14,7 +14,7 @@
 
 <article class="blog-article">
   {% if article.image %}
-    <div class="blog-article__image grid-box">
+    <div class="blog-article__image layout__grid-box">
       <picture>
         <source
           srcset="{{ article.image | image_url: width: 1200, format: 'pjpg' }}"

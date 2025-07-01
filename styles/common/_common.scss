@@ -187,27 +187,24 @@ body {
   overflow-x: hidden;
 }
 
-.fullpage {
-  height: 100vh;
-  display: grid;
-  grid-template-rows: auto 1fr auto;
-  grid-template-columns: 100%;
+html,
+body {
+  height: 100%;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
 }
 
-#MainContent {
+main.layout__main-content {
+  flex: 1;
+}
+
+#layout__main-content-wrapper {
   position: relative;
   z-index: 1;
 }
 
-.text-center {
-  text-align: center;
-}
-.block-center {
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.grid-box {
+.layout__grid-box {
   display: block;
   width: 100%;
   max-width: 1120px;
@@ -220,17 +217,18 @@ body {
     padding-right: 0px;
   }
 }
-.grid-fluid {
+
+.layout__grid-fluid {
   display: block;
   width: 100%;
   max-width: 100%;
   margin-left: auto;
   margin-right: auto;
 }
-.pl-0 {
+.padding--left-0 {
   padding-left: 0;
 }
-.pr-0 {
+.padding--right-0 {
   padding-right: 0;
 }
 b,
@@ -246,74 +244,74 @@ a {
   cursor: pointer;
 }
 
-details > summary {
-  list-style: none;
-}
-
-details > summary::marker, /* Latest Chrome, Edge, Firefox */
-details > summary::-webkit-details-marker /* Safari */ {
-  display: none;
-}
-
-main img {
-  // border-radius: var(--border-radius);
-}
-
-.blur-up {
-  -webkit-filter: blur(5px);
-  filter: blur(5px);
-  transition: filter 400ms, -webkit-filter 400ms;
-}
-.blur-up.lazyloaded {
-  -webkit-filter: blur(0);
-  filter: blur(0);
-}
-
-.button {
-  border-radius: var(--border-radius);
-  transition: background-color 0.2s, border-color 0.2s, color 0.2s;
-  color: #fff;
-  padding: 14px 16px;
-  overflow: hidden;
-  font-weight: 400;
-  text-transform: uppercase;
-  text-align: center;
-  color: var(--color-black);
-  border: 1px solid;
-  &-outline-maroon {
-    color: var(--color-black);
-    background-color: transparent;
-    border: 1px solid var(--color-maroon);
-  }
-  &-solid-maroon {
-    color: var(--color-white);
-    background-color: var(--color-maroon);
-    border-color: var(--color-maroon);
-  }
-  &-solid-orange {
-    color: var(--color-black);
-    background-color: var(--color-secondary);
-    border-color: var(--color-secondary);
-  }
-  &-outline-maroon {
-    color: var(--color-black);
-    background-color: transparent;
-    border-color: var(--color-maroon);
-  }
-  &-outline-orange {
-    color: var(--color-black);
-    background-color: transparent;
-    border-color: var(--color-secondary);
-  }
-}
-
 .overflow-hidden {
   overflow: hidden;
 }
 
-// body  *{
-//   outline: 1px solid red;
-// }
+.heading--1 {
+  /* Heading1 */
+  font-family: var(--font-minion);
+  font-style: italic;
+  font-weight: 700;
+  font-size: 56px;
+  line-height: 56px;
+  /* or 100% */
+}
+
+.heading--2 {
+  /* Heading2 */
+  font-family: var(--font-minion);
+  font-style: italic;
+  font-weight: 700;
+  font-size: 36px;
+  line-height: 36px;
+  /* identical to box height, or 100% */
+}
+
+.heading--3 {
+  /* Heading3 */
+  font-family: "Instrument Sans";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 28px;
+  line-height: 34px;
+  /* identical to box height, or 121% */
+}
+
+.heading--4 {
+  /* Heading4 */
+  font-family: var(--font-minion);
+  font-style: italic;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 20px;
+  /* identical to box height, or 100% */
+}
+
+.heading--5 {
+}
+
+.heading--6 {
+}
+
+.text--body-1 {
+  /* Body1 */
+  font-family: "Instrument Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 20px;
+}
+
+.text--body-2,
+p {
+  /* Body2 */
+  font-family: "Instrument Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+}
 
 .pagination {
   padding-top: 56px;
@@ -351,11 +349,11 @@ main img {
     a {
       display: inline-block;
     }
-    &.current {
+    &.pagination__page--current {
       background-color: #c61d23;
       color: #ffffff;
     }
-    &.deco {
+    &.pagination__page--decorative {
       opacity: 0.4;
       cursor: hidden;
       &:hover {
@@ -364,69 +362,4 @@ main img {
       }
     }
   }
-}
-
-.heading-1 {
-  /* Heading1 */
-  font-family: var(--font-minion);
-  font-style: italic;
-  font-weight: 700;
-  font-size: 56px;
-  line-height: 56px;
-  /* or 100% */
-}
-
-.heading-2 {
-  /* Heading2 */
-  font-family: var(--font-minion);
-  font-style: italic;
-  font-weight: 700;
-  font-size: 36px;
-  line-height: 36px;
-  /* identical to box height, or 100% */
-}
-
-.heading-3 {
-  /* Heading3 */
-  font-family: "Instrument Sans";
-  font-style: normal;
-  font-weight: 500;
-  font-size: 28px;
-  line-height: 34px;
-  /* identical to box height, or 121% */
-}
-
-.heading-4 {
-  /* Heading4 */
-  font-family: var(--font-minion);
-  font-style: italic;
-  font-weight: 700;
-  font-size: 20px;
-  line-height: 20px;
-  /* identical to box height, or 100% */
-}
-
-.heading-5 {
-}
-
-.heading-6 {
-}
-
-.body-1 {
-  /* Body1 */
-  font-family: "Instrument Sans";
-  font-style: normal;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 20px;
-}
-
-.body-2,
-p {
-  /* Body2 */
-  font-family: "Instrument Sans";
-  font-style: normal;
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 17px;
 }

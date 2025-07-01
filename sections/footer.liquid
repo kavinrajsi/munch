@@ -1,6 +1,5 @@
 <footer class="site-footer" role="contentinfo" aria-label="Site Footer">
   <div class="footer">
-
     <!-- Logo -->
     <div class="footer__logo" aria-label="Company Logo">
       {% if section.settings.logo_svg != blank %}
@@ -10,56 +9,68 @@
       {% endif %}
     </div>
 
-    <!-- Footer Menus -->
-    <div class="footer__menus" role="navigation" aria-label="Footer Navigation">
-      {% for block in section.blocks %}
-        {% if block.type == 'footer_menu' %}
-          {% assign menu = linklists[block.settings.menu] %}
-          {% if menu.links.size > 0 %}
-            <nav class="footer__menu" aria-labelledby="footer-menu-{{ forloop.index }}">
-              {% if block.settings.label != blank %}
-                <h4 id="footer-menu-{{ forloop.index }}">{{ block.settings.label }}</h4>
-              {% endif %}
-              <ul>
-                {% for link in menu.links %}
-                  <li><a href="{{ link.url }}">{{ link.title }}</a></li>
-                {% endfor %}
-              </ul>
-            </nav>
+    <div class="footer__navigtion--wrapper layout__grid-box">
+      <!-- Footer Menus -->
+      <div class="footer__menus" role="navigation" aria-label="Footer Navigation">
+        {% for block in section.blocks %}
+          {% if block.type == 'footer_menu' %}
+            {% assign menu = linklists[block.settings.menu] %}
+            {% if menu.links.size > 0 %}
+              <nav class="footer__menu" aria-labelledby="footer-menu-{{ forloop.index }}">
+                {% if block.settings.label != blank %}
+                  <h4 id="footer-menu-{{ forloop.index }}">{{ block.settings.label }}</h4>
+                {% endif %}
+                <ul>
+                  {% for link in menu.links %}
+                    <li>
+                      <a href="{{ link.url }}">{{ link.title }}</a>
+                    </li>
+                  {% endfor %}
+                </ul>
+              </nav>
+            {% endif %}
           {% endif %}
+        {% endfor %}
+      </div>
+
+      <!-- Contact Info -->
+      <div class="footer__contact" aria-label="Contact Information">
+        {% if section.settings.address %}
+          <p>
+            {{ section.settings.address_icon }}
+            <span>{{ section.settings.address }}</span>
+          </p>
         {% endif %}
-      {% endfor %}
+        {% if section.settings.phone %}
+          <p>
+            {{ section.settings.phone_icon }}
+            <a href="tel:{{ section.settings.phone }}" aria-label="Call us at {{ section.settings.phone }}">
+              {{- section.settings.phone -}}
+            </a>
+          </p>
+        {% endif %}
+        {% if section.settings.email %}
+          <p>
+            {{ section.settings.email_icon }}
+            <a href="mailto:{{ section.settings.email }}" aria-label="Email us at {{ section.settings.email }}">
+              {{- section.settings.email -}}
+            </a>
+          </p>
+        {% endif %}
+      </div>
     </div>
-
-    <!-- Contact Info -->
-    <div class="footer__contact" aria-label="Contact Information">
-      {% if section.settings.address %}
-        <p>
-          {{ section.settings.address_icon }}
-          <span>{{ section.settings.address }}</span>
-        </p>
-      {% endif %}
-      {% if section.settings.phone %}
-        <p>
-          {{ section.settings.phone_icon }}
-          <a href="tel:{{ section.settings.phone }}" aria-label="Call us at {{ section.settings.phone }}">{{ section.settings.phone }}</a>
-        </p>
-      {% endif %}
-      {% if section.settings.email %}
-        <p>
-          {{ section.settings.email_icon }}
-          <a href="mailto:{{ section.settings.email }}" aria-label="Email us at {{ section.settings.email }}">{{ section.settings.email }}</a>
-        </p>
-      {% endif %}
-    </div>
-
     <!-- Social Icons -->
-    <div class="footer--follow" aria-label="Social Media Links">
-      <p class="footer--payment-follow--title">{{ section.settings.follow_us_label }}</p>
+    <div class="footer__follow layout__grid-box" aria-label="Social Media Links">
+      <p class="footer__payment-follow--title">{{ section.settings.follow_us_label }}</p>
       <nav role="navigation" aria-label="Social Media">
         {% for block in section.blocks %}
           {% if block.type == 'social_icon' and block.settings.url and block.settings.svg_code %}
-            <a href="{{ block.settings.url }}" target="_blank" rel="noopener" aria-label="{{ block.settings.label | escape }}">
+            <a
+              href="{{ block.settings.url }}"
+              target="_blank"
+              rel="noopener"
+              aria-label="{{ block.settings.label | escape }}"
+            >
               {{ block.settings.svg_code }}
             </a>
           {% endif %}
@@ -69,18 +80,21 @@
   </div>
 
   <!-- Copyright -->
-  <div class="copyright-madeby grid-fluid">
-    <div class="grid-box">
-      <p class="copyright">
+  <div class="footer-bottom layout__grid-fluid">
+    <div class="layout__grid-box">
+      <p class="footer-bottom__copyright">
         {% if section.settings.copyright_text %}
           &copy; {{ section.settings.copyright_text }}
         {% else %}
           &copy; {{ 'now' | date: '%Y' }}, Your Company.
         {% endif %}
       </p>
-      <p class="madeby">
+      <p class="footer-bottom__madeby">
         {% if section.settings.made_by_text and section.settings.made_by_url %}
-          Made by <a href="{{ section.settings.made_by_url }}" target="_blank" rel="noopener">{{ section.settings.made_by_text }}</a>
+          Made by
+          <a href="{{ section.settings.made_by_url }}" target="_blank" rel="noopener">
+            {{- section.settings.made_by_text -}}
+          </a>
         {% endif %}
       </p>
     </div>
@@ -88,36 +102,36 @@
 </footer>
 
 <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  "name": "Nithya Amirtham Indian Food Pvt Ltd.",
-  "url": "{{ shop.url }}",
-  "logo": {% if section.settings.logo %}"{{ section.settings.logo | image_url: width: 300 }}"{% else %}""{% endif %},
-  "contactPoint": {
-    "@type": "ContactPoint",
-    "telephone": "{{ section.settings.phone }}",
-    "contactType": "Customer Service",
-    "areaServed": "IN",
-    "availableLanguage": [
-      { "@type": "Language", "name": "English" },
-      { "@type": "Language", "name": "Tamil" }
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Nithya Amirtham Indian Food Pvt Ltd.",
+    "url": "{{ shop.url }}",
+    "logo": {% if section.settings.logo %}"{{ section.settings.logo | image_url: width: 300 }}"{% else %}""{% endif %},
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "telephone": "{{ section.settings.phone }}",
+      "contactType": "Customer Service",
+      "areaServed": "IN",
+      "availableLanguage": [
+        { "@type": "Language", "name": "English" },
+        { "@type": "Language", "name": "Tamil" }
+      ]
+    },
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "{{ section.settings.address }}",
+      "addressCountry": "IN"
+    },
+    "sameAs": [
+      {% assign social_urls = section.blocks | where: "type", "social_icon" %}
+      {% for block in social_urls %}
+        {% if block.settings.url != blank %}
+          "{{ block.settings.url }}"{% unless forloop.last %},{% endunless %}
+        {% endif %}
+      {% endfor %}
     ]
-  },
-  "address": {
-    "@type": "PostalAddress",
-    "streetAddress": "{{ section.settings.address }}",
-    "addressCountry": "IN"
-  },
-  "sameAs": [
-    {% assign social_urls = section.blocks | where: "type", "social_icon" %}
-    {% for block in social_urls %}
-      {% if block.settings.url != blank %}
-        "{{ block.settings.url }}"{% unless forloop.last %},{% endunless %}
-      {% endif %}
-    {% endfor %}
-  ]
-}
+  }
 </script>
 
 {% schema %}
@@ -202,7 +216,7 @@
       "type": "url",
       "id": "made_by_url",
       "label": "Made By URL",
-      "default": "https://www.madarth.com"
+      "default": "/collections/all"
     }
   ],
   "blocks": [
@@ -219,8 +233,7 @@
         {
           "type": "link_list",
           "id": "menu",
-          "label": "Navigation Menu",
-          "default": "footer-main"
+          "label": "Navigation Menu"
         }
       ]
     },
@@ -237,8 +250,7 @@
         {
           "type": "url",
           "id": "url",
-          "label": "Link URL",
-          "default": "https://facebook.com/NithyaAmirtham"
+          "label": "Link URL"
         },
         {
           "type": "textarea",
@@ -252,10 +264,7 @@
   "presets": [
     {
       "name": "Responsive Footer",
-      "blocks": [
-        { "type": "footer_menu" },
-        { "type": "social_icon" }
-      ]
+      "blocks": [{ "type": "footer_menu" }, { "type": "social_icon" }]
     }
   ]
 }
