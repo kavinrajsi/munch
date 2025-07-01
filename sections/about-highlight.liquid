@@ -27,39 +27,37 @@
   - Name: "About Highlight Block"
 {% endcomment %}
 
-<div class="about-highlight">
-  <div class="about-highlight__wrapper layout__grid-box">
-    <div class="about-highlight__text">
-      <div class="about-highlight__heading">
-        {{ section.settings.heading }}
-      </div>
-      <div class="about-highlight__description">
-        {{ section.settings.description }}
-      </div>
+<div class="about-highlight__wrapper layout__grid-box">
+  <div class="about-highlight__text">
+    <div class="about-highlight__heading">
+      {{ section.settings.heading }}
     </div>
-    <div class="about-highlight__image">
-      {% if section.settings.image %}
-        <picture>
-          <source
-            srcset="{{ section.settings.image | image_url: width: 800, format: 'webp' }}"
-            type="image/webp"
-          >
-          <source
-            srcset="{{ section.settings.image | image_url: width: 800, format: 'pjpg' }}"
-            type="image/jpeg"
-          >
-          <img
-            src="{{ section.settings.image | image_url: width: 800 }}"
-            alt="{{ section.settings.image.alt | escape }}"
-            width="{{ section.settings.image.width }}"
-            height="{{ section.settings.image.height }}"
-            style="aspect-ratio: {{ section.settings.image.width }} / {{ section.settings.image.height }};"
-            loading="lazy"
-            decoding="async"
-          >
-        </picture>
-      {% endif %}
+    <div class="about-highlight__description">
+      {{ section.settings.description }}
     </div>
+  </div>
+  <div class="about-highlight__image">
+    {% if section.settings.image %}
+      <picture>
+        <source
+          srcset="{{ section.settings.image | image_url: width: 800, format: 'webp' }}"
+          type="image/webp"
+        >
+        <source
+          srcset="{{ section.settings.image | image_url: width: 800, format: 'pjpg' }}"
+          type="image/jpeg"
+        >
+        <img
+          src="{{ section.settings.image | image_url: width: 800 }}"
+          alt="{{ section.settings.image.alt | escape }}"
+          width="{{ section.settings.image.width }}"
+          height="{{ section.settings.image.height }}"
+          style="aspect-ratio: {{ section.settings.image.width }} / {{ section.settings.image.height }};"
+          loading="lazy"
+          decoding="async"
+        >
+      </picture>
+    {% endif %}
   </div>
 </div>
 
@@ -67,7 +65,7 @@
 {
   "name": "About Highlight",
   "tag": "section",
-  "class": "about-highlights",
+  "class": "about-highlight",
   "settings": [
     {
       "type": "richtext",

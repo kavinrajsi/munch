@@ -1,8 +1,6 @@
 .about-highlight {
-  padding-top: 56px;
-  padding-bottom: 56px;
-  position: relative;
   @media (min-width: 768px) {
+    position: relative;
     &:before,
     &::after {
       content: "";
@@ -15,6 +13,7 @@
       background-repeat: no-repeat;
       background-position: center;
       background-image: url(./nithya-amritham-about-pattern.webp);
+      background-size: contain;
     }
     &:before {
       left: 0;
@@ -25,6 +24,9 @@
     }
   }
   &__wrapper {
+    padding-top: 56px;
+    padding-bottom: 56px;
+    position: relative;
     display: flex;
     justify-content: space-between;
     align-items: center;
