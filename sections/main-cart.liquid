@@ -30,15 +30,27 @@
 
         <div id="cart-items">
           {% for item in cart.items %}
-            <div class="cart-item" data-line="{{ forloop.index }}" data-key="{{ item.variant_id }}">
+            <div class="cart-item" data-line="{{ forloop.index }}&amp;quantity=0" data-key="{{ item.variant_id }}">
               <div class="wrapper">
                 <div class="cart-col product-col">
                   <div class="product-info">
                     {% if item.image %}
                       <picture>
-                        <source srcset="{{ item.image | image_url: width: 95, height: 100, crop: 'center', format: 'avif' }}" type="image/avif">
-                        <source srcset="{{ item.image | image_url: width: 95, height: 100, crop: 'center', format: 'webp' }}" type="image/webp">
-                        <img src="{{ item.image | image_url: width: 95, height: 100, crop: 'center' }}" alt="{{ item.title }}" class="product-image" width="95" height="100">
+                        <source
+                          srcset="{{ item.image | image_url: width: 95, height: 100, crop: 'center', format: 'avif' }}"
+                          type="image/avif"
+                        >
+                        <source
+                          srcset="{{ item.image | image_url: width: 95, height: 100, crop: 'center', format: 'webp' }}"
+                          type="image/webp"
+                        >
+                        <img
+                          src="{{ item.image | image_url: width: 95, height: 100, crop: 'center' }}"
+                          alt="{{ item.title }}"
+                          class="product-image"
+                          width="95"
+                          height="100"
+                        >
                       </picture>
                     {% endif %}
                     <div class="product-text">
@@ -46,9 +58,47 @@
                         <a href="{{ item.url }}">
                           {{ item.product.title }}
                         </a>
-                        <small>{{ item.variant.title }}</small>
+                        {% comment %} <small>{{ item.variant.title }}</small> {% endcomment %}
+                        <small>
+                          {% for option in item.options_with_values %}
+                            {% if option.name != 'Title' %}
+                              <div class="line-item__option-block">
+                                <div class="line-item__option">{{ option.name }} :</div>
+                                <div class="line-item__value">{{ option.value }}</div>
+                              </div>
+                            {% endif %}
+                          {% endfor %}
+                        </small>
+                        <span>
+                          {%- for property in item.properties -%}
+                            {%- assign property_first_char = property.first | slice: 0 -%}
+                            {%- if property.last != blank and property_first_char != '_' -%}
+                              <div class="product-option">
+                                <dt>{{ property.first }}:</dt>
+                                <dd>
+                                  {%- if property.last contains '/uploads/' -%}
+                                    <a
+                                      href="{{ property.last }}"
+                                      class="link"
+                                      target="_blank"
+                                      aria-describedby="a11y-new-window-message"
+                                    >
+                                      {{ property.last | split: '/' | last }}
+                                    </a>
+                                  {%- else -%}
+                                    &nbsp; {{ property.last | remove: 'yes' | remove: '[' | remove: ']' }}
+                                  {%- endif -%}
+                                </dd>
+                              </div>
+                            {%- endif -%}
+                          {%- endfor -%}
+                        </span>
                       </div>
-                      <button class="remove-btn" data-line-key="{{ item.key }}" aria-label="Remove {{ item.variant.title }}">
+                      <button
+                        class="remove-btn"
+                        data-line-key="{{ item.key }}"
+                        aria-label="Remove {{ item.variant.title }}"
+                      >
                         Remove
                       </button>
                     </div>
@@ -61,9 +111,19 @@
 
                 <div class="cart-col qty-col">
                   <div class="qty-changer">
-                    <button type="button" class="qty-btn qty-decrease minus-btn" data-line-key="{{ item.key }}">−</button>
-                    <input type="text" class="cart-qty-input quantity-input" value="{{ item.quantity }}" data-line-key="{{ item.key }}" min="1">
-                    <button type="button" class="qty-btn qty-increase plus-btn" data-line-key="{{ item.key }}">+</button>
+                    <button type="button" class="qty-btn qty-decrease minus-btn" data-line-key="{{ item.key }}">
+                      −
+                    </button>
+                    <input
+                      type="text"
+                      class="cart-qty-input quantity-input"
+                      value="{{ item.quantity }}"
+                      data-line-key="{{ item.key }}"
+                      min="1"
+                    >
+                    <button type="button" class="qty-btn qty-increase plus-btn" data-line-key="{{ item.key }}">
+                      +
+                    </button>
                   </div>
                 </div>
               </div>
@@ -96,7 +156,10 @@
 </div>
 
 <!-- Loader -->
-<div id="cart-loader" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(255,255,255,0.5);z-index:9999;text-align:center;padding-top:20%;">
+<div
+  id="cart-loader"
+  style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(255,255,255,0.5);z-index:9999;text-align:center;padding-top:20%;"
+>
   <p>Updating cart...</p>
 </div>
 
@@ -106,24 +169,42 @@
     var Shopify = {};
   }
 
-  Shopify.formatMoney = function(cents, format = "₹{{amount}}") {
+  Shopify.formatMoney = function (cents, format = '₹{{amount}}') {
     const formatINR = (amount) => {
       let [rupees, paise] = amount.toFixed(2).split('.');
-      rupees = rupees.replace(/\B(?=(\d{2})+(?!\d))/g, ",").replace(/,(\d{3})$/, "$1"); // Indian comma rule
+      rupees = rupees.replace(/\B(?=(\d{2})+(?!\d))/g, ',').replace(/,(\d{3})$/, '$1'); // Indian comma rule
       return `${rupees}.${paise}`;
     };
-    return format.replace("{{amount}}", formatINR(cents / 100));
+    return format.replace('{{amount}}', formatINR(cents / 100));
   };
 </script>
 
 <!-- AJAX Cart Logic -->
 <script>
-  document.addEventListener("DOMContentLoaded", function () {
+  document.addEventListener('DOMContentLoaded', function () {
     const loader = document.getElementById('cart-loader');
 
-    const showLoader = () => loader.style.display = 'block';
-    const hideLoader = () => loader.style.display = 'none';
+    const showLoader = () => (loader.style.display = 'block');
+    const hideLoader = () => (loader.style.display = 'none');
 
+    // ✅ Refreshes the whole cart section after cart update
+    const refreshCart = () => {
+      fetch(window.location.href)
+        .then((res) => res.text())
+        .then((html) => {
+          const parser = new DOMParser();
+          const newDoc = parser.parseFromString(html, 'text/html');
+          const newCart = newDoc.querySelector('#cart-container');
+          const currentCart = document.querySelector('#cart-container');
+          if (newCart && currentCart) {
+            currentCart.innerHTML = newCart.innerHTML;
+          }
+          hideLoader();
+          rebindCartEvents(); // 🔁 Rebind events after replacing HTML
+        });
+    };
+
+    // ✅ Handles updating item quantity or removing (quantity = 0)
     const updateCartLine = (lineKey, quantity) => {
       showLoader();
       fetch('/cart/change.js', {
@@ -131,67 +212,61 @@
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ id: lineKey, quantity: quantity }),
       })
-        .then(res => res.json())
-        .then(cart => {
-          updateCartUI(cart);
-          hideLoader();
+        .then((res) => res.json())
+        .then((cart) => {
+          refreshCart(); // 🔁 Re-render cart after change
         })
-        .catch(err => {
+        .catch((err) => {
           console.error('Cart update error:', err);
           hideLoader();
         });
     };
 
-    const updateCartUI = (cart) => {
-      cart.items.forEach(item => {
-        const itemDiv = document.querySelector(`.cart-item[data-key="${item.variant_id}"]`);
-        if (!itemDiv) return;
-        const input = itemDiv.querySelector('.quantity-input');
-        const totalEl = itemDiv.querySelector('.line-total');
-        if (input) input.value = item.quantity;
-        if (totalEl) totalEl.textContent = Shopify.formatMoney(item.line_price);
+    // ✅ Rebind all event listeners after DOM refresh
+    const rebindCartEvents = () => {
+      // Quantity inputs
+      document.querySelectorAll('.quantity-input').forEach((input) => {
+        input.addEventListener('change', () => {
+          let qty = parseInt(input.value);
+          const key = input.dataset.lineKey;
+          if (isNaN(qty) || qty < 1) qty = 1;
+          input.value = qty;
+          updateCartLine(key, qty);
+        });
       });
 
-      const subtotalEl = document.getElementById('cart-subtotal');
-      if (subtotalEl) subtotalEl.textContent = Shopify.formatMoney(cart.total_price);
+      // Plus buttons
+      document.querySelectorAll('.plus-btn').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const key = btn.dataset.lineKey;
+          const input = document.querySelector(`.quantity-input[data-line-key='${key}']`);
+          const qty = parseInt(input.value) + 1;
+          input.value = qty;
+          input.dispatchEvent(new Event('change'));
+        });
+      });
+
+      // Minus buttons
+      document.querySelectorAll('.minus-btn').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const key = btn.dataset.lineKey;
+          const input = document.querySelector(`.quantity-input[data-line-key='${key}']`);
+          const qty = Math.max(1, parseInt(input.value) - 1);
+          input.value = qty;
+          input.dispatchEvent(new Event('change'));
+        });
+      });
+
+      // Remove buttons
+      document.querySelectorAll('.remove-btn').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const key = btn.dataset.lineKey;
+          updateCartLine(key, 0); // Remove item
+        });
+      });
     };
 
-    document.querySelectorAll('.quantity-input').forEach(input => {
-      input.addEventListener('change', () => {
-        let qty = parseInt(input.value);
-        const key = input.dataset.lineKey;
-        if (isNaN(qty) || qty < 1) qty = 1;
-        input.value = qty;
-        updateCartLine(key, qty);
-      });
-    });
-
-    document.querySelectorAll('.plus-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const key = btn.dataset.lineKey;
-        const input = document.querySelector(`.quantity-input[data-line-key='${key}']`);
-        const qty = parseInt(input.value) + 1;
-        input.value = qty;
-        input.dispatchEvent(new Event('change'));
-      });
-    });
-
-    document.querySelectorAll('.minus-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const key = btn.dataset.lineKey;
-        const input = document.querySelector(`.quantity-input[data-line-key='${key}']`);
-        const qty = Math.max(1, parseInt(input.value) - 1);
-        input.value = qty;
-        input.dispatchEvent(new Event('change'));
-      });
-    });
-
-    // AJAX remove item
-    document.querySelectorAll('.remove-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const key = btn.dataset.lineKey;
-        updateCartLine(key, 0);
-      });
-    });
+    // ✅ Initial bind on page load
+    rebindCartEvents();
   });
 </script>
