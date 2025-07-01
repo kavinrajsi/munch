@@ -1,8 +1,73 @@
+{% comment %}
+  Shopify About Highlight Section
+  -------------------------------
+
+  📌 Purpose:
+  - Displays a promotional highlight section with a heading, description, and image.
+
+  🧱 Structure:
+  - Heading (rich text, supports HTML)
+  - Description (rich text, supports HTML and paragraphs)
+  - Image (supports WebP and PJPG with fallback using <picture> element)
+
+  🛠 Admin Settings:
+  - Rich text field for heading
+  - Rich text field for description
+  - Image picker for highlight image
+
+  🖼 Image Handling:
+  - Uses <picture> for modern format support (WebP, PJPG, fallback)
+  - Includes dynamic alt text and aspect-ratio from image metadata
+
+  ✅ Accessibility:
+  - Descriptive alt attribute for image (auto-populated from admin)
+  - Lazy loading and aspect-ratio for performance and layout stability
+
+  🔁 Preset:
+  - Name: "About Highlight Block"
+{% endcomment %}
+
+<div class="about-highlight">
+  <div class="about-highlight__wrapper layout__grid-box">
+    <div class="about-highlight__text">
+      <div class="about-highlight__heading">
+        {{ section.settings.heading }}
+      </div>
+      <div class="about-highlight__description">
+        {{ section.settings.description }}
+      </div>
+    </div>
+    <div class="about-highlight__image">
+      {% if section.settings.image %}
+        <picture>
+          <source
+            srcset="{{ section.settings.image | image_url: width: 800, format: 'webp' }}"
+            type="image/webp"
+          >
+          <source
+            srcset="{{ section.settings.image | image_url: width: 800, format: 'pjpg' }}"
+            type="image/jpeg"
+          >
+          <img
+            src="{{ section.settings.image | image_url: width: 800 }}"
+            alt="{{ section.settings.image.alt | escape }}"
+            width="{{ section.settings.image.width }}"
+            height="{{ section.settings.image.height }}"
+            style="aspect-ratio: {{ section.settings.image.width }} / {{ section.settings.image.height }};"
+            loading="lazy"
+            decoding="async"
+          >
+        </picture>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
 {% schema %}
 {
   "name": "About Highlight",
   "tag": "section",
-  "class": "about-highlight",
+  "class": "about-highlights",
   "settings": [
     {
       "type": "richtext",
@@ -29,28 +94,3 @@
   ]
 }
 {% endschema %}
-
-<div class="about-highlight-wrapper">
-  <div class="about-highlight-content">
-    <div class="about-highlight-text">
-      <div class="richtext-heading">
-        {{ section.settings.heading }}
-      </div>
-      <div class="richtext-description">
-        {{ section.settings.description }}
-      </div>
-    </div>
-    <div class="about-highlight-image">
-      {% if section.settings.image %}
-        <img
-          src="{{ section.settings.image | image_url: width: 800 }}"
-          alt="About Image"
-          width="800"
-          height="{{ section.settings.image.height }}"
-          loading="lazy"
-          decoding="async"
-        >
-      {% endif %}
-    </div>
-  </div>
-</div>
