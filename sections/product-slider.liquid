@@ -26,7 +26,7 @@
 
 <div class="grid-box product-slider-section">
   {% if section.settings.heading %}
-    <h2 class="product-slider-heading">{{ section.settings.heading }}</h2>
+    <h2 class="heading-2 product-slider-heading">{{ section.settings.heading }}</h2>
   {% endif %}
 
   {% assign products = section.settings.collection.products | sort: 'created_at' | reverse | slice: 0, 8 %}

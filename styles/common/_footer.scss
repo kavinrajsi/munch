@@ -1,8 +1,7 @@
 .footer {
-  // margin-top: 56px;
   padding-top: 24px;
   padding-bottom: 24px;
-
+  margin-top: 56px;
   // background: url(Pattern2.png), #FDDECF;
   background: #fddecf;
 
@@ -91,4 +90,10 @@
       color: #ffffff;
     }
   }
+}
+
+
+body.template-collection .footer,
+body.template-product .footer {
+  margin-top: 0;
 }

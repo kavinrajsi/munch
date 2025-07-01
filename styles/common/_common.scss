@@ -373,7 +373,7 @@ main img {
   font-weight: 700;
   font-size: 56px;
   line-height: 56px;
-  /* identical to box height, or 100% */
+  /* or 100% */
 }
 
 .heading-2 {
@@ -397,12 +397,13 @@ main img {
 }
 
 .heading-4 {
-  font-family: "Instrument Sans";
-  font-style: normal;
-  font-weight: 600;
-  font-size: 16px;
+  /* Heading4 */
+  font-family: var(--font-minion);
+  font-style: italic;
+  font-weight: 700;
+  font-size: 20px;
   line-height: 20px;
-  /* identical to box height */
+  /* identical to box height, or 100% */
 }
 
 .heading-5 {
@@ -418,15 +419,14 @@ main img {
   font-weight: 400;
   font-size: 16px;
   line-height: 20px;
-  /* identical to box height */
 }
 
-.body-2, p{
+.body-2,
+p {
   /* Body2 */
   font-family: "Instrument Sans";
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
   line-height: 17px;
-  /* identical to box height */
 }
