@@ -11,10 +11,31 @@
   "sections": {
     "main": {
       "type": "collection-pickle",
-      "settings": {}
+      "settings": {
+        "collection": ""
+      }
+    },
+    "blog_article_list_gNYEVF": {
+      "type": "blog-article-list",
+      "name": "Blog Articles",
+      "settings": {
+        "blog_show_author": true,
+        "blog_show_date": true,
+        "blog": "",
+        "articles_limit": 3
+      }
+    },
+    "collection_grid_VJADgr": {
+      "type": "collection-grid",
+      "name": "Collection Grid Enhanced",
+      "settings": {
+        "heading": "Pick a combo"
+      }
     }
   },
   "order": [
-    "main"
+    "main",
+    "blog_article_list_gNYEVF",
+    "collection_grid_VJADgr"
   ]
 }
