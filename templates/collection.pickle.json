@@ -33,11 +33,19 @@
         "heading": "Pickle Page / Combo Collection",
         "collection": "savory"
       }
+    },
+    "collection_pickle_T7FwBL": {
+      "type": "collection-pickle",
+      "name": "Pick a combo",
+      "settings": {
+        "collection": "savory"
+      }
     }
   },
   "order": [
     "main",
     "blog_article_list_gNYEVF",
-    "product_slider_77iBNe"
+    "product_slider_77iBNe",
+    "collection_pickle_T7FwBL"
   ]
 }
