@@ -44,7 +44,6 @@
           {% endcomment %}
           <video
             class="short-video__video"
-            controls
             {% if block.settings.poster %}
               poster="{{ block.settings.poster | image_url: width: 265 }}"
             {% endif %}
