@@ -30,17 +30,18 @@
         "articles_limit": 3
       }
     },
-    "collection_grid_nhqtAX": {
-      "type": "collection-grid",
-      "name": "Collection Grid Enhanced",
+    "product_slider_gC44XF": {
+      "type": "product-slider",
+      "name": "Latest Products Slider",
       "settings": {
-        "heading": "Pick a combo"
+        "heading": "Pickle / Mix",
+        "collection": "pickle-mix"
       }
     }
   },
   "order": [
     "main",
     "blog_article_list_Gx7gqN",
-    "collection_grid_nhqtAX"
+    "product_slider_gC44XF"
   ]
 }
