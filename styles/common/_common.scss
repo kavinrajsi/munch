@@ -196,9 +196,12 @@ main.layout__main-content {
     padding-left: 160px;
     padding-right: 160px;
   }
-  @media (min-width: 1800px) {
+  @media (min-width: 1400px) {
     max-width: 1120px;
   }
+  // @media (min-width: 1800px) {
+    // max-width: 1120px;
+  // }
 }
 
 .layout__grid-fluid {
