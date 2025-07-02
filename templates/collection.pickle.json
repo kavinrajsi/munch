@@ -21,7 +21,7 @@
       "settings": {
         "blog_show_author": true,
         "blog_show_date": true,
-        "blog": "",
+        "blog": "article",
         "articles_limit": 3
       }
     },
