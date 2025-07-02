@@ -1,11 +1,46 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "main": {
       "type": "collection-combo",
-      "settings": {}
+      "settings": {
+        "collection": "",
+        "enable_sorting": true,
+        "enable_filtering": true,
+        "enable_pagination": true,
+        "blog": "",
+        "article": ""
+      }
+    },
+    "blog_article_list_Gx7gqN": {
+      "type": "blog-article-list",
+      "name": "Blog Articles",
+      "settings": {
+        "blog_show_author": true,
+        "blog_show_date": true,
+        "blog": "article",
+        "articles_limit": 3
+      }
+    },
+    "collection_grid_nhqtAX": {
+      "type": "collection-grid",
+      "name": "Collection Grid Enhanced",
+      "settings": {
+        "heading": "Pick a combo"
+      }
     }
   },
   "order": [
-    "main"
+    "main",
+    "blog_article_list_Gx7gqN",
+    "collection_grid_nhqtAX"
   ]
 }
