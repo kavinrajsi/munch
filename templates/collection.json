@@ -9,33 +9,13 @@
  */
 {
   "sections": {
-    "main": {
+    "collection_Hhg9pB": {
       "type": "collection",
-      "settings": {
-        "collection": ""
-      }
-    },
-    "blog_article_list_YgtPd4": {
-      "type": "blog-article-list",
-      "name": "Blog Articles",
-      "settings": {
-        "blog_show_author": true,
-        "blog_show_date": true,
-        "blog": "article",
-        "articles_limit": 3
-      }
-    },
-    "collection_grid_99HnPT": {
-      "type": "collection-grid",
-      "name": "Collection Grid Enhanced",
-      "settings": {
-        "heading": "Pick a combo"
-      }
+      "name": "Collection product grid",
+      "settings": {}
     }
   },
   "order": [
-    "main",
-    "blog_article_list_YgtPd4",
-    "collection_grid_99HnPT"
+    "collection_Hhg9pB"
   ]
 }
