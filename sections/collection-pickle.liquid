@@ -1,35 +1,31 @@
 {% comment %}
-  Shopify Collection Section
+  Shopify Collection Pickle Section
   --------------------------------
 
   📌 Purpose:
-  - Displays a specific collection page with optional filters, sorting, and pagination.
-  - Also displays a selected blog article or the latest from a selected blog.
+  - Displays a specific collection page with an image, title, description, and paginated product grid.
+  - Enhances SEO using structured data (JSON-LD).
 
   🧱 Structure:
-  - Collection image, title, and description
-  - Sort dropdown (optional)
-  - Filter by tag (optional)
-  - Product grid with pagination (optional)
-  - Blog article (optional, fallback to latest)
+  - Collection image (optional, if collection has an image)
+  - Collection title and description
+  - Product grid (renders 'product-card' partial for each product)
+  - Pagination controls with custom SVG navigation arrows
+  - JSON-LD structured data for product listing
 
   🛠 Admin Settings:
-  - Toggle to show/hide pagination
-  - Toggle to show/hide filters (by tag)
-  - Toggle to show/hide sorting dropdown
-  - Collection picker
-  - Blog picker
-  - Article picker (optional)
+  - Select a collection to display via section settings
 
   📦 JSON-LD Schema:
   - Outputs a list of up to 10 products for SEO using schema.org's `ItemList` type
 
   ✅ Accessibility:
-  - ARIA labels on pagination
-  - Label elements for sorting and filtering
+  - ARIA labels on pagination controls for better screen reader support
+  - Semantic heading structure
 
   🔁 Preset:
   - Name: "Collection product grid"
+  - Allows easy reuse of this layout in various theme sections
 {% endcomment %}
 
 <!-- Main container for the collection page -->
@@ -122,7 +118,7 @@
 <!-- Schema for Theme Settings -->
 {% schema %}
 {
-  "name": "Collection",
+  "name": "Collection Pickle",
   "tag": "section",
   "class": "main-collection",
   "settings": [

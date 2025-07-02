@@ -1,0 +1,214 @@
+{% comment %}
+  Shopify Collection Combo Section
+  --------------------------------
+
+  📌 Purpose:
+  - Displays a specific collection page with optional filters, sorting, and pagination.
+  - Also displays a selected blog article or the latest from a selected blog.
+
+  🧱 Structure:
+  - Collection image, title, and description
+  - Sort dropdown (optional)
+  - Filter by tag (optional)
+  - Product grid with pagination (optional)
+  - Blog article (optional, fallback to latest)
+
+  🛠 Admin Settings:
+  - Toggle to show/hide pagination
+  - Toggle to show/hide filters (by tag)
+  - Toggle to show/hide sorting dropdown
+  - Collection picker
+  - Blog picker
+  - Article picker (optional)
+
+  📦 JSON-LD Schema:
+  - Outputs a list of up to 10 products for SEO using schema.org's `ItemList` type
+
+  ✅ Accessibility:
+  - ARIA labels on pagination
+  - Label elements for sorting and filtering
+
+  🔁 Preset:
+  - Name: "Collection product grid"
+{% endcomment %}
+
+<div class="collection-page">
+  <!-- Collection image -->
+  <div class="layout__grid-fluid padding--left-0 padding--right-0">
+    {% if collection.image %}
+      <div class="collection-image">
+        <img
+          src="{{ collection.image | image_url: width: 2048, height: 2048 }}"
+          width="2048"
+          height="2048"
+          alt="{{ collection.title }}"
+        >
+      </div>
+    {% endif %}
+  </div>
+
+  <section class="layout__grid-box">
+    {% if collection.title != blank %}
+      <h1 class="heading--2 collection--title">{{ collection.title }}</h1>
+    {% endif %}
+
+    {% if collection.description != blank %}
+      <p>{{ collection.description }}</p>
+    {% endif %}
+
+    <!-- Sort and Filter controls -->
+    {% assign show_sort = section.settings.enable_sorting %}
+    {% assign show_filter = section.settings.enable_filtering %}
+    {% assign show_pagination = section.settings.enable_pagination %}
+
+    {% if show_sort or show_filter %}
+      <div class="collection-toolbar">
+        {% if show_sort %}
+          <div class="collection-sort">
+            <label for="SortBy">Sort by:</label>
+            <select name="sort_by" id="SortBy" onchange="this.form.submit()">
+              <option value="manual">Featured</option>
+              <option value="best-selling">Best Selling</option>
+              <option value="title-ascending">Alphabetically, A-Z</option>
+              <option value="title-descending">Alphabetically, Z-A</option>
+              <option value="price-ascending">Price, low to high</option>
+              <option value="price-descending">Price, high to low</option>
+              <option value="created-descending">Date, new to old</option>
+              <option value="created-ascending">Date, old to new</option>
+            </select>
+          </div>
+        {% endif %}
+
+        {% if show_filter %}
+          <div class="collection-filters">
+            <label for="FilterBy">Filter by tag:</label>
+            <select id="FilterBy" onchange="location = this.value;">
+              <option value="{{ collection.url }}">All</option>
+              {% for tag in collection.all_tags %}
+                <option value="{{ collection.url | append: '?constraint=' | append: tag }}">
+                  {{ tag }}
+                </option>
+              {% endfor %}
+            </select>
+          </div>
+        {% endif %}
+      </div>
+    {% endif %}
+
+    {% paginate collection.products by 8 %}
+      <div class="collection-list-grid" collection-list-mobile="2" collection-list-tablet="3" collection-list-desktop="4">
+        {% for product in collection.products %}
+          {% render 'product-card', product: product %}
+        {% endfor %}
+      </div>
+
+      {% if show_pagination %}
+        <div class="pagination">
+          {%- if paginate.previous -%}
+            <a href="{{ paginate.previous.url }}" class="pagination__button--prev" aria-label="Previous">
+              <svg width="25" height="24" viewBox="0 0 25 24" fill="none"><path d="M16.4304 12.5429L8.07094 20.5079 ..."/></svg>
+            </a>
+          {%- endif -%}
+          {%- for part in paginate.parts -%}
+            {% if part.title == '&hellip;' %}
+              <span class="page pagination__page--decorative">…</span>
+            {% elsif part.is_link %}
+              <span class="pagination__page"><a href="{{ part.url }}">{{ part.title }}</a></span>
+            {% else %}
+              <span class="page pagination__page--current">{{ part.title }}</span>
+            {% endif %}
+          {%- endfor -%}
+          {%- if paginate.next -%}
+            <a href="{{ paginate.next.url }}" class="pagination__button--next" aria-label="Next">
+              <svg width="25" height="24" viewBox="0 0 25 24" fill="none"><path d="M8.56963 11.4571L16.9291 3.4921 ..."/></svg>
+            </a>
+          {%- endif -%}
+        </div>
+      {% endif %}
+    {% endpaginate %}
+
+    <!-- Blog article section -->
+    {% assign article_to_show = section.settings.article %}
+    {% if article_to_show == blank and section.settings.blog != blank %}
+      {% assign blog_obj = blogs[section.settings.blog] %}
+      {% assign article_to_show = blog_obj.articles.first %}
+    {% endif %}
+
+    {% if article_to_show %}
+      <div class="collection-article">
+        <h2 class="heading--3">{{ article_to_show.title }}</h2>
+        <div class="article-content">
+          {{ article_to_show.excerpt_or_content | truncatewords: 60 }}
+          <a href="{{ article_to_show.url }}">Read more</a>
+        </div>
+      </div>
+    {% endif %}
+  </section>
+</div>
+
+<!-- JSON-LD for SEO -->
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "itemListElement": [
+      {% for product in collection.products limit: 10 %}
+      {
+        "@type": "ListItem",
+        "position": {{ forloop.index }},
+        "name": "{{ product.title }}",
+        "url": "{{ shop.secure_url }}{{ product.url }}"
+      }{% unless forloop.last %},{% endunless %}
+      {% endfor %}
+    ]
+  }
+</script>
+
+{% schema %}
+{
+  "name": "Collection Combo",
+  "tag": "section",
+  "class": "main-collection",
+  "settings": [
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Select collection"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_sorting",
+      "label": "Enable sorting",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_filtering",
+      "label": "Enable filtering (by tag)",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_pagination",
+      "label": "Enable pagination",
+      "default": true
+    },
+    {
+      "type": "blog",
+      "id": "blog",
+      "label": "Select blog"
+    },
+    {
+      "type": "article",
+      "id": "article",
+      "label": "Select article (optional)",
+      "info": "If none is selected, the latest article from the selected blog will be shown."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Collection product grid"
+    }
+  ]
+}
+{% endschema %}
