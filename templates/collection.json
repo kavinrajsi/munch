@@ -24,10 +24,18 @@
         "blog": "article",
         "articles_limit": 3
       }
+    },
+    "collection_grid_99HnPT": {
+      "type": "collection-grid",
+      "name": "Collection Grid Enhanced",
+      "settings": {
+        "heading": "Pick a combo"
+      }
     }
   },
   "order": [
     "main",
-    "blog_article_list_YgtPd4"
+    "blog_article_list_YgtPd4",
+    "collection_grid_99HnPT"
   ]
 }
