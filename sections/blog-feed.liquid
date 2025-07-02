@@ -1,0 +1,264 @@
+{% comment %}
+  Shopify Blog Feed Section
+  ----------------------------------------------
+
+  📌 Purpose:
+  - Displays a feed of blog articles from a selected blog.
+  - Includes structured data for SEO.
+
+  🛠 Admin Settings:
+  - Show author
+  - Show date
+  - Show tags
+  - Show comments
+  - Use content instead of excerpt
+  - Select blog
+  - Article limit
+  - Truncate length
+  - Blog title
+  - Blog type/template metadata
+
+  ✅ Accessibility:
+  - Alt text on images
+  - ARIA labels
+
+  🔁 Preset:
+  - Name: Blog Feed
+  - Category: Blog
+{% endcomment %}
+
+<section class="blog-feed layout__grid-box" data-template="{{ section.settings.blog_template }}" data-type="{{ section.settings.blog_type }}">
+  {% if section.settings.blog.articles.size > 0 %}
+    {% if section.settings.blog_title != blank %}
+      <h2 class="heading--2 blog-feed__title">{{ section.settings.blog_title }}</h2>
+    {% endif %}
+    <ul class="blog-feed__list">
+      {% for article in section.settings.blog.articles limit: section.settings.articles_limit %}
+        <li class="blog-feed__item">
+          <div class="blog-feed__image">
+            <a href="{{ article.url }}">
+              {% if article.image %}
+                <picture>
+                  <source
+                    srcset="{{ article.image | image_url: width: 360, height: 320, format: 'pjpg' }}"
+                    type="image/pjpg"
+                  >
+                  <source
+                    srcset="{{ article.image | image_url: width: 360, height: 320, format: 'webp' }}"
+                    type="image/webp"
+                  >
+                  <img
+                    src="{{ article.image | image_url: width: 360, height: 320 }}"
+                    alt="{{ article.title | escape }}"
+                    width="360"
+                    height="320"
+                    loading="lazy"
+                  >
+                </picture>
+                <noscript>
+                  <p>
+                    {{ article.image | image_url: width: 455, height: 300, scale: 2 | image_tag: article.title }}
+                  </p>
+                </noscript>
+              {% endif %}
+            </a>
+          </div>
+
+          <h3 class="blog-feed__article-title">
+            <a href="{{ article.url }}">{{ article.title }}</a>
+          </h3>
+
+          {% if section.settings.blog_show_author %}
+            <span class="blog-feed__author">By {{ article.author }}</span>
+          {% endif %}
+
+          {% if section.settings.blog_show_date %}
+            <span class="blog-feed__date">{{ article.published_at | time_tag: '%B %d, %Y' }}</span>
+          {% endif %}
+
+          <p class="blog-feed__excerpt">
+            {% if section.settings.show_article_content %}
+              {{ article.content | strip_html | truncate: section.settings.truncate_length }}
+            {% else %}
+              {% if article.excerpt.size > 0 %}
+                {{ article.excerpt | strip_html | truncate: section.settings.truncate_length }}
+              {% else %}
+                {{ article.content | strip_html | truncate: section.settings.truncate_length }}
+              {% endif %}
+            {% endif %}
+          </p>
+
+          {% if section.settings.show_tags and article.tags.size > 0 %}
+            <ul class="blog-feed__tags">
+              <li class="blog-feed__tag-label">
+                {{ 'blogs.article.posted_in' }}
+                {% for tag in article.tags %}
+                  <a href="{{ section.settings.blog.url }}/tagged/{{ tag | handle }}">{{ tag }}</a>{%- unless forloop.last %}, {% endunless %}
+                {% endfor %}
+              </li>
+            </ul>
+          {% endif %}
+
+          <ul class="blog-feed__meta">
+            <li class="blog-feed__read-more">
+              <a href="{{ article.url }}" aria-label="Read more: {{ article.title }}">Read more</a>
+            </li>
+            {% if section.settings.show_comments and section.settings.blog.comments_enabled? and article.comments_count > 0 %}
+              <li class="blog-feed__comments">
+                <a href="{{ article.url }}#comments">
+                  {{ article.comments_count }}
+                </a>
+              </li>
+            {% endif %}
+          </ul>
+
+          <script type="application/ld+json">
+            {
+              "@context": "https://schema.org",
+              "@type": "BlogPosting",
+              "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": "{{ article.url | prepend: shop.url }}"
+              },
+              "headline": {{ article.title | json }},
+              {% if article.excerpt %}
+              "description": {{ article.excerpt | strip_html | json }},
+              {% else %}
+              "description": {{ article.content | strip_html | truncate: 150 | json }},
+              {% endif %}
+              {% if article.image %}
+              "image": {
+                "@type": "ImageObject",
+                "url": "{{ article.image | image_url: width: 1200 | prepend: shop.url }}"
+              },
+              {% endif %}
+              "author": {
+                "@type": "Person",
+                "name": {{ article.author | json }}
+              },
+              "publisher": {
+                "@type": "Organization",
+                "name": {{ shop.name | json }},
+                {% if shop.brand.logo %}
+                "logo": {
+                  "@type": "ImageObject",
+                  "url": "{{ shop.brand.logo | image_url: width: 200 | prepend: shop.url }}"
+                }
+                {% endif %}
+              },
+              "datePublished": "{{ article.published_at | date: '%Y-%m-%d' }}",
+              "dateModified": "{{ article.updated_at | date: '%Y-%m-%d' }}"
+            }
+          </script>
+        </li>
+      {% endfor %}
+    </ul>
+
+    <!-- ItemList Schema -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        "name": "Blog Article List",
+        "itemListElement": [
+          {% for article in section.settings.blog.articles limit: section.settings.articles_limit %}
+            {
+              "@type": "ListItem",
+              "position": {{ forloop.index }},
+              "url": "{{ article.url | prepend: shop.url }}"
+            }{% unless forloop.last %},{% endunless %}
+          {% endfor %}
+        ]
+      }
+    </script>
+
+  {% else %}
+    <p class="blog-feed__empty">No blog articles found.</p>
+  {% endif %}
+</section>
+
+{% schema %}
+{
+  "name": "Blog Articles",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "blog_title",
+      "label": "Blog section title",
+      "default": "Blog"
+    },
+    {
+      "type": "checkbox",
+      "id": "blog_show_author",
+      "label": "Show author",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "blog_show_date",
+      "label": "Show date",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_tags",
+      "label": "Show article tags",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_comments",
+      "label": "Show comments count",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_article_content",
+      "label": "Use full content instead of excerpt",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "truncate_length",
+      "label": "Excerpt truncate length (characters)",
+      "min": 50,
+      "max": 300,
+      "step": 10,
+      "default": 150
+    },
+    {
+      "type": "blog",
+      "id": "blog",
+      "label": "Select blog"
+    },
+    {
+      "type": "range",
+      "id": "articles_limit",
+      "label": "Number of articles to show",
+      "min": 1,
+      "max": 12,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "text",
+      "id": "blog_type",
+      "label": "Blog type (for custom logic)",
+      "default": "default"
+    },
+    {
+      "type": "text",
+      "id": "blog_template",
+      "label": "Blog template (for reference only)",
+      "default": "blog"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Blog Feed",
+      "category": "Blog"
+    }
+  ]
+}
+{% endschema %}

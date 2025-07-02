@@ -17,7 +17,7 @@
       }
     },
     "blog_article_list_gNYEVF": {
-      "type": "blog-article-list",
+      "type": "blog-feed",
       "name": "Blog Articles",
       "settings": {
         "blog_show_author": true,
