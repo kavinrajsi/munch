@@ -14,9 +14,20 @@
       "settings": {
         "collection": ""
       }
+    },
+    "blog_article_list_YgtPd4": {
+      "type": "blog-article-list",
+      "name": "Blog Articles",
+      "settings": {
+        "blog_show_author": true,
+        "blog_show_date": true,
+        "blog": "article",
+        "articles_limit": 3
+      }
     }
   },
   "order": [
-    "main"
+    "main",
+    "blog_article_list_YgtPd4"
   ]
 }
