@@ -29,7 +29,7 @@
   - No default blocks
 {% endcomment %}
 
-<div class="short-video">
+<div class="short-video__wrapper layout__grid-box">
   <h2 class="heading--2  short-video__heading">{{ section.settings.heading }}</h2>
   <div class="short-video__grid">
     {% for block in section.blocks %}
@@ -47,9 +47,6 @@
             controls
             {% if block.settings.poster %}
               poster="{{ block.settings.poster | image_url: width: 265 }}"
-              style="aspect-ratio: {{ block.settings.poster.width }} / {{ block.settings.poster.height }}; width: 100%; height: auto; object-fit: cover; display: block;"
-            {% else %}
-              style="aspect-ratio: 16 / 9; width: 100%; height: auto; object-fit: cover; display: block;"
             {% endif %}
             {% if block.settings.loop %}
               loop
@@ -88,7 +85,6 @@
               height="{{ block.settings.poster.height }}"
               class="short-video__poster"
               loading="lazy"
-              style="aspect-ratio: {{ block.settings.poster.width }} / {{ block.settings.poster.height }}; width: 100%; height: auto; object-fit: cover; display: block;"
             >
           </picture>
         {% endif %}

@@ -1,20 +1,58 @@
 .highlight-features {
+  @media (min-width: 768px) {
+    position: relative;
+    &:before,
+    &::after {
+      content: "";
+      display: block;
+      width: 110px;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-image: url(./nithyaamirtham-highlight-features-pattern.webp);
+      background-size: contain;
+    }
+    &:before {
+      left: -18px;
+    }
+    &::after {
+      right: -18px;
+      transform: rotate(180deg);
+    }
+  }
+
   &__wrapper {
-    padding-top: 56px;
-    padding-bottom: 56px;
-    max-width: 1120px;
-    width: 100%;
-    margin: 0 auto;
-    padding-left: 16px;
-    padding-right: 16px;
-    gap: 20px;
-    // overflow-x: scroll;
+    padding-top: 80px;
+    padding-bottom: 80px;
+    gap: 40px 20px;
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(274px, 1fr));
+    @media (min-width: 578px) {
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+    @media (min-width: 768px) {
+      // grid-template-columns: repeat(auto-fill, minmax(274px, 1fr));
+    }
   }
 
   &__item {
+    max-width: 320px;
+    margin-left: auto;
+    margin-right: auto;
     display: flex;
+    justify-content: center;
+    align-items: center;
+    @media (min-width: 578px) {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    @media (min-width: 768px) {
+      flex-direction: row;
+      align-items: center;
+    }
   }
 
   &__icon {
@@ -22,14 +60,24 @@
     max-width: 60px;
     width: 60px;
     height: 60px;
+    margin-right: 24px;
+    @media (min-width: 578px) {
+      margin-right: 0px;
+      margin-bottom: 24px;
+    }
+    @media (min-width: 768px) {
+      margin-right: 24px;
+    }
   }
 
   &__content {
-    padding-left: 24px;
-    flex: 0 0 calc(100% - 60px);
-    max-width: calc(100% - 60px);
     @media (min-width: 578px) {
       max-width: 268px;
+    }
+    @media (min-width: 768px) {
+      // max-width: 254px;
+      flex: 0 0 calc(100% - 60px - 24px);
+      max-width: calc(100% - 60px - 24px);
     }
   }
   &__title {
