@@ -25,17 +25,18 @@
         "articles_limit": 3
       }
     },
-    "collection_grid_VJADgr": {
-      "type": "collection-grid",
-      "name": "Collection Grid Enhanced",
+    "product_slider_77iBNe": {
+      "type": "product-slider",
+      "name": "Latest Products Slider",
       "settings": {
-        "heading": "Pick a combo"
+        "heading": "Combo Collection",
+        "collection": "savory"
       }
     }
   },
   "order": [
     "main",
     "blog_article_list_gNYEVF",
-    "collection_grid_VJADgr"
+    "product_slider_77iBNe"
   ]
 }
