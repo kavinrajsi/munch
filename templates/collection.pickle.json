@@ -11,8 +11,9 @@
   "sections": {
     "main": {
       "type": "collection-pickle",
+      "name": "Pickle Page ",
       "settings": {
-        "collection": ""
+        "collection": "pickle-mix"
       }
     },
     "blog_article_list_gNYEVF": {
@@ -27,7 +28,7 @@
     },
     "product_slider_77iBNe": {
       "type": "product-slider",
-      "name": "Latest Products Slider",
+      "name": "Pickle Page / Combo Collection",
       "settings": {
         "heading": "Pickle Page / Combo Collection",
         "collection": "savory"
