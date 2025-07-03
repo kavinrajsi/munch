@@ -1,3 +1,30 @@
+{% comment %}
+  Shopify Section: Product Slider
+  -------------------------------
+
+  📌 Purpose:
+  - Displays a responsive product carousel from a selected collection.
+  - Highlights the latest products with customizable slider behavior.
+
+  🧱 Structure:
+  - Optional heading text
+  - Slick carousel with up to 8 products
+  - Previous/Next navigation buttons
+
+  🛠 Admin Settings:
+  - Heading text field
+  - Collection picker
+  - Color picker for background
+  - Slides to show/scroll
+  - Responsive breakpoints and settings
+
+  🎨 Styling:
+  - Background color applied dynamically using inline CSS
+
+  🔁 Preset:
+  - Name: "Latest Products Slider"
+{% endcomment %}
+
 {% schema %}
 {
   "name": "Product Slider",
@@ -14,6 +41,64 @@
       "type": "collection",
       "id": "collection",
       "label": "Collection"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "number",
+      "id": "slides_to_show",
+      "label": "Slides to Show (Desktop)",
+      "default": 4,
+      "min": 1,
+      "max": 8
+    },
+    {
+      "type": "number",
+      "id": "slides_to_scroll",
+      "label": "Slides to Scroll",
+      "default": 1,
+      "min": 1,
+      "max": 4
+    },
+    {
+      "type": "number",
+      "id": "breakpoint_1",
+      "label": "First Breakpoint (px)",
+      "default": 1024
+    },
+    {
+      "type": "number",
+      "id": "slides_to_show_bp1",
+      "label": "Slides to Show at First Breakpoint",
+      "default": 3
+    },
+    {
+      "type": "number",
+      "id": "breakpoint_2",
+      "label": "Second Breakpoint (px)",
+      "default": 768
+    },
+    {
+      "type": "number",
+      "id": "slides_to_show_bp2",
+      "label": "Slides to Show at Second Breakpoint",
+      "default": 2
+    },
+    {
+      "type": "number",
+      "id": "breakpoint_3",
+      "label": "Third Breakpoint (px)",
+      "default": 480
+    },
+    {
+      "type": "number",
+      "id": "slides_to_show_bp3",
+      "label": "Slides to Show at Third Breakpoint",
+      "default": 1
     }
   ],
   "presets": [
@@ -24,21 +109,27 @@
 }
 {% endschema %}
 
-<div class="layout__grid-box product-slider-section" id="slider-{{ section.id }}">
+<div
+  class="layout__grid-box product-slider-section"
+  id="slider-{{ section.id }}"
+  style="background-color: {{ section.settings.background_color }};"
+>
   {% if section.settings.heading %}
     <div class="product-slider-heading-wrapper">
       <h2 class="heading--2 product-slider-heading">{{ section.settings.heading }}</h2>
       <div class="sliderButton">
         <button type="button" class="slick-prev">
+          <!-- SVG left arrow -->
           <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
             <rect width="40" height="40" rx="20" fill="#F5F3F4"/>
-            <path fill-rule="evenodd" clip-rule="evenodd" d="M30 19.9999C30 19.82 29.9285 19.6474 29.8013 19.5202C29.674 19.3929 29.5014 19.3214 29.3215 19.3214H13.3177L17.5884 15.0521C17.6515 14.989 17.7015 14.9141 17.7356 14.8317C17.7698 14.7493 17.7874 14.6609 17.7874 14.5717C17.7874 14.4825 17.7698 14.3942 17.7356 14.3117C17.7015 14.2293 17.6515 14.1544 17.5884 14.0913C17.5253 14.0282 17.4504 13.9782 17.368 13.944C17.2855 13.9099 17.1972 13.8923 17.108 13.8923C17.0187 13.8923 16.9304 13.9099 16.848 13.944C16.7655 13.9782 16.6907 14.0282 16.6276 14.0913L11.1993 19.5195C11.1362 19.5826 11.086 19.6575 11.0518 19.7399C11.0176 19.8223 11 19.9107 11 19.9999C11 20.0892 11.0176 20.1776 11.0518 20.26C11.086 20.3424 11.1362 20.4173 11.1993 20.4803L16.6276 25.9086C16.6907 25.9717 16.7655 26.0217 16.848 26.0558C16.9304 26.09 17.0187 26.1076 17.108 26.1076C17.1972 26.1076 17.2855 26.09 17.368 26.0558C17.4504 26.0217 17.5253 25.9717 17.5884 25.9086C17.6515 25.8455 17.7015 25.7706 17.7356 25.6882C17.7698 25.6057 17.7874 25.5174 17.7874 25.4282C17.7874 25.339 17.7698 25.2506 17.7356 25.1682C17.7015 25.0858 17.6515 25.0109 17.5884 24.9478L13.3177 20.6785H29.3215C29.5014 20.6785 29.674 20.607 29.8013 20.4797C29.9285 20.3525 30 20.1799 30 19.9999Z" fill="#C61D23"/>
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M30 20a1 1 0 0 0-1-1H13.32l4.27-4.27a1 1 0 1 0-1.42-1.42l-6.42 6.42a1 1 0 0 0 0 1.42l6.42 6.42a1 1 0 0 0 1.42-1.42L13.32 21H29a1 1 0 0 0 1-1Z" fill="#C61D23"/>
           </svg>
         </button>
         <button type="button" class="slick-next">
+          <!-- SVG right arrow -->
           <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
             <rect width="40" height="40" rx="20" transform="matrix(-1 0 0 1 40 0)" fill="#F5F3F4"/>
-            <path fill-rule="evenodd" clip-rule="evenodd" d="M10 19.9999C10 19.82 10.0715 19.6474 10.1987 19.5202C10.326 19.3929 10.4986 19.3214 10.6785 19.3214H26.6823L22.4116 15.0521C22.3485 14.989 22.2985 14.9141 22.2644 14.8317C22.2302 14.7493 22.2126 14.6609 22.2126 14.5717C22.2126 14.4825 22.2302 14.3942 22.2644 14.3117C22.2985 14.2293 22.3485 14.1544 22.4116 14.0913C22.4747 14.0282 22.5496 13.9782 22.632 13.944C22.7145 13.9099 22.8028 13.8923 22.892 13.8923C22.9813 13.8923 23.0696 13.9099 23.152 13.944C23.2345 13.9782 23.3093 14.0282 23.3724 14.0913L28.8007 19.5195C28.8638 19.5826 28.914 19.6575 28.9482 19.7399C28.9824 19.8223 29 19.9107 29 19.9999C29 20.0892 28.9824 20.1776 28.9482 20.26C28.914 20.3424 28.8638 20.4173 28.8007 20.4803L23.3724 25.9086C23.3093 25.9717 23.2345 26.0217 23.152 26.0558C23.0696 26.09 22.9813 26.1076 22.892 26.1076C22.8028 26.1076 22.7145 26.09 22.632 26.0558C22.5496 26.0217 22.4747 25.9717 22.4116 25.9086C22.3485 25.8455 22.2985 25.7706 22.2644 25.6882C22.2302 25.6057 22.2126 25.5174 22.2126 25.4282C22.2126 25.339 22.2302 25.2506 22.2644 25.1682C22.2985 25.0858 22.3485 25.0109 22.4116 24.9478L26.6823 20.6785H10.6785C10.4986 20.6785 10.326 20.607 10.1987 20.4797C10.0715 20.3525 10 20.1799 10 19.9999Z" fill="#C61D23"/>
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M10 20a1 1 0 0 1 1-1h15.68l-4.27-4.27a1 1 0 1 1 1.42-1.42l6.42 6.42a1 1 0 0 1 0 1.42l-6.42 6.42a1 1 0 1 1-1.42-1.42L26.68 21H11a1 1 0 0 1-1-1Z" fill="#C61D23"/>
           </svg>
         </button>
       </div>
@@ -50,7 +141,38 @@
   <div class="product-slider-wrapper">
     <div
       class="slider-track slick-slider"
-      data-slick='{"slidesToShow": 4, "slidesToScroll": 1, "infinite": false, "dots": false, "arrows": true, "prevArrow": "#slider-{{ section.id }} .slick-prev", "nextArrow": "#slider-{{ section.id }} .slick-next", "responsive": [{"breakpoint": 1024, "settings": {"slidesToShow": 3, "slidesToScroll": 1}}, {"breakpoint": 768, "settings": {"slidesToShow": 2, "slidesToScroll": 1}}, {"breakpoint": 480, "settings": {"slidesToShow": 1, "slidesToScroll": 1}}]}'
+      data-slick='{
+        "slidesToShow": {{ section.settings.slides_to_show }},
+        "slidesToScroll": {{ section.settings.slides_to_scroll }},
+        "infinite": false,
+        "dots": false,
+        "arrows": true,
+        "prevArrow": "#slider-{{ section.id }} .slick-prev",
+        "nextArrow": "#slider-{{ section.id }} .slick-next",
+        "responsive": [
+          {
+            "breakpoint": {{ section.settings.breakpoint_1 }},
+            "settings": {
+              "slidesToShow": {{ section.settings.slides_to_show_bp1 }},
+              "slidesToScroll": {{ section.settings.slides_to_scroll }}
+            }
+          },
+          {
+            "breakpoint": {{ section.settings.breakpoint_2 }},
+            "settings": {
+              "slidesToShow": {{ section.settings.slides_to_show_bp2 }},
+              "slidesToScroll": {{ section.settings.slides_to_scroll }}
+            }
+          },
+          {
+            "breakpoint": {{ section.settings.breakpoint_3 }},
+            "settings": {
+              "slidesToShow": {{ section.settings.slides_to_show_bp3 }},
+              "slidesToScroll": {{ section.settings.slides_to_scroll }}
+            }
+          }
+        ]
+      }'
     >
       {% for product in products %}
         {% render 'product-card', product: product %}

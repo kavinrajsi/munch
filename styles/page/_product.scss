@@ -1,20 +1,36 @@
 .product-page {
   display: grid;
   gap: 20px;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
+  @media (min-width: 768px) {
+    grid-template-columns: 1fr 1fr;
+  }
   .product-images {
     display: grid;
     gap: 20px;
-    grid-template-columns: 75px 1fr;
+    @media (min-width: 768px) {
+      grid-template-columns: 75px 1fr;
+    }
     .product-images-thumbnails {
+      order: 1;
+      @media (min-width: 768px) {
+        order: -1;
+      }
       display: flex;
+      flex-direction: row;
+      @media (min-width: 768px) {
       flex-direction: column;
+      }
       gap: 8px;
       img {
         border-radius: 8px;
       }
     }
     .product-images-large {
+      order: -1;
+      @media (min-width: 768px) {
+        order: 1;
+      }
       picture {
         display: block;
         width: 100%;
@@ -32,7 +48,7 @@
     /* Combo 1 */
 
     /* Heading2 */
-    font-family : var(--font-minion);
+    font-family: var(--font-minion);
     font-style: normal;
     font-weight: 700;
     font-size: 36px;
@@ -285,7 +301,6 @@
     span {
       display: block; /* At Your Door in 1–2 Days */
 
-
       font-family: var(--font-header);
       font-style: normal;
       font-weight: 600;
@@ -295,7 +310,6 @@
 
       /* Neutral/White1 */
       color: #ffffff;
-
     }
   }
 }
