@@ -1,0 +1,56 @@
+<!-- search area begin -->
+<div class="header-search-area-wrapper" style="display: none;">
+  <div class="header-search-area-containerWrapper">
+    <div class="header-search-area-container">
+      <predictive-search>
+        <form action="{{ routes.search_url }}" method="get" role="search">
+          <div class="predictive-search ">
+            <i class="input__search-icon">
+              <svg width="24" height="24">
+                <use href="#search" />
+              </svg>
+            </i>
+            <label hidden for="Search">Search</label>
+            <input
+              class="input-full"
+              id="Search"
+              type="search"
+              name="q"
+              placeholder="Search products ..."
+              value="{{ search.terms | escape }}"
+              {%- if settings.predictive_search_enabled -%}
+                role="combobox" aria-expanded="false" aria-owns="predictive-search-results-list"
+                aria-controls="predictive-search-results-list" aria-haspopup="listbox" aria-autocomplete="list"
+                autocorrect="off" autocomplete="off" autocapitalize="off" spellcheck="false"
+              {%- endif -%}
+            >
+            <i class="input__close-icon">
+              <svg width="24" height="24">
+                <use href="#close" />
+              </svg>
+            </i>
+            <input name="type" type="hidden" value="product,page&options[unavailable_products]=hide">
+          </div>
+          <div id="predictive-search">
+            <ul class="predictive-content">
+              <li>
+                <svg width="24" height="24">
+                  <use href="#trending" />
+                </svg>
+                <b>Trending Search</b>
+              </li>
+              {% for term in settings.predictive_search_trending_terms %}
+                <li>
+                  <a href="{{ routes.search_url }}?q={{ term | url_encode }}&type=product,page&options[unavailable_products]=hide">
+                    {{ term }}
+                  </a>
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
+        </form>
+      </predictive-search>
+    </div>
+  </div>
+</div>
+<!-- search area end -->

@@ -31,9 +31,9 @@
     {{ 'jquery.js' | asset_url | preload_tag: as: 'script' }}
     {{ 'shopify-money.js' | asset_url | preload_tag: as: 'script' }}
     {{ 'predictive-search.js' | asset_url | preload_tag: as: 'script' }}
-    {{ 'quick-view-main.js' | asset_url | preload_tag: as: 'script' }}
     {{ 'global.js' | asset_url | preload_tag: as: 'script' }}
     {{ 'drawer.js' | asset_url | preload_tag: as: 'script' }}
+    {{ 'drawer-product.js' | asset_url | preload_tag: as: 'script' }}
     {{ 'slick.min.js' | asset_url | preload_tag: as: 'script' }}
     {{ 'photoswipe-control.js' | asset_url | preload_tag: as: 'script' }}
 
@@ -73,7 +73,8 @@
     </main>
     {% section 'footer' %}
     {% section 'drawer' %}
-    {% section 'quickview-modal' %}
+    {% section 'drawer-product' %}
+    {% section 'predictive-search' %}
     {% assign potential_action_target = request.origin
       | append: routes.search_url
       | append: '?q={search_term_string}'
@@ -113,8 +114,8 @@
     <script defer src="{{ 'jquery.js' | asset_url }}"></script>
     <script defer src="{{ 'shopify-money.js' | asset_url }}"></script>
     <script defer src="{{ 'predictive-search.js' | asset_url }}"></script>
-    <script defer src="{{ 'quick-view-main.js' | asset_url }}"></script>
     <script defer src="{{ 'drawer.js' | asset_url }}"></script>
+    <script defer src="{{ 'drawer-product.js' | asset_url }}"></script>
     <script defer src="{{ 'slick.min.js' | asset_url }}"></script>
     <script defer src="{{ 'global.js' | asset_url }}"></script>
 

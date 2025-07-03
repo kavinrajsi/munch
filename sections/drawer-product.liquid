@@ -1,0 +1,73 @@
+<div
+  id="product-slide-modal"
+  class="modal product-slide-modal hidden"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="modal-title"
+>
+  <!-- Modal Overlay -->
+  <div class="product-modal__overlay" tabindex="-1"></div>
+
+  <!-- Modal Content -->
+  <div class="product-modal__content" role="document">
+    <!-- Header -->
+    <div class="product-modal__header">
+      <h3 class="product-modal__title" id="modal-title"></h3>
+      <button class="product-modal__close" aria-label="Close modal" onclick="closeProductModal()">
+        <!-- Close Icon -->
+        {% render 'icon-close' %}
+      </button>
+    </div>
+
+    <div class="product-modal__description" id="modal-description"></div>
+    <!-- Price -->
+    <div class="product-modal__price">
+      <span id="modal-price" class="price-reg"></span>
+    </div>
+
+    <!-- Additional Product Info -->
+<div class="product-modal__meta">
+  <p><strong>Status:</strong> <span id="modal-status"></span></p>
+  <p><strong>SKU:</strong> <span id="modal-sku"></span></p>
+  <p><strong>Tags:</strong> <span id="modal-tags"></span></p>
+  <p><strong>Collection:</strong> <span id="modal-collection"></span></p>
+  <p><strong>Vendor:</strong> <span id="modal-vendor"></span></p>
+  <p><strong>Product Type:</strong> <span id="modal-product-type"></span></p>
+</div>
+
+    <div id="modal-stock-status" class="product-modal__stock-status"></div>
+
+    <!-- Product Image -->
+    <div class="product-modal__media" style="position:relative; width:345px; height:280px;">
+      <div id="image-spinner" class="image-spinner" style="display: none;"></div>
+      <img id="modal-image" src="" alt="" width="345" height="280" style="object-fit:contain;">
+    </div>
+
+    <!-- Product Form -->
+    <form class="product-form-ajax" id="product-modal-form" novalidate>
+      <!-- Variant Options -->
+      <div class="product-options" id="modal-variant-options"></div>
+
+      <!-- Quantity -->
+      <div class="quantity-container">
+        <label for="modal-qty">Quantity:</label>
+        <div class="quantity-wrapper">
+          <button type="button" class="qty-btn minus" onclick="updateQty(this, -1)" aria-label="Decrease quantity">
+            −
+          </button>
+          <input type="number" id="modal-qty" value="1" min="1" aria-label="Quantity" class="qty-input">
+          <button type="button" class="qty-btn plus" onclick="updateQty(this, 1)" aria-label="Increase quantity">
+            +
+          </button>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="product-modal__buttons">
+        <button type="button" id="modal-buy-now" class="product-modal__buttons--buy">Buy Now</button>
+        <button type="button" id="modal-add-to-cart" class="product-modal__buttons--cart">Add to Cart</button>
+        <a id="modal-view-details" href="" class="product-modal__buttons--view">View in Detail</a>
+      </div>
+    </form>
+  </div>
+</div>
