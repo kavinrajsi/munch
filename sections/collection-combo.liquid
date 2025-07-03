@@ -28,12 +28,6 @@
   🔁 Preset:
   - Name: "Latest Products Slider"
 {% endcomment %}
-{% assign collection = collections[section.settings.collection] %}
-
-{% if collection == blank %}
-  <p class="error">Collection not found. Please select a valid collection in the section settings.</p>
-  {% return %}
-{% endif %}
 
 <div class="collection-page">
   <!-- Collection image -->
