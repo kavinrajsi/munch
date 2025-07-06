@@ -145,14 +145,8 @@
       <div class="search-bar-wrapper">
         <form action="{{ routes.root_url }}search" method="get" role="search">
           <input type="search" name="q" placeholder="Search products">
-          <button type="submit">{% render 'icon-search' %}</button>
         </form>
-        <button id="search-close" class="search-close" aria-label="Close Search">
-          <!-- You can replace this SVG with any other icon or use {% render 'icon-close' %} if available -->
-          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M15 5L5 15M5 5L15 15" stroke="#000" stroke-width="2" stroke-linecap="round"/>
-          </svg>
-        </button>
+          <button id="search-close" class="search-close" aria-label="Close Search"> {% render 'icon-close' %}</button>
       </div>
     </div>
 

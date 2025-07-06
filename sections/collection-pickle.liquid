@@ -66,7 +66,7 @@
         {% endfor %}
       </div>
       <!-- Pagination controls -->
-      <div class="pagination">
+      <nav class="pagination">
         {%- if paginate.previous -%}
           <a href="{{ paginate.previous.url }}" class="pagination__button--prev" aria-label="Previous">
             <!-- Left arrow SVG -->
@@ -77,11 +77,11 @@
         {%- endif -%}
         {%- for part in paginate.parts -%}
           {% if part.title == '&hellip;' %}
-            <span class="page pagination__page--decorative">…</span>
+            <span class="pagination__page--decorative">…</span>
           {% elsif part.is_link %}
-            <span class="pagination__page"><a href="{{ part.url }}">{{ part.title }}</a></span>
+            <a class="pagination__page" href="{{ part.url }}">{{ part.title }}</a>
           {% else %}
-            <span class="page pagination__page--current">{{ part.title }}</span>
+            <span class="pagination__page--current">{{ part.title }}</span>
           {% endif %}
         {%- endfor -%}
         {%- if paginate.next -%}
@@ -92,7 +92,7 @@
             </svg>
           </a>
         {%- endif -%}
-      </div>
+      </nav>
     {% endpaginate %}
   </section>
 </div>

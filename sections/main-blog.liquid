@@ -1,116 +1,155 @@
-{% schema %}
-{
-  "name": "Main Blog",
-  "tag": "section",
-  "class": "main-blog",
-  "settings": [],
-  "presets": [
-    {
-      "name": "Blog listing with filters"
-    }
-  ]
-}
-{% endschema %}
+{% comment %}
+  Shopify Blog Section
+  --------------------------------
+
+  📌 Purpose:
+  - Displays a paginated list of blog articles.
+  - Provides flexibility for merchants to show/hide metadata like author, date, tags, etc.
+  - Allows for content truncation and blog customization.
+
+  🧱 Structure:
+  - Section heading (customizable)
+  - Article loop:
+    - Featured image
+    - Title
+    - Author (toggle)
+    - Published date (toggle)
+    - Excerpt or truncated content (toggle + length control)
+    - Tags list (toggle)
+    - "Read more" link (toggle)
+    - Comments count (toggle)
+  - Pagination navigation
+
+  🛠 Admin Settings:
+  - Custom heading text
+  - Articles per page (1–12)
+  - Toggle visibility:
+    - Author
+    - Date
+    - Tags
+    - Excerpt/content
+    - Read more link
+    - Comments count
+  - Truncate length control for content fallback
+
+  ✅ Accessibility:
+  - ARIA labels on read more links and pagination buttons
+
+  🔁 Preset:
+  - Name: "Blog listing with filters"
+{% endcomment %}
 
 <div class="blog-page layout__grid-box">
-  <h2 class="blog-feed--title">Blog</h2>
+  <h2 class="blog-feed--title">{{ section.settings.heading_text }}</h2>
 
-  <!-- Paginate blog.articles -->
-  {% paginate blog.articles by 5 %}
+  {% paginate blog.articles by section.settings.articles_per_page %}
     <ul class="blog-feed--lists">
       {% for article in blog.articles %}
-        {% assign show_article = true %}
-
-        {% if show_article %}
-          <li class="blog-feed--list">
-            <div class="blog-feed--blog__image">
-              <a href="{{ article.url }}">
-                {% if article.image %}
-                  <picture>
-                    <source
-                      srcset="{{ article.image | image_url: width: 360, height: 320, format: 'pjpg' }}"
-                      type="image/pjpg"
-                    >
-                    <source
-                      srcset="{{ article.image | image_url: width: 360, height: 320, format: 'webp' }}"
-                      type="image/webp"
-                    >
-                    <img
-                      src="{{ article.image | image_url: width: 360, height: 320 }}"
-                      alt="{{ article.title | escape }}"
-                      width="360"
-                      height="320"
-                      loading="lazy"
-                    >
-                  </picture>
-                  <noscript>
-                    <p>
-                      {{ article.image | image_url: width: 455, height: 300, scale: 2 | image_tag: article.title }}
-                    </p>
-                  </noscript>
+        <li class="blog-feed--list">
+          <!-- Article Image -->
+          <div class="blog-feed--blog__image">
+            <a href="{{ article.url }}">
+              {% if article.image %}
+                <picture>
+                  <source
+                    srcset="{{ article.image | image_url: width: 360, height: 320, format: 'pjpg' }}"
+                    type="image/pjpg"
+                  >
+                  <source
+                    srcset="{{ article.image | image_url: width: 360, height: 320, format: 'webp' }}"
+                    type="image/webp"
+                  >
+                  <img
+                    src="{{ article.image | image_url: width: 360, height: 320 }}"
+                    alt="{{ article.title | escape }}"
+                    width="360"
+                    height="320"
+                    loading="lazy"
+                  >
+                </picture>
+                <noscript>
+                  <p>{{ article.image | image_url: width: 455, height: 300 | image_tag: article.title }}</p>
+                </noscript>
+              {% else %}
+                <!-- Placeholder image if no article.image -->
+                {% if section.settings.placeholder_image %}
+                  <img
+                    src="{{ section.settings.placeholder_image | image_url: width: 360, height: 320 }}"
+                    alt="Placeholder image"
+                    width="360"
+                    height="320"
+                    loading="lazy"
+                  >
                 {% endif %}
-              </a>
-            </div>
-            <h2 class="blog-feed--blog__title">
-              <a href="{{ article.url }}">
-                {{ article.title }}
-              </a>
-            </h2>
-
-            {% comment %}
-              {% if section.settings.blog_show_author %}
-                <span class="blog-feed--blog__author">By {{ article.author }}</span>
               {% endif %}
-            {% endcomment %}
+            </a>
+          </div>
 
-            <span class="blog-feed--blog__date"> {{ article.published_at | time_tag: '%B %d, %Y' }}</span>
+          <!-- Article Title -->
+          <h2 class="blog-feed--blog__title">
+            <a href="{{ article.url }}">{{ article.title }}</a>
+          </h2>
 
-            {% comment %}
-              <p class="blog-feed--blog__content">
-                {% if article.excerpt.size > 0 %}
-                  {{ article.excerpt }}
-                {% else %}
-                  {{ article.content | strip_html | truncate: 150 }}
-                {% endif %}
-              </p>
-            {% endcomment %}
+          <!-- Author (optional) -->
+          {% if section.settings.show_author %}
+            <span class="blog-feed--blog__author">By {{ article.author }}</span>
+          {% endif %}
 
-            {% comment %}
-              {% if article.tags.size > 0 %}
-                <ul>
-                  <li>
-                    {{ 'blogs.article.posted_in' }}
-                    {% for tag in article.tags %}
-                      <a href="{{ section.settings.blog.url }}/tagged/{{ tag | handle }}">{{ tag }}</a>
-                      {%- unless forloop.last %}, {% endunless %}
-                    {% endfor %}
-                  </li>
-                </ul>
+          <!-- Date (optional) -->
+          {% if section.settings.show_date %}
+            <span class="blog-feed--blog__date">{{ article.published_at | time_tag: '%B %d, %Y' }}</span>
+          {% endif %}
+
+          <!-- Content or Excerpt (optional) -->
+          {% if section.settings.show_excerpt %}
+            <p class="blog-feed--blog__content">
+              {% if article.excerpt.size > 0 %}
+                {{ article.excerpt }}
+              {% else %}
+                {{ article.content | strip_html | truncate: section.settings.truncate_length }}
               {% endif %}
-            {% endcomment %}
+            </p>
+          {% endif %}
 
-            {% comment %}
-              <ul>
-                <li>
-                  <a href="{{ article.url }}" aria-label="Read more: {{ article.title }}">Read more</a>
-                </li>
-                {% if section.settings.blog.comments_enabled? and article.comments_count > 0 %}
-                  <li>
-                    <a href="{{ article.url }}#comments">
-                      {{ article.comments_count }}
-                    </a>
-                  </li>
-                {% endif %}
-              </ul>
-            {% endcomment %}
-          </li>
-        {% endif %}
+          <!-- Tags (optional) -->
+          {% if section.settings.show_tags %}
+            <nav class="blog-feed--blog__tags">
+              {% if article.tags.size == 0 %}
+                <span>No tags</span>
+              {% else %}
+                {% for tag in article.tags %}
+                  {% if forloop.first %}
+                    <span class="blog-feed--blog__tag">Tag: </span>
+                  {% endif %}
+                  <a class="blog-feed--blog__tag" href="{{ blog.url }}?tag={{ tag | url_encode }}">{{ tag }}</a>
+                  {%- unless forloop.last %},{% endunless %}
+                {% endfor %}
+              {% endif %}
+            </nav>
+          {% endif %}
+
+          <!-- Read more & Comments count -->
+          <ul>
+            {% if section.settings.show_read_more %}
+              <li>
+                <a href="{{ article.url }}" aria-label="Read more: {{ article.title }}">Read more</a>
+              </li>
+            {% endif %}
+            {% if section.settings.show_comments_count
+              and section.settings.blog.comments_enabled?
+              and article.comments_count > 0
+            %}
+              <li>
+                <a href="{{ article.url }}#comments">{{ article.comments_count }}</a>
+              </li>
+            {% endif %}
+          </ul>
+        </li>
       {% endfor %}
     </ul>
 
     <!-- Pagination controls -->
-    <!-- Custom Pagination controls -->
-    <div class="pagination">
+    <nav class="pagination">
       {%- if paginate.previous -%}
         <a href="{{ paginate.previous.url }}" class="pagination__button--prev" aria-label="Previous">
           <!-- Left arrow SVG -->
@@ -121,21 +160,101 @@
       {%- endif -%}
       {%- for part in paginate.parts -%}
         {% if part.title == '&hellip;' %}
-          <span class="page pagination__page--decorative">…</span>
+          <span class="pagination__page--decorative">…</span>
         {% elsif part.is_link %}
-          <span class="pagination__page"><a href="{{ part.url }}">{{ part.title }}</a></span>
+          <a class="pagination__page" href="{{ part.url }}">{{ part.title }}</a>
         {% else %}
-          <span class="page pagination__page--current">{{ part.title }}</span>
+          <span class="pagination__page--current">{{ part.title }}</span>
         {% endif %}
       {%- endfor -%}
       {%- if paginate.next -%}
         <a href="{{ paginate.next.url }}" class="pagination__button--next" aria-label="Next">
-          <!-- Right arrow SVG (same as left, flipped) -->
+          <!-- Right arrow SVG -->
           <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M8.56963 11.4571L16.9291 3.4921C17.0686 3.35909 17.2539 3.28491 17.4466 3.28491C17.6393 3.28491 17.8246 3.35909 17.9641 3.4921L17.9731 3.5011C18.041 3.5655 18.095 3.64308 18.1319 3.72909C18.1688 3.81509 18.1878 3.9077 18.1878 4.00129C18.1878 4.09488 18.1688 4.1875 18.1319 4.2735C18.095 4.3595 18.041 4.43708 17.9731 4.50154L10.1011 12.0015L17.9731 19.4985C18.041 19.5629 18.095 19.6405 18.1319 19.7265C18.1688 19.8125 18.1878 19.9051 18.1878 19.9987C18.1878 20.0923 18.1688 20.1849 18.1319 20.2709C18.095 20.3569 18.041 20.4345 17.9731 20.4989L17.9641 20.5079C17.8246 20.6409 17.6393 20.7151 17.4466 20.7151C17.2539 20.7151 17.0686 20.6409 16.9291 20.5079L8.56963 12.5429C8.49601 12.4728 8.4375 12.3886 8.39748 12.2952C8.35746 12.2019 8.33687 12.1014 8.33687 11.9999C8.33687 11.8983 8.35746 11.7978 8.39748 11.7045C8.4375 11.6111 8.49601 11.5269 8.56963 11.4571Z" fill="#660808"/>
           </svg>
         </a>
       {%- endif -%}
-    </div>
+    </nav>
   {% endpaginate %}
 </div>
+
+{% schema %}
+{
+  "name": "Main Blog",
+  "tag": "section",
+  "class": "main-blog",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading_text",
+      "label": "Heading text",
+      "default": "Blog"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_author",
+      "label": "Show author name",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "articles_per_page",
+      "label": "Articles per page",
+      "min": 1,
+      "max": 12,
+      "step": 1,
+      "default": 5
+    },
+    {
+      "type": "image_picker",
+      "id": "placeholder_image",
+      "label": "Placeholder image for articles without images"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_date",
+      "label": "Show publish date",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_tags",
+      "label": "Show article tags",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_read_more",
+      "label": "Show 'Read more' link",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_comments_count",
+      "label": "Show comments count",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_excerpt",
+      "label": "Show article excerpt (fallback to content)",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "truncate_length",
+      "label": "Truncate length for content (if no excerpt)",
+      "min": 50,
+      "max": 500,
+      "step": 10,
+      "default": 150
+    }
+  ],
+  "presets": [
+    {
+      "name": "Blog listing with filters"
+    }
+  ]
+}
+{% endschema %}
