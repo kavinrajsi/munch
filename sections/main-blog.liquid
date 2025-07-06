@@ -40,7 +40,7 @@
 {% endcomment %}
 
 <div class="blog-page layout__grid-box">
-  <h2 class="blog-feed--title">{{ section.settings.heading_text }}</h2>
+  <h2 class="heading--1 blog-feed--title">{{ section.settings.heading_text }}</h2>
 
   {% paginate blog.articles by section.settings.articles_per_page %}
     <ul class="blog-feed--lists">
