@@ -4,23 +4,23 @@
 
 {%- assign meta_title = page_title | escape -%}
 {%- assign meta_description = page_description | escape -%}
-{%- assign meta_image = settings.default_social_image | img_url: '800x800' | prepend: 'https:' -%}
+{%- assign meta_image = settings.default_social_image | image_url: '800x800' | prepend: 'https:' -%}
 {%- assign meta_url = canonical_url -%}
 
 {%- if template contains 'product' and product %}
   {%- assign meta_title = product.title | escape -%}
   {%- assign meta_description = product.description | strip_html | truncate: 160 | escape -%}
-  {%- assign meta_image = product.featured_image | img_url: '800x800' | prepend: 'https:' -%}
+  {%- assign meta_image = product.featured_image | image_url: '800x800' | prepend: 'https:' -%}
   {%- assign meta_url = shop.url | append: product.url -%}
 {%- elsif template contains 'article' and article %}
   {%- assign meta_title = article.title | escape -%}
   {%- assign meta_description = article.excerpt_or_content | strip_html | truncate: 160 | escape -%}
-  {%- assign meta_image = article.image | img_url: '800x800' | prepend: 'https:' -%}
+  {%- assign meta_image = article.image | image_url: '800x800' | prepend: 'https:' -%}
   {%- assign meta_url = shop.url | append: article.url -%}
 {%- elsif template contains 'collection' and collection %}
   {%- assign meta_title = collection.title | escape -%}
   {%- assign meta_description = collection.description | strip_html | truncate: 160 | escape -%}
-  {%- assign meta_image = collection.image | img_url: '800x800' | prepend: 'https:' -%}
+  {%- assign meta_image = collection.image | image_url: '800x800' | prepend: 'https:' -%}
   {%- assign meta_url = shop.url | append: collection.url -%}
 {%- elsif template contains 'page' and page %}
   {%- assign meta_title = page.title | escape -%}

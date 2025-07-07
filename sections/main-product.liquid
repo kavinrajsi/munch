@@ -130,42 +130,55 @@
         </p>
       {% endif %}
     </div>
-    <form action="/cart/add" method="post" enctype="multipart/form-data">
+    <form action="{{routes.cart_add_url }}" method="post" enctype="multipart/form-data">
       <!-- Dynamic Option Radio Groups -->
-      <div id="variant-selectors">
-        {% for option in product.options_with_values %}
-          <fieldset class="product-option">
-            <legend>
-              <strong>{{ option.name }}</strong>
-            </legend>
-            {% for value in option.values %}
-              {% assign is_available = false %}
-              {% for variant in product.variants %}
-                {% if variant.options[option.position0] == value and variant.available %}
-                  {% assign is_available = true %}
-                {% endif %}
-              {% endfor %}
-              <label style="margin-right: 1rem; display: inline-block;">
-                <input
-                  type="radio"
-                  name="option{{ option.position }}"
-                  value="{{ value }}"
-                  {% if forloop.first %}
-                    checked
+      {% assign multiple_variants = false %}
+
+      {% for option in product.options_with_values %}
+        {% if option.values.size > 1 %}
+          {% assign multiple_variants = true %}
+        {% endif %}
+      {% endfor %}
+
+      {% if multiple_variants %}
+        <div id="variant-selectors">
+          {% for option in product.options_with_values %}
+            {% assign option_index = forloop.index0 %}
+            <fieldset class="product-option">
+              <legend>
+                <strong>{{ option.name }}</strong>
+              </legend>
+              {% assign checked_set = false %}
+              {% for value in option.values %}
+                {% assign is_available = false %}
+                {% for variant in product.variants %}
+                  {% if variant.options[option_index] == value and variant.available %}
+                    {% assign is_available = true %}
                   {% endif %}
+                {% endfor %}
+                <label>
+                  <input
+                    type="radio"
+                    name="option{{ option.position }}"
+                    value="{{ value }}"
+                    {% if is_available and checked_set == false %}
+                      checked
+                      {% assign checked_set = true %}
+                    {% endif %}
+                    {% unless is_available %}
+                      disabled
+                    {% endunless %}
+                  >
+                  {{ value }}
                   {% unless is_available %}
-                    disabled
+                    <span style="font-size: 0.85em; color: red;">(Sold out)</span>
                   {% endunless %}
-                >
-                {{ value }}
-                {% unless is_available %}
-                  <span style="font-size: 0.85em; color: red;">(Sold out)</span>
-                {% endunless %}
-              </label>
-            {% endfor %}
-          </fieldset>
-        {% endfor %}
-      </div>
+                </label>
+              {% endfor %}
+            </fieldset>
+          {% endfor %}
+        </div>
+      {% endif %}
 
       <input
         type="hidden"

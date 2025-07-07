@@ -78,7 +78,7 @@
       {% when 'image_block' %}
         {% if block.settings.image %}
           <div class="about-image" style="margin-bottom: 2rem;">
-            <img src="{{ block.settings.image | img_url: '800x' }}" alt="{{ block.settings.alt_text | escape }}" style="width: 100%; height: auto;" />
+            <img src="{{ block.settings.image | image_url: '800x' }}" alt="{{ block.settings.alt_text | escape }}" style="width: 100%; height: auto;" />
           </div>
         {% endif %}
     {% endcase %}

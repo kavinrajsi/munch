@@ -1,6 +1,6 @@
 <section class="page-customer-login">
   <div class="customer login">
-    <h2 class="page-title" id="recover" tabindex="-1">
+    <h2 class="heading--1" id="recover" tabindex="-1">
       Reset password
     </h2>
     <div>
@@ -49,7 +49,7 @@
         </a>
       {%- endform -%}
     </div>
-    <h2 class="page-title" id="login" tabindex="-1">
+    <h2 class="heading--1" id="login" tabindex="-1">
       Login <br>
       {% comment %} <span>Please enter your e-mail and password </span> {% endcomment %}
     </h2>
@@ -114,7 +114,7 @@
               placeholder="Password"
             >
           </div>
-          <a href="#recover"> Forgot password? </a>
+          <a class="forgetPasswordText" href="#recover"> Forgot password? </a>
         {%- endif -%}
         <button class="button button-solid-maroon">Login</button>
         <a href="{{ routes.account_register_url }}"> New Customer? Sign Up! </a>
@@ -123,7 +123,7 @@
     {%- if shop.checkout.guest_login -%}
       <div>
         <hr>
-        <h2 class="page-title">{{ 'customer.login_page.guest_title' | t }}</h2>
+        <h2 class="heading--1">{{ 'customer.login_page.guest_title' | t }}</h2>
         {%- form 'guest_login' -%}
           <button class="button button-solid-maroon">
             {{ 'customer.login_page.guest_continue' | t }}

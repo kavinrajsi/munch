@@ -19,7 +19,7 @@
       {% for product in recommendations.products %}
         <div style="width: 200px;">
           <a href="{{ product.url }}">
-            <img src="{{ product.featured_image | img_url: '400x' }}" alt="{{ product.title }}" style="width: 100%;" />
+            <img src="{{ product.featured_image | image_url: '400x' }}" alt="{{ product.title }}" style="width: 100%;" />
             <p>{{ product.title }}</p>
             <p>{{ product.price | money }}</p>
           </a>
