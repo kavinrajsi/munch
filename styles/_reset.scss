@@ -480,11 +480,13 @@ a {
 
 img,
 picture {
+  font-style: italic;
+  background-repeat: no-repeat;
+  background-size: cover;
+  vertical-align: middle;
   border-style: none;
-  max-width: 100%;
   height: auto;
-  display: block;
-  width: 100%;
+  max-width: 100%;
 }
 
 svg {
