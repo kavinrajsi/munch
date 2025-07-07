@@ -1,49 +1,96 @@
-{% schema %}
-{
-  "name": "Customer Addresses",
-  "tag": "section",
-  "class": "customer-addresses",
-  "settings": [],
-  "presets": [
-    {
-      "name": "Default Address Book"
-    }
-  ]
-}
-{% endschema %}
+<div class="page-account">
+  <aside class="page-account-navigation">
+    <nav>
+      <a class="active" href="/account">
+        <span> Account Details </span>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="feather feather-chevron-down"
+        >
+          <polyline points="6 9 12 15 18 9"></polyline>
+        </svg>
+      </a>
+      <a href="/pages/order">
+        <span> My Orders </span>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="feather feather-chevron-down"
+        >
+          <polyline points="6 9 12 15 18 9"></polyline>
+        </svg>
+      </a>
+      <a href="/pages/swym-wishlist">
+        <span> My Wishlist </span>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="feather feather-chevron-down"
+        >
+          <polyline points="6 9 12 15 18 9"></polyline>
+        </svg>
+      </a>
+      <a href="/account/addresses">
+        <span>Address </span>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="feather feather-chevron-down"
+        >
+          <polyline points="6 9 12 15 18 9"></polyline>
+        </svg>
+      </a>
+      <a href="{{ routes.account_logout_url }}">Sign Out </a>
+    </nav>
+  </aside>
 
-<section style="max-width: 900px; margin: 0 auto; padding: 2rem;">
-  <h1>Your Addresses</h1>
+  <section>
 
-  {% if customer %}
-    <a href="{{ routes.account_address_new_url }}" class="btn">Add New Address</a>
+    <h2 class="account-card-title">Account</h2>
+    <p class="customer-name-firstName">
+      <span class="firstName">
+    {{customer.first_name | slice: 0 }}
+      </span>
+    </p>
+    <p class="customer-name">
+    {{customer.name}}
+    </p>
+    <p class="customer-email">
+    {{customer.email}}
+    </p>
+    <p class="customer-phone">
+    {{customer.phone}}
+    </p>
+  </section>
 
-    {% paginate customer.addresses by 10 %}
-      <ul>
-        {% for address in customer.addresses %}
-          <li style="margin-bottom: 1.5rem;">
-            <strong>{{ address.first_name }} {{ address.last_name }}</strong><br>
-            {{ address.address1 }}<br>
-            {% if address.address2 != blank %}{{ address.address2 }}<br>{% endif %}
-            {{ address.city }}, {{ address.province }} {{ address.zip }}<br>
-            {{ address.country }}<br>
-            Phone: {{ address.phone }}<br>
 
-            {% if address.default %}
-              <em>(Default address)</em><br>
-            {% endif %}
-
-            <a href="{{ address.url }}" class="btn">Edit</a>
-            <form method="post" action="{{ address.url }}" style="display:inline;">
-              <input type="hidden" name="_method" value="delete">
-              <button type="submit" class="btn-secondary">Delete</button>
-            </form>
-          </li>
-        {% endfor %}
-      </ul>
-      {{ paginate | default_pagination }}
-    {% endpaginate %}
-  {% else %}
-    <p>Please <a href="/account/login">log in</a> to manage your addresses.</p>
-  {% endif %}
-</section>
+</div>

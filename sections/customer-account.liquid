@@ -1,44 +1,96 @@
-{% schema %}
-{
-  "name": "Customer Account",
-  "tag": "section",
-  "class": "customer-account",
-  "settings": [],
-  "presets": [
-    {
-      "name": "Customer Account"
-    }
-  ]
-}
-{% endschema %}
+<div class="page-account">
+  <aside class="page-account-navigation">
+    <nav>
+      <a class="active" href="/account">
+        <span> Account Details </span>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="feather feather-chevron-down"
+        >
+          <polyline points="6 9 12 15 18 9"></polyline>
+        </svg>
+      </a>
+      <a href="/pages/order">
+        <span> My Orders </span>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="feather feather-chevron-down"
+        >
+          <polyline points="6 9 12 15 18 9"></polyline>
+        </svg>
+      </a>
+      <a href="/pages/swym-wishlist">
+        <span> My Wishlist </span>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="feather feather-chevron-down"
+        >
+          <polyline points="6 9 12 15 18 9"></polyline>
+        </svg>
+      </a>
+      <a href="/account/addresses">
+        <span>Address </span>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="feather feather-chevron-down"
+        >
+          <polyline points="6 9 12 15 18 9"></polyline>
+        </svg>
+      </a>
+      <a href="{{ routes.account_logout_url }}">Sign Out </a>
+    </nav>
+  </aside>
 
-{% if customer %}
-  <section style="max-width: 800px; margin: 2rem auto; padding: 2rem;">
-    <h1>Welcome, {{ customer.first_name }}!</h1>
+  <section>
 
-    <h2>Your Orders</h2>
-    {% paginate customer.orders by 10 %}
-      {% if customer.orders.size > 0 %}
-        <ul>
-          {% for order in customer.orders %}
-            <li>
-              <a href="{{ order.customer_url }}">Order #{{ order.name }}</a><br/>
-              <strong>Date:</strong> {{ order.created_at | date: "%B %d, %Y" }}<br/>
-              <strong>Total:</strong> {{ order.total_price | money }}
-            </li>
-          {% endfor %}
-        </ul>
-        {{ paginate | default_pagination }}
-      {% else %}
-        <p>You have no orders yet.</p>
-      {% endif %}
-    {% endpaginate %}
-
-    <h2>Account Details</h2>
-    <p><strong>Email:</strong> {{ customer.email }}</p>
-    <p><a href="/account/addresses">Manage Addresses</a></p>
-    <p><a href="/account/logout">Log Out</a></p>
+    <h2 class="account-card-title">Account</h2>
+    <p class="customer-name-firstName">
+      <span class="firstName">
+    {{customer.first_name | slice: 0 }}
+      </span>
+    </p>
+    <p class="customer-name">
+    {{customer.name}}
+    </p>
+    <p class="customer-email">
+    {{customer.email}}
+    </p>
+    <p class="customer-phone">
+    {{customer.phone}}
+    </p>
   </section>
-{% else %}
-  <p>Please <a href="/account/login">log in</a> to view your account.</p>
-{% endif %}
+
+
+</div>
