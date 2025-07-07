@@ -1,0 +1,162 @@
+.page-customer-register,
+.page-customer-login {
+  button.no-margin-top {
+    margin-top: 0;
+  }
+
+  max-width: 448px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-right: 24px;
+  padding-left: 24px;
+
+  @media (min-width: 768px) {
+    padding-right: 32px;
+    padding-left: 32px;
+  }
+
+  @media (min-width: 1024px) {
+    padding-right: 48px;
+    padding-left: 48px;
+  }
+
+  form {
+    label {
+      font-size: 14px;
+      display: block;
+      padding-bottom: 8px;
+
+      &.accepts-marketing-label {
+        margin-bottom: 0;
+        cursor: pointer;
+      }
+    }
+
+    a {
+      &::after {
+        content: "";
+        display: block;
+        width: 100%;
+        height: 1px;
+        background-color: var(--color-maroon);
+      }
+    }
+
+    input[type="text"],
+    input[type="password"],
+    input[type="email"],
+    input[type="date"] {
+      -webkit-appearance: none;
+      appearance: none;
+      font-size: 16px;
+      width: 100%;
+      box-sizing: border-box;
+      height: 46px;
+      position: relative;
+      margin-bottom: 20px;
+      padding: 14px;
+
+      &::placeholder,
+      &:invalid::-webkit-datetime-edit {
+        color: #999;
+        /* Chrome, Firefox, Opera, Safari 10.1+ */
+        color: #999;
+        opacity: 1;
+        /* Firefox */
+      }
+
+      &:-ms-input-placeholder {
+        /* Internet Explorer 10-11 */
+        color: #999;
+      }
+
+      &::-ms-input-placeholder {
+        /* Microsoft Edge */
+        color: #999;
+      }
+    }
+
+    input[type="radio"],
+    input[type="checkbox"] {
+      cursor: pointer;
+      -webkit-appearance: initial;
+      vertical-align: baseline;
+      padding: 0;
+      margin: 0;
+      min-height: initial;
+      border: 1px solid var(--color-maroon);
+      background: transparent;
+      display: inline-block;
+      border-radius: 24px;
+      width: 24px;
+      height: 24px;
+      margin-right: 8px;
+
+      &:checked {
+        transform: scale(0.9);
+        outline: 2px solid var(--color-maroon);
+        border: 2px solid var(--color-white);
+        background: var(--color-maroon);
+      }
+    }
+
+    .accepts-marketing {
+      display: flex;
+      cursor: pointer;
+    }
+
+    .button,
+    button[type="submit"],
+    input[type="submit"] {
+      display: block;
+      width: 100%;
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+
+    input[aria-invalid="true"] {
+      border: 1px solid #eb001b;
+    }
+  }
+
+  .form__message {
+    svg {
+      margin-right: 8px;
+      width: 24px;
+      height: 24px;
+    }
+
+    display: flex;
+    margin-bottom: 20px;
+  }
+}
+
+.page-customer-register {
+  .input-by-two {
+    display: grid;
+    gap: 16px;
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+#recover,
+#recover + div {
+  display: none;
+}
+
+#recover:target {
+  display: block;
+}
+
+#recover:target + div {
+  display: block;
+}
+
+#recover:target ~ #login,
+#recover:target ~ #login + div {
+  display: none;
+}
+
+#recover {
+  margin-bottom: 0;
+}
