@@ -137,40 +137,7 @@
   <div class="product-slider-wrapper">
     <div
       class="slider-track slick-slider"
-      data-slick='
-        {
-          "slidesToShow": {{ section.settings.slides_to_show }},
-          "slidesToScroll": {{ section.settings.slides_to_scroll }},
-          "infinite": false,
-          "dots": false,
-          "arrows": true,
-          "prevArrow": "#slider-{{ section.id }} .slick-prev",
-          "nextArrow": "#slider-{{ section.id }} .slick-next",
-          "responsive": [
-            {
-              "breakpoint": {{ section.settings.breakpoint_1 }},
-              "settings": {
-                "slidesToShow": {{ section.settings.slides_to_show_bp1 }},
-                "slidesToScroll": {{ section.settings.slides_to_scroll }}
-              }
-            },
-            {
-              "breakpoint": {{ section.settings.breakpoint_2 }},
-              "settings": {
-                "slidesToShow": {{ section.settings.slides_to_show_bp2 }},
-                "slidesToScroll": {{ section.settings.slides_to_scroll }}
-              }
-            },
-            {
-              "breakpoint": {{ section.settings.breakpoint_3 }},
-              "settings": {
-                "slidesToShow": {{ section.settings.slides_to_show_bp3 }},
-                "slidesToScroll": {{ section.settings.slides_to_scroll }}
-              }
-            }
-          ]
-        }
-      '
+     data-slick='{ "slidesToShow": {{ section.settings.slides_to_show }}, "slidesToScroll": {{ section.settings.slides_to_scroll }}, "infinite": false, "dots": false, "arrows": true, "prevArrow": "#slider-{{ section.id }} .slick-prev", "nextArrow": "#slider-{{ section.id }} .slick-next", "responsive": [ { "breakpoint": {{ section.settings.breakpoint_1 }}, "settings": { "slidesToShow": {{ section.settings.slides_to_show_bp1 }}, "slidesToScroll": {{ section.settings.slides_to_scroll }} } }, { "breakpoint": {{ section.settings.breakpoint_2 }}, "settings": { "slidesToShow": {{ section.settings.slides_to_show_bp2 }}, "slidesToScroll": {{ section.settings.slides_to_scroll }} } }, { "breakpoint": {{ section.settings.breakpoint_3 }}, "settings": { "slidesToShow": {{ section.settings.slides_to_show_bp3 }}, "slidesToScroll": {{ section.settings.slides_to_scroll }} } } ] }'
     >
       {% for product in products %}
         {% assign current_variant = product.selected_or_first_available_variant %}

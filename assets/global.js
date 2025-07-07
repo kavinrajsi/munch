@@ -1,102 +1,103 @@
 (function ($) {
-  console.log("functions");
+  console.log("Shop JS functions loaded");
 
   // === DOM Caching for Reuse ===
-  const $menuToggle = $("#menu-toggle");
-  const $searchToggle = $("#search-toggle");
-  const $searchBar = $("#search-bar");
-  const $searchClose = $("#search-close");
-  const $searchIcon = $("#search-toggle");
-  const $headerNavList = $("#header-nav-lists");
-  const $headerNormal = $(".header-container.header-normal");
-  const $headerHover = $(".header-container.header-hover");
-  const $overlay = $("#header-overlay");
-  const $html = $("html");
-  const $body = $("body");
+  const $menuToggleBtn = $("#menu-toggle");
+  const $searchToggleBtn = $("#search-toggle");
+  const $searchBarContainer = $("#search-bar");
+  const $searchCloseBtn = $("#search-close");
+  const $searchIconBtn = $("#search-toggle");
+  const $navListContainer = $("#header-nav-lists");
+  const $headerNormalContainer = $(".header-container.header-normal");
+  const $headerHoverContainer = $(".header-container.header-hover");
+  const $headerOverlay = $("#header-overlay");
+  const $htmlElement = $("html");
+  const $bodyElement = $("body");
 
-  function updateOverflow() {
-    const menuOpen = $headerNavList.hasClass("show");
-    const searchOpen = $searchBar.hasClass("show");
-    if (menuOpen || searchOpen) {
-      $html.css("overflow", "hidden");
-      $body.css("overflow", "hidden");
-      $overlay.addClass("show");
+  // === Control Page Overflow and Overlay ===
+  function handlePageOverflowAndOverlay() {
+    const isMenuOpen = $navListContainer.hasClass("show");
+    const isSearchOpen = $searchBarContainer.hasClass("show");
+    if (isMenuOpen || isSearchOpen) {
+      $htmlElement.css("overflow", "hidden");
+      $bodyElement.css("overflow", "hidden");
+      $headerOverlay.addClass("show");
     } else {
-      $html.css("overflow", "");
-      $body.css("overflow", "");
-      $overlay.removeClass("show");
+      $htmlElement.css("overflow", "");
+      $bodyElement.css("overflow", "");
+      $headerOverlay.removeClass("show");
     }
   }
 
-  // === Menu Toggle ===
-  $menuToggle.on("click", function () {
-    if ($searchBar.hasClass("show")) {
-      $searchBar.removeClass("show");
-      $searchIcon.removeClass("hide");
-      $headerHover.removeClass("show");
-      $headerNormal.addClass("show");
+  // === Menu Toggle Handler ===
+  $menuToggleBtn.on("click", function () {
+    if ($searchBarContainer.hasClass("show")) {
+      $searchBarContainer.removeClass("show");
+      $searchIconBtn.removeClass("hide");
+      $headerHoverContainer.removeClass("show");
+      $headerNormalContainer.addClass("show");
     }
-    $headerNavList.toggleClass("show");
-    updateOverflow();
+    $navListContainer.toggleClass("show");
+    handlePageOverflowAndOverlay();
   });
 
-  // === Search Toggle ===
-  $searchToggle.on("click", function () {
-    if ($headerNavList.hasClass("show")) {
-      $headerNavList.removeClass("show");
+  // === Search Toggle Handler ===
+  $searchToggleBtn.on("click", function () {
+    if ($navListContainer.hasClass("show")) {
+      $navListContainer.removeClass("show");
     }
-    $searchBar.toggleClass("show");
-    $searchIcon.toggleClass("hide");
-    $headerNavList.toggleClass("hide", $searchBar.hasClass("show"));
-    if ($searchBar.hasClass("show")) {
-      $headerHover.addClass("show");
-      $headerNormal.removeClass("show");
+    $searchBarContainer.toggleClass("show");
+    $searchIconBtn.toggleClass("hide");
+    $navListContainer.toggleClass("hide", $searchBarContainer.hasClass("show"));
+    if ($searchBarContainer.hasClass("show")) {
+      $headerHoverContainer.addClass("show");
+      $headerNormalContainer.removeClass("show");
     } else {
-      $headerHover.removeClass("show");
-      $headerNormal.addClass("show");
+      $headerHoverContainer.removeClass("show");
+      $headerNormalContainer.addClass("show");
     }
-    updateOverflow();
+    handlePageOverflowAndOverlay();
   });
 
-  // === Close Search ===
-  $searchClose.on("click", function () {
-    $searchBar.removeClass("show");
-    $searchIcon.removeClass("hide");
-    $headerNavList.removeClass("hide");
-    $headerHover.removeClass("show");
-    $headerNormal.addClass("show");
-    updateOverflow();
+  // === Close Search Bar Handler ===
+  $searchCloseBtn.on("click", function () {
+    $searchBarContainer.removeClass("show");
+    $searchIconBtn.removeClass("hide");
+    $navListContainer.removeClass("hide");
+    $headerHoverContainer.removeClass("show");
+    $headerNormalContainer.addClass("show");
+    handlePageOverflowAndOverlay();
   });
 
-  // === Header Overlay Click ===
-  $overlay.on("click", function () {
-    $searchBar.removeClass("show");
-    $headerHover.removeClass("show");
-    $headerNormal.addClass("show");
-    $searchIcon.removeClass("hide");
-    $headerNavList.removeClass("show hide");
-    updateOverflow();
+  // === Header Overlay Click (closes menus) ===
+  $headerOverlay.on("click", function () {
+    $searchBarContainer.removeClass("show");
+    $headerHoverContainer.removeClass("show");
+    $headerNormalContainer.addClass("show");
+    $searchIconBtn.removeClass("hide");
+    $navListContainer.removeClass("show hide");
+    handlePageOverflowAndOverlay();
   });
 
-  // === Slick Slider Init ===
+  // === Slick Slider Initialization ===
   $(".slick-slider").slick({});
 
-  // === Gallery Image Switch ===
+  // === Gallery Thumbnail Click (Image Switch) ===
   $("#gallery_01 a").on("click", function () {
-    const dataImage = $(this).data("image");
-    const dataZoomImage = $(this).data("zoom-image");
-    const $picture = $(".test-gallery").closest("picture");
-    $(".test-gallery").attr("src", dataImage).attr("data-zoom-image", dataZoomImage);
-    $picture
+    const imageUrl = $(this).data("image");
+    const zoomImageUrl = $(this).data("zoom-image");
+    const $galleryPicture = $(".test-gallery").closest("picture");
+    $(".test-gallery").attr("src", imageUrl).attr("data-zoom-image", zoomImageUrl);
+    $galleryPicture
       .find("source[type='image/avif']")
-      .attr("srcset", dataImage.replace(/\.(jpg|jpeg|png|webp)$/, ".avif"));
-    $picture
+      .attr("srcset", imageUrl.replace(/\.(jpg|jpeg|png|webp)$/, ".avif"));
+    $galleryPicture
       .find("source[type='image/webp']")
-      .attr("srcset", dataImage.replace(/\.(jpg|jpeg|png)$/, ".webp"));
+      .attr("srcset", imageUrl.replace(/\.(jpg|jpeg|png)$/, ".webp"));
   });
 
   // === Product Modal Handlers ===
-  function closeProductModal(productId) {
+  function closeProductModalById(productId) {
     $("#product-modal-" + productId).removeClass("product-modal--show");
     $("body").removeClass("overflow-hidden");
   }
@@ -104,37 +105,37 @@
     $("#product-modal-" + productId).addClass("product-modal--show");
     $("body").addClass("overflow-hidden");
   };
-  window.closeProductModal = closeProductModal;
+  window.closeProductModal = closeProductModalById;
 
   // === Product Modal: Add to Cart Button ===
-  document.addEventListener("click", function (e) {
-    if (e.target.matches(".product-modal__buttons--cart")) {
-      e.preventDefault();
-      window.addToCart(e.target);
+  document.addEventListener("click", function (event) {
+    if (event.target.matches(".product-modal__buttons--cart")) {
+      event.preventDefault();
+      window.addToCart(event.target);
     }
   });
 
   // === Product Modal: Buy Now Button ===
-  document.addEventListener("click", function (e) {
-    if (e.target.matches(".product-modal__buttons--buy-now")) {
-      e.preventDefault();
-      console.log("buy now clicked");
+  document.addEventListener("click", function (event) {
+    if (event.target.matches(".product-modal__buttons--buy-now")) {
+      event.preventDefault();
+      console.log("Buy Now button clicked");
     }
   });
 
-  // === Quantity Updater ===
-  window.updateQty = function (button, change) {
-    const $input = $(button).siblings(".qty-input");
-    let qty = parseInt($input.val(), 10) || 1;
-    qty = Math.max(qty + change, 1);
-    $input.val(qty);
+  // === Quantity Updater Utility ===
+  window.updateQty = function (btn, diff) {
+    const $qtyInput = $(btn).siblings(".qty-input");
+    let currentQty = parseInt($qtyInput.val(), 10) || 1;
+    currentQty = Math.max(currentQty + diff, 1);
+    $qtyInput.val(currentQty);
   };
 
   // === AJAX Add To Cart (Generic) ===
-  window.addToCart = function (button) {
-    const $form = $(button).closest("form");
-    const formData = new FormData($form[0]);
-    const productId = $form.data("product-id");
+  window.addToCart = function (btn) {
+    const $productForm = $(btn).closest("form");
+    const formData = new FormData($productForm[0]);
+    const productId = $productForm.data("product-id");
     fetch("/cart/add.js", {
       method: "POST",
       body: formData,
@@ -142,7 +143,7 @@
     })
       .then((res) => res.json())
       .then(() => {
-        closeProductModal(productId);
+        closeProductModalById(productId);
         openCartDrawer();
       })
       .catch((err) => console.error("Add to cart error:", err));
@@ -150,63 +151,65 @@
 
   // === AJAX Product Form (Variants & Cart) ===
   $(".product-form-ajax").each(function () {
-    const $form = $(this);
-    const productId = $form.data("product-id");
-    const productJson = $("#ProductJson-" + productId);
-    if (!productJson.length) return;
-    const productData = JSON.parse(productJson.text());
+    const $ajaxForm = $(this);
+    const productId = $ajaxForm.data("product-id");
+    const $productJsonElem = $("#ProductJson-" + productId);
+    if (!$productJsonElem.length) return;
+    const productData = JSON.parse($productJsonElem.text());
 
     // Disable unavailable variants
-    $form.find("fieldset").each(function (i) {
+    $ajaxForm.find("fieldset").each(function (optionIdx) {
       $(this)
         .find("input[type='radio']")
         .each(function () {
-          const val = $(this).val();
+          const value = $(this).val();
           const available = productData.variants.some(
-            (v) => v.options[i] === val && v.available
+            (variant) => variant.options[optionIdx] === value && variant.available
           );
           $(this).prop("disabled", !available).parent().toggleClass("disabled", !available);
         });
     });
 
     // On variant change
-    $form.find("input[type='radio']").on("change", function () {
-      const opts = [];
-      $form.find("fieldset").each(function (j) {
-        opts[j] = $(this).find("input:checked").val() || "";
+    $ajaxForm.find("input[type='radio']").on("change", function () {
+      const selectedOptions = [];
+      $ajaxForm.find("fieldset").each(function (fieldsetIdx) {
+        selectedOptions[fieldsetIdx] = $(this).find("input:checked").val() || "";
       });
-      const variant = productData.variants.find((v) =>
-        v.options.every((o, k) => o === opts[k])
+      const selectedVariant = productData.variants.find((variant) =>
+        variant.options.every((opt, idx) => opt === selectedOptions[idx])
       );
-      if (variant) {
-        $form.find(".selected-variant-id").val(variant.id);
-        const priceEl = $("#price-" + productId);
-        const cmpEl = $("#compare-price-" + productId);
-        if (priceEl.length) priceEl.text(Shopify.formatMoney(variant.price, Shopify.money_format));
-        if (cmpEl.length) {
-          if (variant.compare_at_price > variant.price)
-            cmpEl.show().text(Shopify.formatMoney(variant.compare_at_price, Shopify.money_format));
-          else cmpEl.hide();
+      if (selectedVariant) {
+        $ajaxForm.find(".selected-variant-id").val(selectedVariant.id);
+        const $priceEl = $("#price-" + productId);
+        const $comparePriceEl = $("#compare-price-" + productId);
+        if ($priceEl.length)
+          $priceEl.text(Shopify.formatMoney(selectedVariant.price, Shopify.money_format));
+        if ($comparePriceEl.length) {
+          if (selectedVariant.compare_at_price > selectedVariant.price)
+            $comparePriceEl.show().text(Shopify.formatMoney(selectedVariant.compare_at_price, Shopify.money_format));
+          else
+            $comparePriceEl.hide();
         }
-        const stockEl = $("#stock-status-" + productId);
-        if (stockEl.length)
-          stockEl.text(variant.available ? "In Stock" : "Out of Stock");
+        const $stockStatusEl = $("#stock-status-" + productId);
+        if ($stockStatusEl.length)
+          $stockStatusEl.text(selectedVariant.available ? "In Stock" : "Out of Stock");
       }
     });
 
-    // On form submit
-    $form.on("submit", function (e) {
-      e.preventDefault();
-      const vid = $form.find(".selected-variant-id").val();
-      const qty = parseInt($form.find(".qty-input").val(), 10) || 1;
+    // On AJAX form submit
+    $ajaxForm.on("submit", function (event) {
+      event.preventDefault();
+      const variantId = $ajaxForm.find(".selected-variant-id").val();
+      const quantity = parseInt($ajaxForm.find(".qty-input").val(), 10) || 1;
       fetch("/cart/add.js", {
         method: "POST",
         headers: { "Content-Type": "application/json", Accept: "application/json" },
-        body: JSON.stringify({ items: [{ id: vid, quantity: qty }] })
+        body: JSON.stringify({ items: [{ id: variantId, quantity: quantity }] })
       })
         .then((res) => res.json())
         .then(() => {
-          closeProductModal(productId);
+          closeProductModalById(productId);
           openCartDrawer();
         })
         .catch((err) => {
@@ -215,176 +218,175 @@
     });
   });
 
-  // === Cart Drawer Helpers ===
+  // === Cart Drawer Open/Close ===
   function openCartDrawer() {
-    const drawer = document.getElementById("cart-drawer");
-    if (!drawer) return;
-    drawer.classList.add("is-active", "is-visible");
-    drawer.setAttribute("aria-hidden", "false");
+    const cartDrawer = document.getElementById("cart-drawer");
+    if (!cartDrawer) return;
+    cartDrawer.classList.add("is-active", "is-visible");
+    cartDrawer.setAttribute("aria-hidden", "false");
     document.body.style.overflow = "hidden";
     fetchCartData();
   }
   function closeCartDrawer() {
-    const drawer = document.getElementById("cart-drawer");
-    if (!drawer) return;
-    drawer.classList.remove("is-visible", "is-active");
-    drawer.setAttribute("aria-hidden", "true");
+    const cartDrawer = document.getElementById("cart-drawer");
+    if (!cartDrawer) return;
+    cartDrawer.classList.remove("is-visible", "is-active");
+    cartDrawer.setAttribute("aria-hidden", "true");
     document.body.style.overflow = "";
   }
 
-  // === Loader Functions ===
+  // === Loader Show/Hide ===
   function showLoader() {
-    const loader = document.getElementById("loader");
-    if (loader) loader.style.display = "block";
+    const loaderElem = document.getElementById("loader");
+    if (loaderElem) loaderElem.style.display = "block";
   }
   function hideLoader() {
-    const loader = document.getElementById("loader");
-    if (loader) loader.style.display = "none";
+    const loaderElem = document.getElementById("loader");
+    if (loaderElem) loaderElem.style.display = "none";
   }
 
-  // === Cart Data & Rendering ===
+  // === Fetch and Render Cart Data ===
   function fetchCartData() {
     fetch("/cart.js")
-      .then((r) => r.json())
+      .then((response) => response.json())
       .then((cart) => {
-        renderCartItems(cart);
+        renderCartDrawerItems(cart);
       })
-      .catch((e) => console.error("fetchCartData error", e));
+      .catch((error) => console.error("fetchCartData error", error));
   }
-  function renderCartItems(cart) {
-    const drawer = document.querySelector(".cart__drawer_items");
-    const emptyMsg = document.getElementById("cart-item-empty");
-    const totalEl = document.getElementById("cart__total_price");
-    if (!drawer || !emptyMsg || !totalEl) return;
-    drawer.innerHTML = "";
+  function renderCartDrawerItems(cart) {
+    const cartDrawerItems = document.querySelector(".cart__drawer_items");
+    const emptyCartMsg = document.getElementById("cart-item-empty");
+    const totalPriceElem = document.getElementById("cart__total_price");
+    if (!cartDrawerItems || !emptyCartMsg || !totalPriceElem) return;
+    cartDrawerItems.innerHTML = "";
     if (!cart.items || cart.items.length === 0) {
-      emptyMsg.hidden = false;
-      totalEl.innerHTML = `<strong>Rs. 0.00</strong>`;
+      emptyCartMsg.hidden = false;
+      totalPriceElem.innerHTML = `<strong>Rs. 0.00</strong>`;
       return;
     }
-    emptyMsg.hidden = true;
+    emptyCartMsg.hidden = true;
     cart.items.forEach((item) => {
-      const div = document.createElement("div");
-      div.classList.add("cartpopup-item", "cart-item");
-      div.innerHTML = `
+      const itemDiv = document.createElement("div");
+      itemDiv.classList.add("cartpopup-item", "cart-item");
+      itemDiv.innerHTML = `
+      <div class="cart__item cartpopup-item">
         <div class="card__item-image">
-          <img src="${item.image}&width=95&height=100&format=webp" width="95" height="100" alt="${item
-        .title}">
+          <img src="${item.image}&width=95&height=100&format=webp" width="95" height="100" alt="${item.title}">
         </div>
         <div class="card__item-content">
           <h4 class="card__item--title">${item.title}</h4>
-          <div class="card__item--price productPrice"><span class="money">Rs. ${(
-            item.price / 100
-          ).toFixed(2)}</span></div>
+          <div class="card__item--price productPrice"><span class="money">Rs. ${(item.price / 100).toFixed(2)}</span></div>
           <div class="cart-item__qtyWrapper">
+          <div class="cart-item__qty">
             <button class="qty-decrease" data-line-key="${item.key}">-</button>
-            <input class="cart-qty-input" data-line-key="${item.key}" value="${
-        item.quantity
-      }" />
+            <input class="cart-qty-input" data-line-key="${item.key}" value="${item.quantity}" />
             <button class="qty-increase" data-line-key="${item.key}">+</button>
           </div>
+          </div>
+           <div class="delete">
           <button class="cart-item__remove-btn" data-line-key="${item.key}">Remove</button>
+          </div>
+          </div>
         </div>`;
-      drawer.appendChild(div);
+      cartDrawerItems.appendChild(itemDiv);
     });
     const subtotal = (cart.items_subtotal_price / 100).toFixed(2);
     const discount = (cart.total_discount / 100).toFixed(2);
-    totalEl.innerHTML =
+    totalPriceElem.innerHTML =
       cart.total_discount > 0
         ? `<div><strong>Discount:</strong> -Rs. ${discount}</div><div><strong>Total:</strong> Rs. ${subtotal}</div>`
         : `<div>Rs. ${subtotal}</div>`;
   }
 
-  function removeCartItem(key) {
+  function removeCartItemByKey(itemKey) {
     showLoader();
     fetch("/cart/change.js", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id: key, quantity: 0 }),
+      body: JSON.stringify({ id: itemKey, quantity: 0 }),
     })
-      .then((r) => r.json())
+      .then((response) => response.json())
       .then((cart) => {
-        renderCartItems(cart);
+        renderCartDrawerItems(cart);
         hideLoader();
       })
-      .catch((e) => {
+      .catch((error) => {
         alert("Remove failed");
         hideLoader();
       });
   }
-  function changeCartItemQuantity(key, qty) {
+  function updateCartItemQuantity(itemKey, newQty) {
     showLoader();
     fetch("/cart/change.js", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id: key, quantity: qty < 1 ? 1 : qty }),
+      body: JSON.stringify({ id: itemKey, quantity: newQty < 1 ? 1 : newQty }),
     })
-      .then((r) => r.json())
+      .then((response) => response.json())
       .then((cart) => {
-        renderCartItems(cart);
+        renderCartDrawerItems(cart);
         hideLoader();
       })
-      .catch((e) => {
+      .catch((error) => {
         alert("Update failed");
         hideLoader();
       });
   }
 
-  // === Global Event Handlers ===
-  document.addEventListener("click", (e) => {
-    const t = e.target;
-    if (t.matches(".qty-increase") || t.matches(".qty-decrease")) {
-      const key = t.dataset.lineKey;
-      const inp = document.querySelector(
-        `input.cart-qty-input[data-line-key="${key}"]`
-      );
-      let val = parseInt(inp.value, 10) || 1;
-      val += t.matches(".qty-increase") ? 1 : -1;
-      changeCartItemQuantity(key, Math.max(val, 1));
+  // === Global Event Handlers (Cart Drawer + Qty) ===
+  document.addEventListener("click", (event) => {
+    const target = event.target;
+    if (target.matches(".qty-increase") || target.matches(".qty-decrease")) {
+      const lineKey = target.dataset.lineKey;
+      const qtyInput = document.querySelector(`input.cart-qty-input[data-line-key="${lineKey}"]`);
+      let currentQty = parseInt(qtyInput.value, 10) || 1;
+      currentQty += target.matches(".qty-increase") ? 1 : -1;
+      updateCartItemQuantity(lineKey, Math.max(currentQty, 1));
     }
-    if (t.matches(".cart-item__remove-btn")) removeCartItem(t.dataset.lineKey);
-    const drawer = document.getElementById("cart-drawer");
+    if (target.matches(".cart-item__remove-btn")) removeCartItemByKey(target.dataset.lineKey);
+    const cartDrawer = document.getElementById("cart-drawer");
     if (
-      drawer.classList.contains("is-active") &&
-      !drawer.contains(t) &&
-      !t.closest("#cart-icon-bubble")
+      cartDrawer.classList.contains("is-active") &&
+      !cartDrawer.contains(target) &&
+      !target.closest("#cart-icon-bubble")
     ) {
       closeCartDrawer();
     }
   });
 
-  document.addEventListener("change", (e) => {
-    if (e.target.matches("input.cart-qty-input")) {
-      const key = e.target.dataset.lineKey;
-      let v = parseInt(e.target.value, 10);
-      changeCartItemQuantity(key, isNaN(v) || v < 1 ? 1 : v);
+  document.addEventListener("change", (event) => {
+    if (event.target.matches("input.cart-qty-input")) {
+      const lineKey = event.target.dataset.lineKey;
+      let inputVal = parseInt(event.target.value, 10);
+      updateCartItemQuantity(lineKey, isNaN(inputVal) || inputVal < 1 ? 1 : inputVal);
     }
   });
 
-  // === Initialization ===
+  // === Initialization on DOM Ready ===
   document.addEventListener("DOMContentLoaded", () => {
     hideLoader();
-    const trigger = document.getElementById("cart-icon-bubble");
-    const drawerEl = document.getElementById("cart-drawer");
-    const backdrop = drawerEl.querySelector(".drawer__overlay");
-    trigger.addEventListener("click", (e) => {
-      e.preventDefault();
+    const $cartTrigger = document.getElementById("cart-icon-bubble");
+    const $cartDrawer = document.getElementById("cart-drawer");
+    const $cartDrawerBackdrop = $cartDrawer.querySelector(".drawer__overlay");
+    $cartTrigger.addEventListener("click", (event) => {
+      event.preventDefault();
       openCartDrawer();
     });
-    drawerEl.querySelectorAll("[data-drawer-close]").forEach((btn) =>
-      btn.addEventListener("click", (e) => {
-        e.preventDefault();
+    $cartDrawer.querySelectorAll("[data-drawer-close]").forEach((btn) =>
+      btn.addEventListener("click", (event) => {
+        event.preventDefault();
         closeCartDrawer();
       })
     );
-    if (backdrop) backdrop.addEventListener("click", closeCartDrawer);
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape" && drawerEl.classList.contains("is-active")) {
+    if ($cartDrawerBackdrop) $cartDrawerBackdrop.addEventListener("click", closeCartDrawer);
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && $cartDrawer.classList.contains("is-active")) {
         closeCartDrawer();
       }
     });
     fetchCartData();
   });
 
-  console.log("drawer.js loaded");
+  console.log("shop-drawer.js loaded");
 })(jQuery);
