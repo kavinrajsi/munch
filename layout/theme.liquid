@@ -74,6 +74,8 @@
     {% section 'drawer' %}
     {% section 'drawer-product' %}
     {% section 'predictive-search' %}
+    <div id="header-overlay" class="header-overlay"></div>
+
     {% assign potential_action_target = request.origin
       | append: routes.search_url
       | append: '?q={search_term_string}'

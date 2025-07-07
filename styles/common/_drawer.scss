@@ -3,6 +3,8 @@
 
   &.is-active {
     display: block;
+    z-index: 1000; // Ensure the drawer is above other content
+    position: relative;
   }
 
   &.is-visible .drawer__wrapper {
