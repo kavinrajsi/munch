@@ -28,7 +28,7 @@
         "show_article_content": false,
         "truncate_length": 150,
         "blog": "article",
-        "articles_limit": 2,
+        "articles_limit": 3,
         "blog_type": "default",
         "blog_template": "blog"
       }
