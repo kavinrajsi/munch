@@ -163,4 +163,9 @@
       }
     }
   }
+
+  .blog-feed--blog__tags {
+    display: inline-flex;
+    gap: 4px;
+  }
 }
