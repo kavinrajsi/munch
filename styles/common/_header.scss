@@ -11,11 +11,12 @@
     .layout__grid-box {
       display: flex;
       align-items: center;
+      align-items: flex-start;
       justify-content: space-between;
       padding: 24px 16px;
     }
   }
-  &.header-normal.show{
+  &.header-normal.show {
     z-index: 4;
     position: relative;
   }
@@ -167,8 +168,8 @@
 
   .search-bar-wrapper {
     background-color: #fff;
-  border-bottom-left-radius: 10px;
-  border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
     padding: 27px 20px 20px;
     display: flex;
     @media (min-width: 768px) {
@@ -197,7 +198,6 @@
       width: calc(100% - 32px - 14px);
       @media (min-width: 768px) {
         min-width: 690px;
-        width: initial;
       }
     }
     button {
@@ -257,4 +257,78 @@
       display: inline-block;
     }
   }
+}
+
+#predictive-search-results-list {
+  display: flex;
+  // grid-template-columns: repeat(4, 1fr);
+  flex-wrap: wrap;
+  gap: 8px;
+  max-width: 690px;
+  padding-top: 16px;
+  .predictive-search__list-item {
+    flex: 0 0 calc(100% / 4 - 8px);
+    max-width: calc(100% / 4 - 8px);
+    .predictive-search__item {
+      .predictive-search__image {
+        border-radius: 4px;
+      }
+
+      .product__card--status-soldout {
+        position: absolute;
+        top: 0;
+        right: 0;
+        padding: 4px;
+        background: #c61d23;
+        border-radius: 6px;
+        color: #ffffff;
+        text-align: center;
+        font-style: normal;
+        font-weight: 400;
+        font-size: 12px;
+        line-height: normal;
+        margin: 4px;
+      }
+      .predictive-search__item-content {
+        .predictive-search__item-heading {
+          display: block;
+          font-style: normal;
+          font-weight: 600;
+          font-size: 16px;
+          line-height: 20px;
+          /* Primary/Red2 */
+          color: #a5161a;
+          padding-top: 4px;
+        }
+        .predictive-search__item-price {
+          display: block;
+          font-style: normal;
+          font-weight: 400;
+          font-size: 16px;
+          line-height: 20px;
+          /* identical to box height */
+
+          /* Primary/Red3 */
+          color: #660808;
+        }
+      }
+    }
+  }
+}
+.predictive-search__button {
+  display: block;
+  /* Primary/Red1 */
+  padding: 12px 16px;
+  background: #c61d23;
+  border-radius: 6px;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  /* identical to box height */
+  text-align: center;
+  /* Neutral/White1 */
+  color: #ffffff;
+  width: 100%;
+  margin-top: 8px;
 }

@@ -142,10 +142,36 @@
     <!-- Search Bar -->
     <div id="search-bar" class="search-bar">
       <div class="search-bar-wrapper">
-        <form action="{{ routes.root_url }}search" method="get" role="search">
-          <input type="search" name="q" placeholder="Search products">
-        </form>
-          <button id="search-close" class="search-close" aria-label="Close Search"> {% render 'icon-close' %}</button>
+        <predictive-search>
+          <form action="{{ routes.search_url }}" method="get" role="search">
+            <div class="predictive-search ">
+              <label hidden for="Search">Search</label>
+              <input
+                id="search"
+                type="search"
+                name="q"
+                placeholder="Search products"
+                value="{{ search.terms | escape }}"
+                role="combobox"
+                aria-expanded="false"
+                aria-owns="predictive-search-results-list"
+                aria-controls="predictive-search-results-list"
+                aria-haspopup="listbox"
+                aria-autocomplete="list"
+                autocorrect="off"
+                autocomplete="off"
+                autocapitalize="off"
+                spellcheck="false"
+              >
+
+              <button id="search-close" class="search-close" aria-label="Close Search">
+                {% render 'icon-close' %}
+              </button>
+              <input name="type" type="hidden" value="product,page&options[unavailable_products]=hide">
+            </div>
+          </form>
+            <div id="predictive-search-results"></div>
+        </predictive-search>
       </div>
     </div>
 

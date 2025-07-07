@@ -24,25 +24,13 @@
   <div class="product__info">
     <h4 class="heading--4 product__title">{{ product.title }}</h4>
 
-    <!-- Compare at price (if discounted) -->
-    <div class="prpdice">
-      {% if product.compare_at_price > product.price %}
-        <span class="product__compare-price">
-          {{ product.compare_at_price | money }}
-        </span>
-      {% endif %}
-    </div>
-
     <!-- Current price -->
     <div class="product__price">
-      {% if product.price < product.compare_at_price %}
-        <span class="product__sale-price">
-          {{ product.price | money }}
-        </span>
+      {% if product.compare_at_price_max > product.price %}
+        <small><s>{{ product.compare_at_price_max | money_with_currency }}</s></small>
+        <span>{{ product.price | money_with_currency }}</span>
       {% else %}
-        <span class="product__regular-price">
-          {{ product.price | money }}
-        </span>
+        <span>{{ product.price | money_with_currency }}</span>
       {% endif %}
     </div>
 
@@ -77,14 +65,14 @@
       </div>
       <!-- Dynamic Price -->
       <div class="product-modal__price">
-        <span class="price-reg" id="price-{{ product.id }}">{{ current_variant.price | money }}</span>
         {% if current_variant.compare_at_price > current_variant.price %}
-          <span class="price-sale" id="compare-price-{{ product.id }}">
+          <small class="price-sale" id="compare-price-{{ product.id }}">
             <s>{{ current_variant.compare_at_price | money }}</s>
-          </span>
+          </small>
         {% else %}
           <span class="price-sale" id="compare-price-{{ product.id }}" style="display:none;"></span>
         {% endif %}
+        <span class="price-reg" id="price-{{ product.id }}">{{ current_variant.price | money }}</span>
       </div>
       <!-- Stock Display -->
       <div class="product-modal__stock-status" id="stock-status-{{ product.id }}" style="display: none;">

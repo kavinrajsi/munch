@@ -269,6 +269,8 @@
     cart.items.forEach((item) => {
       const itemDiv = document.createElement("div");
       itemDiv.classList.add("cartpopup-item", "cart-item");
+      // console.table(item);
+      console.log(item);
       itemDiv.innerHTML = `
       <div class="cart__item cartpopup-item">
         <div class="card__item-image">
@@ -295,7 +297,7 @@
     const discount = (cart.total_discount / 100).toFixed(2);
     totalPriceElem.innerHTML =
       cart.total_discount > 0
-        ? `<div><strong>Discount:</strong> -Rs. ${discount}</div><div><strong>Total:</strong> Rs. ${subtotal}</div>`
+        ? `<!-- <div><strong>Discount:</strong> -Rs. ${discount}</div> --><div><strong>Total:</strong> Rs. ${subtotal}</div>`
         : `<div>Rs. ${subtotal}</div>`;
   }
 

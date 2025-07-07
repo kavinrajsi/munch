@@ -226,10 +226,20 @@
           /* Primary/Red2 */
           color: #a5161a;
           font-size: 60%;
+          .line-item__option-block{
+            div{
+              display: inline-block;
+              &.line-item__value{
+                padding-left: 4px;
+              }
+            }
+          }
         }
       }
 
       .remove-btn {
+        padding: 0;
+        margin: 0;
         /* Body2 */
         font-family: var(--font-header);
         font-style: normal;

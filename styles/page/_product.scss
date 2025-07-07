@@ -19,7 +19,7 @@
       display: flex;
       flex-direction: row;
       @media (min-width: 768px) {
-      flex-direction: column;
+        flex-direction: column;
       }
       gap: 8px;
       img {
@@ -85,9 +85,9 @@
   }
 
   .product--price {
-    /* Rs. 166.00 */
     padding-bottom: 24px;
     small {
+      padding-top: 4px;
       display: block;
       /* Body2 */
       font-family: var(--font-header);
@@ -100,7 +100,7 @@
       /* Primary/Red3 */
       color: #660808;
     }
-    .money {
+    .variant-price-money {
       display: block;
       /* Heading4 */
       font-family: var(--font-header);
@@ -112,6 +112,9 @@
 
       /* Primary/Red2 */
       color: #a5161a;
+      small {
+        font-size: smaller;
+      }
     }
   }
 
@@ -314,13 +317,11 @@
   }
 }
 
-
-
 .product-slide-modal {
   display: block;
   &.hidden {
-  display: block;
-}
+    display: block;
+  }
   .product-modal__content.active {
     display: block;
   }
@@ -334,8 +335,12 @@
 }
 
 @keyframes loading {
-  0% { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
 }
 
 /* Disabled variant option styling */
@@ -362,7 +367,9 @@
 }
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* Keep image container height stable to avoid layout shifts */

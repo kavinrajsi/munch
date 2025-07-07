@@ -82,28 +82,50 @@
 
   <!-- RIGHT: Product Details -->
   <div class="product-details">
-    <code>
-      <!-- {{  product | json }} -->
-    </code>
+    {% comment %}
+      <code>
+        {{  product | json }}
+      </code>
+    {% endcomment %}
     <h1 itemprop="name" class="product--title">{{ product.title }}</h1>
 
     <div itemprop="description" class="product--description">
       {{ product.description }}
     </div>
     <p class="product--price">
-      <span id="variant-price" class="money" itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+      <span
+        id="variant-price"
+        class="variant-price-money"
+        itemprop="offers"
+        itemscope
+        itemtype="http://schema.org/Offer"
+      >
         <meta itemprop="priceCurrency" content="{{ shop.currency }}">
         <meta itemprop="price" content="{{ product.price | money_without_currency }}">
         <link
           itemprop="availability"
           href="http://schema.org/{% if product.available %}InStock{% else %}OutOfStock{% endif %}"
         >
-        {{ product.price | money_with_currency }}
+        {% if product.compare_at_price_max > product.price %}
+          <small
+            ><s>{{ product.compare_at_price_max | money_with_currency }}</s></small
+          >
+          <span>{{ product.price | money_with_currency }}</span>
+        {% else %}
+          <span>{{ product.price | money_with_currency }}</span>
+        {% endif %}
       </span>
-
       <small>Tax included</small>
     </p>
-    <div class="hidden" style="display: none;">
+
+    {% assign variant = product.selected_or_first_available_variant %}
+    {% if variant.compare_at_price > variant.price %}
+      {% assign discount = variant.compare_at_price | minus: variant.price %}
+      {% assign discount_percent = discount | times: 100 | divided_by: variant.compare_at_price %}
+      <span class="product--discount">Save {{ discount_percent | round }}% Off</span>
+    {% endif %}
+
+    <div class="" style="display: none;">
       <p>
         <strong>SKU:</strong> <span id="variant-sku">{{ product.selected_or_first_available_variant.sku }}</span>
       </p>

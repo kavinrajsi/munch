@@ -3,7 +3,7 @@ class PredictiveSearch extends HTMLElement {
     super();
 
     this.input = this.querySelector('input[type="search"]');
-    this.predictiveSearchResults = this.querySelector('#predictive-search');
+    this.predictiveSearchResults = this.querySelector('#predictive-search-results');
 
     this.input.addEventListener('input', this.debounce((event) => {
       this.onChange(event);
@@ -33,9 +33,14 @@ class PredictiveSearch extends HTMLElement {
         return response.text();
       })
       .then((text) => {
-        const resultsMarkup = new DOMParser().parseFromString(text, 'text/html').querySelector('#shopify-section-predictive-search').innerHTML;
-        this.predictiveSearchResults.innerHTML = resultsMarkup;
-        this.open();
+        const html = new DOMParser().parseFromString(text, 'text/html');
+        const section = html.querySelector('#shopify-section-predictive-search');
+        if (section) {
+          this.predictiveSearchResults.innerHTML = section.querySelector('#predictive-search-results').innerHTML;
+          this.open();
+        } else {
+          this.close();
+        }
       })
       .catch((error) => {
         this.close();
