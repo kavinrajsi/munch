@@ -20,10 +20,17 @@
       "type": "blog-feed",
       "name": "Blog Articles",
       "settings": {
+        "blog_title": "Blog",
         "blog_show_author": true,
         "blog_show_date": true,
+        "show_tags": true,
+        "show_comments": true,
+        "show_article_content": false,
+        "truncate_length": 150,
         "blog": "article",
-        "articles_limit": 3
+        "articles_limit": 2,
+        "blog_type": "default",
+        "blog_template": "blog"
       }
     },
     "product_slider_77iBNe": {
@@ -31,7 +38,16 @@
       "name": "Pickle Page / Combo Collection",
       "settings": {
         "heading": "Pick a Combo",
-        "collection": "savory"
+        "collection": "savory",
+        "background_color": "#ffffff",
+        "slides_to_show": 4,
+        "slides_to_scroll": 1,
+        "breakpoint_1": 1024,
+        "slides_to_show_bp1": 3,
+        "breakpoint_2": 768,
+        "slides_to_show_bp2": 2,
+        "breakpoint_3": 480,
+        "slides_to_show_bp3": 1
       }
     }
   },
