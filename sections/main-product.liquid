@@ -332,7 +332,7 @@
 <div class="related-product layout__grid-box">
   {% if product.collections.size > 0 %}
     {% assign current_collection = product.collections.first %}
-    <h2 class="heading--2">More from {{ current_collection.title }}</h2>
+    <h2 class="heading--2">Complete the Meal</h2>
     <div class="related-products-grid">
       {% assign shown_count = 0 %}
       {% for related_product in current_collection.products %}
@@ -488,11 +488,13 @@
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     const container = document.getElementById('recently-viewed-container');
+    const section = document.getElementById('recently-viewed-section');
     const handles = JSON.parse(localStorage.getItem('recently_viewed')) || [];
 
     const filtered = handles.filter((handle) => handle !== '{{ product.handle }}').slice(0, 4);
 
     if (filtered.length === 0) {
+      section.style.display = 'none';
       container.innerHTML = '<p>No recently viewed products.</p>';
       return;
     }
@@ -504,46 +506,37 @@
           const html = `
             <div class="product__slider--card">
               <a href="/products/${product.handle}">
-
-      <picture>
-        <source srcset="${
-          product.featured_image
-        }&width=265&height=320&format=webp" width="265" height="320" type="image/pjpg">
-        <source srcset="${
-          product.featured_image
-        }&width=265&height=320&format=webp" width="265" height="320" type="image/webp">
-        <img
-          src="${product.featured_image}&width=265&height=320&format=webp" width="265" height="320" "
-          width="265"
-          height="320"
-          loading="lazy"
-          decoding="async"
-          alt="${product.title}"
-        >
-      </picture>
-                  <div class="product__info">
-    <h4 class="heading--4 product__title">${product.title}</h4>
-
-
-
-    <!-- Current price -->
-    <div class="product__price">
-      ${Shopify.formatMoney(product.price, '{{ shop.money_format }}')}
-    </div>
-
-    <!-- Select Option button for multi-variant products -->
-
-    <button
-      class="product__select-option-button select-option-button"
-      data-product-handle="{{ product.handle }}"
-      type="button"
-      onclick="openProductModal({{ product.id }})"
-    >
-      Select Option
-    </button>
-  </div>
-
+                <picture>
+                  <source srcset="${
+                    product.featured_image
+                  }&width=265&height=320&format=webp" width="265" height="320" type="image/pjpg">
+                  <source srcset="${
+                    product.featured_image
+                  }&width=265&height=320&format=webp" width="265" height="320" type="image/webp">
+                  <img
+                    src="${product.featured_image}&width=265&height=320&format=webp" width="265" height="320" "
+                    width="265"
+                    height="320"
+                    loading="lazy"
+                    decoding="async"
+                    alt="${product.title}"
+                  >
+                </picture>
               </a>
+              <div class="product__info">
+                <h4 class="heading--4 product__title">${product.title}</h4>
+                <!-- Current price -->
+                <div class="product__price">
+                ${Shopify.formatMoney(product.price, '{{ shop.money_format }}')}
+                </div>
+                <button
+                  class="product__select-option-button select-option-button"
+                   data-product-handle="{{ product.handle }}"
+              type="button"
+                >
+                  Select Option
+                </button>
+              </div>
             </div>
           `;
           container.innerHTML += html;

@@ -247,8 +247,26 @@
   }
   .made-with-love--lists {
     display: grid;
-    gap: 16px;
-    grid-template-columns: repeat(5, 1fr);
+    gap: 16px 10px;
+    grid-template-columns: 1fr;
+    @media (min-width: 768px) {
+      grid-template-columns: repeat(5, 1fr);
+    }
+    .made-with-love--list {
+      padding-left: 16px;
+      padding-right: 16px;
+      display: flex;
+      align-items: center;
+      .made-with-love-icon {
+        padding-right: 16px;
+        display: inline-block;
+      }
+    }
+    @media (min-width: 768px) {
+      .made-with-love--list:not(:last-child) {
+        border-right: 0.4px solid #660808;
+      }
+    }
   }
 }
 
@@ -320,7 +338,7 @@
 .product-slide-modal {
   display: block;
   &.hidden {
-    display: block;
+    display: none;
   }
   .product-modal__content.active {
     display: block;
