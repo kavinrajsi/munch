@@ -1,7 +1,13 @@
-<div class="store-locations">
-  <h1>Store Locations</h1>
+<div class="layout__grid-box">
+  <div class="store-locations__header">
+    <h1 class="heading--2">Store Locations</h1>
+    <input id="search-input" class="search-box" type="text" placeholder="Search places...">
+  </div>
 
-  <!-- JSON-LD Structured Data -->
+  <div class="store-locations__map">
+    <div id="map"></div>
+  </div>
+
   <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -195,273 +201,301 @@
     }
   </script>
 
-  <!-- Aminjikarai -->
-  <div class="store" itemscope itemtype="https://schema.org/LocalBusiness">
-    <h2 itemprop="name">Aminjikarai</h2>
-    <div itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">
-      <p>
-        <span itemprop="streetAddress">No. 52, Priyan Plaza, Nelson Manickam Road, Railway Colony</span>,
-        <span itemprop="addressLocality">Aminjikarai, Chennai</span>, <span itemprop="addressRegion">Tamil Nadu</span> -
-        <span itemprop="postalCode">600029</span>
+  <div class="store-locations__address">
+    <!-- Aminjikarai -->
+    <div class="store" itemscope itemtype="https://schema.org/LocalBusiness">
+      <h2 itemprop="name">Aminjikarai</h2>
+      <div itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">
+        <address>
+          <span itemprop="streetAddress">No. 52, Priyan Plaza, Nelson Manickam Road, Railway Colony</span>,
+          <span itemprop="addressLocality">Aminjikarai, Chennai</span>,
+          <span itemprop="addressRegion">Tamil Nadu</span> -
+          <span itemprop="postalCode">600029</span>
+        </address>
+      </div>
+      <p class="address__phone-number">
+        <strong>Phone:</strong><span itemprop="telephone">044-4359 1021</span>,
+        <span itemprop="telephone">8056164927</span>
       </p>
+      <p class="address__timing"><strong>Timing:</strong> <span itemprop="openingHours">8am - 11pm</span></p>
+      <a
+        class="address__location-link"
+        type="button"
+        href="https://www.google.com/maps/search/?api=1&query=No. 52, Priyan Plaza, Nelson Manickam Road, Railway Colony, Aminjikarai, Chennai, Tamil Nadu - 600029"
+        target="_blank"
+        >Get Directions</a
+      >
     </div>
-    <p>
-      <strong>Phone:</strong> <span itemprop="telephone">044-4359 1021</span>,
-      <span itemprop="telephone">8056164927</span>
-    </p>
-    <p><strong>Timing:</strong> <span itemprop="openingHours">8am - 11pm</span></p>
-    <a
-      href="https://www.google.com/maps/search/?api=1&query=No. 52, Priyan Plaza, Nelson Manickam Road, Railway Colony, Aminjikarai, Chennai, Tamil Nadu - 600029"
-      target="_blank"
-      >Get Directions</a
-    >
+
+    <!-- Anna Nagar East -->
+    <div class="store" itemscope itemtype="https://schema.org/LocalBusiness">
+      <h2 itemprop="name">Anna Nagar East</h2>
+      <div itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">
+        <address>
+          <span itemprop="streetAddress">C40, 2nd Ave, AF Block</span>,
+          <span itemprop="addressLocality">Anna Nagar, Chennai,</span>
+          <span itemprop="addressRegion">Tamil Nadu</span> -
+          <span itemprop="postalCode">600040</span>
+        </address>
+      </div>
+      <p class="address__phone-number">
+        <strong>Phone:</strong><span itemprop="telephone">71186 44435,</span>
+        <span itemprop="telephone">044-2853 4905</span>
+      </p>
+      <p class="address__timing"><strong>Timing:</strong> <span itemprop="openingHours">8am - 11pm</span></p>
+      <a
+        class="address__location-link"
+        type="button"
+        href="https://www.google.com/maps/search/?api=1&query=C40, 2nd Ave, AF Block, Anna Nagar, Chennai, Tamil Nadu - 600040"
+        target="_blank"
+        >Get Directions</a
+      >
+    </div>
+
+    <!-- Arumbakkam -->
+    <div class="store" itemscope itemtype="https://schema.org/LocalBusiness">
+      <h2 itemprop="name">Arumbakkam</h2>
+      <div itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">
+        <address>
+          <span itemprop="streetAddress">71/F, Razzak Garden Main Road, near NSK Signal,</span>
+          <span itemprop="addressLocality">Chennai,</span> <span itemprop="addressRegion">Tamil Nadu</span> -
+          <span itemprop="postalCode">600106</span>
+        </address>
+      </div>
+      <p class="address__phone-number">
+        <strong>Phone:</strong><span itemprop="telephone">044-4359 2744,</span>
+        <span itemprop="telephone">7358576128</span>
+      </p>
+      <p class="address__timing"><strong>Timing:</strong> <span itemprop="openingHours">8am - 11pm</span></p>
+      <a
+        class="address__location-link"
+        type="button"
+        href="https://www.google.com/maps/search/?api=1&query=71/F, Razzak Garden Main Road, Chennai, Tamil Nadu - 600106"
+        target="_blank"
+        >Get Directions</a
+      >
+    </div>
+
+    <!-- Kanchipuram -->
+    <div class="store" itemscope itemtype="https://schema.org/LocalBusiness">
+      <h2 itemprop="name">Kanchipuram</h2>
+      <div itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">
+        <address>
+          <span itemprop="streetAddress">No. 70, Annai Indira Gandhi Salai, Nellikura Street,</span>
+          <span itemprop="addressLocality">Kanchipuram,</span> <span itemprop="addressRegion">Tamil Nadu</span> -
+          <span itemprop="postalCode">631502</span>
+        </address>
+      </div>
+      <p class="address__phone-number">
+        <strong>Phone:</strong><span itemprop="telephone">044-43957734,</span>
+        <span itemprop="telephone">7358521133</span>
+      </p>
+      <p class="address__timing"><strong>Timing:</strong> <span itemprop="openingHours">6am - 11pm</span></p>
+      <a
+        class="address__location-link"
+        type="button"
+        href="https://www.google.com/maps/search/?api=1&query=70, Annai Indira Gandhi Salai, Kanchipuram, Tamil Nadu - 631502"
+        target="_blank"
+        >Get Directions</a
+      >
+    </div>
+
+    <!-- Kilpauk -->
+    <div class="store" itemscope itemtype="https://schema.org/LocalBusiness">
+      <h2 itemprop="name">Kilpauk</h2>
+      <div itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">
+        <address>
+          <span itemprop="streetAddress">58, Taylors Road, Telecom Quarters,</span>
+          <span itemprop="addressLocality">Chennai,</span> <span itemprop="addressRegion">Tamil Nadu</span> -
+          <span itemprop="postalCode">600010</span>
+        </address>
+      </div>
+      <p class="address__phone-number">
+        <strong>Phone:</strong><span itemprop="telephone">044-26453020,</span>
+        <span itemprop="telephone">8925535531</span>
+      </p>
+      <p class="address__timing"><strong>Timing:</strong> <span itemprop="openingHours">8am - 11pm</span></p>
+      <a
+        class="address__location-link"
+        type="button"
+        href="https://www.google.com/maps/search/?api=1&query=58, Taylors Road, Kilpauk, Chennai, Tamil Nadu - 600010"
+        target="_blank"
+        >Get Directions</a
+      >
+    </div>
+
+    <!-- Mylapore -->
+    <div class="store" itemscope itemtype="https://schema.org/LocalBusiness">
+      <h2 itemprop="name">Mylapore</h2>
+      <div itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">
+        <address>
+          <span itemprop="streetAddress">39, North Mada Street, Madhavaperumalpuram,</span>
+          <span itemprop="addressLocality">Chennai,</span> <span itemprop="addressRegion">Tamil Nadu</span> -
+          <span itemprop="postalCode">600004</span>
+        </address>
+      </div>
+      <p class="address__phone-number">
+        <strong>Phone:</strong><span itemprop="telephone">044-4201 4172,</span>
+        <span itemprop="telephone">8056167327</span>
+      </p>
+      <p class="address__timing"><strong>Timing:</strong> <span itemprop="openingHours">6am - 11pm</span></p>
+      <a
+        class="address__location-link"
+        type="button"
+        href="https://www.google.com/maps/search/?api=1&query=39, North Mada Street, Mylapore, Chennai, Tamil Nadu - 600004"
+        target="_blank"
+        >Get Directions</a
+      >
+    </div>
+
+    <!-- Nerkundram -->
+    <div class="store" itemscope itemtype="https://schema.org/LocalBusiness">
+      <h2 itemprop="name">Nerkundram</h2>
+      <div itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">
+        <address>
+          <span itemprop="streetAddress">2/52A, Karunegar Street, Koyambedu,</span>
+          <span itemprop="addressLocality">Nerkundram, Chennai,</span>
+          <span itemprop="addressRegion">Tamil Nadu - <span itemprop="postalCode">600107</span></span>
+        </address>
+      </div>
+      <p class="phone">
+        <strong>Phone:</strong> <span itemprop="telephone">7550002308,</span>
+        <span itemprop="telephone">044-24791101</span>
+      </p>
+      <p class="timing"><strong>Timing:</strong> <span itemprop="openingHours">8am - 10pm</span></p>
+      <a
+        class="address__location-link"
+        type="button"
+        href="https://www.google.com/maps/search/?api=1&query=Karunegar Street, Nerkundram, Chennai, Tamil Nadu - 600107"
+        target="_blank"
+        >Get Directions</a
+      >
+    </div>
+
+    <!-- Nungambakkam (Haddows Rd) -->
+    <div class="store" itemscope itemtype="https://schema.org/LocalBusiness">
+      <h2 itemprop="name">Nungambakkam (Haddows Rd)</h2>
+      <div itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">
+        <address>
+          <span itemprop="streetAddress">No. 11, Haddows Road, near Shastri Bhavan,</span>
+          <span itemprop="addressLocality">Nungambakkam, Chennai</span>,
+          <span itemprop="addressRegion">Tamil Nadu</span> -
+          <span itemprop="postalCode">600006</span>
+        </address>
+      </div>
+      <p class="address__phone-number">
+        <strong>Phone:</strong><span itemprop="telephone">044-47760504</span>,
+        <span itemprop="telephone">7305057844</span>
+      </p>
+      <p class="address__timing"><strong>Timing:</strong> <span itemprop="openingHours">6am - 11pm</span></p>
+      <a
+        class="address__location-link"
+        type="button"
+        href="https://www.google.com/maps/search/?api=1&query=11, Haddows Road, Nungambakkam, Chennai, Tamil Nadu - 600006"
+        target="_blank"
+        >Get Directions</a
+      >
+    </div>
+
+    <!-- Nungambakkam (Nithya Amirtham) -->
+    <div class="store" itemscope itemtype="https://schema.org/LocalBusiness">
+      <h2 itemprop="name">Nungambakkam (Nithya Amirtham)</h2>
+      <div itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">
+        <address>
+          <span itemprop="streetAddress">1st Floor, above Nithya Amirtham, 11, Haddows Road</span>,
+          <span itemprop="addressLocality">Nungambakkam, Chennai</span>,
+          <span itemprop="addressRegion">Tamil Nadu</span> -
+          <span itemprop="postalCode">600034</span>
+        </address>
+      </div>
+      <p><strong>Phone:</strong> <span itemprop="telephone">78458 45273</span></p>
+      <p class="address__timing">
+        <strong>Timing:</strong> <span itemprop="openingHours">12pm - 3:30pm & 7pm - 11pm</span>
+      </p>
+      <a
+        class="address__location-link"
+        type="button"
+        href="https://www.google.com/maps/search/?api=1&query=Haddows Road, Nungambakkam, Chennai, Tamil Nadu - 600034"
+        target="_blank"
+        >Get Directions</a
+      >
+    </div>
+
+    <!-- Perambur -->
+    <div class="store" itemscope itemtype="https://schema.org/LocalBusiness">
+      <h2 itemprop="name">Perambur</h2>
+      <div itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">
+        <address>
+          <span itemprop="streetAddress">4, Paper Mills Road, Chelliamman Colony</span>,
+          <span itemprop="addressLocality">Chennai</span>, <span itemprop="addressRegion">Tamil Nadu</span> -
+          <span itemprop="postalCode">600011</span>
+        </address>
+      </div>
+      <p class="address__phone-number">
+        <strong>Phone:</strong><span itemprop="telephone">044-43556802</span>,
+        <span itemprop="telephone">7338995114</span>
+      </p>
+      <p class="address__timing"><strong>Timing:</strong> <span itemprop="openingHours">6am - 11pm</span></p>
+      <a
+        class="address__location-link"
+        type="button"
+        href="https://www.google.com/maps/search/?api=1&query=Paper Mills Road, Perambur, Chennai, Tamil Nadu - 600011"
+        target="_blank"
+        >Get Directions</a
+      >
+    </div>
+
+    <!-- Saligramam -->
+    <div class="store" itemscope itemtype="https://schema.org/LocalBusiness">
+      <h2 itemprop="name">Saligramam</h2>
+      <div itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">
+        <address>
+          <span itemprop="streetAddress">33, Arunachalam Rd, Pushpa Colony</span>,
+          <span itemprop="addressLocality">Saligramam, Chennai</span>,
+          <span itemprop="addressRegion">Tamil Nadu</span> -
+          <span itemprop="postalCode">600093</span>
+        </address>
+      </div>
+      <p class="address__phone-number">
+        <strong>Phone:</strong><span itemprop="telephone">044-2372 2902</span>,
+        <span itemprop="telephone">7418704440</span>
+      </p>
+      <p class="address__timing"><strong>Timing:</strong> <span itemprop="openingHours">6am - 11pm</span></p>
+      <a
+        class="address__location-link"
+        type="button"
+        href="https://www.google.com/maps/search/?api=1&query=Arunachalam Road, Saligramam, Chennai, Tamil Nadu - 600093"
+        target="_blank"
+        >Get Directions</a
+      >
+    </div>
+
+    <!-- Thiruvallur -->
+    <div class="store" itemscope itemtype="https://schema.org/LocalBusiness">
+      <h2 itemprop="name">Thiruvallur</h2>
+      <div itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">
+        <address>
+          <span itemprop="streetAddress">No. 514, C.V. Naidu Salai</span>,
+          <span itemprop="addressLocality">Chennai</span>, <span itemprop="addressRegion">Tamil Nadu</span> -
+          <span itemprop="postalCode">602001</span>
+        </address>
+      </div>
+      <p class="address__phone-number">
+        <strong>Phone:</strong><span itemprop="telephone">044-2766 0412</span>,
+        <span itemprop="telephone">7539962555</span>
+      </p>
+      <p class="address__timing"><strong>Timing:</strong> <span itemprop="openingHours">6am - 11pm</span></p>
+      <a
+        class="address__location-link"
+        type="button"
+        href="https://www.google.com/maps/search/?api=1&query=514, C.V. Naidu Salai, Thiruvallur, Chennai, Tamil Nadu - 602001"
+        target="_blank"
+        >Get Directions</a
+      >
+    </div>
   </div>
 
-  <!-- Anna Nagar East -->
-  <div class="store" itemscope itemtype="https://schema.org/LocalBusiness">
-    <h2 itemprop="name">Anna Nagar East</h2>
-    <div itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">
-      <p>
-        <span itemprop="streetAddress">C40, 2nd Ave, AF Block</span>,
-        <span itemprop="addressLocality">Anna Nagar, Chennai</span>, <span itemprop="addressRegion">Tamil Nadu</span> -
-        <span itemprop="postalCode">600040</span>
-      </p>
-    </div>
-    <p>
-      <strong>Phone:</strong> <span itemprop="telephone">71186 44435</span>,
-      <span itemprop="telephone">044-2853 4905</span>
-    </p>
-    <p><strong>Timing:</strong> <span itemprop="openingHours">8am - 11pm</span></p>
-    <a
-      href="https://www.google.com/maps/search/?api=1&query=C40, 2nd Ave, AF Block, Anna Nagar, Chennai, Tamil Nadu - 600040"
-      target="_blank"
-      >Get Directions</a
-    >
-  </div>
-
-  <!-- Arumbakkam -->
-  <div class="store" itemscope itemtype="https://schema.org/LocalBusiness">
-    <h2 itemprop="name">Arumbakkam</h2>
-    <div itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">
-      <p>
-        <span itemprop="streetAddress">71/F, Razzak Garden Main Road, near NSK Signal</span>,
-        <span itemprop="addressLocality">Chennai</span>, <span itemprop="addressRegion">Tamil Nadu</span> -
-        <span itemprop="postalCode">600106</span>
-      </p>
-    </div>
-    <p>
-      <strong>Phone:</strong> <span itemprop="telephone">044-4359 2744</span>,
-      <span itemprop="telephone">7358576128</span>
-    </p>
-    <p><strong>Timing:</strong> <span itemprop="openingHours">8am - 11pm</span></p>
-    <a
-      href="https://www.google.com/maps/search/?api=1&query=71/F, Razzak Garden Main Road, Chennai, Tamil Nadu - 600106"
-      target="_blank"
-      >Get Directions</a
-    >
-  </div>
-
-  <!-- Kanchipuram -->
-  <div class="store" itemscope itemtype="https://schema.org/LocalBusiness">
-    <h2 itemprop="name">Kanchipuram</h2>
-    <div itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">
-      <p>
-        <span itemprop="streetAddress">No. 70, Annai Indira Gandhi Salai, Nellikura Street</span>,
-        <span itemprop="addressLocality">Kanchipuram</span>, <span itemprop="addressRegion">Tamil Nadu</span> -
-        <span itemprop="postalCode">631502</span>
-      </p>
-    </div>
-    <p>
-      <strong>Phone:</strong> <span itemprop="telephone">044-43957734</span>,
-      <span itemprop="telephone">7358521133</span>
-    </p>
-    <p><strong>Timing:</strong> <span itemprop="openingHours">6am - 11pm</span></p>
-    <a
-      href="https://www.google.com/maps/search/?api=1&query=70, Annai Indira Gandhi Salai, Kanchipuram, Tamil Nadu - 631502"
-      target="_blank"
-      >Get Directions</a
-    >
-  </div>
-
-  <!-- Kilpauk -->
-  <div class="store" itemscope itemtype="https://schema.org/LocalBusiness">
-    <h2 itemprop="name">Kilpauk</h2>
-    <div itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">
-      <p>
-        <span itemprop="streetAddress">58, Taylors Road, Telecom Quarters</span>,
-        <span itemprop="addressLocality">Chennai</span>, <span itemprop="addressRegion">Tamil Nadu</span> -
-        <span itemprop="postalCode">600010</span>
-      </p>
-    </div>
-    <p>
-      <strong>Phone:</strong> <span itemprop="telephone">044-26453020</span>,
-      <span itemprop="telephone">8925535531</span>
-    </p>
-    <p><strong>Timing:</strong> <span itemprop="openingHours">8am - 11pm</span></p>
-    <a
-      href="https://www.google.com/maps/search/?api=1&query=58, Taylors Road, Kilpauk, Chennai, Tamil Nadu - 600010"
-      target="_blank"
-      >Get Directions</a
-    >
-  </div>
-
-  <!-- Mylapore -->
-  <div class="store" itemscope itemtype="https://schema.org/LocalBusiness">
-    <h2 itemprop="name">Mylapore</h2>
-    <div itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">
-      <p>
-        <span itemprop="streetAddress">39, North Mada Street, Madhavaperumalpuram</span>,
-        <span itemprop="addressLocality">Chennai</span>, <span itemprop="addressRegion">Tamil Nadu</span> -
-        <span itemprop="postalCode">600004</span>
-      </p>
-    </div>
-    <p>
-      <strong>Phone:</strong> <span itemprop="telephone">044-4201 4172</span>,
-      <span itemprop="telephone">8056167327</span>
-    </p>
-    <p><strong>Timing:</strong> <span itemprop="openingHours">6am - 11pm</span></p>
-    <a
-      href="https://www.google.com/maps/search/?api=1&query=39, North Mada Street, Mylapore, Chennai, Tamil Nadu - 600004"
-      target="_blank"
-      >Get Directions</a
-    >
-  </div>
-
-  <!-- Nerkundram -->
-  <div class="store" itemscope itemtype="https://schema.org/LocalBusiness">
-    <h2 itemprop="name">Nerkundram</h2>
-    <div itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">
-      <p>
-        <span itemprop="streetAddress">2/52A, Karunegar Street, Koyambedu</span>,
-        <span itemprop="addressLocality">Nerkundram, Chennai</span>, <span itemprop="addressRegion">Tamil Nadu</span> -
-        <span itemprop="postalCode">600107</span>
-      </p>
-    </div>
-    <p>
-      <strong>Phone:</strong> <span itemprop="telephone">7550002308</span>,
-      <span itemprop="telephone">044-24791101</span>
-    </p>
-    <p><strong>Timing:</strong> <span itemprop="openingHours">8am - 10pm</span></p>
-    <a
-      href="https://www.google.com/maps/search/?api=1&query=Karunegar Street, Nerkundram, Chennai, Tamil Nadu - 600107"
-      target="_blank"
-      >Get Directions</a
-    >
-  </div>
-
-  <!-- Nungambakkam (Haddows Rd) -->
-  <div class="store" itemscope itemtype="https://schema.org/LocalBusiness">
-    <h2 itemprop="name">Nungambakkam (Haddows Rd)</h2>
-    <div itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">
-      <p>
-        <span itemprop="streetAddress">No. 11, Haddows Road, near Shastri Bhavan</span>,
-        <span itemprop="addressLocality">Nungambakkam, Chennai</span>,
-        <span itemprop="addressRegion">Tamil Nadu</span> -
-        <span itemprop="postalCode">600006</span>
-      </p>
-    </div>
-    <p>
-      <strong>Phone:</strong> <span itemprop="telephone">044-47760504</span>,
-      <span itemprop="telephone">7305057844</span>
-    </p>
-    <p><strong>Timing:</strong> <span itemprop="openingHours">6am - 11pm</span></p>
-    <a
-      href="https://www.google.com/maps/search/?api=1&query=11, Haddows Road, Nungambakkam, Chennai, Tamil Nadu - 600006"
-      target="_blank"
-      >Get Directions</a
-    >
-  </div>
-
-  <!-- Nungambakkam (Nithya Amirtham) -->
-  <div class="store" itemscope itemtype="https://schema.org/LocalBusiness">
-    <h2 itemprop="name">Nungambakkam (Nithya Amirtham)</h2>
-    <div itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">
-      <p>
-        <span itemprop="streetAddress">1st Floor, above Nithya Amirtham, 11, Haddows Road</span>,
-        <span itemprop="addressLocality">Nungambakkam, Chennai</span>,
-        <span itemprop="addressRegion">Tamil Nadu</span> -
-        <span itemprop="postalCode">600034</span>
-      </p>
-    </div>
-    <p><strong>Phone:</strong> <span itemprop="telephone">78458 45273</span></p>
-    <p><strong>Timing:</strong> <span itemprop="openingHours">12pm - 3:30pm & 7pm - 11pm</span></p>
-    <a
-      href="https://www.google.com/maps/search/?api=1&query=Haddows Road, Nungambakkam, Chennai, Tamil Nadu - 600034"
-      target="_blank"
-      >Get Directions</a
-    >
-  </div>
-
-  <!-- Perambur -->
-  <div class="store" itemscope itemtype="https://schema.org/LocalBusiness">
-    <h2 itemprop="name">Perambur</h2>
-    <div itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">
-      <p>
-        <span itemprop="streetAddress">4, Paper Mills Road, Chelliamman Colony</span>,
-        <span itemprop="addressLocality">Chennai</span>, <span itemprop="addressRegion">Tamil Nadu</span> -
-        <span itemprop="postalCode">600011</span>
-      </p>
-    </div>
-    <p>
-      <strong>Phone:</strong> <span itemprop="telephone">044-43556802</span>,
-      <span itemprop="telephone">7338995114</span>
-    </p>
-    <p><strong>Timing:</strong> <span itemprop="openingHours">6am - 11pm</span></p>
-    <a
-      href="https://www.google.com/maps/search/?api=1&query=Paper Mills Road, Perambur, Chennai, Tamil Nadu - 600011"
-      target="_blank"
-      >Get Directions</a
-    >
-  </div>
-
-  <!-- Saligramam -->
-  <div class="store" itemscope itemtype="https://schema.org/LocalBusiness">
-    <h2 itemprop="name">Saligramam</h2>
-    <div itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">
-      <p>
-        <span itemprop="streetAddress">33, Arunachalam Rd, Pushpa Colony</span>,
-        <span itemprop="addressLocality">Saligramam, Chennai</span>, <span itemprop="addressRegion">Tamil Nadu</span> -
-        <span itemprop="postalCode">600093</span>
-      </p>
-    </div>
-    <p>
-      <strong>Phone:</strong> <span itemprop="telephone">044-2372 2902</span>,
-      <span itemprop="telephone">7418704440</span>
-    </p>
-    <p><strong>Timing:</strong> <span itemprop="openingHours">6am - 11pm</span></p>
-    <a
-      href="https://www.google.com/maps/search/?api=1&query=Arunachalam Road, Saligramam, Chennai, Tamil Nadu - 600093"
-      target="_blank"
-      >Get Directions</a
-    >
-  </div>
-
-  <!-- Thiruvallur -->
-  <div class="store" itemscope itemtype="https://schema.org/LocalBusiness">
-    <h2 itemprop="name">Thiruvallur</h2>
-    <div itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">
-      <p>
-        <span itemprop="streetAddress">No. 514, C.V. Naidu Salai</span>,
-        <span itemprop="addressLocality">Chennai</span>, <span itemprop="addressRegion">Tamil Nadu</span> -
-        <span itemprop="postalCode">602001</span>
-      </p>
-    </div>
-    <p>
-      <strong>Phone:</strong> <span itemprop="telephone">044-2766 0412</span>,
-      <span itemprop="telephone">7539962555</span>
-    </p>
-    <p><strong>Timing:</strong> <span itemprop="openingHours">6am - 11pm</span></p>
-    <a
-      href="https://www.google.com/maps/search/?api=1&query=514, C.V. Naidu Salai, Thiruvallur, Chennai, Tamil Nadu - 602001"
-      target="_blank"
-      >Get Directions</a
-    >
-  </div>
-
-  <input id="search-input" class="search-box" type="text" placeholder="Search places...">
-  <div id="map"></div>
-
-  <script>
+  <script defer>
     let map;
 
     function initMap() {
@@ -498,7 +532,7 @@
       // Add search box
       const input = document.getElementById('search-input');
       const searchBox = new google.maps.places.SearchBox(input);
-
+      cosole.log(searchBox);
       // Bias results to current map's viewport
       map.addListener('bounds_changed', () => {
         searchBox.setBounds(map.getBounds());
@@ -521,7 +555,6 @@
     }
   </script>
 
-  <!-- ✅ Add your actual API Key below -->
   <script
     async
     defer

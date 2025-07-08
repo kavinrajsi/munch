@@ -32,9 +32,9 @@
     @media (min-width: 578px) {
       grid-template-columns: 1fr 1fr 1fr;
     }
-    @media (min-width: 768px) {
+    // @media (min-width: 768px) {
       // grid-template-columns: repeat(auto-fill, minmax(274px, 1fr));
-    }
+    // }
   }
 
   &__item {

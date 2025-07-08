@@ -288,15 +288,15 @@
       text-align: center;
     }
     .qty-changer {
-      padding-top: 8px;
-      @media (min-width: 568px) {
-        padding-top: 0;
-      }
       position: relative;
       display: inline-flex;
       align-items: center;
       justify-content: flex-start;
       width: 100px;
+      padding-top: 8px;
+      @media (min-width: 568px) {
+        padding-top: 0;
+      }
       .cart-qty-input {
         /* Frame 28 */
         box-sizing: border-box;

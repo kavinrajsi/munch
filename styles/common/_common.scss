@@ -1,11 +1,4 @@
-$mobileM: 375px;
-$mobileL: 425px;
-$mobile: 576px;
-$tablet: 768px;
-$ptablet: 992px;
-$desktop: 1024px;
-$ldesktop: 1364px;
-
+@use "sass:map";
 $z-index: (
   body: 1,
   marquee: 2,
@@ -29,11 +22,11 @@ $z-index: (
   product: 13,
   product_size-chart: 12,
   header_cart_icon: 10,
-  chat_icon: 8 !important,
+  chat_icon: 8
 );
 
 @function z-index($key) {
-  @return map-get($z-index, $key);
+  @return map.get($z-index, $key);
 }
 
 @mixin z-index($key) {

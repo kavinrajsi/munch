@@ -1,3 +1,5 @@
+@use "../common/common";
+
 .product__slider--card {
   position: relative;
   overflow: hidden;
@@ -143,7 +145,7 @@
     bottom: 0;
     left: 0;
     width: 100%;
-    @include z-index(drawer_overlayWrapper);
+    @include common.z-index(drawer_overlayWrapper);
     opacity: 0;
     transition: opacity 0.3s;
     will-change: opacity;

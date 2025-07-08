@@ -1,0 +1,96 @@
+
+.store-locations__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 24px;
+  input {
+    /* Primary/Red3 */
+    border: 1px solid #660808;
+    padding: 12px;
+    border-radius: 6px;
+    font-family: var(--font-header);
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 15px;
+    /* identical to box height */
+    /* Primary/Red3 */
+    color: #660808;
+  }
+}
+.store-locations__map {
+  padding-bottom: 24px;
+  #map {
+    width: 100%;
+    max-width: 1120px;
+    height: 450px;
+    margin: 0 auto;
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+    background-color: #f9f9f9;
+  }
+}
+
+.store-locations__address {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+  .store {
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    padding: 24px 40px;
+    h2 {
+      /* Heading4 */
+      font-family: var(--font-minion);
+      font-weight: 700;
+      font-size: 20px;
+      line-height: 20px;
+      /* identical to box height, or 100% */
+      /* Primary/Red1 */
+      color: #c61d23;
+      padding-bottom: 24px;
+    }
+    p strong,
+    p span {
+      /* Body2 */
+      font-family: var(--font-header);
+      font-style: normal;
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 17px;
+      display: inline-block;
+      /* Primary/Red3 */
+      color: #660808;
+    }
+    p strong {
+      font-weight: 600;
+    }
+    .address__phone-number {
+      padding-bottom: 8px;
+    }
+    address {
+      padding-bottom: 8px;
+    }
+    .address__location-link {
+      padding: 12px 40px;
+      border-radius: 6px;
+      /* Body2 */
+      font-family: "Instrument Sans";
+      font-style: normal;
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 17px;
+      /* identical to box height */
+      text-align: center;
+
+      /* Neutral/White1 */
+      color: #ffffff;
+      margin-top: 16px;
+
+      /* Primary/Red1 */
+      background: #c61d23;
+    }
+  }
+}

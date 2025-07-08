@@ -1,3 +1,5 @@
+@use "common";
+
 .drawer {
   display: none;
 
@@ -23,7 +25,7 @@
     bottom: 0;
     left: 0;
     width: 100%;
-    @include z-index(drawer_overlayWrapper);
+    @include common.z-index(drawer_overlayWrapper);
     opacity: 0;
     transition: opacity 0.3s;
     will-change: opacity;
@@ -42,13 +44,6 @@
     height: 100%;
     width: 100%;
     max-width: 100%;
-    @media (min-width: 340px) {
-      max-width: 90%;
-    }
-    @media (min-width: 428px) {
-      max-width: 425px;
-    }
-    @include z-index(drawer_overlay);
     overflow: auto;
     transition: transform 0.3s;
     will-change: transform;
@@ -59,7 +54,13 @@
     box-shadow: 0 2px 6px #777;
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
-
+    @include common.z-index(drawer_overlay);
+    @media (min-width: 340px) {
+      max-width: 90%;
+    }
+    @media (min-width: 428px) {
+      max-width: 425px;
+    }
     form {
       display: flex;
       flex-direction: column;
@@ -89,6 +90,8 @@
 
     .drawer__content {
       padding: 0 24px 32px;
+      flex: 1 1 auto;
+      overflow-y: auto;
       @media (min-width: 768px) {
         padding: 0 40px 32px;
       }
@@ -200,8 +203,6 @@
           color: #9f9f9f;
         }
       }
-      flex: 1 1 auto;
-      overflow-y: auto;
     }
 
     .drawer__footer {
