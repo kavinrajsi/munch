@@ -11,7 +11,7 @@ gulp.task('style', function() {
     .pipe(plumber())
     .pipe(sass({ outputStyle: 'compressed' }))
     .pipe(autoprefixer())
-    .pipe(concat('styles.min.css'))
+    .pipe(concat('base.css'))
     .pipe(gulp.dest('assets'));
 });
 
