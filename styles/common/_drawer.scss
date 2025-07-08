@@ -137,7 +137,7 @@
           /* identical to box height */
 
           /* Primary/Red3 */
-          color: #660808;
+          color: var(--color-red3);
         }
       }
       .cart-item__qtyWrapper {
@@ -174,7 +174,7 @@
           text-align: center;
 
           /* Primary/Red3 */
-          color: #660808;
+          color: var(--color-red3);
         }
 
         .qty-decrease {
@@ -224,7 +224,7 @@
           line-height: 20px;
           /* identical to box height */
           /* Primary/Red3 */
-          color: #660808;
+          color: var(--color-red3);
           &.price {
             text-align: right;
           }
@@ -260,7 +260,7 @@
           text-decoration-line: underline;
 
           /* Primary/Red3 */
-          color: #660808;
+          color: var(--color-red3);
         }
       }
     }

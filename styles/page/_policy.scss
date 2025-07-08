@@ -16,7 +16,7 @@
       font-family: "Instrument Sans", sans-serif;
       font-style: normal;
       font-weight: 400;
-      color: #660808;
+      color: var(--color-red3);
       margin: 0 0 20px;
     }
     /* Specific typography sizes per heading */
@@ -62,7 +62,7 @@
       font-size: 16px;
       line-height: 20px;
       /* Primary/Red3 */
-      color: #660808;
+      color: var(--color-red3);
     }
     li,
     ul,

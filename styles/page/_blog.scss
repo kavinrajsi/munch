@@ -63,7 +63,7 @@
           /* identical to box height */
 
           /* Primary/Red3 */
-          color: #660808;
+          color: var(--color-red3);
         }
       }
     }
@@ -96,7 +96,7 @@
       /* identical to box height */
 
       /* Primary/Red3 */
-      color: #660808;
+      color: var(--color-red3);
     }
     .article-content {
       padding-top: 56px;
@@ -109,7 +109,7 @@
         font-family: "Instrument Sans", sans-serif;
         font-style: normal;
         font-weight: 400;
-        color: #660808;
+        color: var(--color-red3);
         margin: 0 0 20px;
       }
       /* Specific typography sizes per heading */
@@ -156,7 +156,7 @@
         line-height: 20px;
 
         /* Primary/Red3 */
-        color: #660808;
+        color: var(--color-red3);
       }
       p:not(:last-child) {
         margin: 0 0 16px;

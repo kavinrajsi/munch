@@ -63,7 +63,7 @@
       font-weight: 400;
       font-size: 12px;
       line-height: 15px;
-      color: #660808;
+      color: var(--color-red3);
       width: 100%;
       &::placeholder,
       &:invalid::-webkit-datetime-edit {

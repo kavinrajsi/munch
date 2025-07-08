@@ -15,11 +15,10 @@
   a {
     position: relative;
     display: inline-block;
-    // width: 100%;
-    // height: 100%;
     --aspect-ratio: 265/320;
     position: relative;
     height: 0;
+    width: 100%;
     padding-bottom: calc(100% / (var(--aspect-ratio)));
     > * {
       position: absolute;
@@ -243,7 +242,7 @@
           line-height: 15px;
           /* identical to box height */
           /* Primary/Red3 */
-          color: #660808;
+          color: var(--color-red3);
           display: block;
           padding-bottom: 4px;
           text-transform: capitalize;
@@ -260,7 +259,7 @@
             text-align: center;
 
             /* Primary/Red3 */
-            color: #660808;
+            color: var(--color-red3);
           }
         }
         &:not(:last-child) {
@@ -280,7 +279,7 @@
         line-height: 15px;
         /* identical to box height */
         /* Primary/Red3 */
-        color: #660808;
+        color: var(--color-red3);
         display: block;
         padding-bottom: 8px;
       }
@@ -323,7 +322,7 @@
           text-align: center;
 
           /* Primary/Red3 */
-          color: #660808;
+          color: var(--color-red3);
         }
       }
     }
@@ -378,7 +377,7 @@
         text-align: center;
         text-decoration-line: underline;
         /* Primary/Red3 */
-        color: #660808;
+        color: var(--color-red3);
       }
     }
   }

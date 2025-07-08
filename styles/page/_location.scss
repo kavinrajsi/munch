@@ -16,7 +16,7 @@
     line-height: 15px;
     /* identical to box height */
     /* Primary/Red3 */
-    color: #660808;
+    color: var(--color-red3);
   }
 }
 .store-locations__map {
@@ -62,7 +62,7 @@
       line-height: 17px;
       display: inline-block;
       /* Primary/Red3 */
-      color: #660808;
+      color: var(--color-red3);
     }
     p strong {
       font-weight: 600;

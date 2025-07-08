@@ -324,7 +324,7 @@ p {
     align-items: center;
 
     /* Primary/Red3 */
-    color: #660808;
+    color: var(--color-red3);
 
     cursor: pointer;
 
@@ -346,7 +346,7 @@ p {
       align-items: center;
 
       /* Primary/Red3 */
-      color: #660808;
+      color: var(--color-red3);
 
       cursor: pointer;
       background-color: #c61d23;

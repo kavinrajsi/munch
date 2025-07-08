@@ -46,7 +46,7 @@
           /* identical to box height */
 
           /* Primary/Red3 */
-          color: #660808;
+          color: var(--color-red3);
         }
         small {
           display: block;
@@ -58,7 +58,7 @@
           /* identical to box height */
 
           /* Primary/Red3 */
-          color: #660808;
+          color: var(--color-red3);
         }
       }
     }
@@ -90,7 +90,7 @@
       text-decoration-line: underline;
 
       /* Primary/Red3 */
-      color: #660808;
+      color: var(--color-red3);
     }
   }
 
@@ -273,7 +273,7 @@
       line-height: 20px;
       /* identical to box height */
       /* Primary/Red3 */
-      color: #660808;
+      color: var(--color-red3);
     }
   }
 
@@ -321,7 +321,7 @@
         text-align: center;
 
         /* Primary/Red3 */
-        color: #660808;
+        color: var(--color-red3);
       }
 
       .qty-decrease {

@@ -3,14 +3,37 @@ const sass = require('gulp-sass')(require('sass'));
 const autoprefixer = require('gulp-autoprefixer');
 const minify = require('gulp-minify');
 const concat = require('gulp-concat');
+const plumber = require('gulp-plumber');
 
-gulp.task('style', function(){
+// Compile and process SCSS
+gulp.task('style', function() {
   return gulp.src('styles/*.scss')
-    .pipe(sass({outputStyle: 'compressed'}))
+    .pipe(plumber())
+    .pipe(sass({ outputStyle: 'compressed' }))
     .pipe(autoprefixer())
+    .pipe(concat('styles.min.css'))
     .pipe(gulp.dest('assets'));
 });
 
-gulp.task('watch', function(){
-  gulp.watch('styles/**/*.scss', gulp.series('style'));
+// Minify JavaScript
+gulp.task('scripts', function() {
+  return gulp.src('scripts/*.js') // adjust path as needed
+    .pipe(plumber())
+    .pipe(concat('scripts.js'))
+    .pipe(minify({
+      ext: {
+        min: '.min.js'
+      },
+      noSource: true
+    }))
+    .pipe(gulp.dest('assets'));
 });
+
+// Watch task
+gulp.task('watch', function() {
+  gulp.watch('styles/**/*.scss', gulp.series('style'));
+  gulp.watch('scripts/**/*.js', gulp.series('scripts'));
+});
+
+// Default task
+gulp.task('default', gulp.series('style', 'scripts', 'watch'));

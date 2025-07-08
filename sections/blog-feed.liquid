@@ -32,7 +32,6 @@
     {% if section.settings.blog_title != blank %}
       <h2 class="heading--2 blog-feed__title">{{ section.settings.blog_title }}</h2>
     {% endif %}
-    {{ section.settings.articles_limit }}
     <ul class="blog-feed__list">
       {% for article in section.settings.blog.articles limit: section.settings.articles_limit %}
         <li class="blog-feed__item">

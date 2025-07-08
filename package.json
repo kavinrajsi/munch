@@ -19,5 +19,8 @@
     "gulp-sass": "^6.0.1",
     "prettier": "^2.7.1",
     "sass": "^1.89.2"
+  },
+  "dependencies": {
+    "gulp-plumber": "^1.2.1"
   }
 }

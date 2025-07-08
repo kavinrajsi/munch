@@ -68,7 +68,7 @@
       line-height: 20px;
 
       /* Primary/Red3 */
-      color: #660808;
+      color: var(--color-red3);
 
       &:not(:last-child) {
         padding-bottom: 8px;
