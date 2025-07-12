@@ -17,7 +17,7 @@ gulp.task('style', function() {
 
 // Minify JavaScript
 gulp.task('scripts', function() {
-  return gulp.src('scripts/*.js') // adjust path as needed
+  return gulp.src('scripts/global.js') // adjust path as needed
     .pipe(plumber())
     .pipe(concat('scripts.js'))
     .pipe(minify({
