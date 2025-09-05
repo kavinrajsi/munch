@@ -1617,10 +1617,6 @@ body.template-product .footer {
   margin: 0 0 16px;
 }
 
-body * {
-  outline: 1px solid red;
-}
-
 .cart-drawer,
 .product__slider--card {
   display: none;
