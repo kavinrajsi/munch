@@ -7,7 +7,7 @@ const plumber = require('gulp-plumber');
 
 // Compile and process SCSS
 gulp.task('style', function() {
-  return gulp.src('styles/*.scss')
+  return gulp.src('dev/style/**/*.scss')
     .pipe(plumber())
     .pipe(sass({ outputStyle: 'compressed' }))
     .pipe(autoprefixer())
@@ -31,7 +31,7 @@ gulp.task('scripts', function() {
 
 // Watch task
 gulp.task('watch', function() {
-  gulp.watch('styles/**/*.scss', gulp.series('style'));
+  gulp.watch('dev/style/**/*.*', gulp.series('style'));
   gulp.watch('scripts/**/*.js', gulp.series('scripts'));
 });
 

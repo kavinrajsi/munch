@@ -1,0 +1,13 @@
+@use "reset";
+@use "common/common";
+@use "common/heading";
+@use "common/header";
+@use "common/announcement";
+@use "common/footer";
+
+
+
+.cart-drawer,
+.product__slider--card{
+  display: none;
+}

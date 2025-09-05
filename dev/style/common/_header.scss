@@ -70,23 +70,19 @@
     width: 165px;
     height: 48px;
   }
+
+svg {
+  width: 100%;
+  height: 100%;
+}
 }
 
-  .header-logo .logo-svg svg {
-    width: 100%;
-    height: 100%;
-  }
-  
 .mobile-toggle {
   @media (min-width: 768px) {
     display: none;
   }
-
-  svg {
-    width: 100%;
-    height: 100%;
-  }
 }
+
 
 .header-nav {
   .header-nav-lists {

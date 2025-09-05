@@ -1,0 +1,63 @@
+.announcement-bars {
+	display: flex;
+	flex-direction: column;
+}
+
+.announcement-bar {
+	font: var(--font-400);
+
+	&__inner {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		margin: 0 auto;
+		padding: 8px 0;
+		gap: 8px;
+
+		@media (min-width: 768px) {
+			gap: 12px;
+		}
+	}
+
+	/* Text styling */
+	&__text {
+		display: inline-block;
+
+		ul {
+			display: flex;
+			flex-wrap: nowrap;
+			gap: 32px;
+
+			li {
+        /* TODO : import font from main settings */
+				font-family: inherit;
+				font-size: 12px;
+				font-style: normal;
+				line-height: 15px;
+				color: inherit;
+			}
+		}
+	}
+
+	/* Link styling */
+	&__link {
+		text-decoration: none;
+		color: inherit;
+
+		&:hover ,
+		&:focus {
+			text-decoration: underline;
+		}
+	}
+
+	/* Close (dismiss) button styling */
+	&__close {
+		font-size: 18px;
+		line-height: 1;
+		cursor: pointer;
+		color: inherit;
+		border: 0;
+		background: transparent;
+		appearance: none;
+	}
+}

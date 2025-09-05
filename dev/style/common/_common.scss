@@ -227,72 +227,6 @@ a {
   overflow: hidden;
 }
 
-.heading--1,
-.shopify-policy__title {
-  /* Heading1 */
-  font-family: var(--font-minion);
-  font-weight: 700;
-  font-size: 40px;
-  line-height: 42px;
-  /* or 100% */
-  @media (min-width: 768px) {
-    font-size: 56px;
-    line-height: 56px;
-  }
-}
-
-.heading--2 {
-  /* Heading2 */
-  font-family: var(--font-minion);
-  font-weight: 700;
-  font-size: 36px;
-  line-height: 36px;
-  /* identical to box height, or 100% */
-}
-
-.heading--3 {
-  /* Heading3 */
-  font-family: var(--font-header);
-  font-style: normal;
-  font-weight: 500;
-  font-size: 28px;
-  line-height: 34px;
-  /* identical to box height, or 121% */
-}
-
-.heading--4 {
-  /* Heading4 */
-  font-family: var(--font-minion);
-  font-weight: 700;
-  font-size: 20px;
-  line-height: 20px;
-  /* identical to box height, or 100% */
-}
-
-.heading--5 {
-}
-
-.heading--6 {
-}
-
-.text--body-1 {
-  /* Body1 */
-  font-family: var(--font-header);
-  font-style: normal;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 20px;
-}
-
-.text--body-2,
-p {
-  /* Body2 */
-  font-family: var(--font-header);
-  font-style: normal;
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 17px;
-}
 
 .pagination {
   padding-top: 56px;
@@ -361,3 +295,4 @@ p {
     }
   }
 }
+
