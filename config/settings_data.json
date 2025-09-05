@@ -47,36 +47,8 @@
       "announcement-bar": {
         "type": "announcement-bar",
         "blocks": {
-          "announcement_4ze4ht": {
-            "type": "announcement",
-            "settings": {
-              "text": "Flat 20% Off on all sweets for this festive season."
-            }
-          },
-          "announcement_6jm7cJ": {
-            "type": "announcement",
-            "settings": {
-              "text": "Enjoy FREE delivery on orders above ₹999. Order now!"
-            }
-          },
-          "announcement_naP6Er": {
-            "type": "announcement",
-            "settings": {
-              "text": "Special discounts for bulk & corporate orders. Contact us today!"
-            }
-          },
-          "announcement_BQEFWe": {
-            "type": "announcement",
-            "settings": {
-              "text": "Flat 20% Off on all sweets for this festive season."
-            }
-          }
         },
         "block_order": [
-          "announcement_4ze4ht",
-          "announcement_6jm7cJ",
-          "announcement_naP6Er",
-          "announcement_BQEFWe"
         ],
         "settings": {
           "show_announcement": true,
