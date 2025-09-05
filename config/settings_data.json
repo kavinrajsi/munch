@@ -46,15 +46,7 @@
     "sections": {
       "announcement-bar": {
         "type": "announcement-bar",
-        "blocks": {
-        },
-        "block_order": [
-        ],
-        "settings": {
-          "show_announcement": true,
-          "announcement_color": "#c61d23",
-          "announcement_text_color": "#ffffff"
-        }
+        "settings": {}
       },
       "header": {
         "type": "header",

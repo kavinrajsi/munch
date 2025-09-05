@@ -12,14 +12,9 @@
     "main": {
       "type": "main-article",
       "settings": {}
-    },
-    "related-posts": {
-      "type": "related-articles",
-      "settings": {}
     }
   },
   "order": [
-    "main",
-    "related-posts"
+    "main"
   ]
 }
