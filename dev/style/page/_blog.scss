@@ -1,6 +1,5 @@
 .template-blog .blog-page {
   padding-top: 56px;
-  padding-bottom: 56px;
 
   .blog-feed--title {
     font-style: normal;
@@ -43,7 +42,7 @@
       }
       .blog-feed--blog__title {
         a {
-          display: block;
+          padding-bottom: 4px;
           font-style: normal;
           font-weight: 600;
           font-size: 16px;
@@ -67,105 +66,5 @@
         }
       }
     }
-  }
-}
-
-.blog-article {
-  padding-bottom: 54px;
-  .blog-article__image {
-    border-radius: 10px;
-    overflow: hidden;
-    margin-bottom: 24px;
-    img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center;
-    }
-  }
-  .blog-article__content {
-    max-width: 930px;
-    margin: 0 auto;
-    .date {
-      /* Body1 */
-      font-family: var(--font-header);
-      font-style: normal;
-      font-weight: 400;
-      font-size: 16px;
-      line-height: 20px;
-      /* identical to box height */
-
-      /* Primary/Red3 */
-      color: var(--color-red3);
-    }
-    .article-content {
-      padding-top: 56px;
-      h1,
-      h2,
-      h3,
-      h4,
-      h5,
-      h6 {
-        font-family: "Instrument Sans", sans-serif;
-        font-style: normal;
-        font-weight: 400;
-        color: var(--color-red3);
-        margin: 0 0 20px;
-      }
-      /* Specific typography sizes per heading */
-      h1 {
-        font-size: 32px;
-        line-height: 40px;
-      }
-
-      h2 {
-        font-size: 28px;
-        line-height: 36px;
-      }
-
-      h3 {
-        font-size: 24px;
-        line-height: 32px;
-      }
-
-      h4 {
-        font-size: 20px;
-        line-height: 28px;
-      }
-
-      h5 {
-        font-size: 18px;
-        line-height: 24px;
-      }
-
-      h6 {
-        font-size: 16px;
-        line-height: 20px;
-      }
-
-      p,
-      span,
-      li,
-      a,
-      div {
-        /* Body1 */
-        font-family: var(--font-header);
-        font-style: normal;
-        font-weight: 400;
-        font-size: 16px;
-        line-height: 20px;
-
-        /* Primary/Red3 */
-        color: var(--color-red3);
-      }
-      p:not(:last-child) {
-        margin: 0 0 16px;
-      }
-    }
-  }
-
-  .blog-feed--blog__tags {
-    display: inline-flex;
-    gap: 4px;
   }
 }

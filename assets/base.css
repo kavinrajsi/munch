@@ -1430,7 +1430,6 @@ body.template-product .footer {
 
 .template-blog .blog-page {
   padding-top: 56px;
-  padding-bottom: 56px;
 }
 .template-blog .blog-page .blog-feed--title {
   font-style: normal;
@@ -1476,7 +1475,7 @@ body.template-product .footer {
      object-fit: cover;
 }
 .template-blog .blog-page .blog-feed--lists .blog-feed--list .blog-feed--blog__title a {
-  display: block;
+  padding-bottom: 4px;
   font-style: normal;
   font-weight: 600;
   font-size: 16px;
@@ -1498,14 +1497,19 @@ body.template-product .footer {
 }
 
 .blog-article {
-  padding-bottom: 54px;
+  padding-top: 24px;
 }
 .blog-article .blog-article__image {
+  padding-bottom: 40px;
+}
+@media (min-width: 768px) {
+  .blog-article .blog-article__image {
+    padding-bottom: 24px;
+  }
+}
+.blog-article .blog-article__image picture img {
   border-radius: 10px;
   overflow: hidden;
-  margin-bottom: 24px;
-}
-.blog-article .blog-article__image img {
   width: 100%;
   height: 100%;
   -o-object-fit: cover;
@@ -1517,7 +1521,26 @@ body.template-product .footer {
   max-width: 930px;
   margin: 0 auto;
 }
-.blog-article .blog-article__content .date {
+.blog-article .blog-article__content .blog-article__content--title {
+  /* Heading2 */
+  font-family: "Minion Pro Cond Capt";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 36px;
+  line-height: 36px;
+  /* Primary/Red2 */
+  color: #a5161a;
+  padding-bottom: 8px;
+}
+.blog-article .blog-article__content .blog-article__content--meta {
+  padding-bottom: 24px;
+}
+@media (min-width: 768px) {
+  .blog-article .blog-article__content .blog-article__content--meta {
+    padding-bottom: 56px;
+  }
+}
+.blog-article .blog-article__content .blog-article__content--meta .meta-date {
   /* Body1 */
   font-family: var(--font-header);
   font-style: normal;
@@ -1528,51 +1551,54 @@ body.template-product .footer {
   /* Primary/Red3 */
   color: var(--color-red3);
 }
-.blog-article .blog-article__content .article-content {
-  padding-top: 56px;
+.blog-article .blog-article__content .blog-article__content--article {
   /* Specific typography sizes per heading */
 }
-.blog-article .blog-article__content .article-content h1,
-.blog-article .blog-article__content .article-content h2,
-.blog-article .blog-article__content .article-content h3,
-.blog-article .blog-article__content .article-content h4,
-.blog-article .blog-article__content .article-content h5,
-.blog-article .blog-article__content .article-content h6 {
-  font-family: "Instrument Sans", sans-serif;
+.blog-article .blog-article__content .blog-article__content--article h1,
+.blog-article .blog-article__content .blog-article__content--article h2,
+.blog-article .blog-article__content .blog-article__content--article h3,
+.blog-article .blog-article__content .blog-article__content--article h4,
+.blog-article .blog-article__content .blog-article__content--article h5,
+.blog-article .blog-article__content .blog-article__content--article h6 {
+  /* Heading4 */
+  font-family: "Minion Pro Cond Capt";
   font-style: normal;
-  font-weight: 400;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 20px;
+  /* identical to box height, or 100% */
   color: var(--color-red3);
-  margin: 0 0 20px;
+  margin: 40px 0 16px;
 }
-.blog-article .blog-article__content .article-content h1 {
+.blog-article .blog-article__content .blog-article__content--article h1 {
   font-size: 32px;
   line-height: 40px;
 }
-.blog-article .blog-article__content .article-content h2 {
+.blog-article .blog-article__content .blog-article__content--article h2 {
   font-size: 28px;
   line-height: 36px;
 }
-.blog-article .blog-article__content .article-content h3 {
+.blog-article .blog-article__content .blog-article__content--article h3 {
   font-size: 24px;
   line-height: 32px;
 }
-.blog-article .blog-article__content .article-content h4 {
+.blog-article .blog-article__content .blog-article__content--article h4 {
   font-size: 20px;
   line-height: 28px;
 }
-.blog-article .blog-article__content .article-content h5 {
+.blog-article .blog-article__content .blog-article__content--article h5 {
   font-size: 18px;
   line-height: 24px;
 }
-.blog-article .blog-article__content .article-content h6 {
+.blog-article .blog-article__content .blog-article__content--article h6 {
   font-size: 16px;
   line-height: 20px;
 }
-.blog-article .blog-article__content .article-content p,
-.blog-article .blog-article__content .article-content span,
-.blog-article .blog-article__content .article-content li,
-.blog-article .blog-article__content .article-content a,
-.blog-article .blog-article__content .article-content div {
+.blog-article .blog-article__content .blog-article__content--article p,
+.blog-article .blog-article__content .blog-article__content--article span,
+.blog-article .blog-article__content .blog-article__content--article li,
+.blog-article .blog-article__content .blog-article__content--article a,
+.blog-article .blog-article__content .blog-article__content--article div {
   /* Body1 */
   font-family: var(--font-header);
   font-style: normal;
@@ -1582,12 +1608,17 @@ body.template-product .footer {
   /* Primary/Red3 */
   color: var(--color-red3);
 }
-.blog-article .blog-article__content .article-content p:not(:last-child) {
+.blog-article .blog-article__content .blog-article__content--article ul {
+  list-style-type: disc;
+  margin-left: 20px;
+  margin-bottom: 16px;
+}
+.blog-article .blog-article__content .blog-article__content--article p:not(:last-child) {
   margin: 0 0 16px;
 }
-.blog-article .blog-feed--blog__tags {
-  display: inline-flex;
-  gap: 4px;
+
+body * {
+  outline: 1px solid red;
 }
 
 .cart-drawer,

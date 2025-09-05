@@ -91,9 +91,9 @@
           </h2>
 
           <!-- Author (optional) -->
-          {% if section.settings.show_author %}
+          {% comment %} {% if section.settings.show_author %}
             <span class="blog-feed--blog__author">By {{ article.author }}</span>
-          {% endif %}
+          {% endif %} {% endcomment %}
 
           <!-- Date (optional) -->
           {% if section.settings.show_date %}
@@ -101,7 +101,7 @@
           {% endif %}
 
           <!-- Content or Excerpt (optional) -->
-          {% if section.settings.show_excerpt %}
+          {% comment %} {% if section.settings.show_excerpt %}
             <p class="blog-feed--blog__content">
               {% if article.excerpt.size > 0 %}
                 {{ article.excerpt }}
@@ -109,10 +109,10 @@
                 {{ article.content | strip_html | truncate: section.settings.truncate_length }}
               {% endif %}
             </p>
-          {% endif %}
+          {% endif %} {% endcomment %}
 
           <!-- Tags (optional) -->
-          {% if section.settings.show_tags %}
+          {% comment %} {% if section.settings.show_tags %}
             <nav class="blog-feed--blog__tags">
               {% if article.tags.size == 0 %}
                 <span>No tags</span>
@@ -126,10 +126,10 @@
                 {% endfor %}
               {% endif %}
             </nav>
-          {% endif %}
+          {% endif %} {% endcomment %}
 
           <!-- Read more & Comments count -->
-          <ul>
+          {% comment %} <ul>
             {% if section.settings.show_read_more %}
               <li>
                 <a href="{{ article.url }}" aria-label="Read more: {{ article.title }}">Read more</a>
@@ -143,7 +143,7 @@
                 <a href="{{ article.url }}#comments">{{ article.comments_count }}</a>
               </li>
             {% endif %}
-          </ul>
+          </ul> {% endcomment %}
         </li>
       {% endfor %}
     </ul>

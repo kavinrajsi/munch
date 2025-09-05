@@ -12,9 +12,9 @@
 }
 {% endschema %}
 
-<article class="blog-article">
+<article class="blog-article layout__grid-box">
   {% if article.image %}
-    <div class="blog-article__image layout__grid-box">
+    <div class="blog-article__image">
       <picture>
         <source
           srcset="{{ article.image | image_url: width: 1200, format: 'pjpg' }}"
@@ -32,11 +32,11 @@
     </div>
   {% endif %}
   <div class="blog-article__content">
-    <h1 class="page-title">{{ article.title }}</h1>
-    <div class="article-meta">
-      <p class="date">{{ article.published_at | date: '%B %d, %Y' }}</p>
+    <h1 class="blog-article__content--title">{{ article.title }}</h1>
+    <div class="blog-article__content--meta">
+      <p class="meta-date">{{ article.published_at | date: '%B %d, %Y' }}</p>
     </div>
-    <div class="article-content">
+    <div class="blog-article__content--article">
       {{ article.content }}
     </div>
   </div>
