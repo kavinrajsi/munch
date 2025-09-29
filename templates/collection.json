@@ -25,8 +25,8 @@
         "show_comments": true,
         "show_article_content": false,
         "truncate_length": 150,
-        "blog": "",
-        "articles_limit": 3
+        "blog": "article",
+        "articles_limit": 4
       }
     }
   },
