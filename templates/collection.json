@@ -13,9 +13,25 @@
       "type": "collection",
       "name": "Collection product grid",
       "settings": {}
+    },
+    "blog_feed_TczPrY": {
+      "type": "blog-feed",
+      "name": "Blog Feed",
+      "settings": {
+        "blog_title": "Blog",
+        "blog_show_author": true,
+        "blog_show_date": true,
+        "show_tags": true,
+        "show_comments": true,
+        "show_article_content": false,
+        "truncate_length": 150,
+        "blog": "",
+        "articles_limit": 3
+      }
     }
   },
   "order": [
-    "collection_Hhg9pB"
+    "collection_Hhg9pB",
+    "blog_feed_TczPrY"
   ]
 }
