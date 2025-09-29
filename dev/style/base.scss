@@ -5,13 +5,13 @@
 @use "common/announcement";
 @use "common/footer";
 
-
+@use "page/template-404";
+@use "page/collection";
 @use "page/blog";
 @use "page/blog-detail";
 
 
 
-.cart-drawer,
-.product__slider--card{
+.cart-drawer{
   display: none;
 }

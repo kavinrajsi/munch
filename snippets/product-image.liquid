@@ -1,0 +1,33 @@
+{%- comment -%} Product image snippet with hover + AVIF/WebP/JPEG fallback + intrinsic sizes {%- endcomment -%}
+{% if product.featured_image %}
+  {% assign second_image = product.images[1] %}
+  <div class="product-card__image-wrapper">
+    <picture>
+      {% comment %} <source srcset="{{ product.featured_image | image_url: height: 280, format: 'avif' }}" type="image/avif"> {% endcomment %}
+      <source srcset="{{ product.featured_image | image_url: height: 280, format: 'webp' }}" type="image/webp">
+      <img
+        class="product-card__image product-card__image--primary"
+        src="{{ product.featured_image | image_url: width: 360 }}"
+        alt="{{ product.featured_image.alt | escape }}"
+        width="266"
+        height="280"
+        loading="lazy"
+      >
+    </picture>
+
+    {% if second_image %}
+      <picture>
+        <source srcset="{{ second_image | image_url: width: 360, format: 'avif' }}" type="image/avif">
+        <source srcset="{{ second_image | image_url: width: 360, format: 'webp' }}" type="image/webp">
+        <img
+          class="product-card__image product-card__image--secondary"
+          src="{{ second_image | image_url: width: 360 }}"
+          alt="{{ second_image.alt | escape }}"
+          width="{{ second_image.width }}"
+          height="{{ second_image.height }}"
+          loading="lazy"
+        >
+      </picture>
+    {% endif %}
+  </div>
+{% endif %}

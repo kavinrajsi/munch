@@ -17,8 +17,11 @@
     gap: 20px;
     grid-template-columns: 1fr;
     @media (min-width: 768px) {
-      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-columns: repeat(2, 1fr);
       overflow: hidden;
+    }
+    @media (min-width: 968px) {
+      grid-template-columns:  repeat(4, 1fr);
     }
     .blog-feed--list {
       @media (min-width: 768px) {
