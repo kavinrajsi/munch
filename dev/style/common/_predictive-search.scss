@@ -16,11 +16,12 @@
     border-radius: 8px;
   }
   .predictive-search__item-heading {
+    display: block;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 
-    padding-top: 12x;
+    padding-top: 12px;
     padding-bottom: 4px;
     /* Heading4 */
     font-family: "Minion Pro Cond Capt";
@@ -32,10 +33,10 @@
     // text-align: center;
 
     /* Neutral/White1 */
-    // color: #ffffff;
+      color: #c61d23;
   }
   .predictive-search__item-price {
-    display: inline-block;
+    display: block;
     font-family: "Instrument Sans";
     font-style: normal;
     font-weight: 600;
@@ -46,6 +47,9 @@
 
     /* Neutral/White1 */
     // color: #ffffff;
+    small{
+      font-size: 80%;
+    }
   }
 }
 

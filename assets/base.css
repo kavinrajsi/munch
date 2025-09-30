@@ -1630,10 +1630,11 @@ p {
   border-radius: 8px;
 }
 #predictive-search-results-list .predictive-search__item-heading {
+  display: block;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  padding-top: 12x;
+  padding-top: 12px;
   padding-bottom: 4px;
   /* Heading4 */
   font-family: "Minion Pro Cond Capt";
@@ -1642,9 +1643,10 @@ p {
   line-height: 20px;
   /* identical to box height, or 100% */
   /* Neutral/White1 */
+  color: #c61d23;
 }
 #predictive-search-results-list .predictive-search__item-price {
-  display: inline-block;
+  display: block;
   font-family: "Instrument Sans";
   font-style: normal;
   font-weight: 600;
@@ -1652,6 +1654,9 @@ p {
   line-height: 20px;
   /* identical to box height */
   /* Neutral/White1 */
+}
+#predictive-search-results-list .predictive-search__item-price small {
+  font-size: 80%;
 }
 
 .predictive-search__button {
