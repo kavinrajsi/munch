@@ -238,6 +238,7 @@
     </form>
   </div>
 </div>
+
 <div class="made-width-love layout__grid-box">
   <h2 class="heading--2">Made with love</h2>
   <ul class="made-with-love--lists">
@@ -329,11 +330,13 @@
     </li>
   </ul>
 </div>
+
+
 <div class="related-product layout__grid-box">
   {% if product.collections.size > 0 %}
     {% assign current_collection = product.collections.first %}
     <h2 class="heading--2">Complete the Meal</h2>
-    <div class="related-products-grid">
+    <div class="related-products-grid" collection-list-desktop="4">
       {% assign shown_count = 0 %}
       {% for related_product in current_collection.products %}
         {% if related_product.id != product.id %}
@@ -348,7 +351,7 @@
   {% endif %}
 </div>
 
-<div class="recently-viewed-section layout__grid-box">
+{% comment %} <div class="recently-viewed-section layout__grid-box">
   <h2 class="heading--2">Recently Viewed Products</h2>
   <div id="recently-viewed-container" class="recently-viewed-grid products-grid"></div>
 </div>
@@ -456,7 +459,7 @@
       <span>Keeps Fresh Up to 15 Days</span>
     </div>
   </div>
-</div>
+</div> {% endcomment %}
 
 <script type="application/ld+json">
   {
