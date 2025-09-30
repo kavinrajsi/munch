@@ -21,7 +21,11 @@
 @use "page/template-blog-detail";
 @use "page/template-customers-login";
 @use "page/template-customers-register";
+@use "page/template-policy";
 
 .cart-drawer{
   display: none;
 }
+
+
+// body * { outline: 1px solid red; }

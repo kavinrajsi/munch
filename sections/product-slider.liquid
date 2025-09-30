@@ -140,70 +140,7 @@
      data-slick='{ "slidesToShow": {{ section.settings.slides_to_show }}, "slidesToScroll": {{ section.settings.slides_to_scroll }}, "infinite": false, "dots": false, "arrows": true, "prevArrow": "#slider-{{ section.id }} .slick-prev", "nextArrow": "#slider-{{ section.id }} .slick-next", "responsive": [ { "breakpoint": {{ section.settings.breakpoint_1 }}, "settings": { "slidesToShow": {{ section.settings.slides_to_show_bp1 }}, "slidesToScroll": {{ section.settings.slides_to_scroll }} } }, { "breakpoint": {{ section.settings.breakpoint_2 }}, "settings": { "slidesToShow": {{ section.settings.slides_to_show_bp2 }}, "slidesToScroll": {{ section.settings.slides_to_scroll }} } }, { "breakpoint": {{ section.settings.breakpoint_3 }}, "settings": { "slidesToShow": {{ section.settings.slides_to_show_bp3 }}, "slidesToScroll": {{ section.settings.slides_to_scroll }} } } ] }'
     >
       {% for product in products %}
-        {% assign current_variant = product.selected_or_first_available_variant %}
-        {% assign featured_media = current_variant.featured_media | default: product.featured_image %}
-
-        <div class="product__slider--card" data-product-id="{{ product.id }}">
-          <!-- Product image or media preview -->
-          <a href="{{ product.url }}">
-            {% if featured_media.media_type == 'image' or featured_media.media_type == blank %}
-              <picture>
-                <source srcset="{{ featured_media | image_url: width: 265, height: 320, crop: 'center', format: 'pjpg' }}" type="image/pjpg">
-                <source srcset="{{ featured_media |  image_url: width: 265, height: 320, crop: 'center', format: 'webp' }}" type="image/webp">
-                <img
-                  src="{{ featured_media |  image_url: width: 265, height: 320, crop: 'center'  }}"
-                  width="265"
-                  height="320"
-                  loading="lazy"
-                  decoding="async"
-                  alt="{{ product.title }}"
-                >
-              </picture>
-            {% endif %}
-          </a>
-
-          <!-- Product information block -->
-          <div class="product__info">
-            <h4 class="heading--4 product__title">{{ product.title }}</h4>
-
-            <!-- Compare at price (if discounted) -->
-            <div class="prpdice">
-              {% if product.compare_at_price > product.price %}
-                <span class="product__compare-price">
-                  {{ product.compare_at_price | money }}
-                </span>
-              {% endif %}
-            </div>
-
-            <!-- Current price -->
-            <div class="product__price">
-              {% if product.price < product.compare_at_price %}
-                <span class="product__sale-price">
-                  {{ product.price | money }}
-                </span>
-              {% else %}
-                <span class="product__regular-price">
-                  {{ product.price | money }}
-                </span>
-              {% endif %}
-            </div>
-
-            <!-- Select Option button for multi-variant products -->
-
-            <button
-              class="product__select-option-button select-option-button"
-              data-product-handle="{{ product.handle }}"
-              type="button"
-            >
-              Select Option
-            </button>
-          </div>
-
-          <!-- Product JSON for JS -->
-          <script type="application/json" id="ProductJson-{{ product.id }}">
-            {{ product | json }}
-          </script>
-        </div>
+          {% render 'product-card', product: product %}
       {% endfor %}
     </div>
   </div>
