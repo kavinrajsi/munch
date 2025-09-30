@@ -289,8 +289,20 @@
     }
   }
 
-  .sticky-buy-bar {
-  display: none;
-}
+  .heading--2 {
+    padding-bottom: 24px;
+    /* Heading2 */
+    font-family: "Minion Pro Cond Capt";
+    // font-style: italic;
+    font-weight: 700;
+    font-size: 36px;
+    line-height: 36px;
+    /* identical to box height, or 100% */
 
+    /* Primary/Red1 */
+    color: #c61d23;
+  }
+  .sticky-buy-bar {
+    display: none;
+  }
 }

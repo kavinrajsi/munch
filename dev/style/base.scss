@@ -8,7 +8,8 @@
 
 @use "page/template-404";
 @use "page/collection";
-@use "page/page-product";
+@use "page/template-product";
+@use "page/template-cart";
 @use "page/blog";
 @use "page/blog-detail";
 
