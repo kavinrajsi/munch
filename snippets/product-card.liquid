@@ -5,25 +5,25 @@
     {{- block.shopify_attributes -}}
   {% endif %}
 >
-  <a class="product-card__link" href="{{ product.url }}">
-    <div class="product-card__media">
+  <div class="product-card__media">
+    <a class="product-card__link" href="{{ product.url }}">
       {% render 'product-image', product: product %}
-    </div>
-    <div class="product-card__body">
-      <div class="product-card__title">{{ product.title }}</div>
-      {% render 'product-price', product: product %}
-    </div>
-  </a>
+    </a>
+  </div>
+  <div class="product-card__body">
+    <div class="product-card__title">{{ product.title }}</div>
+    {% render 'product-price', product: product %}
 
-  {%- comment -%} Hover CTA (opens drawer) {%- endcomment -%}
-  <button
-    class="product-card__cta"
-    type="button"
-    data-product-handle="{{ product.handle }}"
-    data-product-url="{{ product.url }}"
-    aria-haspopup="dialog"
-    aria-controls="product-drawer"
-  >
-    Select options
-  </button>
+    {%- comment -%} Hover CTA (opens drawer) {%- endcomment -%}
+    <button
+      class="product-card__cta"
+      type="button"
+      data-product-handle="{{ product.handle }}"
+      data-product-url="{{ product.url }}"
+      aria-haspopup="dialog"
+      aria-controls="product-drawer"
+    >
+      Select options
+    </button>
+  </div>
 </div>

@@ -1552,6 +1552,81 @@ body.template-product .footer {
   margin-top: 0;
 }
 
+.product-card .product-card__link {
+  display: block;
+}
+.product-card .product-card__media {
+  position: relative;
+}
+.product-card .product-card__media .product-card__image-wrapper {
+  border-radius: 10px;
+  width: 100%;
+  height: 220px;
+  overflow: hidden;
+}
+.product-card .product-card__media .product-card__image-wrapper picture,
+.product-card .product-card__media .product-card__image-wrapper img {
+  border-radius: 10px;
+  width: 100%;
+  height: 100%;
+  -o-object-position: center;
+     object-position: center;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.product-card .product-card__body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  border-radius: 10px;
+  background-color: #c61d23;
+  padding-left: 16px;
+  padding-right: 16px;
+  padding-top: 24px;
+  padding-bottom: 24px;
+}
+.product-card .product-card__body .product-card__title {
+  /* Heading4 */
+  font-family: "Minion Pro Cond Capt";
+  font-style: italic;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 20px;
+  /* identical to box height, or 100% */
+  text-align: center;
+  /* Neutral/White1 */
+  color: #ffffff;
+}
+.product-card .product-card__body .product-price {
+  display: inline-block;
+  font-family: "Instrument Sans";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 20px;
+  /* identical to box height */
+  text-align: center;
+  /* Neutral/White1 */
+  color: #ffffff;
+}
+.product-card .product-card__cta {
+  margin-top: 24px;
+  display: block;
+  width: 100%;
+  font-family: "Instrument Sans";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 15px;
+  /* identical to box height */
+  text-align: center;
+  color: #000000;
+  padding: 12px 24px;
+  /* Neutral/White1 */
+  background: #ffffff;
+  border-radius: 4px;
+}
+
 .template-404 .page__content {
   display: flex;
   flex-direction: column;
