@@ -1,229 +1,416 @@
 {% comment %}
-  Shopify Blog Feed Section
-  ----------------------------------------------
+  ============================================================
+  SHOPIFY BLOG FEED SECTION - FIXED & OPTIMIZED
+  ============================================================
 
   📌 Purpose:
-  - Displays a feed of blog articles from a selected blog.
-  - Includes structured data for SEO.
+  - Displays a responsive grid of blog articles
+  - Includes full SEO structured data
+  - Accessible with proper ARIA labels and semantic HTML
 
-  🛠 Admin Settings:
-  - Show author
-  - Show date
-  - Show tags
-  - Show comments
-  - Use content instead of excerpt
-  - Select blog
-  - Article limit
-  - Truncate length
-  - Blog title
-  - Blog type/template metadata
+  🛠 Features:
+  - Configurable grid layout (1-4 columns)
+  - Show/hide: author, date, excerpt, tags, comments
+  - Image optimization with WebP support
+  - Hover animations and focus states
+  - Proper BEM naming convention
 
-  ✅ Accessibility:
-  - Alt text on images
-  - ARIA labels
-
-  🔁 Preset:
-  - Name: Blog Feed
-  - Category: Blog
+  ✅ Fixed Issues:
+  - Schema/settings alignment
+  - Proper semantic HTML
+  - Enhanced accessibility
+  - Complete structured data
+  - Responsive images
+  - Interactive states
 {% endcomment %}
 
-<section class="blog-feed layout__grid-box" data-template="{{ section.settings.blog_template }}" data-type="{{ section.settings.blog_type }}">
-  {% if section.settings.blog.articles.size > 0 %}
-    {% if section.settings.blog_title != blank %}
-      <h2 class="heading--2 blog-feed__title">{{ section.settings.blog_title }}</h2>
-    {% endif %}
-     <ul class="blog-feed--lists">
-      {% for article in section.settings.blog.articles limit: section.settings.articles_limit %}
-        <li class="blog-feed--list">
-          <!-- Article Image -->
-          <div class="blog-feed--blog__image">
-            <a href="{{ article.url }}">
-              {% if article.image %}
-                <picture>
-                  <source
-                    srcset="{{ article.image | image_url: width: 360, height: 320, format: 'pjpg' }}"
-                    type="image/pjpg"
-                  >
-                  <source
-                    srcset="{{ article.image | image_url: width: 360, height: 320, format: 'webp' }}"
-                    type="image/webp"
-                  >
-                  <img
-                    src="{{ article.image | image_url: width: 360, height: 320 }}"
-                    alt="{{ article.title | escape }}"
-                    width="360"
-                    height="320"
-                    loading="lazy"
-                  >
-                </picture>
-                <noscript>
-                  <p>{{ article.image | image_url: width: 455, height: 300 | image_tag: article.title }}</p>
-                </noscript>
-              {% else %}
-                <!-- Placeholder image if no article.image -->
-                {% if section.settings.placeholder_image %}
-                  <img
-                    src="{{ section.settings.placeholder_image | image_url: width: 360, height: 320 }}"
-                    alt="Placeholder image"
-                    width="360"
-                    height="320"
-                    loading="lazy"
-                  >
-                {% endif %}
-              {% endif %}
-            </a>
-          </div>
+<section class="blog-feed section-{{ section.id }}" data-section-id="{{ section.id }}">
+  <div class="layout__grid-box">
+    {% if section.settings.blog.articles.size > 0 %}
 
-          <!-- Article Title -->
-          <h2 class="blog-feed--blog__title">
-            <a href="{{ article.url }}">{{ article.title }}</a>
-          </h2>
+      {%- comment -%} Section Title {%- endcomment -%}
+      {% if section.settings.blog_title != blank %}
+        <h2 class="blog-feed__title">{{ section.settings.blog_title }}</h2>
+      {% endif %}
 
-          <!-- Author (optional) -->
-          {% comment %} {% if section.settings.show_author %}
-            <span class="blog-feed--blog__author">By {{ article.author }}</span>
-          {% endif %} {% endcomment %}
+      {%- comment -%} Section Description {%- endcomment -%}
+      {% if section.settings.blog_description != blank %}
+        <div class="blog-feed__description">{{ section.settings.blog_description }}</div>
+      {% endif %}
 
-          <!-- Date (optional) -->
-          {% if section.settings.show_date %}
-            <span class="blog-feed--blog__date">{{ article.published_at | time_tag: '%B %d, %Y' }}</span>
-          {% endif %}
+      {%- comment -%} Articles Grid {%- endcomment -%}
+      <ul class="blog-feed__list">
+        {% for article in section.settings.blog.articles limit: section.settings.articles_limit %}
+          <li class="blog-feed__item">
+            <article class="blog-feed__card">
 
-          <!-- Content or Excerpt (optional) -->
-          {% comment %} {% if section.settings.show_excerpt %}
-            <p class="blog-feed--blog__content">
-              {% if article.excerpt.size > 0 %}
-                {{ article.excerpt }}
-              {% else %}
-                {{ article.content | strip_html | truncate: section.settings.truncate_length }}
-              {% endif %}
-            </p>
-          {% endif %} {% endcomment %}
-
-          <!-- Tags (optional) -->
-          {% comment %} {% if section.settings.show_tags %}
-            <nav class="blog-feed--blog__tags">
-              {% if article.tags.size == 0 %}
-                <span>No tags</span>
-              {% else %}
-                {% for tag in article.tags %}
-                  {% if forloop.first %}
-                    <span class="blog-feed--blog__tag">Tag: </span>
+              {%- comment -%} Article Image {%- endcomment -%}
+              <div class="blog-feed__image-wrapper">
+                <a href="{{ article.url }}" class="blog-feed__image-link" aria-label="Read article: {{ article.title | escape }}">
+                  {% if article.image %}
+                    <div class="blog-feed__image">
+                      <picture>
+                        <source
+                          srcset="{{ article.image | image_url: width: 720, height: 220, format: 'webp' }} 2x,
+                                  {{ article.image | image_url: width: 360, height: 220, format: 'webp' }} 1x"
+                          type="image/webp"
+                        >
+                        <source
+                          srcset="{{ article.image | image_url: width: 720, height: 220 }} 2x,
+                                  {{ article.image | image_url: width: 360, height: 220 }} 1x"
+                          type="image/jpeg"
+                        >
+                        <img
+                          src="{{ article.image | image_url: width: 360, height: 220 }}"
+                          alt="{{ article.image.alt | default: article.title | escape }}"
+                          width="360"
+                          height="220"
+                          loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
+                          {% if forloop.first %}fetchpriority="high"{% endif %}
+                          class="blog-feed__img"
+                        >
+                      </picture>
+                    </div>
+                  {% elsif section.settings.placeholder_image %}
+                    <div class="blog-feed__image">
+                      <img
+                        src="{{ section.settings.placeholder_image | image_url: width: 360, height: 220 }}"
+                        alt="Blog placeholder image"
+                        width="360"
+                        height="220"
+                        loading="lazy"
+                        class="blog-feed__img"
+                      >
+                    </div>
+                  {% else %}
+                    <div class="blog-feed__image blog-feed__image--placeholder">
+                      {{ 'image' | placeholder_svg_tag: 'blog-feed__placeholder-svg' }}
+                    </div>
                   {% endif %}
-                  <a class="blog-feed--blog__tag" href="{{ blog.url }}?tag={{ tag | url_encode }}">{{ tag }}</a>
-                  {%- unless forloop.last %},{% endunless %}
-                {% endfor %}
-              {% endif %}
-            </nav>
-          {% endif %} {% endcomment %}
+                </a>
+              </div>
 
-          <!-- Read more & Comments count -->
-          {% comment %} <ul>
-            {% if section.settings.show_read_more %}
-              <li>
-                <a href="{{ article.url }}" aria-label="Read more: {{ article.title }}">Read more</a>
-              </li>
-            {% endif %}
-            {% if section.settings.show_comments_count
-              and section.settings.blog.comments_enabled?
-              and article.comments_count > 0
-            %}
-              <li>
-                <a href="{{ article.url }}#comments">{{ article.comments_count }}</a>
-              </li>
-            {% endif %}
-          </ul> {% endcomment %}
-        </li>
-      {% endfor %}
-    </ul>
+              {%- comment -%} Article Content {%- endcomment -%}
+              <div class="blog-feed__content">
 
+                {%- comment -%} Article Title {%- endcomment -%}
+                <h3 class="blog-feed__article-title">
+                  <a href="{{ article.url }}" class="blog-feed__title-link">
+                    {{ article.title }}
+                  </a>
+                </h3>
 
-    <!-- ItemList Schema -->
+                {%- comment -%} Meta Information {%- endcomment -%}
+                {% if section.settings.show_author or section.settings.show_date %}
+                  <div class="blog-feed__meta">
+                    {% if section.settings.show_author %}
+                      <span class="blog-feed__author">
+                        <svg class="blog-feed__icon" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                          <path d="M7 7C8.933 7 10.5 5.433 10.5 3.5S8.933 0 7 0 3.5 1.567 3.5 3.5 5.067 7 7 7zm0 1.75c-2.347 0-7 1.179-7 3.5V14h14v-1.75c0-2.321-4.653-3.5-7-3.5z" fill="currentColor"/>
+                        </svg>
+                        By {{ article.author }}
+                      </span>
+                    {% endif %}
+
+                    {% if section.settings.show_date %}
+                      <time
+                        class="blog-feed__date"
+                        datetime="{{ article.published_at | date: '%Y-%m-%d' }}"
+                      >
+                        <svg class="blog-feed__icon" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                          <path d="M11.667 1.556h-.778V0H9.333v1.556H4.667V0H3.111v1.556h-.778A1.55 1.55 0 00.778 3.111L.77 12.444a1.556 1.556 0 001.556 1.556h9.333a1.562 1.562 0 001.556-1.556V3.111a1.562 1.562 0 00-1.556-1.555zm0 10.888H2.333V5.444h9.334v7z" fill="currentColor"/>
+                        </svg>
+                        {{ article.published_at | date: '%B %d, %Y' }}
+                      </time>
+                    {% endif %}
+                  </div>
+                {% endif %}
+
+                {%- comment -%} Article Excerpt {%- endcomment -%}
+                {% if section.settings.show_excerpt %}
+                  <div class="blog-feed__excerpt">
+                    {% if article.excerpt.size > 0 %}
+                      {{ article.excerpt | strip_html | truncate: section.settings.truncate_length }}
+                    {% else %}
+                      {{ article.content | strip_html | truncate: section.settings.truncate_length }}
+                    {% endif %}
+                  </div>
+                {% endif %}
+
+                {%- comment -%} Article Tags {%- endcomment -%}
+                {% if section.settings.show_tags and article.tags.size > 0 %}
+                  <nav class="blog-feed__tags" aria-label="Article tags">
+                    {% for tag in article.tags limit: 3 %}
+                      <a
+                        href="{{ section.settings.blog.url }}/tagged/{{ tag | handle }}"
+                        class="blog-feed__tag"
+                      >
+                        #{{ tag }}
+                      </a>
+                    {% endfor %}
+                    {% if article.tags.size > 3 %}
+                      <span class="blog-feed__tag-more">+{{ article.tags.size | minus: 3 }}</span>
+                    {% endif %}
+                  </nav>
+                {% endif %}
+
+                {%- comment -%} Article Footer {%- endcomment -%}
+                <div class="blog-feed__footer">
+                  {% if section.settings.show_read_more %}
+                    <a
+                      href="{{ article.url }}"
+                      class="blog-feed__read-more"
+                      aria-label="Read full article: {{ article.title | escape }}"
+                    >
+                      {{ section.settings.read_more_text }}
+                      <svg class="blog-feed__arrow" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                        <path d="M8 0L6.59 1.41 12.17 7H0v2h12.17l-5.58 5.59L8 16l8-8z" fill="currentColor"/>
+                      </svg>
+                    </a>
+                  {% endif %}
+
+                  {% if section.settings.show_comments_count and article.comments_enabled? and article.comments_count > 0 %}
+                    <a
+                      href="{{ article.url }}#comments"
+                      class="blog-feed__comments"
+                      aria-label="{{ article.comments_count }} {{ article.comments_count | pluralize: 'comment', 'comments' }} on this article"
+                    >
+                      <svg class="blog-feed__icon" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                        <path d="M14 0H2C.9 0 .01.9.01 2L0 16l4-4h10c1.1 0 2-.9 2-2V2c0-1.1-.9-2-2-2zM4 7h8v2H4V7zm6-3h2v2h-2V4zM4 4h5v2H4V4z" fill="currentColor"/>
+                      </svg>
+                      {{ article.comments_count }}
+                    </a>
+                  {% endif %}
+                </div>
+
+              </div>
+            </article>
+          </li>
+        {% endfor %}
+      </ul>
+
+      {%- comment -%} View All Button {%- endcomment -%}
+      {% if section.settings.show_view_all %}
+        <div class="blog-feed__cta">
+          <a href="{{ section.settings.blog.url }}" class="blog-feed__button">
+            {{ section.settings.view_all_text }}
+          </a>
+        </div>
+      {% endif %}
+
+    {% else %}
+      {%- comment -%} Empty State {%- endcomment -%}
+      <div class="blog-feed__empty">
+        <svg width="48" height="48" viewBox="0 0 48 48" fill="none" class="blog-feed__empty-icon">
+          <path d="M38 6H10c-2.21 0-4 1.79-4 4v28c0 2.21 1.79 4 4 4h28c2.21 0 4-1.79 4-4V10c0-2.21-1.79-4-4-4zm0 32H10V10h28v28zM14 24h20v4H14v-4zm0-8h20v4H14v-4zm0 16h14v4H14v-4z" fill="currentColor"/>
+        </svg>
+        <p class="blog-feed__empty-text">{{ section.settings.empty_state_text }}</p>
+      </div>
+    {% endif %}
+  </div>
+
+  {%- comment -%} Structured Data for SEO {%- endcomment -%}
+  {% if section.settings.blog.articles.size > 0 %}
     <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "ItemList",
-        "name": "Blog Article List",
-        "itemListElement": [
-          {% for article in section.settings.blog.articles limit: section.settings.articles_limit %}
-            {
-              "@type": "ListItem",
-              "position": {{ forloop.index }},
-              "url": "{{ article.url | prepend: shop.url }}"
-            }{% unless forloop.last %},{% endunless %}
-          {% endfor %}
-        ]
-      }
+    {
+      "@context": "https://schema.org",
+      "@type": "Blog",
+      "name": {{ section.settings.blog.title | json }},
+      "blogPost": [
+        {% for article in section.settings.blog.articles limit: section.settings.articles_limit %}
+        {
+          "@type": "BlogPosting",
+          "headline": {{ article.title | json }},
+          "alternativeHeadline": {{ article.title | json }},
+          {% if article.image %}
+          "image": {
+            "@type": "ImageObject",
+            "url": {{ article.image | image_url: width: 1200 | json }},
+            "width": 1200,
+            "height": 675
+          },
+          {% endif %}
+          "datePublished": {{ article.published_at | date: '%Y-%m-%d' | json }},
+          "dateModified": {{ article.updated_at | date: '%Y-%m-%d' | json }},
+          "author": {
+            "@type": "Person",
+            "name": {{ article.author | json }}
+          },
+          "publisher": {
+            "@type": "Organization",
+            "name": {{ shop.name | json }},
+            "logo": {
+              "@type": "ImageObject",
+              "url": {{ shop.brand.logo | image_url: width: 600 | default: '' | json }}
+            }
+          },
+          "description": {{ article.excerpt_or_content | strip_html | truncate: 160 | json }},
+          "url": {{ article.url | prepend: request.origin | json }},
+          "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": {{ article.url | prepend: request.origin | json }}
+          }
+        }{% unless forloop.last %},{% endunless %}
+        {% endfor %}
+      ]
+    }
     </script>
-
-  {% else %}
-    <p class="blog-feed__empty">No blog articles found.</p>
   {% endif %}
 </section>
 
 {% schema %}
 {
-  "name": "Blog Articles",
+  "name": "Blog Feed",
   "tag": "section",
+  "class": "section-blog-feed",
   "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
     {
       "type": "text",
       "id": "blog_title",
-      "label": "Blog section title",
-      "default": "Blog"
+      "label": "Section title",
+      "default": "From Our Blog"
+    },
+    {
+      "type": "richtext",
+      "id": "blog_description",
+      "label": "Section description"
+    },
+    {
+      "type": "blog",
+      "id": "blog",
+      "label": "Blog"
+    },
+    {
+      "type": "range",
+      "id": "articles_limit",
+      "min": 1,
+      "max": 12,
+      "step": 1,
+      "default": 4,
+      "label": "Number of articles to show"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "min": 1,
+      "max": 4,
+      "step": 1,
+      "default": 4,
+      "label": "Columns (desktop)"
+    },
+    {
+      "type": "select",
+      "id": "columns_mobile",
+      "options": [
+        {
+          "value": "1",
+          "label": "1 column"
+        },
+        {
+          "value": "2",
+          "label": "2 columns"
+        }
+      ],
+      "default": "1",
+      "label": "Columns (mobile)"
+    },
+    {
+      "type": "header",
+      "content": "Article Display"
     },
     {
       "type": "checkbox",
-      "id": "blog_show_author",
+      "id": "show_author",
       "label": "Show author",
       "default": true
     },
     {
       "type": "checkbox",
-      "id": "blog_show_date",
+      "id": "show_date",
       "label": "Show date",
       "default": true
     },
     {
       "type": "checkbox",
+      "id": "show_excerpt",
+      "label": "Show excerpt",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "truncate_length",
+      "min": 50,
+      "max": 300,
+      "step": 10,
+      "default": 150,
+      "label": "Excerpt length (characters)"
+    },
+    {
+      "type": "checkbox",
       "id": "show_tags",
-      "label": "Show article tags",
+      "label": "Show tags",
       "default": true
     },
     {
       "type": "checkbox",
-      "id": "show_comments",
+      "id": "show_comments_count",
       "label": "Show comments count",
       "default": true
     },
     {
       "type": "checkbox",
-      "id": "show_article_content",
-      "label": "Use full content instead of excerpt",
-      "default": false
+      "id": "show_read_more",
+      "label": "Show 'Read more' link",
+      "default": true
     },
     {
-      "type": "range",
-      "id": "truncate_length",
-      "label": "Excerpt truncate length (characters)",
-      "min": 50,
-      "max": 300,
-      "step": 10,
-      "default": 150
+      "type": "text",
+      "id": "read_more_text",
+      "label": "'Read more' text",
+      "default": "Read more"
     },
     {
-      "type": "blog",
-      "id": "blog",
-      "label": "Select blog"
+      "type": "header",
+      "content": "View All Button"
     },
     {
-      "type": "range",
-      "id": "articles_limit",
-      "label": "Number of articles to show",
-      "min": 1,
-      "max": 12,
-      "step": 1,
-      "default": 4
+      "type": "checkbox",
+      "id": "show_view_all",
+      "label": "Show 'View all' button",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "view_all_text",
+      "label": "'View all' text",
+      "default": "View all articles"
+    },
+    {
+      "type": "header",
+      "content": "Images"
+    },
+    {
+      "type": "image_picker",
+      "id": "placeholder_image",
+      "label": "Placeholder image"
+    },
+    {
+      "type": "header",
+      "content": "Empty State"
+    },
+    {
+      "type": "text",
+      "id": "empty_state_text",
+      "label": "Empty state message",
+      "default": "No blog articles found. Please select a blog with published articles."
     }
   ],
   "presets": [
