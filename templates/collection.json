@@ -32,7 +32,7 @@
         "show_comments_count": false,
         "show_read_more": false,
         "read_more_text": "Read more",
-        "show_view_all": true,
+        "show_view_all": false,
         "view_all_text": "View all articles",
         "empty_state_text": "No blog articles found. Please select a blog with published articles."
       }
