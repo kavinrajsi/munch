@@ -2390,6 +2390,8 @@ p {
 }
 
 .template-404 .page__content {
+  padding-top: 56px;
+  padding-bottom: 56px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -2456,7 +2458,8 @@ p {
   height: 220px;
   overflow: hidden;
 }
-.blog-feed .blog-feed__list .blog-feed__item .blog-feed__image img, .blog-feed .blog-feed__list .blog-feed__item .blog-feed__image picture {
+.blog-feed .blog-feed__list .blog-feed__item .blog-feed__image img,
+.blog-feed .blog-feed__list .blog-feed__item .blog-feed__image picture {
   border-radius: 10px;
   width: 100%;
   height: 100%;
@@ -2613,6 +2616,440 @@ p {
 }
 .template-article .blog-article .blog-article__content .blog-article__content--article p:not(:last-child) {
   margin: 0 0 16px;
+}
+
+.template-customers\/login.account .page-customer-register,
+.template-customers\/login.account .page-customer-login {
+  max-width: 448px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-right: 24px;
+  padding-left: 24px;
+  padding-top: 48px;
+  padding-bottom: 48px;
+}
+@media (min-width: 768px) {
+  .template-customers\/login.account .page-customer-register,
+  .template-customers\/login.account .page-customer-login {
+    padding-right: 32px;
+    padding-left: 32px;
+  }
+}
+@media (min-width: 1024px) {
+  .template-customers\/login.account .page-customer-register,
+  .template-customers\/login.account .page-customer-login {
+    padding-right: 48px;
+    padding-left: 48px;
+  }
+}
+.template-customers\/login.account .page-customer-register .heading--1,
+.template-customers\/login.account .page-customer-login .heading--1 {
+  padding-bottom: 24px;
+  /* Heading2 */
+  font-family: "Minion Pro Cond Capt";
+  font-weight: 700;
+  font-size: 36px;
+  line-height: 36px;
+  /* identical to box height, or 100% */
+  /* Primary/Red1 */
+  color: #c61d23;
+}
+.template-customers\/login.account .page-customer-register form label,
+.template-customers\/login.account .page-customer-login form label {
+  font-size: 14px;
+  display: block;
+  padding-bottom: 8px;
+}
+.template-customers\/login.account .page-customer-register form label.accepts-marketing-label,
+.template-customers\/login.account .page-customer-login form label.accepts-marketing-label {
+  margin-bottom: 0;
+  cursor: pointer;
+  padding-bottom: 0;
+  line-height: normal;
+}
+.template-customers\/login.account .page-customer-register form a::after,
+.template-customers\/login.account .page-customer-login form a::after {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 1px;
+}
+.template-customers\/login.account .page-customer-register form .field,
+.template-customers\/login.account .page-customer-login form .field {
+  padding-bottom: 12px;
+}
+.template-customers\/login.account .page-customer-register form input[type=text],
+.template-customers\/login.account .page-customer-register form input[type=password],
+.template-customers\/login.account .page-customer-register form input[type=email],
+.template-customers\/login.account .page-customer-register form input[type=date],
+.template-customers\/login.account .page-customer-login form input[type=text],
+.template-customers\/login.account .page-customer-login form input[type=password],
+.template-customers\/login.account .page-customer-login form input[type=email],
+.template-customers\/login.account .page-customer-login form input[type=date] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+       appearance: none;
+  border: 1px solid #d3d3d3;
+  padding: 12px 32px 12px 12px;
+  border-radius: 6px;
+  margin: 0 auto;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 15px;
+  color: var(--color-red3);
+  width: 100%;
+}
+.template-customers\/login.account .page-customer-register form input[type=text]::placeholder, .template-customers\/login.account .page-customer-register form input[type=text]:invalid::-webkit-datetime-edit,
+.template-customers\/login.account .page-customer-register form input[type=password]::placeholder,
+.template-customers\/login.account .page-customer-register form input[type=password]:invalid::-webkit-datetime-edit,
+.template-customers\/login.account .page-customer-register form input[type=email]::placeholder,
+.template-customers\/login.account .page-customer-register form input[type=email]:invalid::-webkit-datetime-edit,
+.template-customers\/login.account .page-customer-register form input[type=date]::placeholder,
+.template-customers\/login.account .page-customer-register form input[type=date]:invalid::-webkit-datetime-edit,
+.template-customers\/login.account .page-customer-login form input[type=text]::placeholder,
+.template-customers\/login.account .page-customer-login form input[type=text]:invalid::-webkit-datetime-edit,
+.template-customers\/login.account .page-customer-login form input[type=password]::placeholder,
+.template-customers\/login.account .page-customer-login form input[type=password]:invalid::-webkit-datetime-edit,
+.template-customers\/login.account .page-customer-login form input[type=email]::placeholder,
+.template-customers\/login.account .page-customer-login form input[type=email]:invalid::-webkit-datetime-edit,
+.template-customers\/login.account .page-customer-login form input[type=date]::placeholder,
+.template-customers\/login.account .page-customer-login form input[type=date]:invalid::-webkit-datetime-edit {
+  color: #999;
+  /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: #999;
+  opacity: 1;
+  /* Firefox */
+}
+.template-customers\/login.account .page-customer-register form input[type=text]:-ms-input-placeholder,
+.template-customers\/login.account .page-customer-register form input[type=password]:-ms-input-placeholder,
+.template-customers\/login.account .page-customer-register form input[type=email]:-ms-input-placeholder,
+.template-customers\/login.account .page-customer-register form input[type=date]:-ms-input-placeholder,
+.template-customers\/login.account .page-customer-login form input[type=text]:-ms-input-placeholder,
+.template-customers\/login.account .page-customer-login form input[type=password]:-ms-input-placeholder,
+.template-customers\/login.account .page-customer-login form input[type=email]:-ms-input-placeholder,
+.template-customers\/login.account .page-customer-login form input[type=date]:-ms-input-placeholder {
+  /* Internet Explorer 10-11 */
+  color: #999;
+}
+.template-customers\/login.account .page-customer-register form input[type=text]::-ms-input-placeholder,
+.template-customers\/login.account .page-customer-register form input[type=password]::-ms-input-placeholder,
+.template-customers\/login.account .page-customer-register form input[type=email]::-ms-input-placeholder,
+.template-customers\/login.account .page-customer-register form input[type=date]::-ms-input-placeholder,
+.template-customers\/login.account .page-customer-login form input[type=text]::-ms-input-placeholder,
+.template-customers\/login.account .page-customer-login form input[type=password]::-ms-input-placeholder,
+.template-customers\/login.account .page-customer-login form input[type=email]::-ms-input-placeholder,
+.template-customers\/login.account .page-customer-login form input[type=date]::-ms-input-placeholder {
+  /* Microsoft Edge */
+  color: #999;
+}
+.template-customers\/login.account .page-customer-register form input[type=radio],
+.template-customers\/login.account .page-customer-register form input[type=checkbox],
+.template-customers\/login.account .page-customer-login form input[type=radio],
+.template-customers\/login.account .page-customer-login form input[type=checkbox] {
+  cursor: pointer;
+  -webkit-appearance: initial;
+  vertical-align: baseline;
+  padding: 0;
+  margin: 0;
+  min-height: initial;
+  border: 1px solid #c61d23;
+  background: transparent;
+  display: inline-block;
+  border-radius: 24px;
+  width: 24px;
+  height: 24px;
+  margin-right: 8px;
+}
+.template-customers\/login.account .page-customer-register form input[type=radio]:checked,
+.template-customers\/login.account .page-customer-register form input[type=checkbox]:checked,
+.template-customers\/login.account .page-customer-login form input[type=radio]:checked,
+.template-customers\/login.account .page-customer-login form input[type=checkbox]:checked {
+  transform: scale(0.9);
+  outline: 2px solid #c61d23;
+  border: 2px solid #c61d23;
+  background: #c61d23;
+}
+.template-customers\/login.account .page-customer-register form .accepts-marketing,
+.template-customers\/login.account .page-customer-login form .accepts-marketing {
+  display: flex;
+  cursor: pointer;
+}
+.template-customers\/login.account .page-customer-register form .button,
+.template-customers\/login.account .page-customer-register form button[type=submit],
+.template-customers\/login.account .page-customer-register form input[type=submit],
+.template-customers\/login.account .page-customer-login form .button,
+.template-customers\/login.account .page-customer-login form button[type=submit],
+.template-customers\/login.account .page-customer-login form input[type=submit] {
+  display: block;
+  padding: 12px 16px;
+  background: #c61d23;
+  border-radius: 6px;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  text-align: center;
+  color: #fff;
+  width: 100%;
+  margin-bottom: 8px;
+}
+.template-customers\/login.account .page-customer-register form input[aria-invalid=true],
+.template-customers\/login.account .page-customer-login form input[aria-invalid=true] {
+  border: 1px solid #c61d23;
+}
+.template-customers\/login.account .page-customer-register .form__message,
+.template-customers\/login.account .page-customer-login .form__message {
+  display: flex;
+  margin-bottom: 20px;
+}
+.template-customers\/login.account .page-customer-register .form__message svg,
+.template-customers\/login.account .page-customer-login .form__message svg {
+  margin-right: 8px;
+  width: 24px;
+  height: 24px;
+}
+.template-customers\/login.account .page-customer-register .input-by-two {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: 1fr 1fr;
+}
+.template-customers\/login.account #recover,
+.template-customers\/login.account #recover + div {
+  display: none;
+}
+.template-customers\/login.account #recover:target {
+  display: block;
+}
+.template-customers\/login.account #recover:target + div {
+  display: block;
+}
+.template-customers\/login.account #recover:target ~ #login,
+.template-customers\/login.account #recover:target ~ #login + div {
+  display: none;
+}
+.template-customers\/login.account #recover {
+  margin-bottom: 0;
+}
+.template-customers\/login.account .forgetPasswordText {
+  margin-bottom: 4px;
+}
+
+.template-customers\/register.create-account .page-customer-register,
+.template-customers\/register.create-account .page-customer-login {
+  max-width: 448px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-right: 24px;
+  padding-left: 24px;
+  padding-top: 48px;
+  padding-bottom: 48px;
+}
+@media (min-width: 768px) {
+  .template-customers\/register.create-account .page-customer-register,
+  .template-customers\/register.create-account .page-customer-login {
+    padding-right: 32px;
+    padding-left: 32px;
+  }
+}
+@media (min-width: 1024px) {
+  .template-customers\/register.create-account .page-customer-register,
+  .template-customers\/register.create-account .page-customer-login {
+    padding-right: 48px;
+    padding-left: 48px;
+  }
+}
+.template-customers\/register.create-account .page-customer-register .heading--2,
+.template-customers\/register.create-account .page-customer-login .heading--2 {
+  padding-bottom: 24px;
+  /* Heading2 */
+  font-family: "Minion Pro Cond Capt";
+  font-weight: 700;
+  font-size: 36px;
+  line-height: 36px;
+  /* identical to box height, or 100% */
+  /* Primary/Red1 */
+  color: #c61d23;
+}
+.template-customers\/register.create-account .page-customer-register form label,
+.template-customers\/register.create-account .page-customer-login form label {
+  font-size: 14px;
+  display: block;
+  padding-bottom: 8px;
+}
+.template-customers\/register.create-account .page-customer-register form label.accepts-marketing-label,
+.template-customers\/register.create-account .page-customer-login form label.accepts-marketing-label {
+  margin-bottom: 0;
+  cursor: pointer;
+  padding-bottom: 0;
+  line-height: normal;
+}
+.template-customers\/register.create-account .page-customer-register form a::after,
+.template-customers\/register.create-account .page-customer-login form a::after {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 1px;
+}
+.template-customers\/register.create-account .page-customer-register form .field,
+.template-customers\/register.create-account .page-customer-login form .field {
+  padding-bottom: 12px;
+}
+.template-customers\/register.create-account .page-customer-register form input[type=text],
+.template-customers\/register.create-account .page-customer-register form input[type=password],
+.template-customers\/register.create-account .page-customer-register form input[type=email],
+.template-customers\/register.create-account .page-customer-register form input[type=date],
+.template-customers\/register.create-account .page-customer-login form input[type=text],
+.template-customers\/register.create-account .page-customer-login form input[type=password],
+.template-customers\/register.create-account .page-customer-login form input[type=email],
+.template-customers\/register.create-account .page-customer-login form input[type=date] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+       appearance: none;
+  border: 1px solid #d3d3d3;
+  padding: 12px 32px 12px 12px;
+  border-radius: 6px;
+  margin: 0 auto;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 15px;
+  color: var(--color-red3);
+  width: 100%;
+}
+.template-customers\/register.create-account .page-customer-register form input[type=text]::placeholder, .template-customers\/register.create-account .page-customer-register form input[type=text]:invalid::-webkit-datetime-edit,
+.template-customers\/register.create-account .page-customer-register form input[type=password]::placeholder,
+.template-customers\/register.create-account .page-customer-register form input[type=password]:invalid::-webkit-datetime-edit,
+.template-customers\/register.create-account .page-customer-register form input[type=email]::placeholder,
+.template-customers\/register.create-account .page-customer-register form input[type=email]:invalid::-webkit-datetime-edit,
+.template-customers\/register.create-account .page-customer-register form input[type=date]::placeholder,
+.template-customers\/register.create-account .page-customer-register form input[type=date]:invalid::-webkit-datetime-edit,
+.template-customers\/register.create-account .page-customer-login form input[type=text]::placeholder,
+.template-customers\/register.create-account .page-customer-login form input[type=text]:invalid::-webkit-datetime-edit,
+.template-customers\/register.create-account .page-customer-login form input[type=password]::placeholder,
+.template-customers\/register.create-account .page-customer-login form input[type=password]:invalid::-webkit-datetime-edit,
+.template-customers\/register.create-account .page-customer-login form input[type=email]::placeholder,
+.template-customers\/register.create-account .page-customer-login form input[type=email]:invalid::-webkit-datetime-edit,
+.template-customers\/register.create-account .page-customer-login form input[type=date]::placeholder,
+.template-customers\/register.create-account .page-customer-login form input[type=date]:invalid::-webkit-datetime-edit {
+  color: #999;
+  /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: #999;
+  opacity: 1;
+  /* Firefox */
+}
+.template-customers\/register.create-account .page-customer-register form input[type=text]:-ms-input-placeholder,
+.template-customers\/register.create-account .page-customer-register form input[type=password]:-ms-input-placeholder,
+.template-customers\/register.create-account .page-customer-register form input[type=email]:-ms-input-placeholder,
+.template-customers\/register.create-account .page-customer-register form input[type=date]:-ms-input-placeholder,
+.template-customers\/register.create-account .page-customer-login form input[type=text]:-ms-input-placeholder,
+.template-customers\/register.create-account .page-customer-login form input[type=password]:-ms-input-placeholder,
+.template-customers\/register.create-account .page-customer-login form input[type=email]:-ms-input-placeholder,
+.template-customers\/register.create-account .page-customer-login form input[type=date]:-ms-input-placeholder {
+  /* Internet Explorer 10-11 */
+  color: #999;
+}
+.template-customers\/register.create-account .page-customer-register form input[type=text]::-ms-input-placeholder,
+.template-customers\/register.create-account .page-customer-register form input[type=password]::-ms-input-placeholder,
+.template-customers\/register.create-account .page-customer-register form input[type=email]::-ms-input-placeholder,
+.template-customers\/register.create-account .page-customer-register form input[type=date]::-ms-input-placeholder,
+.template-customers\/register.create-account .page-customer-login form input[type=text]::-ms-input-placeholder,
+.template-customers\/register.create-account .page-customer-login form input[type=password]::-ms-input-placeholder,
+.template-customers\/register.create-account .page-customer-login form input[type=email]::-ms-input-placeholder,
+.template-customers\/register.create-account .page-customer-login form input[type=date]::-ms-input-placeholder {
+  /* Microsoft Edge */
+  color: #999;
+}
+.template-customers\/register.create-account .page-customer-register form input[type=radio],
+.template-customers\/register.create-account .page-customer-register form input[type=checkbox],
+.template-customers\/register.create-account .page-customer-login form input[type=radio],
+.template-customers\/register.create-account .page-customer-login form input[type=checkbox] {
+  cursor: pointer;
+  -webkit-appearance: initial;
+  vertical-align: baseline;
+  padding: 0;
+  margin: 0;
+  min-height: initial;
+  border: 1px solid #c61d23;
+  background: transparent;
+  display: inline-block;
+  border-radius: 24px;
+  width: 24px;
+  height: 24px;
+  margin-right: 8px;
+}
+.template-customers\/register.create-account .page-customer-register form input[type=radio]:checked,
+.template-customers\/register.create-account .page-customer-register form input[type=checkbox]:checked,
+.template-customers\/register.create-account .page-customer-login form input[type=radio]:checked,
+.template-customers\/register.create-account .page-customer-login form input[type=checkbox]:checked {
+  transform: scale(0.9);
+  outline: 2px solid #c61d23;
+  border: 2px solid #c61d23;
+  background: #c61d23;
+}
+.template-customers\/register.create-account .page-customer-register form .accepts-marketing,
+.template-customers\/register.create-account .page-customer-login form .accepts-marketing {
+  display: flex;
+  cursor: pointer;
+}
+.template-customers\/register.create-account .page-customer-register form .button,
+.template-customers\/register.create-account .page-customer-register form button[type=submit],
+.template-customers\/register.create-account .page-customer-register form input[type=submit],
+.template-customers\/register.create-account .page-customer-login form .button,
+.template-customers\/register.create-account .page-customer-login form button[type=submit],
+.template-customers\/register.create-account .page-customer-login form input[type=submit] {
+  display: block;
+  padding: 12px 16px;
+  background: #c61d23;
+  border-radius: 6px;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  text-align: center;
+  color: #fff;
+  width: 100%;
+  margin-bottom: 8px;
+}
+.template-customers\/register.create-account .page-customer-register form input[aria-invalid=true],
+.template-customers\/register.create-account .page-customer-login form input[aria-invalid=true] {
+  border: 1px solid #c61d23;
+}
+.template-customers\/register.create-account .page-customer-register .form__message,
+.template-customers\/register.create-account .page-customer-login .form__message {
+  display: flex;
+  margin-bottom: 20px;
+}
+.template-customers\/register.create-account .page-customer-register .form__message svg,
+.template-customers\/register.create-account .page-customer-login .form__message svg {
+  margin-right: 8px;
+  width: 24px;
+  height: 24px;
+}
+.template-customers\/register.create-account .page-customer-register .input-by-two {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: 1fr 1fr;
+}
+.template-customers\/register.create-account #recover,
+.template-customers\/register.create-account #recover + div {
+  display: none;
+}
+.template-customers\/register.create-account #recover:target {
+  display: block;
+}
+.template-customers\/register.create-account #recover:target + div {
+  display: block;
+}
+.template-customers\/register.create-account #recover:target ~ #login,
+.template-customers\/register.create-account #recover:target ~ #login + div {
+  display: none;
+}
+.template-customers\/register.create-account #recover {
+  margin-bottom: 0;
+}
+.template-customers\/register.create-account .forgetPasswordText {
+  margin-bottom: 4px;
 }
 
 .cart-drawer {

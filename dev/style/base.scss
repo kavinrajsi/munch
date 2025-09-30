@@ -19,8 +19,8 @@
 @use "page/template-404";
 @use "page/template-blog";
 @use "page/template-blog-detail";
-
-
+@use "page/template-customers-login";
+@use "page/template-customers-register";
 
 .cart-drawer{
   display: none;
