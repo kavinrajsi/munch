@@ -1,5 +1,6 @@
 .template-product {
   .product-page {
+    padding-top: 56px;
     display: grid;
     gap: 20px;
     grid-template-columns: 1fr;
@@ -234,7 +235,6 @@
       max-width: 360px;
     }
   }
-
   .made-width-love {
     padding-top: 56px;
     padding-bottom: 56px;
@@ -268,23 +268,28 @@
 
   .related-products-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
     gap: 20px;
-    // padding-bottom: 56px;
-
-    &[collection-list-mobile="2"] {
-      grid-template-columns: repeat(2, 1fr);
-    }
-    &[collection-list-tablet="3"] {
-      grid-template-columns: repeat(3, 1fr);
-    }
-    &[collection-list-desktop="4"] {
-      grid-template-columns: repeat(2, 1fr);
-      @media (min-width: 768px) {
+    overflow-x: auto;
+    grid-template-columns: repeat(4, 80%);
+    grid-auto-columns: 50%;
+    grid-auto-flow: column;
+    @media (min-width: 768px) {
+      grid-auto-flow: row;
+      grid-auto-columns: initial;
+      &[collection-list-mobile="2"] {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      &[collection-list-tablet="3"] {
         grid-template-columns: repeat(3, 1fr);
       }
-      @media (min-width: 992px) {
-        grid-template-columns: repeat(4, 1fr);
+      &[collection-list-desktop="4"] {
+        grid-template-columns: repeat(2, 1fr);
+        @media (min-width: 768px) {
+          grid-template-columns: repeat(3, 1fr);
+        }
+        @media (min-width: 992px) {
+          grid-template-columns: repeat(4, 1fr);
+        }
       }
     }
   }
@@ -304,5 +309,9 @@
   }
   .sticky-buy-bar {
     display: none;
+  }
+
+  .related-product{
+    padding-bottom: 56px;
   }
 }

@@ -1,0 +1,33 @@
+.template-search {
+  .page-search {
+    padding-top: 56px;
+    padding-bottom: 56px;
+  }
+  .heading--2 {
+    padding-bottom: 24px;
+    /* Heading2 */
+    font-family: "Minion Pro Cond Capt";
+    // font-style: italic;
+    font-weight: 700;
+    font-size: 36px;
+    line-height: 36px;
+    /* identical to box height, or 100% */
+    /* Primary/Red1 */
+    color: #c61d23;
+  }
+  .search-result--count{
+
+      /* Body2 */
+      font-family: var(--font-header);
+      font-style: normal;
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 17px;
+
+      /* Primary/Red3 */
+      color: var(--color-red3);
+
+      padding-bottom: 24px;
+    
+  }
+}

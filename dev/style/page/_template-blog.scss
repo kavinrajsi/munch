@@ -75,7 +75,7 @@
         }
         .blog-feed__date {
           display: block;
-          time {
+
             font-style: normal;
             font-weight: 400;
             font-size: 12px;
@@ -84,7 +84,6 @@
 
             /* Primary/Red3 */
             color: var(--color-red3);
-          }
         }
       }
     }
