@@ -117,9 +117,9 @@
                         class="blog-feed__date"
                         datetime="{{ article.published_at | date: '%Y-%m-%d' }}"
                       >
-                        <svg class="blog-feed__icon" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                        {% comment %} <svg class="blog-feed__icon" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
                           <path d="M11.667 1.556h-.778V0H9.333v1.556H4.667V0H3.111v1.556h-.778A1.55 1.55 0 00.778 3.111L.77 12.444a1.556 1.556 0 001.556 1.556h9.333a1.562 1.562 0 001.556-1.556V3.111a1.562 1.562 0 00-1.556-1.555zm0 10.888H2.333V5.444h9.334v7z" fill="currentColor"/>
-                        </svg>
+                        </svg> {% endcomment %}
                         {{ article.published_at | date: '%B %d, %Y' }}
                       </time>
                     {% endif %}

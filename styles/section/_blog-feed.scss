@@ -65,14 +65,11 @@
 
     .blog-feed__date {
       display: block;
-
-      time {
-        font-style: normal;
-        font-weight: 400;
-        font-size: 12px;
-        line-height: 15px;
-        color: var(--color-red3);
-      }
+      font-style: normal;
+      font-weight: 400;
+      font-size: 12px;
+      line-height: 15px;
+      color: var(--color-red3);
     }
 
     .blog-feed__excerpt {
