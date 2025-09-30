@@ -1552,6 +1552,12 @@ body.template-product .footer {
   margin-top: 0;
 }
 
+.product-card {
+  border-radius: 10px;
+  height: 320px;
+  overflow: hidden;
+  position: relative;
+}
 .product-card .product-card__link {
   display: block;
 }
@@ -1561,7 +1567,7 @@ body.template-product .footer {
 .product-card .product-card__media .product-card__image-wrapper {
   border-radius: 10px;
   width: 100%;
-  height: 220px;
+  height: 320px;
   overflow: hidden;
 }
 .product-card .product-card__media .product-card__image-wrapper picture,
@@ -1575,6 +1581,10 @@ body.template-product .footer {
      object-fit: cover;
 }
 .product-card .product-card__body {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -86px;
   display: flex;
   flex-direction: column;
   gap: 2px;
@@ -1582,10 +1592,13 @@ body.template-product .footer {
   background-color: #c61d23;
   padding-left: 16px;
   padding-right: 16px;
-  padding-top: 24px;
-  padding-bottom: 24px;
 }
 .product-card .product-card__body .product-card__title {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-top: 24px;
+  padding-bottom: 24px;
   /* Heading4 */
   font-family: "Minion Pro Cond Capt";
   font-style: italic;
@@ -1609,7 +1622,7 @@ body.template-product .footer {
   /* Neutral/White1 */
   color: #ffffff;
 }
-.product-card .product-card__cta {
+.product-card .product-card__body .product-card__cta {
   margin-top: 24px;
   display: block;
   width: 100%;
@@ -1625,6 +1638,13 @@ body.template-product .footer {
   /* Neutral/White1 */
   background: #ffffff;
   border-radius: 4px;
+}
+.product-card:hover .product-card__body {
+  bottom: 0px;
+  padding-bottom: 24px;
+}
+.product-card:hover .product-card__body .product-card__title {
+  padding-bottom: 4px;
 }
 
 .template-404 .page__content {
@@ -1697,11 +1717,8 @@ body.template-product .footer {
   }
 }
 
-.template-blog .blog-page {
-  padding-top: 56px;
-}
-
 .blog-feed .blog-feed__title {
+  padding-top: 56px;
   font-style: normal;
   font-weight: 700;
   font-size: 36px;
