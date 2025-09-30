@@ -11,7 +11,17 @@
   "sections": {
     "main": {
       "type": "main-blog",
-      "settings": {}
+      "settings": {
+        "heading_text": "Blog",
+        "show_author": true,
+        "articles_per_page": 12,
+        "show_date": true,
+        "show_tags": false,
+        "show_read_more": false,
+        "show_comments_count": false,
+        "show_excerpt": false,
+        "truncate_length": 150
+      }
     }
   },
   "order": [
