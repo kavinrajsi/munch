@@ -201,9 +201,6 @@
     {% else %}
       {%- comment -%} Empty State {%- endcomment -%}
       <div class="blog-feed__empty">
-        <svg width="48" height="48" viewBox="0 0 48 48" fill="none" class="blog-feed__empty-icon">
-          <path d="M38 6H10c-2.21 0-4 1.79-4 4v28c0 2.21 1.79 4 4 4h28c2.21 0 4-1.79 4-4V10c0-2.21-1.79-4-4-4zm0 32H10V10h28v28zM14 24h20v4H14v-4zm0-8h20v4H14v-4zm0 16h14v4H14v-4z" fill="currentColor"/>
-        </svg>
         <p class="blog-feed__empty-text">{{ section.settings.empty_state_text }}</p>
       </div>
     {% endif %}
