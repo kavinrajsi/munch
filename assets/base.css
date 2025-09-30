@@ -720,7 +720,6 @@ p {
 .header-container.header-normal .layout__grid-box, .header-container.header-hover .layout__grid-box {
   display: flex;
   align-items: center;
-  align-items: flex-start;
   justify-content: space-between;
   padding: 24px 16px;
 }
