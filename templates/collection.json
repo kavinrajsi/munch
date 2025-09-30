@@ -19,10 +19,10 @@
       "name": "Blog Feed",
       "settings": {
         "blog_title": "Blog",
-        "blog_show_author": true,
+        "blog_show_author": false,
         "blog_show_date": true,
-        "show_tags": true,
-        "show_comments": true,
+        "show_tags": false,
+        "show_comments": false,
         "show_article_content": false,
         "truncate_length": 150,
         "blog": "article",
