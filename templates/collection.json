@@ -20,7 +20,7 @@
       "settings": {
         "blog_title": "Blog",
         "blog_description": "",
-        "blog": "article",
+        "blog": "posts",
         "articles_limit": 4,
         "columns_desktop": 4,
         "columns_mobile": "1",
