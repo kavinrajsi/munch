@@ -178,7 +178,8 @@
       "type": "about-highlight",
       "settings": {
         "heading": "<h2>Nithya Amirtham – Chennai’s Finest Sweets, Now Delivered All Across India!</h2>",
-        "description": "<p>At Nithya Amirtham, we bring you the authentic taste of India’s finest sweets and snacks, now available for delivery anywhere in India. What started as a single shop in Arumbakkam, Chennai, has grown into one of the most loved and trusted sweet shops in Chennai, with multiple outlets in Chennai, Kanchipuram, and Tiruvallur.</p><p>Our online store allows you to enjoy the same delicious treats from the comfort of your home. From traditional sweets to crispy savouries, order online and have fresh sweets delivered to your doorstep across India.</p>"
+        "description": "<p>At Nithya Amirtham, we bring you the authentic taste of India’s finest sweets and snacks, now available for delivery anywhere in India. What started as a single shop in Arumbakkam, Chennai, has grown into one of the most loved and trusted sweet shops in Chennai, with multiple outlets in Chennai, Kanchipuram, and Tiruvallur.</p><p>Our online store allows you to enjoy the same delicious treats from the comfort of your home. From traditional sweets to crispy savouries, order online and have fresh sweets delivered to your doorstep across India.</p>",
+        "image": "shopify://shop_images/nithyaamirtham-mylapore-illustration.webp"
       }
     }
   },
