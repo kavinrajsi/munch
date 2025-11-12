@@ -15,28 +15,37 @@
         "slide_zcwXRV": {
           "type": "slide",
           "settings": {
+            "image_desktop": "shopify://shop_images/Website_Banners_June24__-02_98020b33-e4e9-455c-8a67-573945988f65.jpg",
+            "image_tablet": "shopify://shop_images/Website_Banners_June24__-02_98020b33-e4e9-455c-8a67-573945988f65.jpg",
+            "image_mobile": "shopify://shop_images/Website_Banners_June24__-05_998b26f5-c135-40dc-8723-af1aff1dbdc5.jpg",
             "heading": "",
             "subheading": "",
             "button_label": "",
-            "button_link": "shopify://products/achu-murukku-traditional-sweet-snack"
+            "button_link": "shopify://collections/home-made-sweets"
           }
         },
         "slide_r7LtTT": {
           "type": "slide",
           "settings": {
+            "image_desktop": "shopify://shop_images/Website_Banners_June24__-01_f3f10cc8-8522-4a9b-b9b4-a46fd32c5fab.jpg",
+            "image_tablet": "shopify://shop_images/Website_Banners_June24__-01.jpg",
+            "image_mobile": "shopify://shop_images/Website_Banners_June24__-04_39e21897-7d2a-4333-af76-8bc51d776e96.jpg",
             "heading": "",
             "subheading": "",
             "button_label": "",
-            "button_link": "shopify://products/signature-bundle-of-4"
+            "button_link": "shopify://collections/traditional-sweets"
           }
         },
         "slide_HAb3Bj": {
           "type": "slide",
           "settings": {
+            "image_desktop": "shopify://shop_images/Website_Banners_June24__-07.jpg",
+            "image_tablet": "shopify://shop_images/Website_Banners_June24__-07.jpg",
+            "image_mobile": "shopify://shop_images/Website_Banners_June24__-08.jpg",
             "heading": "",
             "subheading": "",
             "button_label": "",
-            "button_link": "shopify://products/thoothukudi-macaroon"
+            "button_link": "shopify://collections/home-made-sweets"
           }
         }
       },
