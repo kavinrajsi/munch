@@ -62,7 +62,7 @@
       "name": "Latest Products Slider",
       "settings": {
         "heading": "Pickle",
-        "collection": "pickles-and-rice-mix",
+        "collection": "baklava",
         "background_color": "#ffffff",
         "slides_to_show": 4,
         "slides_to_scroll": 1,
