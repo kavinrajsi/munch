@@ -61,7 +61,7 @@
       "type": "product-slider",
       "name": "Latest Products Slider",
       "settings": {
-        "heading": "Pickle",
+        "heading": "{{ section.settings.collection.title }}",
         "collection": "baklava",
         "background_color": "#ffffff",
         "slides_to_show": 4,
@@ -181,6 +181,29 @@
         "description": "<p>At Nithya Amirtham, we bring you the authentic taste of India’s finest sweets and snacks, now available for delivery anywhere in India. What started as a single shop in Arumbakkam, Chennai, has grown into one of the most loved and trusted sweet shops in Chennai, with multiple outlets in Chennai, Kanchipuram, and Tiruvallur.</p><p>Our online store allows you to enjoy the same delicious treats from the comfort of your home. From traditional sweets to crispy savouries, order online and have fresh sweets delivered to your doorstep across India.</p>",
         "image": "shopify://shop_images/nithyaamirtham-mylapore-illustration.webp"
       }
+    },
+    "blog_feed_RGQc3x": {
+      "type": "blog-feed",
+      "name": "Blog Feed",
+      "settings": {
+        "blog_title": "From Our Blog",
+        "blog_description": "",
+        "blog": "posts",
+        "articles_limit": 4,
+        "columns_desktop": 4,
+        "columns_mobile": "1",
+        "show_author": true,
+        "show_date": true,
+        "show_excerpt": true,
+        "truncate_length": 150,
+        "show_tags": true,
+        "show_comments_count": true,
+        "show_read_more": true,
+        "read_more_text": "Read more",
+        "show_view_all": true,
+        "view_all_text": "View all articles",
+        "empty_state_text": "No blog articles found. Please select a blog with published articles."
+      }
     }
   },
   "order": [
@@ -189,6 +212,7 @@
     "highlight_features_bGVGGQ",
     "short_video_NJAabq",
     "product_slider_BbrWe7",
-    "about-highlight"
+    "about-highlight",
+    "blog_feed_RGQc3x"
   ]
 }
