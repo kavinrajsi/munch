@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "shopify theme",
   "scripts": {
+    "build": "gulp style && gulp scripts",
+    "dev": "gulp",
+    "watch": "gulp watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "kavinrajsi",

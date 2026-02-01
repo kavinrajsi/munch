@@ -1,7 +1,6 @@
 const gulp = require('gulp');
 const sass = require('gulp-sass')(require('sass'));
 const autoprefixer = require('gulp-autoprefixer');
-const minify = require('gulp-minify');
 const concat = require('gulp-concat');
 const plumber = require('gulp-plumber');
 
@@ -15,24 +14,27 @@ gulp.task('style', function() {
     .pipe(gulp.dest('assets'));
 });
 
-// Minify JavaScript
+// Bundle JavaScript (order matters: shop-core first, init last)
 gulp.task('scripts', function() {
-  return gulp.src('scripts/global.js') // adjust path as needed
+  return gulp.src([
+      'dev/scripts/shop-core.js',
+      'dev/scripts/cart-utils.js',
+      'dev/scripts/cart-drawer.js',
+      'dev/scripts/menu-toggle.js',
+      'dev/scripts/search-toggle.js',
+      'dev/scripts/product-gallery.js',
+      'dev/scripts/slider.js',
+      'dev/scripts/init.js'
+    ])
     .pipe(plumber())
-    .pipe(concat('scripts.js'))
-    .pipe(minify({
-      ext: {
-        min: '.min.js'
-      },
-      noSource: true
-    }))
+    .pipe(concat('global.js'))
     .pipe(gulp.dest('assets'));
 });
 
 // Watch task
 gulp.task('watch', function() {
   gulp.watch('dev/style/**/*.*', gulp.series('style'));
-  gulp.watch('scripts/**/*.js', gulp.series('scripts'));
+  gulp.watch('dev/scripts/**/*.js', gulp.series('scripts'));
 });
 
 // Default task

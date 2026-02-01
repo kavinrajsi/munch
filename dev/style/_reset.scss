@@ -169,8 +169,6 @@ audio,
 canvas,
 video {
   display: inline-block;
-  *display: inline;
-  *zoom: 1;
   max-width: 100%;
 }
 
@@ -203,7 +201,6 @@ audio:not([controls]) {
 html {
   font-size: 100%; /* 1 */
   -webkit-text-size-adjust: 100%; /* 2 */
-  -ms-text-size-adjust: 100%; /* 2 */
 }
 
 /**
