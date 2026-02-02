@@ -42,8 +42,8 @@
         "slide_gap": 0,
         "enable_autoplay": false,
         "autoplay_speed": 5,
-        "enable_arrows": true,
-        "enable_dots": true,
+        "enable_arrows": false,
+        "enable_dots": false,
         "enable_loop": true
       }
     },
@@ -58,7 +58,7 @@
         "padding_top_mobile": 24,
         "padding_bottom_mobile": 24,
         "section_title": "Featured Products",
-        "title_color": "#C61D23",
+        "title_color": "#c61d23",
         "title_text_align": "left",
         "title_text_align_mobile": "left",
         "title_font_size": 36,
