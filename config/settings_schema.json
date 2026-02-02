@@ -6,5 +6,618 @@
     "theme_author": "Kavinraj",
     "theme_documentation_url": "https://sikavinraj.me/contact/",
     "theme_support_email": "sikavinraj@gmail.com"
+  },
+  {
+    "name": "Favicon",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "favicon",
+        "label": "Favicon image",
+        "info": "32x32px .png recommended"
+      }
+    ]
+  },
+  {
+    "name": "Colors",
+    "settings": [
+      {
+        "type": "color",
+        "id": "color_primary",
+        "label": "Primary color",
+        "default": "#C61D23"
+      },
+      {
+        "type": "color",
+        "id": "color_secondary",
+        "label": "Secondary color",
+        "default": "#666666"
+      },
+      {
+        "type": "color",
+        "id": "color_text",
+        "label": "Text color",
+        "default": "#333333"
+      },
+      {
+        "type": "color",
+        "id": "color_heading",
+        "label": "Heading color",
+        "default": "#000000"
+      },
+      {
+        "type": "color",
+        "id": "color_background",
+        "label": "Background color",
+        "default": "#ffffff"
+      },
+      {
+        "type": "color",
+        "id": "color_border",
+        "label": "Border color",
+        "default": "#e0e0e0"
+      }
+    ]
+  },
+  {
+    "name": "Layout",
+    "settings": [
+      {
+        "type": "range",
+        "id": "page_width",
+        "label": "Page width",
+        "min": 900,
+        "max": 1600,
+        "step": 10,
+        "unit": "px",
+        "default": 1200
+      }
+    ]
+  },
+  {
+    "name": "Typography",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Headings"
+      },
+      {
+        "type": "range",
+        "id": "heading_h1_size",
+        "label": "H1 font size",
+        "min": 24,
+        "max": 80,
+        "step": 2,
+        "unit": "px",
+        "default": 56
+      },
+      {
+        "type": "range",
+        "id": "heading_h2_size",
+        "label": "H2 font size",
+        "min": 20,
+        "max": 60,
+        "step": 2,
+        "unit": "px",
+        "default": 36
+      },
+      {
+        "type": "range",
+        "id": "heading_h3_size",
+        "label": "H3 font size",
+        "min": 16,
+        "max": 48,
+        "step": 2,
+        "unit": "px",
+        "default": 28
+      },
+      {
+        "type": "header",
+        "content": "Body"
+      },
+      {
+        "type": "range",
+        "id": "body_font_size",
+        "label": "Body font size",
+        "min": 12,
+        "max": 24,
+        "step": 1,
+        "unit": "px",
+        "default": 16
+      }
+    ]
+  },
+  {
+    "name": "Product card",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Layout"
+      },
+      {
+        "type": "select",
+        "id": "card_layout",
+        "label": "Card layout",
+        "options": [
+          { "value": "layout-1", "label": "Layout 1" },
+          { "value": "layout-2", "label": "Layout 2" },
+          { "value": "layout-3", "label": "Layout 3" }
+        ],
+        "default": "layout-1"
+      },
+      {
+        "type": "header",
+        "content": "Image"
+      },
+      {
+        "type": "range",
+        "id": "card_image_border_radius",
+        "label": "Image border radius (desktop)",
+        "min": 0,
+        "max": 30,
+        "step": 1,
+        "unit": "px",
+        "default": 10
+      },
+      {
+        "type": "range",
+        "id": "card_image_border_radius_mobile",
+        "label": "Image border radius (mobile)",
+        "min": 0,
+        "max": 30,
+        "step": 1,
+        "unit": "px",
+        "default": 10
+      },
+      {
+        "type": "header",
+        "content": "Title (desktop)"
+      },
+      {
+        "type": "range",
+        "id": "card_title_font_size",
+        "label": "Title font size (desktop)",
+        "min": 10,
+        "max": 36,
+        "step": 1,
+        "unit": "px",
+        "default": 20
+      },
+      {
+        "type": "range",
+        "id": "card_title_line_height",
+        "label": "Title line height (desktop)",
+        "min": 10,
+        "max": 40,
+        "step": 1,
+        "unit": "px",
+        "default": 20
+      },
+      {
+        "type": "header",
+        "content": "Title (mobile)"
+      },
+      {
+        "type": "range",
+        "id": "card_title_font_size_mobile",
+        "label": "Title font size (mobile)",
+        "min": 10,
+        "max": 36,
+        "step": 1,
+        "unit": "px",
+        "default": 20
+      },
+      {
+        "type": "range",
+        "id": "card_title_line_height_mobile",
+        "label": "Title line height (mobile)",
+        "min": 10,
+        "max": 40,
+        "step": 1,
+        "unit": "px",
+        "default": 20
+      },
+      {
+        "type": "color",
+        "id": "card_title_color",
+        "label": "Title text color",
+        "default": "#FFFFFF"
+      },
+      {
+        "type": "select",
+        "id": "card_title_text_align",
+        "label": "Title text align (desktop)",
+        "options": [
+          { "value": "left", "label": "Left" },
+          { "value": "center", "label": "Center" },
+          { "value": "right", "label": "Right" }
+        ],
+        "default": "center"
+      },
+      {
+        "type": "select",
+        "id": "card_title_text_align_mobile",
+        "label": "Title text align (mobile)",
+        "options": [
+          { "value": "left", "label": "Left" },
+          { "value": "center", "label": "Center" },
+          { "value": "right", "label": "Right" }
+        ],
+        "default": "center"
+      },
+      {
+        "type": "header",
+        "content": "Price (desktop)"
+      },
+      {
+        "type": "range",
+        "id": "card_price_font_size",
+        "label": "Price font size (desktop)",
+        "min": 10,
+        "max": 30,
+        "step": 1,
+        "unit": "px",
+        "default": 16
+      },
+      {
+        "type": "range",
+        "id": "card_price_line_height",
+        "label": "Price line height (desktop)",
+        "min": 10,
+        "max": 36,
+        "step": 1,
+        "unit": "px",
+        "default": 20
+      },
+      {
+        "type": "header",
+        "content": "Price (mobile)"
+      },
+      {
+        "type": "range",
+        "id": "card_price_font_size_mobile",
+        "label": "Price font size (mobile)",
+        "min": 10,
+        "max": 30,
+        "step": 1,
+        "unit": "px",
+        "default": 16
+      },
+      {
+        "type": "range",
+        "id": "card_price_line_height_mobile",
+        "label": "Price line height (mobile)",
+        "min": 10,
+        "max": 36,
+        "step": 1,
+        "unit": "px",
+        "default": 20
+      },
+      {
+        "type": "color",
+        "id": "card_price_color",
+        "label": "Price text color",
+        "default": "#FFFFFF"
+      },
+      {
+        "type": "select",
+        "id": "card_price_text_align",
+        "label": "Price text align (desktop)",
+        "options": [
+          { "value": "left", "label": "Left" },
+          { "value": "center", "label": "Center" },
+          { "value": "right", "label": "Right" }
+        ],
+        "default": "center"
+      },
+      {
+        "type": "select",
+        "id": "card_price_text_align_mobile",
+        "label": "Price text align (mobile)",
+        "options": [
+          { "value": "left", "label": "Left" },
+          { "value": "center", "label": "Center" },
+          { "value": "right", "label": "Right" }
+        ],
+        "default": "center"
+      },
+      {
+        "type": "header",
+        "content": "Add to cart button (desktop)"
+      },
+      {
+        "type": "range",
+        "id": "card_atc_font_size",
+        "label": "Button font size (desktop)",
+        "min": 10,
+        "max": 24,
+        "step": 1,
+        "unit": "px",
+        "default": 12
+      },
+      {
+        "type": "range",
+        "id": "card_atc_line_height",
+        "label": "Button line height (desktop)",
+        "min": 10,
+        "max": 30,
+        "step": 1,
+        "unit": "px",
+        "default": 15
+      },
+      {
+        "type": "select",
+        "id": "card_atc_text_align",
+        "label": "Button text align (desktop)",
+        "options": [
+          { "value": "left", "label": "Left" },
+          { "value": "center", "label": "Center" },
+          { "value": "right", "label": "Right" }
+        ],
+        "default": "right"
+      },
+      {
+        "type": "header",
+        "content": "Add to cart button (mobile)"
+      },
+      {
+        "type": "range",
+        "id": "card_atc_font_size_mobile",
+        "label": "Button font size (mobile)",
+        "min": 10,
+        "max": 24,
+        "step": 1,
+        "unit": "px",
+        "default": 12
+      },
+      {
+        "type": "range",
+        "id": "card_atc_line_height_mobile",
+        "label": "Button line height (mobile)",
+        "min": 10,
+        "max": 30,
+        "step": 1,
+        "unit": "px",
+        "default": 15
+      },
+      {
+        "type": "select",
+        "id": "card_atc_text_align_mobile",
+        "label": "Button text align (mobile)",
+        "options": [
+          { "value": "left", "label": "Left" },
+          { "value": "center", "label": "Center" },
+          { "value": "right", "label": "Right" }
+        ],
+        "default": "center"
+      },
+      {
+        "type": "color",
+        "id": "card_atc_color",
+        "label": "Button text color",
+        "default": "#000000"
+      },
+      {
+        "type": "color",
+        "id": "card_atc_bg",
+        "label": "Button background color",
+        "default": "#FFFFFF"
+      },
+      {
+        "type": "range",
+        "id": "card_atc_border_radius",
+        "label": "Button border radius (desktop)",
+        "min": 0,
+        "max": 30,
+        "step": 1,
+        "unit": "px",
+        "default": 4
+      },
+      {
+        "type": "range",
+        "id": "card_atc_border_radius_mobile",
+        "label": "Button border radius (mobile)",
+        "min": 0,
+        "max": 30,
+        "step": 1,
+        "unit": "px",
+        "default": 4
+      },
+      {
+        "type": "range",
+        "id": "card_atc_padding_y",
+        "label": "Button vertical padding (desktop)",
+        "min": 0,
+        "max": 30,
+        "step": 1,
+        "unit": "px",
+        "default": 12
+      },
+      {
+        "type": "range",
+        "id": "card_atc_padding_x",
+        "label": "Button horizontal padding (desktop)",
+        "min": 0,
+        "max": 40,
+        "step": 1,
+        "unit": "px",
+        "default": 24
+      },
+      {
+        "type": "range",
+        "id": "card_atc_padding_y_mobile",
+        "label": "Button vertical padding (mobile)",
+        "min": 0,
+        "max": 30,
+        "step": 1,
+        "unit": "px",
+        "default": 12
+      },
+      {
+        "type": "range",
+        "id": "card_atc_padding_x_mobile",
+        "label": "Button horizontal padding (mobile)",
+        "min": 0,
+        "max": 40,
+        "step": 1,
+        "unit": "px",
+        "default": 24
+      },
+      {
+        "type": "header",
+        "content": "Loading image"
+      },
+      {
+        "type": "image_picker",
+        "id": "card_loading_image",
+        "label": "Loading image",
+        "info": "Shown inside add to cart button while adding. SVG or small PNG recommended"
+      },
+      {
+        "type": "range",
+        "id": "card_loading_width",
+        "label": "Loading image width",
+        "min": 10,
+        "max": 60,
+        "step": 1,
+        "unit": "px",
+        "default": 16
+      },
+      {
+        "type": "range",
+        "id": "card_loading_height",
+        "label": "Loading image height",
+        "min": 10,
+        "max": 60,
+        "step": 1,
+        "unit": "px",
+        "default": 26
+      },
+      {
+        "type": "header",
+        "content": "Spacing"
+      },
+      {
+        "type": "range",
+        "id": "card_title_price_gap",
+        "label": "Gap between title & price (desktop)",
+        "min": 0,
+        "max": 20,
+        "step": 1,
+        "unit": "px",
+        "default": 2
+      },
+      {
+        "type": "range",
+        "id": "card_title_price_gap_mobile",
+        "label": "Gap between title & price (mobile)",
+        "min": 0,
+        "max": 20,
+        "step": 1,
+        "unit": "px",
+        "default": 2
+      },
+      {
+        "type": "range",
+        "id": "card_price_variant_gap",
+        "label": "Gap between price & variants (desktop)",
+        "min": 0,
+        "max": 40,
+        "step": 1,
+        "unit": "px",
+        "default": 24
+      },
+      {
+        "type": "range",
+        "id": "card_price_variant_gap_mobile",
+        "label": "Gap between price & variants (mobile)",
+        "min": 0,
+        "max": 40,
+        "step": 1,
+        "unit": "px",
+        "default": 24
+      },
+      {
+        "type": "range",
+        "id": "card_variant_qty_gap",
+        "label": "Gap between variants & qty (desktop)",
+        "min": 0,
+        "max": 40,
+        "step": 1,
+        "unit": "px",
+        "default": 24
+      },
+      {
+        "type": "range",
+        "id": "card_variant_qty_gap_mobile",
+        "label": "Gap between variants & qty (mobile)",
+        "min": 0,
+        "max": 40,
+        "step": 1,
+        "unit": "px",
+        "default": 24
+      },
+      {
+        "type": "range",
+        "id": "card_qty_atc_gap",
+        "label": "Gap between qty & add to cart (desktop)",
+        "min": 0,
+        "max": 40,
+        "step": 1,
+        "unit": "px",
+        "default": 12
+      },
+      {
+        "type": "range",
+        "id": "card_qty_atc_gap_mobile",
+        "label": "Gap between qty & add to cart (mobile)",
+        "min": 0,
+        "max": 40,
+        "step": 1,
+        "unit": "px",
+        "default": 12
+      },
+      {
+        "type": "header",
+        "content": "Toggle options"
+      },
+      {
+        "type": "checkbox",
+        "id": "card_enable_secondary_image",
+        "label": "Show secondary image on hover",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "card_enable_tag",
+        "label": "Show sale / new tags",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "card_enable_price",
+        "label": "Show price",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "card_enable_variant",
+        "label": "Show variants",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "card_enable_variant_label",
+        "label": "Show variant label",
+        "default": true,
+        "info": "Show option name (e.g. Size:) before variant buttons"
+      },
+      {
+        "type": "checkbox",
+        "id": "card_enable_qty",
+        "label": "Show quantity selector",
+        "default": true
+      }
+    ]
   }
 ]

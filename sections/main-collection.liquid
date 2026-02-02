@@ -1,0 +1,47 @@
+<div class="collection section-padding">
+  <div class="page-width">
+    <h1>{{ collection.title }}</h1>
+
+    {%- if collection.description != blank -%}
+      <div class="rte">
+        {{ collection.description }}
+      </div>
+    {%- endif -%}
+
+    {%- paginate collection.products by 12 -%}
+      <div class="collection__grid">
+        {%- for product in collection.products -%}
+          <div class="collection__item">
+            <a href="{{ product.url }}">
+              {%- if product.featured_image -%}
+                <img
+                  src="{{ product.featured_image | image_url: width: 400 }}"
+                  alt="{{ product.featured_image.alt | escape }}"
+                  width="400"
+                  height="auto"
+                  loading="lazy"
+                >
+              {%- endif -%}
+              <h3>{{ product.title }}</h3>
+              <p>{{ product.price | money }}</p>
+            </a>
+          </div>
+        {%- endfor -%}
+      </div>
+
+      {%- if paginate.pages > 1 -%}
+        <div class="pagination">
+          {{ paginate | default_pagination: next: '&raquo;', previous: '&laquo;' }}
+        </div>
+      {%- endif -%}
+    {%- endpaginate -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Collection",
+  "tag": "section",
+  "settings": []
+}
+{% endschema %}

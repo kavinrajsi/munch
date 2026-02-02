@@ -1,0 +1,48 @@
+// =============================================
+// Announcement Bar
+// =============================================
+
+.announcement-bar {
+  padding: 8px 48px;
+  background: var(--color-primary);
+  overflow: hidden;
+}
+
+.announcement-bar__scroll {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+.announcement-bar__track {
+  display: inline-flex;
+  white-space: nowrap;
+  animation: announcement-scroll var(--announcement-speed, 46s) linear infinite;
+}
+
+.announcement-bar:hover .announcement-bar__track {
+  animation-play-state: paused;
+}
+
+.announcement-bar__item {
+  font-family: 'Instrument Sans', sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 15px;
+  color: var(--announcement-text-color, #FFFFFF);
+  padding-right: 48px;
+
+  &:hover {
+    color: var(--announcement-text-color, #FFFFFF);
+  }
+}
+
+@keyframes announcement-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}

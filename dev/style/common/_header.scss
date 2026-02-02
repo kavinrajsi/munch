@@ -1,0 +1,118 @@
+// =============================================
+// Header
+// =============================================
+
+.header {
+  padding: var(--header-padding-top-mobile, 24px) 0 var(--header-padding-bottom-mobile, 24px);
+  background: var(--header-bg, #FFFFFF);
+  // border-bottom: 1px solid var(--color-border);
+
+  @media screen and (min-width: 768px) {
+    padding: var(--header-padding-top, 24px) 0 var(--header-padding-bottom, 24px) 0;
+  }
+}
+
+.header__wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header__logo-link {
+  display: flex;
+  align-items: center;
+  width: var(--logo-width-mobile, 136px);
+
+  img, svg {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  @media screen and (min-width: 768px) {
+    width: var(--logo-width, 166px);
+  }
+}
+
+.header__logo-text {
+  font-family: 'minion_pro_cond_caption', sans-serif;
+  font-size: 24px;
+  line-height: 24px;
+  font-weight: normal;
+  color: var(--color-heading);
+}
+
+.header__nav-list {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.header__nav-link {
+  font-family: 'Instrument Sans', sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: var(--nav-font-size-mobile, 14px);
+  line-height: var(--nav-line-height-mobile, 17px);
+  color: var(--nav-color, #660808);
+  padding: 8px 16px;
+  border-radius: 4px;
+  background: linear-gradient(to right, var(--color-primary) 50%, transparent 50%);
+  background-size: 200% 100%;
+  background-position: right;
+  will-change: background-position, color;
+  transition: background-position 0.3s ease, color 0.3s ease;
+
+  @media screen and (min-width: 768px) {
+    font-size: var(--nav-font-size, 14px);
+    line-height: var(--nav-line-height, 17px);
+  }
+
+  &:hover {
+    background-position: left;
+    color: var(--nav-hover-color, #FFFFFF);
+  }
+}
+
+.header__icons {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.header__icon-link {
+  display: flex;
+  align-items: center;
+  color: var(--color-text);
+
+  &:hover {
+    color: var(--color-primary);
+  }
+}
+
+.header__icon {
+  width: 24px;
+  height: 24px;
+}
+
+.header__cart {
+  position: relative;
+}
+
+.header__cart-count {
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 10px;
+  line-height: 10px;
+  font-weight: 600;
+  color: var(--color-primary-contrast);
+  background: var(--color-primary);
+  border-radius: 50%;
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: -4px;
+  right: -6px;
+}

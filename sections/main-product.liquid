@@ -1,0 +1,68 @@
+<div class="product section-padding">
+  <div class="page-width">
+    <div class="product__wrapper">
+      <div class="product__media">
+        {%- if product.featured_image -%}
+          <img
+            src="{{ product.featured_image | image_url: width: 800 }}"
+            alt="{{ product.featured_image.alt | escape }}"
+            width="800"
+            height="auto"
+            loading="lazy"
+          >
+        {%- endif -%}
+      </div>
+
+      <div class="product__info">
+        <h1>{{ product.title }}</h1>
+        <p class="product__price">{{ product.price | money }}</p>
+
+        {%- form 'product', product -%}
+          <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+
+          {%- unless product.has_only_default_variant -%}
+            {%- for option in product.options_with_values -%}
+              <div class="field">
+                <label class="field__label" for="Option-{{ forloop.index }}">{{ option.name }}</label>
+                <select class="field__input" id="Option-{{ forloop.index }}" name="options[{{ option.name }}]">
+                  {%- for value in option.values -%}
+                    <option value="{{ value }}" {% if value == option.selected_value %}selected{% endif %}>
+                      {{ value }}
+                    </option>
+                  {%- endfor -%}
+                </select>
+              </div>
+            {%- endfor -%}
+          {%- endunless -%}
+
+          <div class="field">
+            <label class="field__label" for="Quantity">Quantity</label>
+            <input class="field__input" type="number" id="Quantity" name="quantity" value="1" min="1">
+          </div>
+
+          <button type="submit" class="btn btn--primary" {% unless product.available %}disabled{% endunless %}>
+            {%- if product.available -%}
+              Add to cart
+            {%- else -%}
+              Sold out
+            {%- endif -%}
+          </button>
+        {%- endform -%}
+
+        {%- if product.description != blank -%}
+          <div class="product__description rte">
+            {{ product.description }}
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Product",
+  "tag": "section",
+  "settings": []
+}
+{% endschema %}

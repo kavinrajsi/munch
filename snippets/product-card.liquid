@@ -1,0 +1,138 @@
+{%- capture product_json -%}
+{
+  "id": {{ product.id }},
+  "title": {{ product.title | json }},
+  "url": {{ product.url | json }},
+  "available": {{ product.available }},
+  "price": {{ product.price }},
+  "compare_at_price": {{ product.compare_at_price | default: 0 }},
+  "featured_image": {{ product.featured_image | image_url: width: 400 | json }},
+  "description": {{ product.description | json }},
+  "options_with_values": {{ product.options_with_values | json }},
+  "variants": {{ product.variants | json }}
+}
+{%- endcapture -%}
+<div class="product-card product-card--{{ settings.card_layout }}" data-product-json='{{ product_json | strip_newlines | escape }}'>
+  <div class="product-card__media">
+    <a href="{{ product.url }}" class="product-card__image-link">
+      {%- if product.featured_image -%}
+        <picture class="product-card__image product-card__image--primary">
+          <source type="image/avif" srcset="{{ product.featured_image | image_url: width: 400, format: 'avif' }}">
+          <source type="image/webp" srcset="{{ product.featured_image | image_url: width: 400, format: 'webp' }}">
+          <img
+            src="{{ product.featured_image | image_url: width: 400 }}"
+            alt="{{ product.featured_image.alt | escape }}"
+            width="400"
+            height="auto"
+            loading="lazy"
+          >
+        </picture>
+        {%- if settings.card_enable_secondary_image and product.images.size > 1 -%}
+          {%- assign second_image = product.images[1] -%}
+          <picture class="product-card__image product-card__image--secondary">
+            <source type="image/avif" srcset="{{ second_image | image_url: width: 400, format: 'avif' }}">
+            <source type="image/webp" srcset="{{ second_image | image_url: width: 400, format: 'webp' }}">
+            <img
+              src="{{ second_image | image_url: width: 400 }}"
+              alt="{{ second_image.alt | escape }}"
+              width="400"
+              height="auto"
+              loading="lazy"
+            >
+          </picture>
+        {%- endif -%}
+      {%- endif -%}
+
+      {%- if settings.card_enable_tag -%}
+        <div class="product-card__tags">
+          {%- if product.compare_at_price > product.price -%}
+            {%- assign save_percent = product.compare_at_price | minus: product.price | times: 100 | divided_by: product.compare_at_price -%}
+            <span class="product-card__tag product-card__tag--sale">Sale</span>
+          {%- endif -%}
+
+          {%- assign product_created = product.created_at | date: '%s' -%}
+          {%- assign now = 'now' | date: '%s' -%}
+          {%- assign diff_seconds = now | minus: product_created -%}
+          {%- assign thirty_days = 2592000 -%}
+          {%- if diff_seconds < thirty_days -%}
+            <span class="product-card__tag product-card__tag--new">New</span>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+
+      <div class="product-card__overlay">
+        <h4 class="product-card__title">{{ product.title }}</h4>
+        {%- if settings.card_enable_price -%}
+          {%- if product.compare_at_price > product.price -%}
+            {%- unless settings.card_enable_tag -%}
+              {%- assign save_percent = product.compare_at_price | minus: product.price | times: 100 | divided_by: product.compare_at_price -%}
+            {%- endunless -%}
+          {%- endif -%}
+          <div class="product-card__pricing">
+            {%- if product.compare_at_price > product.price -%}
+              <span class="product-card__compare-price">{{ product.compare_at_price | money }}</span>
+              <span class="product-card__sale-price">{{ product.price | money }}</span>
+              <span class="product-card__save">Save {{ save_percent }}%</span>
+            {%- else -%}
+              <span class="product-card__regular-price">{{ product.price | money }}</span>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+      </div>
+    </a>
+  </div>
+
+  <div class="product-card__info">
+
+    {% comment %} Opens the product quickview drawer with image, title, price, variants, qty, and add-to-cart. Shown for all products regardless of variant count. {% endcomment %}
+    <button type="button" class="product-card__select-option" data-open-product-drawer>Select Option</button>
+
+    <div class="product-card__variants">
+      {%- if settings.card_enable_variant -%}
+        {%- unless product.has_only_default_variant -%}
+          {%- for option in product.options_with_values -%}
+            <div class="product-card__variant-group">
+              {%- if settings.card_enable_variant_label -%}
+                <span class="product-card__variant-label">{{ option.name }}:</span>
+              {%- endif -%}
+              <div class="product-card__variant-options">
+                {%- for value in option.values -%}
+                  <button
+                    type="button"
+                    class="product-card__variant-btn{% if forloop.first %} product-card__variant-btn--active{% endif %}"
+                    data-option-index="{{ forloop.parentloop.index0 }}"
+                    data-value="{{ value }}"
+                  >
+                    {{ value }}
+                  </button>
+                {%- endfor -%}
+              </div>
+            </div>
+          {%- endfor -%}
+        {%- endunless -%}
+      {%- endif -%}
+    </div>
+
+    <form class="product-card__form" data-product-form data-ajax-cart>
+      <input type="hidden" name="id" value="{{ product.first_available_variant.id }}" data-variant-id>
+      {%- if settings.card_enable_qty -%}
+        <div class="product-card__qty">
+          <button type="button" class="product-card__qty-btn" data-card-qty-minus>-</button>
+          <input type="text" name="quantity" value="1" min="1" class="product-card__qty-input" data-card-qty-input readonly>
+          <button type="button" class="product-card__qty-btn" data-card-qty-plus>+</button>
+        </div>
+      {%- endif -%}
+      <button type="submit" class="product-card__atc" {% unless product.available %}disabled{% endunless %}>
+        {%- if product.available -%}
+          Add to cart
+        {%- else -%}
+          Sold out
+        {%- endif -%}
+      </button>
+    </form>
+
+    <script type="application/json" data-product-variants>
+      {{ product.variants | json }}
+    </script>
+  </div>
+</div>

@@ -1,0 +1,30 @@
+<article class="article section-padding">
+  <div class="page-width">
+    <h1>{{ article.title }}</h1>
+    <p class="article__meta">{{ article.published_at | date: '%B %d, %Y' }} &middot; {{ article.author }}</p>
+
+    {%- if article.image -%}
+      <img
+        src="{{ article.image | image_url: width: 1200 }}"
+        alt="{{ article.image.alt | escape }}"
+        width="1200"
+        height="auto"
+        loading="lazy"
+      >
+    {%- endif -%}
+
+    <div class="article__content rte">
+      {{ article.content }}
+    </div>
+
+    <a href="{{ blog.url }}">Back to {{ blog.title }}</a>
+  </div>
+</article>
+
+{% schema %}
+{
+  "name": "Article",
+  "tag": "section",
+  "settings": []
+}
+{% endschema %}

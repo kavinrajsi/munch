@@ -1,0 +1,60 @@
+<!doctype html>
+<html class="no-js" lang="{{ request.locale.iso_code }}">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ 'gift_cards.issued.title' | t }}</title>
+
+    {{ content_for_header }}
+
+    {{ 'base.css' | asset_url | stylesheet_tag }}
+  </head>
+
+  <body class="gift-card">
+    <div class="page-width section-padding text-center">
+      <h1>{{ 'gift_cards.issued.title' | t }}</h1>
+      <p>{{ 'gift_cards.issued.subtext' | t }}</p>
+
+      <div class="gift-card__image">
+        <img src="{{ 'gift-card/card.jpg' | shopify_asset_url }}" alt="Gift card" width="400" height="auto">
+      </div>
+
+      {%- assign formatted_initial_value = gift_card.initial_value | money_without_trailing_zeros -%}
+      {%- assign formatted_current_balance = gift_card.balance | money_without_trailing_zeros -%}
+
+      {%- if gift_card.balance != gift_card.initial_value -%}
+        <p>{{ 'gift_cards.issued.initial_value' | t: value: formatted_initial_value }}</p>
+        <p><strong>{{ 'gift_cards.issued.remaining_html' | t: balance: formatted_current_balance }}</strong></p>
+      {%- else -%}
+        <p><strong>{{ formatted_initial_value }}</strong></p>
+      {%- endif -%}
+
+      <div class="gift-card__code">
+        <input
+          type="text"
+          class="field__input text-center"
+          value="{{ gift_card.code | format_code }}"
+          aria-label="{{ 'gift_cards.issued.gift_card_code' | t }}"
+          readonly
+        >
+      </div>
+
+      {%- if gift_card.pass_url -%}
+        <a href="{{ gift_card.pass_url }}" class="btn btn--primary">
+          {{ 'gift_cards.issued.add_to_apple_wallet' | t }}
+        </a>
+      {%- endif -%}
+
+      <p>
+        <a href="{{ shop.url }}" class="btn btn--secondary" target="_blank">
+          {{ 'gift_cards.issued.shop_link' | t }}
+        </a>
+      </p>
+
+      {%- if gift_card.expired -%}
+        <p>{{ 'gift_cards.issued.expired' | t }}</p>
+      {%- endif -%}
+    </div>
+  </body>
+</html>

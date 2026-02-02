@@ -1,1 +1,186 @@
 @use "reset";
+@use "common/announcement";
+@use "common/header";
+@use "common/hero-slider";
+@use "common/product-card";
+@use "common/product-slider";
+@use "common/cart-drawer";
+@use "common/product-drawer";
+
+// =============================================
+// Typography
+// =============================================
+
+body {
+  font-family: 'minion_pro_cond_caption', sans-serif;
+  font-size: 16px;
+  line-height: normal;
+  color: var(--color-text);
+  background-color: var(--color-background);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, .h1,
+h2, .h2,
+h3, .h3,
+h4, .h4,
+h5, .h5,
+h6, .h6 {
+  font-family: 'minion_pro_cond_caption', sans-serif;
+  font-weight: normal;
+  color: var(--color-heading);
+}
+
+h1, .h1 {
+  font-size: 56px;
+  line-height: 56px;
+}
+
+h2, .h2 {
+  font-size: 36px;
+  line-height: 36px;
+}
+
+h3, .h3 {
+  font-size: 28px;
+  line-height: 34px;
+}
+
+h4, .h4 {
+  font-size: 20px;
+  line-height: 20px;
+}
+
+h5, .h5 {
+  font-size: 16px;
+  line-height: 20px;
+}
+
+h6, .h6 {
+  font-size: 14px;
+  line-height: 18px;
+}
+
+p {
+  margin-bottom: 16px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+strong, b {
+  font-weight: bold;
+}
+
+em, i {
+  font-style: italic;
+}
+
+// =============================================
+// Layout
+// =============================================
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+.page-width {
+  max-width: var(--page-width, 1200px);
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.section-padding {
+  padding-top: 40px;
+  padding-bottom: 40px;
+}
+
+// =============================================
+// Buttons
+// =============================================
+
+.btn {
+  display: inline-block;
+  padding: 12px 24px;
+  font-family: 'minion_pro_cond_caption', sans-serif;
+  font-size: 16px;
+  line-height: normal;
+  text-align: center;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.btn--primary {
+  background-color: var(--color-primary);
+  color: var(--color-primary-contrast);
+
+  &:hover {
+    opacity: 0.85;
+  }
+}
+
+.btn--secondary {
+  background-color: transparent;
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+
+  &:hover {
+    background-color: var(--color-primary);
+    color: var(--color-primary-contrast);
+  }
+}
+
+// =============================================
+// Forms
+// =============================================
+
+.field {
+  margin-bottom: 16px;
+}
+
+.field__label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 14px;
+}
+
+.field__input {
+  width: 100%;
+  padding: 10px 12px;
+  font-family: 'minion_pro_cond_caption', sans-serif;
+  font-size: 16px;
+  border: 1px solid var(--color-border);
+  background-color: var(--color-background);
+  color: var(--color-text);
+
+  &:focus {
+    outline: none;
+    border-color: var(--color-primary);
+  }
+}
+
+// =============================================
+// Utilities
+// =============================================
+
+.text-center { text-align: center; }
+.text-left { text-align: left; }
+.text-right { text-align: right; }
+
+.rte {
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  ul, ol {
+    padding-left: 20px;
+    margin-bottom: 16px;
+  }
+
+  ul { list-style: disc; }
+  ol { list-style: decimal; }
+}

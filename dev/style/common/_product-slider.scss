@@ -1,0 +1,163 @@
+// =============================================
+// Product Slider
+// =============================================
+
+.product-slider__section {
+  background-color: var(--slider-bg, #ffffff);
+  padding-top: var(--slider-pt, 24px);
+  padding-bottom: var(--slider-pb, 24px);
+
+  @media screen and (min-width: 768px) {
+    padding-top: var(--slider-pt-desktop, 40px);
+    padding-bottom: var(--slider-pb-desktop, 40px);
+  }
+}
+
+.product-slider__header {
+  padding-bottom: var(--slider-title-pb, 16px);
+
+  @media screen and (min-width: 768px) {
+    padding-bottom: var(--slider-title-pb-desktop, 24px);
+  }
+
+  h2 {
+    font-family: 'minion_pro_cond_caption', sans-serif;
+    font-style: normal;
+    font-weight: 700;
+    font-size: var(--slider-title-font-size-mobile, 32px);
+    line-height: var(--slider-title-line-height-mobile, 32px);
+    color: var(--slider-title-color, #C61D23);
+    text-align: var(--slider-title-align-mobile, left);
+    margin: 0;
+
+    @media screen and (min-width: 768px) {
+      font-weight: 400;
+      font-size: var(--slider-title-font-size, 36px);
+      line-height: var(--slider-title-line-height, 36px);
+      text-align: var(--slider-title-align, left);
+    }
+  }
+}
+
+.product-slider {
+  width: 100%;
+
+  .slick-slide {
+    padding: 0 calc(var(--slider-gap, 16px) / 2);
+  }
+
+  .slick-list {
+    margin: 0 calc(var(--slider-gap, 16px) / -2);
+  }
+}
+
+.product-slider__item {
+  position: relative;
+}
+
+.product-slider__link {
+  display: block;
+  color: var(--color-text);
+
+  &:hover {
+    color: var(--color-text);
+  }
+}
+
+.product-slider__image {
+  display: block;
+  width: 100%;
+  overflow: hidden;
+
+  img {
+    display: block;
+    width: 100%;
+    height: auto;
+    transition: transform 0.3s ease;
+  }
+
+  &:hover img {
+    transform: scale(1.03);
+  }
+}
+
+.product-slider__info {
+  padding: 12px 0;
+}
+
+.product-slider__title {
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 14px;
+  line-height: 17px;
+  font-weight: 500;
+  color: var(--color-heading);
+}
+
+.product-slider__price {
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 14px;
+  line-height: 17px;
+  font-weight: 400;
+  color: var(--color-text);
+  margin-top: 4px;
+}
+
+.product-slider__wrapper {
+  position: relative;
+}
+
+.product-slider__nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  line-height: 0;
+  transition: opacity 0.2s ease;
+
+  &:hover {
+    opacity: 0.75;
+  }
+
+  svg {
+    display: block;
+    width: 40px;
+    height: 40px;
+  }
+}
+
+.product-slider__nav--prev {
+  left: -20px;
+
+  @media screen and (max-width: 767px) {
+    left: -8px;
+  }
+}
+
+.product-slider__nav--next {
+  right: -20px;
+
+  @media screen and (max-width: 767px) {
+    right: -8px;
+  }
+}
+
+.product-slider {
+  .slick-dots {
+    bottom: -32px;
+
+    li button:before {
+      font-size: 10px;
+      color: var(--color-primary);
+      opacity: 0.3;
+    }
+
+    li.slick-active button:before {
+      color: var(--color-primary);
+      opacity: 1;
+    }
+  }
+}

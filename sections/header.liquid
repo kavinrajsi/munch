@@ -1,0 +1,350 @@
+<header class="header" style="--logo-width: {{ section.settings.logo_width }}px; --logo-width-mobile: {{ section.settings.logo_width_mobile }}px; --nav-font-size: {{ section.settings.nav_font_size }}px; --nav-font-size-mobile: {{ section.settings.nav_font_size_mobile }}px; --nav-line-height: {{ section.settings.nav_line_height }}px; --nav-line-height-mobile: {{ section.settings.nav_line_height_mobile }}px; --nav-color: {{ section.settings.nav_color }}; --nav-hover-color: {{ section.settings.nav_hover_color }}; --header-bg: {{ section.settings.header_bg }}; --header-padding-top: {{ section.settings.header_padding_top }}px; --header-padding-bottom: {{ section.settings.header_padding_bottom }}px; --header-padding-top-mobile: {{ section.settings.header_padding_top_mobile }}px; --header-padding-bottom-mobile: {{ section.settings.header_padding_bottom_mobile }}px; ">
+  <div class="page-width header__wrapper">
+    <div class="header__logo">
+      <a href="/" class="header__logo-link">
+        {%- if section.settings.logo_type == 'image' and section.settings.logo -%}
+          {%- assign logo_width_2x = section.settings.logo_width | times: 2 -%}
+          {%- assign logo_width_mobile_2x = section.settings.logo_width_mobile | times: 2 -%}
+          <picture>
+            <source
+              media="(max-width: 767px)"
+              type="image/avif"
+              srcset="{{ section.settings.logo | image_url: width: section.settings.logo_width_mobile, format: 'avif' }} 1x, {{ section.settings.logo | image_url: width: logo_width_mobile_2x, format: 'avif' }} 2x"
+            >
+            <source
+              media="(max-width: 767px)"
+              type="image/webp"
+              srcset="{{ section.settings.logo | image_url: width: section.settings.logo_width_mobile, format: 'webp' }} 1x, {{ section.settings.logo | image_url: width: logo_width_mobile_2x, format: 'webp' }} 2x"
+            >
+            <source
+              media="(max-width: 767px)"
+              type="image/png"
+              srcset="{{ section.settings.logo | image_url: width: section.settings.logo_width_mobile, format: 'png' }} 1x, {{ section.settings.logo | image_url: width: logo_width_mobile_2x, format: 'png' }} 2x"
+            >
+            <source
+              type="image/avif"
+              srcset="{{ section.settings.logo | image_url: width: section.settings.logo_width, format: 'avif' }} 1x, {{ section.settings.logo | image_url: width: logo_width_2x, format: 'avif' }} 2x"
+            >
+            <source
+              type="image/webp"
+              srcset="{{ section.settings.logo | image_url: width: section.settings.logo_width, format: 'webp' }} 1x, {{ section.settings.logo | image_url: width: logo_width_2x, format: 'webp' }} 2x"
+            >
+            <source
+              type="image/png"
+              srcset="{{ section.settings.logo | image_url: width: section.settings.logo_width, format: 'png' }} 1x, {{ section.settings.logo | image_url: width: logo_width_2x, format: 'png' }} 2x"
+            >
+            <img
+              src="{{ section.settings.logo | image_url: width: section.settings.logo_width, format: 'jpg' }}"
+              alt="{{ shop.name | escape }}"
+              width="{{ section.settings.logo_width }}"
+              height="auto"
+              loading="eager"
+            >
+          </picture>
+        {%- elsif section.settings.logo_type == 'svg' and section.settings.logo_svg != blank -%}
+          {{ section.settings.logo_svg }}
+        {%- else -%}
+          <span class="header__logo-text">{{ section.settings.logo_text | default: shop.name }}</span>
+        {%- endif -%}
+      </a>
+    </div>
+
+    <nav class="header__nav" aria-label="Main navigation">
+      {%- if section.settings.menu -%}
+        <ul class="header__nav-list">
+          {%- for link in section.settings.menu.links -%}
+            <li class="header__nav-item">
+              <a href="{{ link.url }}" class="header__nav-link">
+                {{ link.title }}
+              </a>
+            </li>
+          {%- endfor -%}
+        </ul>
+      {%- endif -%}
+    </nav>
+
+    <div class="header__icons">
+      {%- if section.settings.enable_search -%}
+        <a href="{{ routes.search_url }}" class="header__icon-link" aria-label="Search">
+          {%- if section.settings.icon_search_svg != blank -%}
+            {{ section.settings.icon_search_svg }}
+          {%- else -%}
+            <svg class="header__icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.5"/>
+              <line x1="16.65" y1="16.65" x2="21" y2="21" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          {%- endif -%}
+        </a>
+      {%- endif -%}
+
+      {%- if section.settings.enable_profile -%}
+        <a href="{{ routes.account_url }}" class="header__icon-link" aria-label="Account">
+          {%- if section.settings.icon_profile_svg != blank -%}
+            {{ section.settings.icon_profile_svg }}
+          {%- else -%}
+            <svg class="header__icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M4 20C4 16.6863 7.58172 14 12 14C16.4183 14 20 16.6863 20 20" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          {%- endif -%}
+        </a>
+      {%- endif -%}
+
+      {%- if section.settings.enable_wishlist -%}
+        <a href="/pages/wishlist" class="header__icon-link" aria-label="Wishlist">
+          {%- if section.settings.icon_wishlist_svg != blank -%}
+            {{ section.settings.icon_wishlist_svg }}
+          {%- else -%}
+            <svg class="header__icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 21C12 21 3 13.5 3 8.5C3 5.46243 5.46243 3 8.5 3C10.2318 3 11.7585 3.84058 12 4.5C12.2415 3.84058 13.7682 3 15.5 3C18.5376 3 21 5.46243 21 8.5C21 13.5 12 21 12 21Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          {%- endif -%}
+        </a>
+      {%- endif -%}
+
+      {%- if section.settings.enable_cart -%}
+        <a href="{{ routes.cart_url }}" class="header__icon-link header__cart" aria-label="Cart">
+          {%- if section.settings.icon_cart_svg != blank -%}
+            {{ section.settings.icon_cart_svg }}
+          {%- else -%}
+            <svg class="header__icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M6 2L3 6V20C3 20.5304 3.21071 21.0391 3.58579 21.4142C3.96086 21.7893 4.46957 22 5 22H19C19.5304 22 20.0391 21.7893 20.4142 21.4142C20.7893 21.0391 21 20.5304 21 20V6L18 2H6Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <line x1="3" y1="6" x2="21" y2="6" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M16 10C16 12.2091 14.2091 14 12 14C9.79086 14 8 12.2091 8 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          {%- endif -%}
+          <span class="header__cart-count">{{ cart.item_count }}</span>
+        </a>
+      {%- endif -%}
+    </div>
+  </div>
+</header>
+
+{% schema %}
+{
+  "name": "Header",
+  "settings": [
+    {
+      "type": "color",
+      "id": "header_bg",
+      "label": "Background color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "header",
+      "content": "Padding (desktop)"
+    },
+    {
+      "type": "range",
+      "id": "header_padding_top",
+      "label": "Padding top (desktop)",
+      "min": 0,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "header_padding_bottom",
+      "label": "Padding bottom (desktop)",
+      "min": 0,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "header",
+      "content": "Padding (mobile)"
+    },
+    {
+      "type": "range",
+      "id": "header_padding_top_mobile",
+      "label": "Padding top (mobile)",
+      "min": 0,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "header_padding_bottom_mobile",
+      "label": "Padding bottom (mobile)",
+      "min": 0,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "header",
+      "content": "Logo"
+    },
+    {
+      "type": "range",
+      "id": "logo_width",
+      "label": "Logo width (desktop)",
+      "min": 50,
+      "max": 250,
+      "step": 2,
+      "unit": "px",
+      "default": 166
+    },
+    {
+      "type": "range",
+      "id": "logo_width_mobile",
+      "label": "Logo width (mobile)",
+      "min": 50,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "default": 136
+    },
+    {
+      "type": "select",
+      "id": "logo_type",
+      "label": "Logo type",
+      "options": [
+        { "value": "text", "label": "Text" },
+        { "value": "image", "label": "Image" },
+        { "value": "svg", "label": "SVG code" }
+      ],
+      "default": "text"
+    },
+    {
+      "type": "text",
+      "id": "logo_text",
+      "label": "Logo text",
+      "info": "Leave blank to use shop name. Used when logo type is Text"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo image",
+      "info": "Used when logo type is Image"
+    },
+    {
+      "type": "html",
+      "id": "logo_svg",
+      "label": "Logo SVG code",
+      "info": "Paste SVG code here. Used when logo type is SVG code"
+    },
+    {
+      "type": "header",
+      "content": "Navigation"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Menu",
+      "default": "main-menu"
+    },
+    {
+      "type": "range",
+      "id": "nav_font_size",
+      "label": "Navigation font size (desktop)",
+      "min": 10,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "nav_font_size_mobile",
+      "label": "Navigation font size (mobile)",
+      "min": 10,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "nav_line_height",
+      "label": "Navigation line height (desktop)",
+      "min": 10,
+      "max": 36,
+      "step": 1,
+      "unit": "px",
+      "default": 17
+    },
+    {
+      "type": "range",
+      "id": "nav_line_height_mobile",
+      "label": "Navigation line height (mobile)",
+      "min": 10,
+      "max": 36,
+      "step": 1,
+      "unit": "px",
+      "default": 17
+    },
+    {
+      "type": "color",
+      "id": "nav_color",
+      "label": "Navigation text color",
+      "default": "#660808"
+    },
+    {
+      "type": "color",
+      "id": "nav_hover_color",
+      "label": "Navigation hover text color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "header",
+      "content": "Header icons"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_search",
+      "label": "Show search icon",
+      "default": true
+    },
+    {
+      "type": "html",
+      "id": "icon_search_svg",
+      "label": "Search icon SVG",
+      "info": "Paste custom SVG code. Leave blank for default icon"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_profile",
+      "label": "Show profile icon",
+      "default": true
+    },
+    {
+      "type": "html",
+      "id": "icon_profile_svg",
+      "label": "Profile icon SVG",
+      "info": "Paste custom SVG code. Leave blank for default icon"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_wishlist",
+      "label": "Show wishlist icon",
+      "default": true
+    },
+    {
+      "type": "html",
+      "id": "icon_wishlist_svg",
+      "label": "Wishlist icon SVG",
+      "info": "Paste custom SVG code. Leave blank for default icon"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_cart",
+      "label": "Show cart icon",
+      "default": true
+    },
+    {
+      "type": "html",
+      "id": "icon_cart_svg",
+      "label": "Cart icon SVG",
+      "info": "Paste custom SVG code. Leave blank for default icon"
+    }
+  ]
+}
+{% endschema %}

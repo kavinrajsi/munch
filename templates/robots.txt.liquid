@@ -1,0 +1,19 @@
+{% comment %}
+  For more info on robots.txt, see:
+  https://developers.google.com/search/docs/advanced/robots/create-robots-txt
+{% endcomment %}
+
+User-agent: *
+{%- for rule in robots.default_groups.first.rules -%}
+  {{ rule.directive }}: {{ rule.value }}
+{%- endfor -%}
+
+Sitemap: {{ 'sitemap.xml' | shopify_asset_url }}
+
+{% comment %}
+  Disallow crawling of internal search and cart pages
+{% endcomment %}
+Disallow: /search
+Disallow: /cart
+Disallow: /checkout
+Disallow: /account

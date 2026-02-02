@@ -1,0 +1,225 @@
+// =============================================
+// Cart Drawer
+// =============================================
+
+body.cart-drawer-open {
+  overflow: hidden;
+}
+
+.cart-drawer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
+  visibility: hidden;
+  pointer-events: none;
+  transition: visibility 0.3s;
+}
+
+.cart-drawer--open {
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.cart-drawer__overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.cart-drawer--open .cart-drawer__overlay {
+  opacity: 1;
+}
+
+.cart-drawer__panel {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100%;
+  max-width: 400px;
+  height: 100%;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  transform: translateX(100%);
+  transition: transform 0.3s ease;
+}
+
+.cart-drawer--open .cart-drawer__panel {
+  transform: translateX(0);
+}
+
+.cart-drawer__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.cart-drawer__title {
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 18px;
+  line-height: 22px;
+  font-weight: 600;
+}
+
+.cart-drawer__close {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  color: var(--color-text);
+}
+
+.cart-drawer__body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px 20px;
+}
+
+.cart-drawer__item {
+  display: flex;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--color-border);
+
+  &:first-child {
+    padding-top: 0;
+  }
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.cart-drawer__item-image {
+  flex-shrink: 0;
+  width: 80px;
+
+  img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+}
+
+.cart-drawer__item-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.cart-drawer__item-title {
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 14px;
+  line-height: 17px;
+  font-weight: 500;
+  color: var(--color-heading);
+  display: block;
+}
+
+.cart-drawer__item-variant {
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 12px;
+  line-height: 15px;
+  color: var(--color-secondary);
+  margin-top: 4px;
+}
+
+.cart-drawer__item-price {
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 14px;
+  line-height: 17px;
+  font-weight: 600;
+  color: var(--color-text);
+  margin-top: 4px;
+}
+
+.cart-drawer__item-qty {
+  display: inline-flex;
+  align-items: center;
+  margin-top: 8px;
+  border: 1px solid var(--color-border);
+}
+
+.cart-drawer__qty-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  color: var(--color-text);
+
+  &:hover {
+    background: var(--color-border);
+  }
+}
+
+.cart-drawer__qty-value {
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 13px;
+  min-width: 28px;
+  text-align: center;
+}
+
+.cart-drawer__item-remove {
+  flex-shrink: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--color-secondary);
+  padding: 4px;
+  align-self: flex-start;
+
+  &:hover {
+    color: var(--color-text);
+  }
+}
+
+.cart-drawer__empty {
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 14px;
+  line-height: 17px;
+  color: var(--color-secondary);
+  text-align: center;
+  padding: 40px 0;
+}
+
+.cart-drawer__footer {
+  padding: 16px 20px;
+  border-top: 1px solid var(--color-border);
+}
+
+.cart-drawer__subtotal {
+  display: flex;
+  justify-content: space-between;
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.cart-drawer__view-cart {
+  display: block;
+  width: 100%;
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.cart-drawer__checkout {
+  display: block;
+  width: 100%;
+  text-align: center;
+}

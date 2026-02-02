@@ -1,0 +1,45 @@
+<div class="customer-order section-padding">
+  <div class="page-width">
+    <h1>{{ 'customer.order.title' | t }} {{ order.name }}</h1>
+    <p>{{ order.created_at | date: '%B %d, %Y' }}</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Product</th>
+          <th>Price</th>
+          <th>Quantity</th>
+          <th>Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        {%- for line_item in order.line_items -%}
+          <tr>
+            <td>{{ line_item.title }}</td>
+            <td>{{ line_item.price | money }}</td>
+            <td>{{ line_item.quantity }}</td>
+            <td>{{ line_item.line_price | money }}</td>
+          </tr>
+        {%- endfor -%}
+      </tbody>
+    </table>
+
+    <p><strong>Subtotal:</strong> {{ order.subtotal_price | money }}</p>
+
+    {%- for shipping_method in order.shipping_methods -%}
+      <p><strong>Shipping ({{ shipping_method.title }}):</strong> {{ shipping_method.price | money }}</p>
+    {%- endfor -%}
+
+    <p><strong>Total:</strong> {{ order.total_price | money }}</p>
+
+    <a href="{{ routes.account_url }}">Back to account</a>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Customer Order",
+  "tag": "section",
+  "settings": []
+}
+{% endschema %}

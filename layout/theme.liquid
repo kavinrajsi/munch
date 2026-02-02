@@ -1,0 +1,132 @@
+<!doctype html>
+<html class="no-js" lang="{{ request.locale.iso_code }}">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>
+      {{ page_title }}
+      {%- if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif -%}
+      {%- if current_page != 1 %} &ndash; Page {{ current_page }}{% endif -%}
+      {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
+    </title>
+
+    {%- if page_description -%}
+      <meta name="description" content="{{ page_description | escape }}">
+    {%- endif -%}
+
+    {% render 'social-meta-tags' %}
+
+    {%- if settings.favicon -%}
+      <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
+    {%- endif -%}
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+
+    {{ content_for_header }}
+
+    <style>
+      @font-face {
+        font-family: 'minion_pro_cond_caption';
+        src: url('{{ "minion_pro_cond_caption-webfont.woff2" | asset_url }}') format('woff2'),
+             url('{{ "minion_pro_cond_caption-webfont.woff" | asset_url }}') format('woff');
+        font-weight: normal;
+        font-style: normal;
+        font-display: swap;
+      }
+
+      :root {
+        --page-width: {{ settings.page_width }}px;
+        --color-primary: {{ settings.color_primary }};
+        --color-primary-dark: #333333;
+        --color-primary-contrast: #ffffff;
+        --color-secondary: #666666;
+        --color-text: #333333;
+        --color-heading: #000000;
+        --color-background: #ffffff;
+        --color-border: #e0e0e0;
+        --card-image-radius: {{ settings.card_image_border_radius }}px;
+        --card-image-radius-mobile: {{ settings.card_image_border_radius_mobile }}px;
+        --card-title-font-size: {{ settings.card_title_font_size }}px;
+        --card-title-line-height: {{ settings.card_title_line_height }}px;
+        --card-title-font-size-mobile: {{ settings.card_title_font_size_mobile }}px;
+        --card-title-line-height-mobile: {{ settings.card_title_line_height_mobile }}px;
+        --card-title-color: {{ settings.card_title_color }};
+        --card-title-text-align: {{ settings.card_title_text_align }};
+        --card-title-text-align-mobile: {{ settings.card_title_text_align_mobile }};
+        --card-price-font-size: {{ settings.card_price_font_size }}px;
+        --card-price-line-height: {{ settings.card_price_line_height }}px;
+        --card-price-font-size-mobile: {{ settings.card_price_font_size_mobile }}px;
+        --card-price-line-height-mobile: {{ settings.card_price_line_height_mobile }}px;
+        --card-price-color: {{ settings.card_price_color }};
+        --card-price-text-align: {{ settings.card_price_text_align }};
+        --card-price-text-align-mobile: {{ settings.card_price_text_align_mobile }};
+        --card-price-justify: {% if settings.card_price_text_align == 'left' %}flex-start{% elsif settings.card_price_text_align == 'right' %}flex-end{% else %}center{% endif %};
+        --card-price-justify-mobile: {% if settings.card_price_text_align_mobile == 'left' %}flex-start{% elsif settings.card_price_text_align_mobile == 'right' %}flex-end{% else %}center{% endif %};
+        --card-title-price-gap: {{ settings.card_title_price_gap }}px;
+        --card-title-price-gap-mobile: {{ settings.card_title_price_gap_mobile }}px;
+        --card-price-variant-gap: {{ settings.card_price_variant_gap }}px;
+        --card-price-variant-gap-mobile: {{ settings.card_price_variant_gap_mobile }}px;
+        --card-variant-qty-gap: {{ settings.card_variant_qty_gap }}px;
+        --card-variant-qty-gap-mobile: {{ settings.card_variant_qty_gap_mobile }}px;
+        --card-qty-atc-gap: {{ settings.card_qty_atc_gap }}px;
+        --card-qty-atc-gap-mobile: {{ settings.card_qty_atc_gap_mobile }}px;
+        --card-atc-font-size: {{ settings.card_atc_font_size }}px;
+        --card-atc-line-height: {{ settings.card_atc_line_height }}px;
+        --card-atc-font-size-mobile: {{ settings.card_atc_font_size_mobile }}px;
+        --card-atc-line-height-mobile: {{ settings.card_atc_line_height_mobile }}px;
+        --card-atc-text-align: {{ settings.card_atc_text_align }};
+        --card-atc-text-align-mobile: {{ settings.card_atc_text_align_mobile }};
+        --card-atc-color: {{ settings.card_atc_color }};
+        --card-atc-bg: {{ settings.card_atc_bg }};
+        --card-atc-border-radius: {{ settings.card_atc_border_radius }}px;
+        --card-atc-border-radius-mobile: {{ settings.card_atc_border_radius_mobile }}px;
+        --card-atc-padding-y: {{ settings.card_atc_padding_y }}px;
+        --card-atc-padding-x: {{ settings.card_atc_padding_x }}px;
+        --card-atc-padding-y-mobile: {{ settings.card_atc_padding_y_mobile }}px;
+        --card-atc-padding-x-mobile: {{ settings.card_atc_padding_x_mobile }}px;
+        --card-loading-width: {{ settings.card_loading_width }}px;
+        --card-loading-height: {{ settings.card_loading_height }}px;
+      }
+    </style>
+
+    {{ 'base.css' | asset_url | stylesheet_tag }}
+    {{ 'slick.css' | asset_url | stylesheet_tag }}
+    {{ 'slick-theme.css' | asset_url | stylesheet_tag }}
+
+    <script>
+      document.documentElement.className = document.documentElement.className.replace('no-js', 'js');
+    </script>
+  </head>
+
+  <body class="template-{{ template.name }}">
+    <a class="visually-hidden-focusable" href="#MainContent">
+      {{ 'accessibility.skip_to_content' | t }}
+    </a>
+
+    {% sections 'header-group' %}
+
+    <main id="MainContent" role="main" tabindex="-1">
+      {{ content_for_layout }}
+    </main>
+
+    {% sections 'footer-group' %}
+
+    {% render 'cart-drawer' %}
+    {% render 'product-drawer' %}
+
+    <script>
+      window.theme = window.theme || {};
+      theme.moneyFormat = {{ shop.money_format | json }};
+      {%- if settings.card_loading_image -%}
+        theme.loadingImage = '{{ settings.card_loading_image | image_url: width: 60 }}';
+      {%- endif -%}
+    </script>
+    {{ 'jquery.js' | asset_url | script_tag }}
+    {{ 'slick.min.js' | asset_url | script_tag }}
+    {{ 'global.js' | asset_url | script_tag }}
+  </body>
+</html>

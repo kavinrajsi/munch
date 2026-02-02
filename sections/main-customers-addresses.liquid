@@ -1,0 +1,25 @@
+<div class="customer-addresses section-padding">
+  <div class="page-width">
+    <h1>{{ 'customer.addresses.title' | t }}</h1>
+
+    {%- for address in customer.addresses -%}
+      <div class="address">
+        <p>{{ address | format_address }}</p>
+        {%- if address == customer.default_address -%}
+          <p><em>Default</em></p>
+        {%- endif -%}
+        <a href="{{ address.url }}">Edit</a>
+      </div>
+    {%- endfor -%}
+
+    <a href="{{ routes.account_url }}">Back to account</a>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Customer Addresses",
+  "tag": "section",
+  "settings": []
+}
+{% endschema %}
