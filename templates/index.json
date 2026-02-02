@@ -68,6 +68,38 @@
         "title_padding_bottom": 24,
         "title_padding_bottom_mobile": 16,
         "source": "collection",
+        "collection": "home-made-sweets",
+        "slides_desktop": 4,
+        "slides_mobile": 2,
+        "slide_gap": 16,
+        "enable_autoplay": false,
+        "autoplay_speed": 5,
+        "enable_arrows": true,
+        "enable_dots": true,
+        "enable_loop": true
+      }
+    },
+    "product_slider_rCHNCr": {
+      "type": "product-slider",
+      "name": "Product slider",
+      "settings": {
+        "container_type": "box",
+        "background_color": "#ffffff",
+        "padding_top": 40,
+        "padding_bottom": 40,
+        "padding_top_mobile": 24,
+        "padding_bottom_mobile": 24,
+        "section_title": "Featured Products",
+        "title_color": "#c61d23",
+        "title_text_align": "left",
+        "title_text_align_mobile": "left",
+        "title_font_size": 36,
+        "title_line_height": 36,
+        "title_font_size_mobile": 32,
+        "title_line_height_mobile": 32,
+        "title_padding_bottom": 24,
+        "title_padding_bottom_mobile": 16,
+        "source": "collection",
         "collection": "baklava",
         "slides_desktop": 4,
         "slides_mobile": 2,
@@ -82,6 +114,7 @@
   },
   "order": [
     "hero_slider_4JaF6H",
-    "product_slider_ewyDzE"
+    "product_slider_ewyDzE",
+    "product_slider_rCHNCr"
   ]
 }
