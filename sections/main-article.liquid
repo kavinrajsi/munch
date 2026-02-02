@@ -1,7 +1,5 @@
 <article class="article section-padding">
   <div class="page-width">
-    <h1>{{ article.title }}</h1>
-    <p class="article__meta">{{ article.published_at | date: '%B %d, %Y' }} &middot; {{ article.author }}</p>
 
     {%- if article.image -%}
       <img
@@ -13,11 +11,14 @@
       >
     {%- endif -%}
 
+    <h1>{{ article.title }}</h1>
+    <p class="article__meta">{{ article.published_at | date: '%B %d, %Y' }} &middot; {{ article.author }}</p>
+
     <div class="article__content rte">
       {{ article.content }}
     </div>
 
-    <a href="{{ blog.url }}">Back to {{ blog.title }}</a>
+    {% comment %} <a href="{{ blog.url }}">Back to {{ blog.title }}</a> {% endcomment %}
   </div>
 </article>
 

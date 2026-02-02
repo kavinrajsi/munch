@@ -1,0 +1,64 @@
+<article class="blog-card">
+  {%- if show_image and article.image -%}
+    <a href="{{ article.url }}" class="blog-card__media" style="--blog-card-img-ratio: {{ article.image.aspect_ratio }};">
+      <div class="blog-card__media-preload"></div>
+      <picture>
+        <source type="image/avif" srcset="{{ article.image | image_url: width: 600, format: 'avif' }}">
+        <source type="image/webp" srcset="{{ article.image | image_url: width: 600, format: 'webp' }}">
+        <img
+          src="{{ article.image | image_url: width: 600 }}"
+          alt="{{ article.image.alt | escape }}"
+          width="{{ article.image.width }}"
+          height="{{ article.image.height }}"
+          loading="lazy"
+        >
+      </picture>
+    </a>
+  {%- endif -%}
+
+  <div class="blog-card__content">
+    {%- if show_tag and article.tags.size > 0 -%}
+      <span class="blog-card__tag">{{ article.tags.first }}</span>
+    {%- endif -%}
+
+    {%- if show_title -%}
+      <h3 class="blog-card__title">
+        <a href="{{ article.url }}" class="blog-card__title-link--clamp-{{ title_line_clamp }}">
+          {{ article.title }}
+        </a>
+      </h3>
+    {%- endif -%}
+
+    {%- if show_description -%}
+      <p class="blog-card__description blog-card__description--clamp-{{ description_line_clamp }}">
+        {{ article.excerpt_or_content | strip_html | truncatewords: 50 }}
+      </p>
+    {%- endif -%}
+
+    {%- if show_date or show_author or show_comments -%}
+      <div class="blog-card__meta">
+        {%- if show_date -%}
+          <span class="blog-card__date">{{ article.published_at | date: '%B %d, %Y' }}</span>
+        {%- endif -%}
+        {%- if show_author -%}
+          <span class="blog-card__author">{{ article.author }}</span>
+        {%- endif -%}
+        {%- if show_comments -%}
+          <span class="blog-card__comments">
+            {{ article.comments_count }}
+            {{ article.comments_count | pluralize: 'comment', 'comments' }}
+          </span>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    {%- if show_read_more -%}
+      <a href="{{ article.url }}" class="blog-card__read-more">
+        Read more
+        {%- if read_more_icon != blank -%}
+          <span class="blog-card__read-more-icon">{{ read_more_icon }}</span>
+        {%- endif -%}
+      </a>
+    {%- endif -%}
+  </div>
+</article>
