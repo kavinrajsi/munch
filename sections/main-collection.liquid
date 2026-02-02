@@ -1,4 +1,25 @@
-<div class="collection section-padding">
+<div
+  class="collection section-padding"
+  style="
+    --collection-cols-mobile: {{ section.settings.columns_mobile }};
+    --collection-cols-tablet: {{ section.settings.columns_tablet }};
+    --collection-cols-desktop: {{ section.settings.columns_desktop }};
+    --collection-cols-large: {{ section.settings.columns_large }};
+    --collection-gap: {{ section.settings.grid_gap }}px;
+  "
+>
+  {%- if collection.image -%}
+    <div class="collection__banner">
+      <img
+        src="{{ collection.image | image_url: width: 1600 }}"
+        alt="{{ collection.image.alt | default: collection.title | escape }}"
+        width="1600"
+        height="{{ 1600 | divided_by: collection.image.aspect_ratio | round }}"
+        loading="eager"
+      >
+    </div>
+  {%- endif -%}
+
   <div class="page-width">
     <h1>{{ collection.title }}</h1>
 
@@ -8,23 +29,11 @@
       </div>
     {%- endif -%}
 
-    {%- paginate collection.products by 12 -%}
+    {%- paginate collection.products by section.settings.products_per_page -%}
       <div class="collection__grid">
         {%- for product in collection.products -%}
           <div class="collection__item">
-            <a href="{{ product.url }}">
-              {%- if product.featured_image -%}
-                <img
-                  src="{{ product.featured_image | image_url: width: 400 }}"
-                  alt="{{ product.featured_image.alt | escape }}"
-                  width="400"
-                  height="auto"
-                  loading="lazy"
-                >
-              {%- endif -%}
-              <h3>{{ product.title }}</h3>
-              <p>{{ product.price | money }}</p>
-            </a>
+            {% render 'product-card', product: product %}
           </div>
         {%- endfor -%}
       </div>
@@ -42,6 +51,66 @@
 {
   "name": "Collection",
   "tag": "section",
-  "settings": []
+  "settings": [
+    {
+      "type": "header",
+      "content": "Grid layout"
+    },
+    {
+      "type": "range",
+      "id": "columns_mobile",
+      "label": "Columns (mobile)",
+      "min": 1,
+      "max": 3,
+      "step": 1,
+      "default": 2
+    },
+    {
+      "type": "range",
+      "id": "columns_tablet",
+      "label": "Columns (tablet)",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "label": "Columns (desktop)",
+      "min": 2,
+      "max": 6,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "columns_large",
+      "label": "Columns (large desktop)",
+      "min": 2,
+      "max": 8,
+      "step": 1,
+      "default": 6
+    },
+    {
+      "type": "range",
+      "id": "grid_gap",
+      "label": "Space between items",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "products_per_page",
+      "label": "Products per page",
+      "min": 6,
+      "max": 48,
+      "step": 6,
+      "default": 24
+    }
+  ]
 }
 {% endschema %}

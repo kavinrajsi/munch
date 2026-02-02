@@ -1,0 +1,37 @@
+// =============================================
+// Collection Page
+// =============================================
+
+.collection__banner {
+  width: 100%;
+  overflow: hidden;
+  margin-bottom: 24px;
+
+  img {
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+  }
+}
+
+.collection__grid {
+  display: grid;
+  grid-template-columns: repeat(var(--collection-cols-mobile, 2), 1fr);
+  gap: var(--collection-gap, 16px);
+
+  // Tablet
+  @media screen and (min-width: 768px) {
+    grid-template-columns: repeat(var(--collection-cols-tablet, 3), 1fr);
+  }
+
+  // Desktop
+  @media screen and (min-width: 1024px) {
+    grid-template-columns: repeat(var(--collection-cols-desktop, 4), 1fr);
+  }
+
+  // Large desktop
+  @media screen and (min-width: 1440px) {
+    grid-template-columns: repeat(var(--collection-cols-large, 6), 1fr);
+  }
+}

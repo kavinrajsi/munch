@@ -1,0 +1,51 @@
+<div class="testimonial-card" {{ block.shopify_attributes }}>
+  <div class="testimonial-card__stars">
+    {%- for i in (1..5) -%}
+      {%- if i <= block.settings.stars -%}
+        <svg class="testimonial-card__star testimonial-card__star--filled" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+        </svg>
+      {%- else -%}
+        <svg class="testimonial-card__star testimonial-card__star--empty" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+        </svg>
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+
+  {%- if block.settings.content != blank -%}
+    <p class="testimonial-card__content">{{ block.settings.content }}</p>
+  {%- endif -%}
+
+  <div class="testimonial-card__customer">
+    <div class="testimonial-card__avatar">
+      {%- if block.settings.customer_image != blank -%}
+        <picture>
+          <source type="image/avif" srcset="{{ block.settings.customer_image | image_url: width: 160, format: 'avif' }}">
+          <source type="image/webp" srcset="{{ block.settings.customer_image | image_url: width: 160, format: 'webp' }}">
+          <img
+            src="{{ block.settings.customer_image | image_url: width: 160 }}"
+            alt="{{ block.settings.customer_name | escape }}"
+            width="80"
+            height="80"
+            loading="lazy"
+          >
+        </picture>
+      {%- else -%}
+        <svg class="testimonial-card__avatar-fallback" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" fill="none">
+          <rect width="80" height="80" rx="40" fill="#F5F3F4"/>
+          <path d="M40 22c-4.42 0-8 3.58-8 8s3.58 8 8 8 8-3.58 8-8-3.58-8-8-8zm0 20c-8.84 0-16 4.02-16 9v3h32v-3c0-4.98-7.16-9-16-9z" fill="#C61D23"/>
+        </svg>
+      {%- endif -%}
+    </div>
+
+    <div class="testimonial-card__info">
+      {%- if block.settings.customer_name != blank -%}
+        <span class="testimonial-card__name">{{ block.settings.customer_name }}</span>
+      {%- endif -%}
+      {%- if block.settings.customer_handle != blank -%}
+        <span class="testimonial-card__handle">@{{ block.settings.customer_handle }}</span>
+      {%- endif -%}
+    </div>
+  </div>
+</div>

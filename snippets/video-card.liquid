@@ -1,0 +1,78 @@
+<div class="video-card" {{ block.shopify_attributes }}>
+  <div class="video-card__media">
+    {%- if block.settings.video != blank -%}
+      <video
+        class="video-card__player"
+        playsinline
+        autoplay
+        muted
+        loop
+        preload="metadata"
+        {%- if block.settings.poster_image != blank %} poster="{{ block.settings.poster_image | image_url: width: 800 }}"{% endif -%}
+      >
+        {%- for source in block.settings.video.sources -%}
+          <source src="{{ source.url }}" type="{{ source.mime_type }}">
+        {%- endfor -%}
+      </video>
+    {%- elsif block.settings.youtube_url != blank -%}
+      {%- assign yt_url = block.settings.youtube_url -%}
+      {%- if yt_url contains 'youtu.be/' -%}
+        {%- assign yt_id = yt_url | split: 'youtu.be/' | last | split: '?' | first -%}
+      {%- elsif yt_url contains 'v=' -%}
+        {%- assign yt_id = yt_url | split: 'v=' | last | split: '&' | first -%}
+      {%- elsif yt_url contains '/shorts/' -%}
+        {%- assign yt_id = yt_url | split: '/shorts/' | last | split: '?' | first -%}
+      {%- else -%}
+        {%- assign yt_id = yt_url -%}
+      {%- endif -%}
+      <div class="video-card__embed">
+        <iframe
+          src="https://www.youtube.com/embed/{{ yt_id }}?autoplay=1&mute=1&loop=1&playlist={{ yt_id }}"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+          loading="lazy"
+          title="{{ block.settings.product.title | default: 'Video' | escape }}"
+        ></iframe>
+      </div>
+    {%- elsif block.settings.vimeo_url != blank -%}
+      {%- assign vm_url = block.settings.vimeo_url -%}
+      {%- assign vm_id = vm_url | split: 'vimeo.com/' | last | split: '?' | first | split: '/' | first -%}
+      <div class="video-card__embed">
+        <iframe
+          src="https://player.vimeo.com/video/{{ vm_id }}?autoplay=1&muted=1&loop=1"
+          frameborder="0"
+          allow="autoplay; fullscreen; picture-in-picture"
+          allowfullscreen
+          loading="lazy"
+          title="{{ block.settings.product.title | default: 'Video' | escape }}"
+        ></iframe>
+      </div>
+    {%- elsif block.settings.poster_image != blank -%}
+      <picture class="video-card__poster">
+        <source type="image/avif" srcset="{{ block.settings.poster_image | image_url: width: 800, format: 'avif' }}">
+        <source type="image/webp" srcset="{{ block.settings.poster_image | image_url: width: 800, format: 'webp' }}">
+        <img
+          src="{{ block.settings.poster_image | image_url: width: 800 }}"
+          alt="{{ block.settings.product.title | default: 'Video poster' | escape }}"
+          width="800"
+          height="auto"
+          loading="lazy"
+        >
+      </picture>
+    {%- else -%}
+      <div class="video-card__placeholder">
+        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <polygon points="5 3 19 12 5 21 5 3"></polygon>
+        </svg>
+      </div>
+    {%- endif -%}
+  </div>
+
+  {%- if block.settings.product != blank -%}
+    {%- assign product = block.settings.product -%}
+    <div class="video-card__product">
+      {% render 'product-card', product: product %}
+    </div>
+  {%- endif -%}
+</div>

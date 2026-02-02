@@ -206,14 +206,15 @@
 
       this.$title.text(product.title);
 
+      var cheapest = (product.variants || []).slice().sort(function(a, b) { return a.price - b.price; })[0] || {};
       var pricingHtml = '';
-      if (product.compare_at_price && product.compare_at_price > product.price) {
-        var savePercent = Math.round((product.compare_at_price - product.price) / product.compare_at_price * 100);
-        pricingHtml += '<span class="product-drawer__compare-price">' + formatMoney(product.compare_at_price) + '</span>';
-        pricingHtml += '<span class="product-drawer__sale-price">' + formatMoney(product.price) + '</span>';
+      if (cheapest.compare_at_price && cheapest.compare_at_price > cheapest.price) {
+        var savePercent = Math.round((cheapest.compare_at_price - cheapest.price) / cheapest.compare_at_price * 100);
+        pricingHtml += '<span class="product-drawer__compare-price">' + formatMoney(cheapest.compare_at_price) + '</span>';
+        pricingHtml += '<span class="product-drawer__sale-price">' + formatMoney(cheapest.price) + '</span>';
         pricingHtml += '<span class="product-drawer__save">Save ' + savePercent + '%</span>';
       } else {
-        pricingHtml += '<span class="product-drawer__regular-price">' + formatMoney(product.price) + '</span>';
+        pricingHtml += '<span class="product-drawer__regular-price">' + formatMoney(cheapest.price) + '</span>';
       }
       this.$pricing.html(pricingHtml);
 
@@ -235,20 +236,27 @@
       body += '<div class="product-card product-card--drawer">';
       body += '  <div class="product-card__info">';
 
-      // Variant selectors
+      // Variant selectors — sorted by price low to high
       body += '  <div class="product-card__variants">';
       if (product.options_with_values && product.options_with_values.length > 0) {
         var hasRealOptions = !(product.options_with_values.length === 1 && product.options_with_values[0].values.length === 1 && product.options_with_values[0].values[0] === 'Default Title');
         if (hasRealOptions) {
+          var sortedVariants = (product.variants || []).slice().sort(function(a, b) { return a.price - b.price; });
           for (var i = 0; i < product.options_with_values.length; i++) {
             var option = product.options_with_values[i];
             body += '<div class="product-card__variant-group">';
             body += '  <span class="product-card__variant-label">' + option.name + ':</span>';
             body += '  <div class="product-card__variant-options">';
-            for (var j = 0; j < option.values.length; j++) {
-              var val = option.values[j];
-              var activeClass = j === 0 ? ' product-card__variant-btn--active' : '';
-              body += '<button type="button" class="product-card__variant-btn' + activeClass + '" data-option-index="' + i + '" data-value="' + val + '">' + val + '</button>';
+            var seen = {};
+            var isFirst = true;
+            for (var s = 0; s < sortedVariants.length; s++) {
+              var val = sortedVariants[s].options[i];
+              if (!seen[val]) {
+                seen[val] = true;
+                var activeClass = isFirst ? ' product-card__variant-btn--active' : '';
+                body += '<button type="button" class="product-card__variant-btn' + activeClass + '" data-option-index="' + i + '" data-value="' + val + '">' + val + '</button>';
+                isFirst = false;
+              }
             }
             body += '  </div>';
             body += '</div>';
@@ -272,16 +280,8 @@
 
       // --- FOOTER: add to cart, buy now, view details ---
 
-      var firstAvailable = null;
-      if (product.variants) {
-        for (var v = 0; v < product.variants.length; v++) {
-          if (product.variants[v].available) {
-            firstAvailable = product.variants[v];
-            break;
-          }
-        }
-      }
-      var selectedVariant = firstAvailable || (product.variants && product.variants[0]) || {};
+      var sortedByPrice = (product.variants || []).slice().sort(function(a, b) { return a.price - b.price; });
+      var selectedVariant = sortedByPrice[0] || {};
 
       footer += '<form class="product-drawer__actions" data-product-form data-ajax-cart>';
       footer += '  <input type="hidden" name="id" value="' + (selectedVariant.id || '') + '" data-variant-id>';
@@ -390,7 +390,22 @@
         $atcBtn.prop('disabled', true).text('Sold out');
       }
 
-      // Sync footer form when variant changes inside product drawer
+      // Update price on product card
+      var $pricing = $card.closest('.product-card[data-product-json]').find('.product-card__pricing');
+      if ($pricing.length) {
+        var priceHtml = '';
+        if (matchedVariant.compare_at_price && matchedVariant.compare_at_price > matchedVariant.price) {
+          var savePercent = Math.round((matchedVariant.compare_at_price - matchedVariant.price) / matchedVariant.compare_at_price * 100);
+          priceHtml += '<span class="product-card__compare-price">' + formatMoney(matchedVariant.compare_at_price) + '</span>';
+          priceHtml += '<span class="product-card__sale-price">' + formatMoney(matchedVariant.price) + '</span>';
+          priceHtml += '<span class="product-card__save">Save ' + savePercent + '%</span>';
+        } else {
+          priceHtml += '<span class="product-card__regular-price">' + formatMoney(matchedVariant.price) + '</span>';
+        }
+        $pricing.html(priceHtml);
+      }
+
+      // Sync footer form and price when variant changes inside product drawer
       if ($card.hasClass('product-card--drawer')) {
         var $footer = ProductDrawer.$footer;
         $footer.find('[data-variant-id]').val(matchedVariant.id);
@@ -403,6 +418,18 @@
           $footerAtc.prop('disabled', true).text('Sold out');
           $footerBuyNow.hide();
         }
+
+        // Update price in product drawer header
+        var drawerPriceHtml = '';
+        if (matchedVariant.compare_at_price && matchedVariant.compare_at_price > matchedVariant.price) {
+          var drawerSavePercent = Math.round((matchedVariant.compare_at_price - matchedVariant.price) / matchedVariant.compare_at_price * 100);
+          drawerPriceHtml += '<span class="product-drawer__compare-price">' + formatMoney(matchedVariant.compare_at_price) + '</span>';
+          drawerPriceHtml += '<span class="product-drawer__sale-price">' + formatMoney(matchedVariant.price) + '</span>';
+          drawerPriceHtml += '<span class="product-drawer__save">Save ' + drawerSavePercent + '%</span>';
+        } else {
+          drawerPriceHtml += '<span class="product-drawer__regular-price">' + formatMoney(matchedVariant.price) + '</span>';
+        }
+        ProductDrawer.$pricing.html(drawerPriceHtml);
       }
     }
   });
