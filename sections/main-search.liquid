@@ -18,12 +18,18 @@
     {%- if search.performed -%}
       {%- if search.results_count > 0 -%}
         <p>{{ search.results_count }} results for "{{ search.terms }}"</p>
-        <div class="search__results">
+        <div class="search__results collection__grid">
           {%- for result in search.results -%}
-            <div class="search__item">
-              <h3><a href="{{ result.url }}">{{ result.title }}</a></h3>
-              <p>{{ result.content | strip_html | truncatewords: 30 }}</p>
-            </div>
+            {%- if result.object_type == 'product' -%}
+              <div class="collection__item">
+                {% render 'product-card', product: result %}
+              </div>
+            {%- else -%}
+              <div class="search__item">
+                <h3><a href="{{ result.url }}">{{ result.title }}</a></h3>
+                <p>{{ result.content | strip_html | truncatewords: 30 }}</p>
+              </div>
+            {%- endif -%}
           {%- endfor -%}
         </div>
       {%- else -%}

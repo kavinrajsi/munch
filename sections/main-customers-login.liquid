@@ -1,31 +1,97 @@
 <div class="customer-login section-padding">
   <div class="page-width">
-    <h1>{{ 'customer.login.title' | t }}</h1>
 
-    {%- form 'customer_login' -%}
-      {{ form.errors | default_errors }}
+    {%- comment -%} Login form {%- endcomment -%}
+    <div id="customer-login" class="customer-login__form">
+      <h1>{{ 'customer.login_page.title' | t }}</h1>
 
-      <div class="field">
-        <label class="field__label" for="CustomerEmail">{{ 'customer.login.email' | t }}</label>
-        <input class="field__input" type="email" name="customer[email]" id="CustomerEmail" autocomplete="email">
-      </div>
+      {%- form 'customer_login' -%}
+        {{ form.errors | default_errors }}
 
-      <div class="field">
-        <label class="field__label" for="CustomerPassword">{{ 'customer.login.password' | t }}</label>
-        <input class="field__input" type="password" name="customer[password]" id="CustomerPassword">
-      </div>
+        <div class="field">
+          <label class="field__label" for="CustomerEmail">{{ 'customer.login_page.email' | t }}</label>
+          <input class="field__input" type="email" name="customer[email]" id="CustomerEmail" autocomplete="email">
+        </div>
 
-      <button type="submit" class="btn btn--primary">{{ 'customer.login.sign_in' | t }}</button>
+        <div class="field">
+          <label class="field__label" for="CustomerPassword">{{ 'customer.login_page.password' | t }}</label>
+          <input class="field__input" type="password" name="customer[password]" id="CustomerPassword">
+        </div>
 
-      <p>
-        <a href="{{ routes.account_recover_url }}">{{ 'customer.login.forgot_password' | t }}</a>
-      </p>
-      <p>
-        <a href="{{ routes.account_register_url }}">{{ 'customer.register.title' | t }}</a>
-      </p>
-    {%- endform -%}
+        <button type="submit" class="btn btn--primary">{{ 'customer.login_page.sign_in' | t }}</button>
+
+        <p>
+          <a href="#recover" id="recover-link">{{ 'customer.login_page.forgot_password' | t }}</a>
+        </p>
+        <p>
+          <a href="{{ routes.account_register_url }}">{{ 'customer.register.title' | t }}</a>
+        </p>
+      {%- endform -%}
+    </div>
+
+    {%- comment -%} Recover password form {%- endcomment -%}
+    <div id="customer-recover" class="customer-login__form" style="display: none;">
+      <h1>{{ 'customer.recover_password.title' | t }}</h1>
+      <p>{{ 'customer.recover_password.subtext' | t }}</p>
+
+      {%- form 'recover_customer_password' -%}
+        {{ form.errors | default_errors }}
+
+        {%- if form.posted_successfully? -%}
+          <p class="customer-login__success">{{ 'customer.recover_password.success' | t }}</p>
+        {%- endif -%}
+
+        <div class="field">
+          <label class="field__label" for="RecoverEmail">{{ 'customer.login_page.email' | t }}</label>
+          <input class="field__input" type="email" name="email" id="RecoverEmail" autocomplete="email">
+        </div>
+
+        <button type="submit" class="btn btn--primary">{{ 'customer.recover_password.submit' | t }}</button>
+
+        <p>
+          <a href="#login" id="login-link">{{ 'customer.login_page.cancel' | t }}</a>
+        </p>
+      {%- endform -%}
+    </div>
+
   </div>
 </div>
+
+<script>
+  (function() {
+    var loginForm = document.getElementById('customer-login');
+    var recoverForm = document.getElementById('customer-recover');
+    var recoverLink = document.getElementById('recover-link');
+    var loginLink = document.getElementById('login-link');
+
+    function showRecover() {
+      loginForm.style.display = 'none';
+      recoverForm.style.display = 'block';
+    }
+
+    function showLogin() {
+      recoverForm.style.display = 'none';
+      loginForm.style.display = 'block';
+    }
+
+    recoverLink.addEventListener('click', function(e) {
+      e.preventDefault();
+      showRecover();
+      window.location.hash = '#recover';
+    });
+
+    loginLink.addEventListener('click', function(e) {
+      e.preventDefault();
+      showLogin();
+      window.location.hash = '';
+    });
+
+    // Show recover form if URL has #recover hash or if recover form was posted
+    if (window.location.hash === '#recover' || recoverForm.querySelector('.customer-login__success') || recoverForm.querySelector('.errors')) {
+      showRecover();
+    }
+  })();
+</script>
 
 {% schema %}
 {

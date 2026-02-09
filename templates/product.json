@@ -12,7 +12,19 @@
     "main": {
       "type": "main-product",
       "settings": {}
+    },
+    "related-products": {
+      "type": "related-products",
+      "settings": {
+        "section_title": "Related Products"
+      }
+    },
+    "recently-visited": {
+      "type": "recently-visited",
+      "settings": {
+        "section_title": "Recently Visited"
+      }
     }
   },
-  "order": ["main"]
+  "order": ["main", "related-products", "recently-visited"]
 }

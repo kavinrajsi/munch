@@ -74,6 +74,40 @@
       </div>
     </div>
 
+    {%- if section.settings.show_newsletter -%}
+      <div class="footer__newsletter">
+        <div class="footer__newsletter-content">
+          {%- if section.settings.newsletter_heading != blank -%}
+            <h4 class="footer__heading">{{ section.settings.newsletter_heading }}</h4>
+          {%- endif -%}
+          {%- if section.settings.newsletter_text != blank -%}
+            <p class="footer__newsletter-text">{{ section.settings.newsletter_text }}</p>
+          {%- endif -%}
+        </div>
+        {%- form 'customer', id: 'footer-newsletter' -%}
+          <input type="hidden" name="contact[tags]" value="newsletter">
+          {{ form.errors | default_errors }}
+          {%- if form.posted_successfully? -%}
+            <p class="footer__newsletter-success">Thank you for subscribing!</p>
+          {%- endif -%}
+          <div class="footer__newsletter-form">
+            <input
+              type="email"
+              name="contact[email]"
+              class="footer__newsletter-input"
+              placeholder="{{ section.settings.newsletter_placeholder | default: 'Enter your email' }}"
+              autocomplete="email"
+              required
+              {% if form.posted_successfully? %}value=""{% endif %}
+            >
+            <button type="submit" class="btn btn--primary footer__newsletter-btn">
+              {{ section.settings.newsletter_button | default: 'Subscribe' }}
+            </button>
+          </div>
+        {%- endform -%}
+      </div>
+    {%- endif -%}
+
     {%- assign has_social = false -%}
     {%- if section.settings.facebook_url != blank or section.settings.instagram_url != blank or section.settings.youtube_url != blank -%}
       {%- assign has_social = true -%}
@@ -279,6 +313,40 @@
       "type": "text",
       "id": "email",
       "label": "Email"
+    },
+    {
+      "type": "header",
+      "content": "Newsletter"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_newsletter",
+      "label": "Show newsletter",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "newsletter_heading",
+      "label": "Heading",
+      "default": "Subscribe to our newsletter"
+    },
+    {
+      "type": "textarea",
+      "id": "newsletter_text",
+      "label": "Description",
+      "default": "Get the latest updates, offers and more delivered to your inbox."
+    },
+    {
+      "type": "text",
+      "id": "newsletter_placeholder",
+      "label": "Input placeholder",
+      "default": "Enter your email"
+    },
+    {
+      "type": "text",
+      "id": "newsletter_button",
+      "label": "Button text",
+      "default": "Subscribe"
     },
     {
       "type": "header",

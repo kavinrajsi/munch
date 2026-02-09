@@ -1,39 +1,91 @@
 <div class="customer-account section-padding">
   <div class="page-width">
-    <h1>{{ 'customer.account.title' | t }}</h1>
 
-    <h2>{{ 'customer.orders.title' | t }}</h2>
+    {%- comment -%} Greeting + Logout {%- endcomment -%}
+    <div class="customer-account__header">
+      <h1 class="customer-account__greeting">
+        Hello, {{ customer.first_name | default: customer.name }}
+      </h1>
+      <a href="{{ routes.account_logout_url }}" class="customer-account__logout">Logout</a>
+    </div>
 
-    {%- if customer.orders.size > 0 -%}
-      <table>
-        <thead>
-          <tr>
-            <th>{{ 'customer.orders.order_number' | t }}</th>
-            <th>{{ 'customer.orders.date' | t }}</th>
-            <th>{{ 'customer.orders.payment_status' | t }}</th>
-            <th>{{ 'customer.orders.fulfillment_status' | t }}</th>
-            <th>{{ 'customer.orders.total' | t }}</th>
-          </tr>
-        </thead>
-        <tbody>
+    {%- comment -%} Order History {%- endcomment -%}
+    <div class="customer-account__orders">
+      <h2 class="customer-account__section-title">Order History</h2>
+
+      {%- if customer.orders.size > 0 -%}
+
+        {%- comment -%} Desktop table {%- endcomment -%}
+        <div class="customer-account__table-wrap">
+          <table class="customer-account__table">
+            <thead>
+              <tr>
+                <th>Order</th>
+                <th>Date</th>
+                <th>Payment Status</th>
+                <th>Fulfillment Status</th>
+                <th>Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              {%- for order in customer.orders -%}
+                <tr>
+                  <td><a href="{{ order.customer_url }}" class="customer-account__order-link">{{ order.name }}</a></td>
+                  <td>{{ order.created_at | date: '%B %d, %Y' }}</td>
+                  <td>
+                    <span class="customer-account__badge customer-account__badge--{{ order.financial_status }}">
+                      {{ order.financial_status_label }}
+                    </span>
+                  </td>
+                  <td>
+                    <span class="customer-account__badge customer-account__badge--{{ order.fulfillment_status | default: 'unfulfilled' }}">
+                      {{ order.fulfillment_status_label | default: 'Unfulfilled' }}
+                    </span>
+                  </td>
+                  <td>{{ order.total_price | money }}</td>
+                </tr>
+              {%- endfor -%}
+            </tbody>
+          </table>
+        </div>
+
+        {%- comment -%} Mobile cards {%- endcomment -%}
+        <div class="customer-account__cards">
           {%- for order in customer.orders -%}
-            <tr>
-              <td><a href="{{ order.customer_url }}">{{ order.name }}</a></td>
-              <td>{{ order.created_at | date: '%B %d, %Y' }}</td>
-              <td>{{ order.financial_status_label }}</td>
-              <td>{{ order.fulfillment_status_label }}</td>
-              <td>{{ order.total_price | money }}</td>
-            </tr>
+            <a href="{{ order.customer_url }}" class="customer-account__card">
+              <div class="customer-account__card-row">
+                <span class="customer-account__card-label">Order</span>
+                <span class="customer-account__card-value customer-account__order-link">{{ order.name }}</span>
+              </div>
+              <div class="customer-account__card-row">
+                <span class="customer-account__card-label">Date</span>
+                <span class="customer-account__card-value">{{ order.created_at | date: '%b %d, %Y' }}</span>
+              </div>
+              <div class="customer-account__card-row">
+                <span class="customer-account__card-label">Payment</span>
+                <span class="customer-account__badge customer-account__badge--{{ order.financial_status }}">
+                  {{ order.financial_status_label }}
+                </span>
+              </div>
+              <div class="customer-account__card-row">
+                <span class="customer-account__card-label">Fulfillment</span>
+                <span class="customer-account__badge customer-account__badge--{{ order.fulfillment_status | default: 'unfulfilled' }}">
+                  {{ order.fulfillment_status_label | default: 'Unfulfilled' }}
+                </span>
+              </div>
+              <div class="customer-account__card-row">
+                <span class="customer-account__card-label">Total</span>
+                <span class="customer-account__card-value" style="font-weight: 600;">{{ order.total_price | money }}</span>
+              </div>
+            </a>
           {%- endfor -%}
-        </tbody>
-      </table>
-    {%- else -%}
-      <p>You haven't placed any orders yet.</p>
-    {%- endif -%}
+        </div>
 
-    <h2>{{ 'customer.account.details' | t }}</h2>
-    <p>{{ customer.default_address | format_address }}</p>
-    <a href="{{ routes.account_addresses_url }}">{{ 'customer.account.view_addresses' | t }}</a>
+      {%- else -%}
+        <p class="customer-account__empty">You haven't placed any orders yet.</p>
+      {%- endif -%}
+    </div>
+
   </div>
 </div>
 

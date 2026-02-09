@@ -1,56 +1,145 @@
-<div class="cart section-padding">
+<div class="cart-page section-padding">
   <div class="page-width">
-    <h1>{{ 'sections.cart.title' | t }}</h1>
+    <h1 class="cart-page__title">{{ section.settings.title | default: 'Cart' }}</h1>
 
     {%- if cart.item_count > 0 -%}
-      <form action="{{ routes.cart_url }}" method="post">
-        <table class="cart__table">
-          <thead>
-            <tr>
-              <th>Product</th>
-              <th>Price</th>
-              <th>Quantity</th>
-              <th>Total</th>
-            </tr>
-          </thead>
-          <tbody>
-            {%- for item in cart.items -%}
-              <tr>
-                <td>
-                  <a href="{{ item.url }}">{{ item.product.title }}</a>
-                  {%- unless item.variant.title == 'Default Title' -%}
-                    <span>{{ item.variant.title }}</span>
-                  {%- endunless -%}
-                </td>
-                <td>{{ item.price | money }}</td>
-                <td>
-                  <input type="number" name="updates[]" value="{{ item.quantity }}" min="0" data-line="{{ forloop.index }}">
-                </td>
-                <td>{{ item.line_price | money }}</td>
-              </tr>
-            {%- endfor -%}
-          </tbody>
-        </table>
+      <form action="{{ routes.cart_url }}" method="post" class="cart-page__form">
 
-        <div class="cart__footer">
-          <p class="cart__total">
-            <strong>Total: {{ cart.total_price | money }}</strong>
-          </p>
-          <button type="submit" name="update" class="btn btn--secondary">Update cart</button>
-          <button type="submit" name="checkout" class="btn btn--primary">Checkout</button>
+        {%- comment -%} Desktop table header {%- endcomment -%}
+        <div class="cart-page__header">
+          <div class="cart-page__header-product">Product</div>
+          <div class="cart-page__header-price">Price</div>
+          <div class="cart-page__header-qty">Quantity</div>
+          <div class="cart-page__header-total">Total</div>
+        </div>
+
+        <div class="cart-page__items">
+          {%- for item in cart.items -%}
+            <div class="cart-page__item">
+              <div class="cart-page__item-product">
+                <a href="{{ item.url }}" class="cart-page__item-image">
+                  {%- if item.image -%}
+                    <img
+                      src="{{ item.image | image_url: width: 120 }}"
+                      alt="{{ item.image.alt | default: item.product.title | escape }}"
+                      width="120"
+                      height="auto"
+                      loading="lazy"
+                    >
+                  {%- endif -%}
+                </a>
+                <div class="cart-page__item-info">
+                  <a href="{{ item.url }}" class="cart-page__item-title">{{ item.product.title }}</a>
+                  {%- unless item.variant.title == 'Default Title' -%}
+                    <span class="cart-page__item-variant">{{ item.variant.title }}</span>
+                  {%- endunless -%}
+                  <button
+                    type="button"
+                    class="cart-page__item-remove"
+                    data-cart-remove
+                    data-line="{{ forloop.index }}"
+                  >
+                    Remove
+                  </button>
+                </div>
+              </div>
+
+              <div class="cart-page__item-price" data-label="Price">
+                {{ item.price | money }}
+              </div>
+
+              <div class="cart-page__item-qty" data-label="Quantity">
+                <div class="cart-page__qty">
+                  <button type="button" class="cart-page__qty-btn" data-cart-qty-minus data-line="{{ forloop.index }}">-</button>
+                  <input
+                    type="number"
+                    name="updates[]"
+                    value="{{ item.quantity }}"
+                    min="0"
+                    class="cart-page__qty-input"
+                    data-line="{{ forloop.index }}"
+                  >
+                  <button type="button" class="cart-page__qty-btn" data-cart-qty-plus data-line="{{ forloop.index }}">+</button>
+                </div>
+              </div>
+
+              <div class="cart-page__item-total" data-label="Total">
+                {{ item.line_price | money }}
+              </div>
+            </div>
+          {%- endfor -%}
+        </div>
+
+        <div class="cart-page__footer">
+          <div class="cart-page__note">
+            <label for="cart-note" class="cart-page__note-label">Order note</label>
+            <textarea id="cart-note" name="note" class="cart-page__note-input" placeholder="Add a note to your order...">{{ cart.note }}</textarea>
+          </div>
+          <div class="cart-page__subtotal">
+            <span>Subtotal</span>
+            <span>{{ cart.total_price | money }}</span>
+          </div>
+          <div class="cart-page__actions">
+            <button type="submit" name="checkout" class="btn btn--primary cart-page__checkout">Checkout</button>
+          </div>
         </div>
       </form>
     {%- else -%}
-      <p>Your cart is empty.</p>
-      <a href="{{ routes.all_products_collection_url }}" class="btn btn--primary">Continue shopping</a>
+      <div class="cart-page__empty">
+        <p>Your cart is empty.</p>
+        <a href="{{ routes.all_products_collection_url }}" class="btn btn--primary">Continue shopping</a>
+      </div>
     {%- endif -%}
   </div>
 </div>
+
+<script>
+  (function() {
+    document.querySelectorAll('[data-cart-qty-minus]').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var line = this.dataset.line;
+        var input = this.parentElement.querySelector('.cart-page__qty-input');
+        var val = parseInt(input.value) - 1;
+        if (val < 0) val = 0;
+        input.value = val;
+      });
+    });
+
+    document.querySelectorAll('[data-cart-qty-plus]').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var line = this.dataset.line;
+        var input = this.parentElement.querySelector('.cart-page__qty-input');
+        var val = parseInt(input.value) + 1;
+        input.value = val;
+      });
+    });
+
+    document.querySelectorAll('[data-cart-remove]').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var line = parseInt(this.dataset.line);
+        fetch('/cart/change.js', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ line: line, quantity: 0 })
+        }).then(function() {
+          window.location.reload();
+        });
+      });
+    });
+  })();
+</script>
 
 {% schema %}
 {
   "name": "Cart",
   "tag": "section",
-  "settings": []
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Page title",
+      "default": "Cart"
+    }
+  ]
 }
 {% endschema %}

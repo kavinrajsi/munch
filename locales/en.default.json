@@ -45,7 +45,10 @@
       "previous": "Previous page"
     },
     "search": {
-      "search": "Search"
+      "search": "Search",
+      "title": "Search",
+      "placeholder": "Search our store...",
+      "submit": "Search"
     },
     "cart": {
       "view": "View my cart ({{ count }})",
@@ -426,6 +429,7 @@
       "gift_card_code": "Gift card code",
       "shop_link": "Continue shopping",
       "remaining_html": "Remaining {{ balance }}",
+      "initial_value": "Initial value: {{ value }}",
       "add_to_apple_wallet": "Add to Apple Wallet",
       "qr_image_alt": "QR code — scan to redeem gift card",
       "copy_code": "Copy code",

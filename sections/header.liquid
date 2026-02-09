@@ -65,7 +65,7 @@
 
     <div class="header__icons">
       {%- if section.settings.enable_search -%}
-        <a href="{{ routes.search_url }}" class="header__icon-link" aria-label="Search">
+        <button type="button" class="header__icon-link" data-search-open aria-label="Search">
           {%- if section.settings.icon_search_svg != blank -%}
             {{ section.settings.icon_search_svg }}
           {%- else -%}
@@ -74,7 +74,7 @@
               <line x1="16.65" y1="16.65" x2="21" y2="21" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
             </svg>
           {%- endif -%}
-        </a>
+        </button>
       {%- endif -%}
 
       {%- if section.settings.enable_profile -%}

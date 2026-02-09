@@ -1,38 +1,204 @@
 <div class="customer-order section-padding">
   <div class="page-width">
-    <h1>{{ 'customer.order.title' | t }} {{ order.name }}</h1>
-    <p>{{ order.created_at | date: '%B %d, %Y' }}</p>
 
-    <table>
-      <thead>
-        <tr>
-          <th>Product</th>
-          <th>Price</th>
-          <th>Quantity</th>
-          <th>Total</th>
-        </tr>
-      </thead>
-      <tbody>
-        {%- for line_item in order.line_items -%}
-          <tr>
-            <td>{{ line_item.title }}</td>
-            <td>{{ line_item.price | money }}</td>
-            <td>{{ line_item.quantity }}</td>
-            <td>{{ line_item.line_price | money }}</td>
-          </tr>
-        {%- endfor -%}
-      </tbody>
-    </table>
+    {%- comment -%} Header {%- endcomment -%}
+    <div class="customer-order__header">
+      <h1 class="customer-order__title">My Orders</h1>
+      <div class="customer-order__header-actions">
+        {%- if order.fulfillment_status == 'fulfilled' -%}
+          {%- for fulfillment in order.fulfillments -%}
+            {%- if fulfillment.tracking_url -%}
+              <a href="{{ fulfillment.tracking_url }}" target="_blank" rel="noopener noreferrer" class="btn btn--secondary customer-order__action-btn">Track Order</a>
+            {%- endif -%}
+          {%- endfor -%}
+        {%- endif -%}
+        <a href="{{ routes.account_url }}" class="btn btn--secondary customer-order__action-btn">Back to Account</a>
+      </div>
+    </div>
 
-    <p><strong>Subtotal:</strong> {{ order.subtotal_price | money }}</p>
+    {%- comment -%} Order summary bar — desktop {%- endcomment -%}
+    <div class="customer-order__summary-bar">
+      <div class="customer-order__summary-head">
+        <span>Date</span>
+        <span>OrderID</span>
+        <span>Payment</span>
+        <span>Status</span>
+        <span>Amount</span>
+      </div>
+      <div class="customer-order__summary-row">
+        <span>{{ order.created_at | date: '%b %d, %Y' | upcase }}</span>
+        <span>{{ order.order_number }}</span>
+        <span>
+          <span class="customer-order__badge customer-order__badge--{{ order.financial_status }}">
+            {{ order.financial_status_label | upcase }}
+          </span>
+        </span>
+        <span>
+          <span class="customer-order__badge customer-order__badge--{{ order.fulfillment_status | default: 'unfulfilled' }}">
+            {{ order.fulfillment_status_label | default: 'Unfulfilled' | upcase }}
+          </span>
+        </span>
+        <span>{{ order.total_price | money }}</span>
+      </div>
+    </div>
 
-    {%- for shipping_method in order.shipping_methods -%}
-      <p><strong>Shipping ({{ shipping_method.title }}):</strong> {{ shipping_method.price | money }}</p>
-    {%- endfor -%}
+    {%- comment -%} Order summary — mobile {%- endcomment -%}
+    <div class="customer-order__summary-mobile">
+      <div class="customer-order__summary-mobile-row">
+        <span class="customer-order__summary-mobile-label">Date</span>
+        <span>{{ order.created_at | date: '%b %d, %Y' | upcase }}</span>
+      </div>
+      <div class="customer-order__summary-mobile-row">
+        <span class="customer-order__summary-mobile-label">OrderID</span>
+        <span>{{ order.order_number }}</span>
+      </div>
+      <div class="customer-order__summary-mobile-row">
+        <span class="customer-order__summary-mobile-label">Payment</span>
+        <span class="customer-order__badge customer-order__badge--{{ order.financial_status }}">{{ order.financial_status_label | upcase }}</span>
+      </div>
+      <div class="customer-order__summary-mobile-row">
+        <span class="customer-order__summary-mobile-label">Status</span>
+        <span class="customer-order__badge customer-order__badge--{{ order.fulfillment_status | default: 'unfulfilled' }}">{{ order.fulfillment_status_label | default: 'Unfulfilled' | upcase }}</span>
+      </div>
+      <div class="customer-order__summary-mobile-row">
+        <span class="customer-order__summary-mobile-label">Amount</span>
+        <span style="font-weight: 600;">{{ order.total_price | money }}</span>
+      </div>
+    </div>
 
-    <p><strong>Total:</strong> {{ order.total_price | money }}</p>
+    {%- comment -%} Order detail — expanded {%- endcomment -%}
+    <div class="customer-order__detail">
 
-    <a href="{{ routes.account_url }}">Back to account</a>
+      {%- comment -%} Tracking info {%- endcomment -%}
+      {%- for fulfillment in order.fulfillments -%}
+        {%- if fulfillment.tracking_number -%}
+          <div class="customer-order__tracking">
+            <strong>Track Order:</strong>
+            {%- if fulfillment.tracking_url -%}
+              <a href="{{ fulfillment.tracking_url }}" target="_blank" rel="noopener noreferrer" class="customer-order__tracking-link">{{ fulfillment.tracking_number }}</a>
+            {%- else -%}
+              <span>{{ fulfillment.tracking_number }}</span>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+
+      <div class="customer-order__detail-grid">
+
+        {%- comment -%} Left — Products {%- endcomment -%}
+        <div class="customer-order__products">
+          <h3 class="customer-order__section-label">Products in Order</h3>
+
+          {%- for line_item in order.line_items -%}
+            <div class="customer-order__product">
+              <div class="customer-order__product-image">
+                {%- if line_item.image -%}
+                  <img
+                    src="{{ line_item.image | image_url: width: 100 }}"
+                    alt="{{ line_item.image.alt | default: line_item.title | escape }}"
+                    width="80"
+                    height="auto"
+                    loading="lazy"
+                  >
+                {%- endif -%}
+                {%- if line_item.quantity > 1 -%}
+                  <span class="customer-order__product-qty-badge">{{ line_item.quantity }}</span>
+                {%- endif -%}
+              </div>
+              <div class="customer-order__product-info">
+                <a href="{{ line_item.url }}" class="customer-order__product-title">
+                  {{ line_item.product.title }}
+                  {%- unless line_item.variant.title == 'Default Title' -%}
+                    - {{ line_item.variant.title }}
+                  {%- endunless -%}
+                </a>
+                <span class="customer-order__product-price">{{ line_item.price | money }}</span>
+              </div>
+            </div>
+          {%- endfor -%}
+
+          {%- comment -%} Addresses {%- endcomment -%}
+          <div class="customer-order__addresses">
+            {%- if order.shipping_address -%}
+              <div class="customer-order__address">
+                <h3 class="customer-order__section-label">Shipping Address</h3>
+                <div class="customer-order__address-text">
+                  {{ order.shipping_address | format_address }}
+                </div>
+              </div>
+            {%- endif -%}
+
+            {%- if order.billing_address -%}
+              <div class="customer-order__address">
+                <h3 class="customer-order__section-label">Billing Address</h3>
+                <div class="customer-order__address-text">
+                  {{ order.billing_address | format_address }}
+                </div>
+              </div>
+            {%- endif -%}
+          </div>
+        </div>
+
+        {%- comment -%} Right — Payment details {%- endcomment -%}
+        <div class="customer-order__payment">
+          <h3 class="customer-order__section-label">Payment Details</h3>
+
+          <div class="customer-order__payment-row">
+            <span>Sub Total</span>
+            <span>{{ order.subtotal_price | money }}</span>
+          </div>
+
+          {%- if order.total_discounts > 0 -%}
+            <div class="customer-order__payment-row">
+              <span>Discount</span>
+              <span>-{{ order.total_discounts | money }}</span>
+            </div>
+          {%- endif -%}
+
+          <div class="customer-order__payment-row">
+            <span>Shipping Cost</span>
+            <span>
+              {%- assign shipping_total = 0 -%}
+              {%- for shipping_method in order.shipping_methods -%}
+                {%- assign shipping_total = shipping_total | plus: shipping_method.price -%}
+              {%- endfor -%}
+              {%- if shipping_total > 0 -%}
+                {{ shipping_total | money }}
+              {%- else -%}
+                {{ 0 | money }}
+              {%- endif -%}
+            </span>
+          </div>
+
+          {%- if order.tax_price > 0 -%}
+            <div class="customer-order__payment-row">
+              <span>Tax</span>
+              <span>{{ order.tax_price | money }}</span>
+            </div>
+          {%- endif -%}
+
+          <div class="customer-order__payment-row customer-order__payment-row--total">
+            <span>Grand Total</span>
+            <span>{{ order.total_price | money }}</span>
+          </div>
+
+          {%- if order.transactions.size > 0 -%}
+            <div class="customer-order__payment-type">
+              <span>Payment Type</span>
+              <span>
+                {%- for transaction in order.transactions -%}
+                  {%- if transaction.status == 'success' -%}
+                    {{ transaction.gateway_display_name }}
+                  {%- endif -%}
+                {%- endfor -%}
+              </span>
+            </div>
+          {%- endif -%}
+        </div>
+
+      </div>
+    </div>
+
   </div>
 </div>
 

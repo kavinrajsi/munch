@@ -59,7 +59,16 @@
             alt="{{ block.settings.alt_text | escape }}"
             width="1600"
             height="auto"
-            loading="lazy"
+            loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
+          >
+        {%- else -%}
+          <img
+            src="{{ 'demo-slider-' | append: forloop.index | append: '.png' | asset_url }}"
+            alt="Placeholder image"
+            width="1600"
+            height="auto"
+            class="hero-slider__placeholder"
+            loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
           >
         {%- endif -%}
       </picture>
@@ -192,6 +201,9 @@
     {
       "name": "Hero slider",
       "blocks": [
+        {
+          "type": "slide"
+        },
         {
           "type": "slide"
         },

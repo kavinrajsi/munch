@@ -9,7 +9,7 @@
   "
 >
   {%- if collection.image -%}
-    <div class="collection__banner">
+    <div class="collection__banner" style="aspect-ratio: {{ collection.image.aspect_ratio }};">
       <img
         src="{{ collection.image | image_url: width: 1600 }}"
         alt="{{ collection.image.alt | default: collection.title | escape }}"
@@ -21,6 +21,7 @@
   {%- endif -%}
 
   <div class="page-width">
+    {% render 'breadcrumbs' %}
     <h1>{{ collection.title }}</h1>
 
     {%- if collection.description != blank -%}
@@ -30,28 +31,263 @@
     {%- endif -%}
 
     {%- paginate collection.products by section.settings.products_per_page -%}
-      <div class="collection__grid">
-        {%- for product in collection.products -%}
-          <div class="collection__item">
-            {% render 'product-card', product: product %}
-          </div>
-        {%- endfor -%}
+
+      {%- comment -%} Toolbar {%- endcomment -%}
+      <div class="collection__toolbar">
+        <div class="collection__toolbar-left">
+          {%- if section.settings.enable_filtering -%}
+          <button type="button" class="collection__filter-toggle" data-filter-toggle>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg>
+            <span>Filter</span>
+            {%- assign active_filter_count = 0 -%}
+            {%- for filter in collection.filters -%}
+              {%- assign active_filter_count = active_filter_count | plus: filter.active_values.size -%}
+              {%- if filter.type == 'price_range' -%}
+                {%- if filter.min_value.value != nil or filter.max_value.value != nil -%}
+                  {%- assign active_filter_count = active_filter_count | plus: 1 -%}
+                {%- endif -%}
+              {%- endif -%}
+            {%- endfor -%}
+            {%- if active_filter_count > 0 -%}
+              <span class="collection__filter-count">{{ active_filter_count }}</span>
+            {%- endif -%}
+          </button>
+          {%- endif -%}
+          <span class="collection__count">{{ collection.products_count }} {{ collection.products_count | pluralize: 'product', 'products' }}</span>
+        </div>
+        <div class="collection__sort">
+          <label class="collection__sort-label" for="sort-by">Sort by:</label>
+          <select class="collection__sort-select" id="sort-by" data-sort-by>
+            {%- for option in collection.sort_options -%}
+              <option value="{{ option.value }}" {% if collection.sort_by == option.value or collection.default_sort_by == option.value and collection.sort_by == blank %}selected{% endif %}>
+                {{ option.name }}
+              </option>
+            {%- endfor -%}
+          </select>
+        </div>
       </div>
 
-      {%- if paginate.pages > 1 -%}
-        <div class="pagination">
-          {{ paginate | default_pagination: next: '&raquo;', previous: '&laquo;' }}
+      {%- comment -%} Active filters {%- endcomment -%}
+      {%- if section.settings.enable_filtering and active_filter_count > 0 -%}
+        <div class="collection__active-filters">
+          {%- for filter in collection.filters -%}
+            {%- for value in filter.active_values -%}
+              <a href="{{ value.url_to_remove }}" class="collection__active-tag">
+                {{ value.label }}
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              </a>
+            {%- endfor -%}
+            {%- if filter.type == 'price_range' -%}
+              {%- if filter.min_value.value != nil or filter.max_value.value != nil -%}
+                <a href="{{ filter.url_to_remove }}" class="collection__active-tag">
+                  {%- if filter.min_value.value -%}{{ filter.min_value.value | money }}{%- else -%}{{ 0 | money }}{%- endif -%}
+                  &ndash;
+                  {%- if filter.max_value.value -%}{{ filter.max_value.value | money }}{%- else -%}{{ filter.range_max | money }}{%- endif -%}
+                  <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </a>
+              {%- endif -%}
+            {%- endif -%}
+          {%- endfor -%}
+          <a href="{{ collection.url }}" class="collection__clear-all">Clear all</a>
         </div>
       {%- endif -%}
+
+      <div class="collection__body">
+
+        {%- comment -%} Filter sidebar {%- endcomment -%}
+        {%- if section.settings.enable_filtering -%}
+        <div class="collection__filters" id="collection-filters">
+          <div class="collection__filters-header">
+            <h3 class="collection__filters-title">Filters</h3>
+            <button type="button" class="collection__filters-close" data-filter-toggle>
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+          </div>
+
+          <form id="filter-form" class="collection__filter-form">
+            {%- for filter in collection.filters -%}
+              <div class="collection__filter-group" data-filter-group>
+                <button type="button" class="collection__filter-heading" data-filter-heading>
+                  <span>{{ filter.label }}</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+                </button>
+                <div class="collection__filter-values" data-filter-values>
+
+                  {%- case filter.type -%}
+
+                    {%- when 'list' -%}
+                      <ul class="collection__filter-list">
+                        {%- for value in filter.values -%}
+                          <li>
+                            <label class="collection__filter-checkbox">
+                              <input
+                                type="checkbox"
+                                name="{{ value.param_name }}"
+                                value="{{ value.value }}"
+                                {% if value.active %}checked{% endif %}
+                                {% if value.count == 0 and value.active == false %}disabled{% endif %}
+                              >
+                              <span class="collection__filter-checkbox-label">
+                                {{ value.label }}
+                              </span>
+                              <span class="collection__filter-checkbox-count">({{ value.count }})</span>
+                            </label>
+                          </li>
+                        {%- endfor -%}
+                      </ul>
+
+                    {%- when 'price_range' -%}
+                      <div class="collection__filter-price">
+                        <div class="collection__filter-price-range">
+                          <span>{{ filter.range_min | money }}</span>
+                          <span>{{ filter.range_max | money }}</span>
+                        </div>
+                        <div class="collection__filter-price-inputs">
+                          <div class="collection__filter-price-field">
+                            <label for="filter-price-min-{{ filter.label | handleize }}">Min</label>
+                            <input
+                              type="number"
+                              id="filter-price-min-{{ filter.label | handleize }}"
+                              name="{{ filter.min_value.param_name }}"
+                              {% if filter.min_value.value != nil %}value="{{ filter.min_value.value | money_without_currency | replace: ',', '' }}"{% endif %}
+                              min="{{ filter.range_min | money_without_currency | replace: ',', '' }}"
+                              max="{{ filter.range_max | money_without_currency | replace: ',', '' }}"
+                              placeholder="{{ filter.range_min | money_without_currency | replace: ',', '' }}"
+                              step="0.01"
+                            >
+                          </div>
+                          <span class="collection__filter-price-sep">&ndash;</span>
+                          <div class="collection__filter-price-field">
+                            <label for="filter-price-max-{{ filter.label | handleize }}">Max</label>
+                            <input
+                              type="number"
+                              id="filter-price-max-{{ filter.label | handleize }}"
+                              name="{{ filter.max_value.param_name }}"
+                              {% if filter.max_value.value != nil %}value="{{ filter.max_value.value | money_without_currency | replace: ',', '' }}"{% endif %}
+                              min="{{ filter.range_min | money_without_currency | replace: ',', '' }}"
+                              max="{{ filter.range_max | money_without_currency | replace: ',', '' }}"
+                              placeholder="{{ filter.range_max | money_without_currency | replace: ',', '' }}"
+                              step="0.01"
+                            >
+                          </div>
+                        </div>
+                      </div>
+
+                  {%- endcase -%}
+                </div>
+              </div>
+            {%- endfor -%}
+
+            <div class="collection__filter-actions">
+              <button type="submit" class="btn btn--primary collection__filter-apply">Apply</button>
+              <a href="{{ collection.url }}" class="btn btn--secondary collection__filter-reset">Reset</a>
+            </div>
+          </form>
+        </div>
+
+        {%- comment -%} Overlay {%- endcomment -%}
+        <div class="collection__filters-overlay" data-filter-toggle></div>
+        {%- endif -%}
+
+        {%- comment -%} Products {%- endcomment -%}
+        <div class="collection__main">
+          <div class="collection__grid">
+            {%- for product in collection.products -%}
+              <div class="collection__item">
+                {% render 'product-card', product: product, collection: collection %}
+              </div>
+            {%- endfor -%}
+          </div>
+
+          {%- if collection.products.size == 0 -%}
+            <p class="collection__no-results">No products match the selected filters.</p>
+          {%- endif -%}
+
+          {%- if paginate.pages > 1 -%}
+            <div class="pagination">
+              {{ paginate | default_pagination: next: '&raquo;', previous: '&laquo;' }}
+            </div>
+          {%- endif -%}
+        </div>
+
+      </div>
+
     {%- endpaginate -%}
   </div>
 </div>
+
+<script>
+  (function() {
+    // Sort
+    var select = document.querySelector('[data-sort-by]');
+    if (select) {
+      select.addEventListener('change', function() {
+        var url = new URL(window.location.href);
+        url.searchParams.set('sort_by', this.value);
+        url.searchParams.delete('page');
+        window.location.href = url.toString();
+      });
+    }
+
+    // Filter drawer toggle
+    var filtersEl = document.getElementById('collection-filters');
+    document.querySelectorAll('[data-filter-toggle]').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        filtersEl.classList.toggle('is-open');
+        document.body.classList.toggle('filter-open');
+      });
+    });
+
+    // Accordion
+    document.querySelectorAll('[data-filter-heading]').forEach(function(heading) {
+      heading.addEventListener('click', function() {
+        var group = this.closest('[data-filter-group]');
+        group.classList.toggle('is-collapsed');
+      });
+    });
+
+    // Filter form submit
+    var form = document.getElementById('filter-form');
+    if (form) {
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        var url = new URL(window.location.origin + '{{ collection.url }}');
+
+        // Keep sort_by
+        var currentUrl = new URL(window.location.href);
+        var sortBy = currentUrl.searchParams.get('sort_by');
+        if (sortBy) url.searchParams.set('sort_by', sortBy);
+
+        // Checkboxes
+        form.querySelectorAll('input[type="checkbox"]:checked').forEach(function(cb) {
+          url.searchParams.append(cb.name, cb.value);
+        });
+
+        // Price range
+        form.querySelectorAll('input[type="number"]').forEach(function(input) {
+          if (input.value !== '') {
+            url.searchParams.set(input.name, input.value);
+          }
+        });
+
+        window.location.href = url.toString();
+      });
+    }
+  })();
+</script>
 
 {% schema %}
 {
   "name": "Collection",
   "tag": "section",
+  "class": "collection-section",
   "settings": [
+    {
+      "type": "checkbox",
+      "id": "enable_filtering",
+      "label": "Enable filtering",
+      "default": true
+    },
     {
       "type": "header",
       "content": "Grid layout"
@@ -90,7 +326,7 @@
       "min": 2,
       "max": 8,
       "step": 1,
-      "default": 6
+      "default": 4
     },
     {
       "type": "range",

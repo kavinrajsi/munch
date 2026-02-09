@@ -1,8 +1,14 @@
+{%- if collection -%}
+  {%- assign card_product_url = product.url | within: collection -%}
+{%- else -%}
+  {%- assign card_product_url = product.url -%}
+{%- endif -%}
+
 {%- capture product_json -%}
 {
   "id": {{ product.id }},
   "title": {{ product.title | json }},
-  "url": {{ product.url | json }},
+  "url": {{ card_product_url | json }},
   "available": {{ product.available }},
   "price": {{ product.price }},
   "compare_at_price": {{ product.compare_at_price | default: 0 }},
@@ -14,7 +20,7 @@
 {%- endcapture -%}
 <div class="product-card product-card--{{ settings.card_layout }}" data-product-json='{{ product_json | strip_newlines | escape }}'>
   <div class="product-card__media">
-    <a href="{{ product.url }}" class="product-card__image-link">
+    <a href="{{ card_product_url }}" class="product-card__image-link">
       {%- if product.featured_image -%}
         <picture class="product-card__image product-card__image--primary">
           <source type="image/avif" srcset="{{ product.featured_image | image_url: width: 400, format: 'avif' }}">
@@ -132,7 +138,7 @@
           <button type="button" class="product-card__qty-btn" data-card-qty-plus>+</button>
         </div>
       {%- endif -%}
-      <button type="submit" class="product-card__atc" {% unless product.available %}disabled{% endunless %}>
+      <button type="submit" class="button__primary product-card__atc" {% unless product.available %}disabled{% endunless %}>
         {%- if product.available -%}
           Add to cart
         {%- else -%}

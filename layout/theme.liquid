@@ -17,6 +17,7 @@
     {%- endif -%}
 
     {% render 'social-meta-tags' %}
+    {% render 'json-ld' %}
 
     {%- if settings.favicon -%}
       <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
@@ -27,6 +28,16 @@
     <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
 
     {{ content_for_header }}
+
+    {%- if collection.image -%}
+      <link rel="preload" as="image" href="{{ collection.image | image_url: width: 1600 }}">
+    {%- endif -%}
+
+    {%- if product.images.size > 0 -%}
+      {%- for image in product.images -%}
+        <link rel="preload" as="image" href="{{ image | image_url: width: 900, format: 'webp' }}" type="image/webp">
+      {%- endfor -%}
+    {%- endif -%}
 
     <style>
       @font-face {
@@ -43,11 +54,11 @@
         --color-primary: {{ settings.color_primary }};
         --color-primary-dark: #333333;
         --color-primary-contrast: #ffffff;
-        --color-secondary: #666666;
-        --color-text: #333333;
-        --color-heading: #000000;
-        --color-background: #ffffff;
-        --color-border: #e0e0e0;
+        --color-secondary: {{ settings.color_secondary | default: '#666666' }};
+        --color-text: {{ settings.color_text | default: '#333333' }};
+        --color-heading: {{ settings.color_heading | default: '#000000' }};
+        --color-background: {{ settings.color_background | default: '#ffffff' }};
+        --color-border: {{ settings.color_border | default: '#e0e0e0' }};
         --card-image-radius: {{ settings.card_image_border_radius }}px;
         --card-image-radius-mobile: {{ settings.card_image_border_radius_mobile }}px;
         --card-title-font-size: {{ settings.card_title_font_size }}px;
@@ -90,12 +101,85 @@
         --card-atc-padding-x-mobile: {{ settings.card_atc_padding_x_mobile }}px;
         --card-loading-width: {{ settings.card_loading_width }}px;
         --card-loading-height: {{ settings.card_loading_height }}px;
+
+        /* Button – Primary (desktop) */
+        --btn-primary-font-size: {{ settings.btn_primary_font_size }}px;
+        --btn-primary-line-height: {{ settings.btn_primary_line_height }}px;
+        --btn-primary-text-align: {{ settings.btn_primary_text_align }};
+        --btn-primary-color: {{ settings.btn_primary_color }};
+        --btn-primary-bg: {{ settings.btn_primary_bg }};
+        --btn-primary-border-radius: {{ settings.btn_primary_border_radius }}px;
+        --btn-primary-padding-top: {{ settings.btn_primary_padding_top }}px;
+        --btn-primary-padding-bottom: {{ settings.btn_primary_padding_bottom }}px;
+        --btn-primary-padding-left: {{ settings.btn_primary_padding_left }}px;
+        --btn-primary-padding-right: {{ settings.btn_primary_padding_right }}px;
+
+        /* Button – Primary (mobile) */
+        --btn-primary-font-size-mobile: {{ settings.btn_primary_font_size_mobile }}px;
+        --btn-primary-line-height-mobile: {{ settings.btn_primary_line_height_mobile }}px;
+        --btn-primary-text-align-mobile: {{ settings.btn_primary_text_align_mobile }};
+        --btn-primary-color-mobile: {{ settings.btn_primary_color_mobile }};
+        --btn-primary-bg-mobile: {{ settings.btn_primary_bg_mobile }};
+        --btn-primary-border-radius-mobile: {{ settings.btn_primary_border_radius_mobile }}px;
+        --btn-primary-padding-top-mobile: {{ settings.btn_primary_padding_top_mobile }}px;
+        --btn-primary-padding-bottom-mobile: {{ settings.btn_primary_padding_bottom_mobile }}px;
+        --btn-primary-padding-left-mobile: {{ settings.btn_primary_padding_left_mobile }}px;
+        --btn-primary-padding-right-mobile: {{ settings.btn_primary_padding_right_mobile }}px;
+
+        /* Button – Secondary (desktop) */
+        --btn-secondary-font-size: {{ settings.btn_secondary_font_size }}px;
+        --btn-secondary-line-height: {{ settings.btn_secondary_line_height }}px;
+        --btn-secondary-text-align: {{ settings.btn_secondary_text_align }};
+        --btn-secondary-color: {{ settings.btn_secondary_color }};
+        --btn-secondary-bg: {{ settings.btn_secondary_bg }};
+        --btn-secondary-border-radius: {{ settings.btn_secondary_border_radius }}px;
+        --btn-secondary-padding-top: {{ settings.btn_secondary_padding_top }}px;
+        --btn-secondary-padding-bottom: {{ settings.btn_secondary_padding_bottom }}px;
+        --btn-secondary-padding-left: {{ settings.btn_secondary_padding_left }}px;
+        --btn-secondary-padding-right: {{ settings.btn_secondary_padding_right }}px;
+
+        /* Button – Secondary (mobile) */
+        --btn-secondary-font-size-mobile: {{ settings.btn_secondary_font_size_mobile }}px;
+        --btn-secondary-line-height-mobile: {{ settings.btn_secondary_line_height_mobile }}px;
+        --btn-secondary-text-align-mobile: {{ settings.btn_secondary_text_align_mobile }};
+        --btn-secondary-color-mobile: {{ settings.btn_secondary_color_mobile }};
+        --btn-secondary-bg-mobile: {{ settings.btn_secondary_bg_mobile }};
+        --btn-secondary-border-radius-mobile: {{ settings.btn_secondary_border_radius_mobile }}px;
+        --btn-secondary-padding-top-mobile: {{ settings.btn_secondary_padding_top_mobile }}px;
+        --btn-secondary-padding-bottom-mobile: {{ settings.btn_secondary_padding_bottom_mobile }}px;
+        --btn-secondary-padding-left-mobile: {{ settings.btn_secondary_padding_left_mobile }}px;
+        --btn-secondary-padding-right-mobile: {{ settings.btn_secondary_padding_right_mobile }}px;
+
+        /* Button – Ghost (desktop) */
+        --btn-ghost-font-size: {{ settings.btn_ghost_font_size }}px;
+        --btn-ghost-line-height: {{ settings.btn_ghost_line_height }}px;
+        --btn-ghost-text-align: {{ settings.btn_ghost_text_align }};
+        --btn-ghost-color: {{ settings.btn_ghost_color }};
+        --btn-ghost-bg: {{ settings.btn_ghost_bg }};
+        --btn-ghost-border-radius: {{ settings.btn_ghost_border_radius }}px;
+        --btn-ghost-padding-top: {{ settings.btn_ghost_padding_top }}px;
+        --btn-ghost-padding-bottom: {{ settings.btn_ghost_padding_bottom }}px;
+        --btn-ghost-padding-left: {{ settings.btn_ghost_padding_left }}px;
+        --btn-ghost-padding-right: {{ settings.btn_ghost_padding_right }}px;
+
+        /* Button – Ghost (mobile) */
+        --btn-ghost-font-size-mobile: {{ settings.btn_ghost_font_size_mobile }}px;
+        --btn-ghost-line-height-mobile: {{ settings.btn_ghost_line_height_mobile }}px;
+        --btn-ghost-text-align-mobile: {{ settings.btn_ghost_text_align_mobile }};
+        --btn-ghost-color-mobile: {{ settings.btn_ghost_color_mobile }};
+        --btn-ghost-bg-mobile: {{ settings.btn_ghost_bg_mobile }};
+        --btn-ghost-border-radius-mobile: {{ settings.btn_ghost_border_radius_mobile }}px;
+        --btn-ghost-padding-top-mobile: {{ settings.btn_ghost_padding_top_mobile }}px;
+        --btn-ghost-padding-bottom-mobile: {{ settings.btn_ghost_padding_bottom_mobile }}px;
+        --btn-ghost-padding-left-mobile: {{ settings.btn_ghost_padding_left_mobile }}px;
+        --btn-ghost-padding-right-mobile: {{ settings.btn_ghost_padding_right_mobile }}px;
       }
     </style>
 
     {{ 'base.css' | asset_url | stylesheet_tag }}
     {{ 'slick.css' | asset_url | stylesheet_tag }}
     {{ 'slick-theme.css' | asset_url | stylesheet_tag }}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@5.3.2/dist/photoswipe.css">
 
     <script>
       document.documentElement.className = document.documentElement.className.replace('no-js', 'js');
@@ -104,7 +188,7 @@
 
   <body class="template-{{ template.name }}">
     <a class="visually-hidden-focusable" href="#MainContent">
-      {{ 'accessibility.skip_to_content' | t }}
+      {{ 'accessibility.skip_to_text' | t }}
     </a>
 
     {% sections 'header-group' %}
@@ -117,6 +201,7 @@
 
     {% render 'cart-drawer' %}
     {% render 'product-drawer' %}
+    {% render 'search-overlay' %}
 
     <script>
       window.theme = window.theme || {};
@@ -128,5 +213,8 @@
     {{ 'jquery.js' | asset_url | script_tag }}
     {{ 'slick.min.js' | asset_url | script_tag }}
     {{ 'global.js' | asset_url | script_tag }}
+    {%- if request.page_type == 'customers/addresses' -%}
+      {{ 'customer_area.js' | shopify_asset_url | script_tag }}
+    {%- endif -%}
   </body>
 </html>
