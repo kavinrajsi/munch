@@ -1,42 +1,51 @@
-<div class="announcement-bar" style="--announcement-speed: {{ section.settings.scroll_speed }}s; --announcement-text-color: {{ section.settings.text_color }};">
-  <div class="announcement-bar__scroll">
-    <div class="announcement-bar__track">
-      {%- for block in section.blocks -%}
-        {%- if block.settings.link != blank -%}
-          <a href="{{ block.settings.link }}" class="announcement-bar__item" {{ block.shopify_attributes }}>
-            {{- block.settings.text -}}
-          </a>
+{%- capture announcement_items -%}
+  {%- for block in section.blocks -%}
+    {%- if block.settings.link != blank -%}
+      <a href="{{ block.settings.link }}" class="announcement-bar__item" {{ block.shopify_attributes }}>
+        {{- block.settings.text -}}
+      </a>
+    {%- else -%}
+      <span class="announcement-bar__item" {{ block.shopify_attributes }}>
+        {{- block.settings.text -}}
+      </span>
+    {%- endif -%}
+  {%- endfor -%}
+{%- endcapture -%}
+
+{%- if section.blocks.size > 0 and announcement_items != blank -%}
+  <div
+    class="announcement-bar{% if section.settings.pause_on_hover %} announcement-bar--pause-hover{% endif %}{% if section.settings.pause_on_focus %} announcement-bar--pause-focus{% endif %}"
+    data-section-id="{{ section.id }}"
+    data-speed="{{ section.settings.scroll_speed }}"
+    data-text-color="{{ section.settings.text_color }}"
+    data-bg-color="{{ section.settings.bg_color }}"
+    data-padding-top="{{ section.settings.padding_top_desktop }}"
+    data-padding-bottom="{{ section.settings.padding_bottom_desktop }}"
+    data-padding-top-mobile="{{ section.settings.padding_top_mobile }}"
+    data-padding-bottom-mobile="{{ section.settings.padding_bottom_mobile }}"
+  >
+    <div class="announcement-bar__inner{% if section.settings.container_type == 'box' %} page-width{% endif %}">
+      <div class="announcement-bar__scroll" role="region" aria-label="Announcement" aria-live="off">
+        <div class="announcement-bar__track">
+          {{ announcement_items }}
+          {{ announcement_items }}
+        </div>
+      </div>
+      <button type="button" class="announcement-bar__close" aria-label="Close announcement" data-announcement-close>
+        {%- if section.settings.close_icon_svg != blank -%}
+          {{ section.settings.close_icon_svg }}
         {%- else -%}
-          <span class="announcement-bar__item" {{ block.shopify_attributes }}>
-            {{- block.settings.text -}}
-          </span>
+          &times;
         {%- endif -%}
-      {%- endfor -%}
-      {%- for block in section.blocks -%}
-        {%- if block.settings.link != blank -%}
-          <a href="{{ block.settings.link }}" class="announcement-bar__item" aria-hidden="true" tabindex="-1">
-            {{- block.settings.text -}}
-          </a>
-        {%- else -%}
-          <span class="announcement-bar__item" aria-hidden="true">
-            {{- block.settings.text -}}
-          </span>
-        {%- endif -%}
-      {%- endfor -%}
+      </button>
     </div>
   </div>
-</div>
+{%- endif -%}
 
 {% schema %}
 {
   "name": "Announcement bar",
   "settings": [
-    {
-      "type": "color",
-      "id": "text_color",
-      "label": "Text color",
-      "default": "#FFFFFF"
-    },
     {
       "type": "range",
       "id": "scroll_speed",
@@ -46,6 +55,87 @@
       "step": 1,
       "unit": "s",
       "default": 46
+    },
+    {
+      "type": "checkbox",
+      "id": "pause_on_hover",
+      "label": "Pause on hover",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "pause_on_focus",
+      "label": "Pause on focus",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "container_type",
+      "label": "Container type",
+      "options": [
+        { "value": "fluid", "label": "Fluid" },
+        { "value": "box", "label": "Box" }
+      ],
+      "default": "fluid",
+      "info": "Box uses the page width from theme settings"
+    },
+    {
+      "type": "range",
+      "id": "padding_top_desktop",
+      "label": "Padding top (desktop)",
+      "min": 0,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_desktop",
+      "label": "Padding bottom (desktop)",
+      "min": 0,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "label": "Padding top (mobile)",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "label": "Padding bottom (mobile)",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "textarea",
+      "id": "close_icon_svg",
+      "label": "Close icon (SVG code)",
+      "info": "Paste full SVG markup, e.g. <svg ...>...</svg>"
     }
   ],
   "blocks": [
@@ -81,6 +171,30 @@
           "type": "announcement",
           "settings": {
             "text": "Website orders: Delivery in 3–5 days across India and 4–7 days internationally"
+          }
+        },
+        {
+          "type": "announcement",
+          "settings": {
+            "text": "Freshly made, preservative-free sweets delivered to your doorstep"
+          }
+        },
+        {
+          "type": "announcement",
+          "settings": {
+            "text": "Authentic South Indian snacks crafted in small batches"
+          }
+        },
+        {
+          "type": "announcement",
+          "settings": {
+            "text": "Festive gift boxes available — limited stock"
+          }
+        },
+        {
+          "type": "announcement",
+          "settings": {
+            "text": "Need help? Call us or WhatsApp for quick support"
           }
         }
       ]
