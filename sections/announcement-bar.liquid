@@ -14,7 +14,7 @@
 
 {%- if section.blocks.size > 0 and announcement_items != blank -%}
   <div
-    class="announcement-bar{% if section.settings.pause_on_hover %} announcement-bar--pause-hover{% endif %}{% if section.settings.pause_on_focus %} announcement-bar--pause-focus{% endif %}"
+    class="announcement-bar"
     data-section-id="{{ section.id }}"
     data-speed="{{ section.settings.scroll_speed }}"
     data-text-color="{{ section.settings.text_color }}"
@@ -27,8 +27,12 @@
     <div class="announcement-bar__inner{% if section.settings.container_type == 'box' %} page-width{% endif %}">
       <div class="announcement-bar__scroll" role="region" aria-label="Announcement" aria-live="off">
         <div class="announcement-bar__track">
-          {{ announcement_items }}
-          {{ announcement_items }}
+          <div class="announcement-bar__group">
+            {{ announcement_items }}
+          </div>
+          <div class="announcement-bar__group" aria-hidden="true">
+            {{ announcement_items }}
+          </div>
         </div>
       </div>
       <button type="button" class="announcement-bar__close" aria-label="Close announcement" data-announcement-close>
@@ -55,18 +59,6 @@
       "step": 1,
       "unit": "s",
       "default": 46
-    },
-    {
-      "type": "checkbox",
-      "id": "pause_on_hover",
-      "label": "Pause on hover",
-      "default": true
-    },
-    {
-      "type": "checkbox",
-      "id": "pause_on_focus",
-      "label": "Pause on focus",
-      "default": true
     },
     {
       "type": "select",
