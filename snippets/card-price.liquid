@@ -1,0 +1,21 @@
+<div class="collection-card__price" data-card-price>
+  {%- if price_display == 'min' -%}
+    <span class="collection-card__price-min" data-price-current>
+      {{ product.price_min | money }}
+    </span>
+  {%- elsif price_display == 'range' -%}
+    <span class="collection-card__price-range" data-price-current>
+      {{ product.price_min | money }} – {{ product.price_max | money }}
+    </span>
+  {%- elsif has_range and has_compare == false -%}
+    <span class="collection-card__price-range" data-price-current>
+      {{ product.price_min | money }} – {{ product.price_max | money }}
+    </span>
+  {%- elsif has_compare -%}
+    <span class="collection-card__price-sale" data-price-current>{{ fv.price | money }}</span>
+    <span class="collection-card__price-compare" data-price-compare>{{ fv.compare_at_price | money }}</span>
+    <span class="collection-card__price-badge" data-price-badge>-{{ discount_pct }}%</span>
+  {%- else -%}
+    <span class="collection-card__price-regular" data-price-current>{{ fv.price | money }}</span>
+  {%- endif -%}
+</div>

@@ -44,7 +44,7 @@
           endif
         -%}
 
-        <div class="cl-card" data-product-card>
+        <div class="collection-card" data-product-card data-first-variant-selected="{{ section.settings.first_variant_selected }}">
           <script type="application/json" data-product-json>
             {
               "variants": [
@@ -62,73 +62,34 @@
             }
           </script>
 
-          <a href="{{ product.url }}" class="cl-card__media-link" tabindex="-1" aria-hidden="true">
-            <div class="cl-card__media">
-              {%- if product.featured_image != blank -%}
-                <picture>
-                  <source
-                    media="(max-width: 749px)"
-                    srcset="
-                      {{ product.featured_image | image_url: width: 316, height: 396, crop: 'center' }} 316w,
-                      {{ product.featured_image | image_url: width: 632, height: 792, crop: 'center' }} 632w
-                    "
-                    width="316"
-                    height="396"
-                  >
-                  <img
-                    src="{{ product.featured_image | image_url: width: 832, height: 1032, crop: 'center' }}"
-                    srcset="
-                      {{ product.featured_image | image_url: width: 416, height: 516, crop: 'center' }} 416w,
-                      {{ product.featured_image | image_url: width: 624, height: 774, crop: 'center' }} 624w,
-                      {{ product.featured_image | image_url: width: 832, height: 1032, crop: 'center' }} 832w
-                    "
-                    sizes="calc(100vw / {{ section.settings.columns }})"
-                    alt="{{ product.featured_image.alt | default: product.title | escape }}"
-                    width="832"
-                    height="1032"
-                    loading="lazy"
-                  >
-                </picture>
-              {%- else -%}
-                {{ 'product-1' | placeholder_svg_tag: 'cl-card__placeholder' }}
-              {%- endif -%}
+          <a href="{{ product.url }}" class="collection-card__media-link" tabindex="-1" aria-hidden="true">
+            <div class="collection-card__media">
+              {%- render 'card-image', product: product, columns: section.settings.columns -%}
             </div>
           </a>
 
-          <div class="cl-card__body">
+          <div class="collection-card__body">
 
-            <div class="cl-card__header">
-              <h3 class="cl-card__title">
+            <div class="collection-card__header">
+              <h3 class="collection-card__title">
                 <a href="{{ product.url }}">{{ product.title }}</a>
               </h3>
 
-              <div class="cl-card__price" data-card-price>
-                {%- if has_range and has_compare == false -%}
-                  <span class="cl-card__price-range" data-price-current>
-                    {{ product.price_min | money }} – {{ product.price_max | money }}
-                  </span>
-                {%- elsif has_compare -%}
-                  <span class="cl-card__price-sale" data-price-current>{{ fv.price | money }}</span>
-                  <span class="cl-card__price-compare" data-price-compare>{{ fv.compare_at_price | money }}</span>
-                  <span class="cl-card__price-badge" data-price-badge>-{{ discount_pct }}%</span>
-                {%- else -%}
-                  <span class="cl-card__price-regular" data-price-current>{{ fv.price | money }}</span>
-                {%- endif -%}
-              </div>
+              {%- render 'card-price', product: product, fv: fv, has_range: has_range, has_compare: has_compare, discount_pct: discount_pct, price_display: section.settings.price_display -%}
             </div>
 
             {%- unless product.has_only_default_variant -%}
-              <div class="cl-card__options">
+              <div class="collection-card__options">
                 {%- for option in product.options_with_values -%}
                   <div
-                    class="cl-card__option-group"
+                    class="collection-card__option-group"
                     data-option-group
                     data-option-position="{{ option.position }}"
                   >
                     {%- for value in option.values -%}
                       <button
                         type="button"
-                        class="cl-card__option-btn{% if forloop.first %} is-selected{% endif %}"
+                        class="collection-card__option-button{% if forloop.first and section.settings.first_variant_selected %} is-selected{% endif %}"
                         data-option-btn
                         data-option-position="{{ option.position }}"
                         data-option-value="{{ value | escape }}"
@@ -140,12 +101,12 @@
               </div>
             {%- endunless -%}
 
-            <div class="cl-card__actions">
-              <div class="cl-card__qty-wrapper">
-                <button type="button" class="cl-card__qty-btn" data-qty-minus aria-label="Decrease quantity">−</button>
+            <div class="collection-card__actions">
+              <div class="collection-card__quantity">
+                <button type="button" class="collection-card__quantity-button" data-qty-minus aria-label="Decrease quantity">−</button>
                 <input
                   type="number"
-                  class="cl-card__qty-input"
+                  class="collection-card__quantity-input"
                   value="1"
                   min="1"
                   max="99"
@@ -153,16 +114,16 @@
                   data-qty-input
                   aria-label="Quantity"
                 >
-                <button type="button" class="cl-card__qty-btn" data-qty-plus aria-label="Increase quantity">+</button>
+                <button type="button" class="collection-card__quantity-button" data-qty-plus aria-label="Increase quantity">+</button>
               </div>
 
-              <form action="/cart/add" method="post" class="cl-card__form" data-card-form>
+              <form action="{{ routes.cart_add_url }}" method="post" class="collection-card__form" data-card-form>
                 <input type="hidden" name="id" value="{{ fv.id }}" data-variant-id>
                 <input type="hidden" name="quantity" value="1" data-qty-value>
-                <button type="submit" class="cl-card__atc btn btn--primary">Add to cart</button>
+                <button type="submit" class="collection-card__add-to-cart btn btn--primary">Add to cart</button>
               </form>
 
-              <button type="button" class="cl-card__buy btn btn--secondary" data-buy-now-btn>
+              <button type="button" class="collection-card__buy-now btn btn--secondary" data-buy-now-btn>
                 Buy now
               </button>
             </div>
@@ -172,15 +133,15 @@
       {%- endfor -%}
     {%- else -%}
       {%- for i in (1..section.settings.product_count) -%}
-        <div class="cl-card cl-card--placeholder">
-          <div class="cl-card__media">
-            {{ 'product-1' | placeholder_svg_tag: 'cl-card__placeholder' }}
+        <div class="collection-card collection-card--placeholder">
+          <div class="collection-card__media">
+            {{ 'product-1' | placeholder_svg_tag: 'collection-card__placeholder' }}
           </div>
-          <div class="cl-card__body">
-            <div class="cl-card__header">
-              <h3 class="cl-card__title">Product name</h3>
-              <div class="cl-card__price">
-                <span class="cl-card__price-regular">Rs. 000</span>
+          <div class="collection-card__body">
+            <div class="collection-card__header">
+              <h3 class="collection-card__title">Product name</h3>
+              <div class="collection-card__price">
+                <span class="collection-card__price-regular">Rs. 000</span>
               </div>
             </div>
           </div>
@@ -223,7 +184,8 @@
 
       var data       = JSON.parse(jsonEl.textContent);
       var variants   = data.variants;
-      var selOpts    = variants[0] ? variants[0].options.slice() : [];
+      var firstVariantSelected = card.dataset.firstVariantSelected === 'true';
+      var selOpts    = (firstVariantSelected && variants[0]) ? variants[0].options.slice() : [];
 
       var variantIdInput = card.querySelector('[data-variant-id]');
       var qtyValueInput  = card.querySelector('[data-qty-value]');
@@ -322,6 +284,24 @@
       "type": "collection",
       "id": "collection",
       "label": "Collection"
+    },
+    {
+      "type": "checkbox",
+      "id": "first_variant_selected",
+      "label": "Pre-select first variant",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "price_display",
+      "label": "Price display",
+      "options": [
+        { "value": "auto",  "label": "Auto" },
+        { "value": "min",   "label": "Min price" },
+        { "value": "range", "label": "Price range" }
+      ],
+      "default": "auto",
+      "info": "Auto follows product pricing logic. Min price shows the lowest price. Price range shows min – max."
     },
     {
       "type": "header",

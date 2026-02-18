@@ -1,0 +1,29 @@
+{%- if product.featured_image != blank -%}
+  <picture>
+    <source
+      media="(min-width: 750px)"
+      srcset="
+        {{ product.featured_image | image_url: width: 416, height: 516, crop: 'center' }} 416w,
+        {{ product.featured_image | image_url: width: 624, height: 774, crop: 'center' }} 624w,
+        {{ product.featured_image | image_url: width: 832, height: 1032, crop: 'center' }} 832w
+      "
+      sizes="calc(100vw / {{ columns }})"
+      width="832"
+      height="1032"
+    >
+    <img
+      src="{{ product.featured_image | image_url: width: 316, height: 396, crop: 'center' }}"
+      srcset="
+        {{ product.featured_image | image_url: width: 316, height: 396, crop: 'center' }} 316w,
+        {{ product.featured_image | image_url: width: 632, height: 792, crop: 'center' }} 632w
+      "
+      sizes="80vw"
+      alt="{{ product.featured_image.alt | default: product.title | escape }}"
+      width="316"
+      height="396"
+      loading="lazy"
+    >
+  </picture>
+{%- else -%}
+  {{ 'product-1' | placeholder_svg_tag: 'collection-card__placeholder' }}
+{%- endif -%}
