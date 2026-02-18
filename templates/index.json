@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "hero": {
@@ -8,52 +17,158 @@
           "settings": {
             "heading": "Welcome to Nithyaamirtham",
             "subheading": "Authentic South Indian sweets & snacks crafted with love",
-            "button_text": "Shop Now"
+            "button_text": "Shop Now",
+            "button_link": "",
+            "text_alignment": "left",
+            "overlay_opacity": 30
           }
         }
       },
-      "block_order": ["slide_1"],
-      "settings": {}
-    },
-    "products": {
-      "type": "product-slider",
+      "block_order": [
+        "slide_1"
+      ],
       "settings": {
-        "title": "Our Bestsellers"
+        "autoplay": true,
+        "autoplay_speed": 5,
+        "show_dots": true,
+        "show_arrows": true
       }
     },
-    "tradition": {
-      "type": "tamil-tradition",
-      "blocks": {
-        "f1": { "type": "feature", "settings": { "text": "100% Pure Ghee" } },
-        "f2": { "type": "feature", "settings": { "text": "No Preservatives" } },
-        "f3": { "type": "feature", "settings": { "text": "Traditional Recipes" } },
-        "f4": { "type": "feature", "settings": { "text": "Small Batch Crafted" } }
-      },
-      "block_order": ["f1", "f2", "f3", "f4"],
-      "settings": {}
-    },
-    "testimonials": {
-      "type": "testimonials",
-      "blocks": {
-        "t1": { "type": "testimonial", "settings": { "text": "The sweets are absolutely divine!", "author": "Priya R.", "location": "Chennai", "rating": 5 } },
-        "t2": { "type": "testimonial", "settings": { "text": "Best online sweet shop. Fresh and authentic.", "author": "Karthik M.", "location": "Bangalore", "rating": 5 } },
-        "t3": { "type": "testimonial", "settings": { "text": "Ordered for Diwali and everyone loved it!", "author": "Anitha S.", "location": "Mumbai", "rating": 5 } }
-      },
-      "block_order": ["t1", "t2", "t3"],
-      "settings": {}
-    },
-    "blog": {
-      "type": "blog-list",
+    "hero_QpaNPb": {
+      "type": "hero",
+      "name": "Hero",
       "settings": {
-        "title": "From Our Blog"
+        "link": "",
+        "open_in_new_tab": false
       }
     },
-    "videos": {
-      "type": "video-list",
+    "collection_list_WAMfCD": {
+      "type": "collection-list",
+      "blocks": {
+        "collection_UXdXkq": {
+          "type": "collection",
+          "settings": {
+            "collection": ""
+          }
+        },
+        "collection_QBYRrf": {
+          "type": "collection",
+          "settings": {
+            "collection": ""
+          }
+        },
+        "collection_jNyzRW": {
+          "type": "collection",
+          "settings": {
+            "collection": ""
+          }
+        }
+      },
+      "block_order": [
+        "collection_UXdXkq",
+        "collection_QBYRrf",
+        "collection_jNyzRW"
+      ],
+      "name": "Collection list",
+      "settings": {}
+    },
+    "collection_list_carousel_mMxPjm": {
+      "type": "collection-list-carousel",
+      "blocks": {
+        "collection_UGCYLf": {
+          "type": "collection",
+          "settings": {
+            "collection": ""
+          }
+        },
+        "collection_npzrAj": {
+          "type": "collection",
+          "settings": {
+            "collection": ""
+          }
+        },
+        "collection_YpqEYT": {
+          "type": "collection",
+          "settings": {
+            "collection": ""
+          }
+        },
+        "collection_g6UwqF": {
+          "type": "collection",
+          "settings": {
+            "collection": ""
+          }
+        }
+      },
+      "block_order": [
+        "collection_UGCYLf",
+        "collection_npzrAj",
+        "collection_YpqEYT",
+        "collection_g6UwqF"
+      ],
+      "name": "Collection list: Carousel",
+      "settings": {}
+    },
+    "collection_list_grid_cfC8CE": {
+      "type": "collection-list-grid",
+      "blocks": {
+        "collection_pJBUVD": {
+          "type": "collection",
+          "settings": {
+            "collection": ""
+          }
+        },
+        "collection_P7F7Gp": {
+          "type": "collection",
+          "settings": {
+            "collection": ""
+          }
+        },
+        "collection_HUpEtM": {
+          "type": "collection",
+          "settings": {
+            "collection": ""
+          }
+        },
+        "collection_zRtywY": {
+          "type": "collection",
+          "settings": {
+            "collection": ""
+          }
+        },
+        "collection_ibGPfG": {
+          "type": "collection",
+          "settings": {
+            "collection": ""
+          }
+        },
+        "collection_9TDL7M": {
+          "type": "collection",
+          "settings": {
+            "collection": ""
+          }
+        }
+      },
+      "block_order": [
+        "collection_pJBUVD",
+        "collection_P7F7Gp",
+        "collection_HUpEtM",
+        "collection_zRtywY",
+        "collection_ibGPfG",
+        "collection_9TDL7M"
+      ],
+      "name": "Collection list: Grid",
       "settings": {
-        "title": "Watch Our Videos"
+        "columns_desktop": 3,
+        "columns_mobile": 2
       }
     }
   },
-  "order": ["hero", "products", "tradition", "testimonials", "blog", "videos"]
+  "order": [
+    "hero",
+    "hero_QpaNPb",
+    "collection_list_WAMfCD",
+    "collection_list_carousel_mMxPjm",
+    "collection_list_grid_cfC8CE"
+  ]
 }

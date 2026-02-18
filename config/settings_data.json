@@ -9,6 +9,7 @@
  */
 {
   "current": {
+    "content_for_index": [],
     "color_schemes": {
       "scheme-1": {
         "settings": {
@@ -210,8 +211,6 @@
           "selected_variant_hover_border": "#4A4A4A"
         }
       }
-    },
-    "sections": {},
-    "content_for_index": []
+    }
   }
 }
