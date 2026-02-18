@@ -11,20 +11,32 @@
       <a href="{{ url }}" class="collection-editorial__link" aria-label="{{ title | escape }}">
         <div class="collection-editorial__image-wrapper">
           {%- if image != blank -%}
-            <img
-              src="{{ image | image_url: width: 832, height: 1032, crop: 'center' }}"
-              srcset="
-                {{ image | image_url: width: 416, height: 516, crop: 'center' }} 416w,
-                {{ image | image_url: width: 624, height: 774, crop: 'center' }} 624w,
-                {{ image | image_url: width: 832, height: 1032, crop: 'center' }} 832w
-              "
-              sizes="(max-width: 749px) 100vw, 50vw"
-              alt="{{ image.alt | default: title | escape }}"
-              width="832"
-              height="1032"
-              loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
-              {% if forloop.first %}fetchpriority="high"{% endif %}
-            >
+            <picture>
+              <source
+                media="(min-width: 750px)"
+                srcset="
+                  {{ image | image_url: width: 416, height: 516, crop: 'center' }} 416w,
+                  {{ image | image_url: width: 624, height: 774, crop: 'center' }} 624w,
+                  {{ image | image_url: width: 832, height: 1032, crop: 'center' }} 832w
+                "
+                sizes="50vw"
+                width="832"
+                height="1032"
+              >
+              <img
+                src="{{ image | image_url: width: 316, height: 396, crop: 'center' }}"
+                srcset="
+                  {{ image | image_url: width: 316, height: 396, crop: 'center' }} 316w,
+                  {{ image | image_url: width: 632, height: 792, crop: 'center' }} 632w
+                "
+                sizes="100vw"
+                alt="{{ image.alt | default: title | escape }}"
+                width="316"
+                height="396"
+                loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
+                {% if forloop.first %}fetchpriority="high"{% endif %}
+              >
+            </picture>
           {%- else -%}
             {{ 'collection-1' | placeholder_svg_tag: 'collection-editorial__placeholder-svg' }}
           {%- endif -%}

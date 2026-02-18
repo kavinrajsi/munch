@@ -15,19 +15,31 @@
       <a href="{{ url }}" class="collection-carousel__link" aria-label="{{ title | escape }}">
         <div class="collection-carousel__image-wrapper">
           {%- if image != blank -%}
-            <img
-              src="{{ image | image_url: width: 832, height: 1032, crop: 'center' }}"
-              srcset="
-                {{ image | image_url: width: 416, height: 516, crop: 'center' }} 416w,
-                {{ image | image_url: width: 624, height: 774, crop: 'center' }} 624w,
-                {{ image | image_url: width: 832, height: 1032, crop: 'center' }} 832w
-              "
-              sizes="(max-width: 749px) 70vw, 25vw"
-              alt="{{ image.alt | default: title | escape }}"
-              width="832"
-              height="1032"
-              loading="lazy"
-            >
+            <picture>
+              <source
+                media="(min-width: 750px)"
+                srcset="
+                  {{ image | image_url: width: 416, height: 516, crop: 'center' }} 416w,
+                  {{ image | image_url: width: 624, height: 774, crop: 'center' }} 624w,
+                  {{ image | image_url: width: 832, height: 1032, crop: 'center' }} 832w
+                "
+                sizes="25vw"
+                width="832"
+                height="1032"
+              >
+              <img
+                src="{{ image | image_url: width: 316, height: 396, crop: 'center' }}"
+                srcset="
+                  {{ image | image_url: width: 316, height: 396, crop: 'center' }} 316w,
+                  {{ image | image_url: width: 632, height: 792, crop: 'center' }} 632w
+                "
+                sizes="70vw"
+                alt="{{ image.alt | default: title | escape }}"
+                width="316"
+                height="396"
+                loading="lazy"
+              >
+            </picture>
           {%- else -%}
             {{ 'collection-1' | placeholder_svg_tag: 'collection-carousel__placeholder-svg' }}
           {%- endif -%}
