@@ -1,0 +1,81 @@
+<div class="collection-editorial" {{ section.shopify_attributes }}>
+  {%- for block in section.blocks -%}
+    {%- liquid
+      assign collection = block.settings.collection
+      assign image = block.settings.image | default: collection.featured_image
+      assign title = collection.title
+      assign url = collection.url | default: '#'
+    -%}
+
+    <div class="collection-editorial__item collection-editorial__item--{{ forloop.index }}" {{ block.shopify_attributes }}>
+      <a href="{{ url }}" class="collection-editorial__link" aria-label="{{ title | escape }}">
+        <div class="collection-editorial__image-wrapper">
+          {%- if image != blank -%}
+            <img
+              src="{{ image | image_url: width: 832, height: 1032, crop: 'center' }}"
+              srcset="
+                {{ image | image_url: width: 416, height: 516, crop: 'center' }} 416w,
+                {{ image | image_url: width: 624, height: 774, crop: 'center' }} 624w,
+                {{ image | image_url: width: 832, height: 1032, crop: 'center' }} 832w
+              "
+              sizes="(max-width: 749px) 100vw, 50vw"
+              alt="{{ image.alt | default: title | escape }}"
+              width="832"
+              height="1032"
+              loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
+              {% if forloop.first %}fetchpriority="high"{% endif %}
+            >
+          {%- else -%}
+            {{ 'collection-1' | placeholder_svg_tag: 'collection-editorial__placeholder-svg' }}
+          {%- endif -%}
+        </div>
+
+        <div class="collection-editorial__content">
+          {%- if title != blank -%}
+            <h3 class="collection-editorial__title">{{ title }}</h3>
+          {%- endif -%}
+          <span class="collection-editorial__cta">Shop now</span>
+        </div>
+      </a>
+    </div>
+  {%- endfor -%}
+</div>
+
+{% schema %}
+{
+  "name": "Collections: Editorial",
+  "tag": "section",
+  "class": "collection-editorial-section",
+  "blocks": [
+    {
+      "type": "collection",
+      "name": "Collection",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Custom image",
+          "info": "Overrides the collection image"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Collections: Editorial",
+      "category": "Collection",
+      "blocks": [
+        { "type": "collection" },
+        { "type": "collection" },
+        { "type": "collection" }
+      ]
+    }
+  ],
+  "max_blocks": 6
+}
+{% endschema %}

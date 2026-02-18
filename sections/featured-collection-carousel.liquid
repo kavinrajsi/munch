@@ -1,0 +1,177 @@
+<div class="feat-collection-carousel" {{ section.shopify_attributes }}>
+  {%- if section.settings.heading != blank or section.settings.subheading != blank -%}
+    <div class="feat-collection-carousel__header">
+      {%- if section.settings.heading != blank -%}
+        <h2 class="feat-collection-carousel__heading">{{ section.settings.heading }}</h2>
+      {%- endif -%}
+      {%- if section.settings.subheading != blank -%}
+        <p class="feat-collection-carousel__subheading">{{ section.settings.subheading }}</p>
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+
+  <div class="feat-collection-carousel__track" data-feat-collection-carousel>
+    {%- if section.settings.collection != blank -%}
+      {%- for product in section.settings.collection.products limit: section.settings.products_to_show -%}
+        <div class="feat-collection-carousel__item">
+          <a href="{{ product.url }}" class="feat-collection-carousel__link">
+            <div class="feat-collection-carousel__image-wrapper">
+              {%- if product.featured_image != blank -%}
+                <img
+                  src="{{ product.featured_image | image_url: width: 832, height: 1032, crop: 'center' }}"
+                  srcset="
+                    {{ product.featured_image | image_url: width: 416, height: 516, crop: 'center' }} 416w,
+                    {{ product.featured_image | image_url: width: 624, height: 774, crop: 'center' }} 624w,
+                    {{ product.featured_image | image_url: width: 832, height: 1032, crop: 'center' }} 832w
+                  "
+                  sizes="(max-width: 749px) 80vw, 30vw"
+                  alt="{{ product.featured_image.alt | default: product.title | escape }}"
+                  width="832"
+                  height="1032"
+                  loading="lazy"
+                >
+              {%- else -%}
+                {{ 'product-1' | placeholder_svg_tag: 'feat-collection-carousel__placeholder' }}
+              {%- endif -%}
+            </div>
+            <div class="feat-collection-carousel__content">
+              {%- if section.settings.show_vendor -%}
+                <p class="feat-collection-carousel__vendor">{{ product.vendor }}</p>
+              {%- endif -%}
+              <h3 class="feat-collection-carousel__title">{{ product.title }}</h3>
+              {%- if section.settings.show_price -%}
+                <p class="feat-collection-carousel__price">{{ product.price | money }}</p>
+              {%- endif -%}
+            </div>
+          </a>
+        </div>
+      {%- endfor -%}
+    {%- else -%}
+      {%- for i in (1..4) -%}
+        <div class="feat-collection-carousel__item feat-collection-carousel__item--placeholder">
+          <div class="feat-collection-carousel__image-wrapper">
+            {{ 'product-1' | placeholder_svg_tag: 'feat-collection-carousel__placeholder' }}
+          </div>
+          <div class="feat-collection-carousel__content">
+            <h3 class="feat-collection-carousel__title">Product title</h3>
+            <p class="feat-collection-carousel__price">$0.00</p>
+          </div>
+        </div>
+      {%- endfor -%}
+    {%- endif -%}
+  </div>
+
+  {%- if section.settings.show_view_all and section.settings.collection != blank -%}
+    <div class="feat-collection-carousel__footer">
+      <a href="{{ section.settings.collection.url }}" class="btn btn--secondary">
+        {{ section.settings.view_all_label }}
+      </a>
+    </div>
+  {%- endif -%}
+</div>
+
+<script>
+  (function () {
+    var el = document.querySelector('[data-feat-collection-carousel]');
+    if (!el || typeof $ === 'undefined') return;
+    $(el).slick({
+      slidesToShow: {{ section.settings.slides_to_show }},
+      slidesToScroll: 1,
+      arrows: true,
+      dots: {{ section.settings.show_dots }},
+      infinite: false,
+      responsive: [
+        { breakpoint: 1024, settings: { slidesToShow: 2 } },
+        { breakpoint: 640, settings: { slidesToShow: 1, dots: true } }
+      ]
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Feat Collection: Carousel",
+  "tag": "section",
+  "class": "feat-collection-carousel-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Featured collection"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "label": "Products to show",
+      "min": 4,
+      "max": 12,
+      "step": 4,
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "slides_to_show",
+      "label": "Slides visible at once",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "checkbox",
+      "id": "show_dots",
+      "label": "Show dots",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Product details"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_vendor",
+      "label": "Show vendor",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_price",
+      "label": "Show price",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "View all button"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_view_all",
+      "label": "Show view all button",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "view_all_label",
+      "label": "Button label",
+      "default": "View all"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Feat Collection: Carousel",
+      "category": "Products"
+    }
+  ]
+}
+{% endschema %}

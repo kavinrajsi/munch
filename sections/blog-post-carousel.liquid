@@ -1,0 +1,214 @@
+<div class="blog-post-carousel" {{ section.shopify_attributes }}>
+  {%- if section.settings.heading != blank or section.settings.subheading != blank -%}
+    <div class="blog-post-carousel__header">
+      {%- if section.settings.heading != blank -%}
+        <h2 class="blog-post-carousel__heading">{{ section.settings.heading }}</h2>
+      {%- endif -%}
+      {%- if section.settings.subheading != blank -%}
+        <p class="blog-post-carousel__subheading">{{ section.settings.subheading }}</p>
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+
+  <div class="blog-post-carousel__track" data-blog-carousel>
+    {%- if section.settings.blog != blank -%}
+      {%- for article in section.settings.blog.articles limit: section.settings.posts_to_show -%}
+        <article class="blog-post-carousel__item">
+          <a href="{{ article.url }}" class="blog-post-carousel__link">
+            {%- if article.image != blank -%}
+              <div class="blog-post-carousel__image-wrapper">
+                <img
+                  src="{{ article.image | image_url: width: 600 }}"
+                  srcset="
+                    {{ article.image | image_url: width: 300 }} 300w,
+                    {{ article.image | image_url: width: 400 }} 400w,
+                    {{ article.image | image_url: width: 600 }} 600w
+                  "
+                  sizes="(max-width: 749px) 80vw, 30vw"
+                  alt="{{ article.image.alt | default: article.title | escape }}"
+                  width="{{ article.image.width }}"
+                  height="{{ article.image.height }}"
+                  loading="lazy"
+                >
+              </div>
+            {%- else -%}
+              <div class="blog-post-carousel__image-wrapper">
+                {{ 'image' | placeholder_svg_tag: 'blog-post-carousel__placeholder' }}
+              </div>
+            {%- endif -%}
+
+            <div class="blog-post-carousel__content">
+              {%- if section.settings.show_date or section.settings.show_author -%}
+                <div class="blog-post-carousel__meta">
+                  {%- if section.settings.show_date -%}
+                    <span class="blog-post-carousel__date">{{ article.published_at | date: '%b %d, %Y' }}</span>
+                  {%- endif -%}
+                  {%- if section.settings.show_author -%}
+                    <span class="blog-post-carousel__author">{{ article.author }}</span>
+                  {%- endif -%}
+                </div>
+              {%- endif -%}
+
+              <h3 class="blog-post-carousel__title">{{ article.title }}</h3>
+
+              {%- if section.settings.show_excerpt and article.excerpt != blank -%}
+                <p class="blog-post-carousel__excerpt">{{ article.excerpt | strip_html | truncate: 120 }}</p>
+              {%- endif -%}
+
+              {%- if section.settings.show_read_more -%}
+                <span class="blog-post-carousel__read-more">{{ section.settings.read_more_label }}</span>
+              {%- endif -%}
+            </div>
+          </a>
+        </article>
+      {%- endfor -%}
+    {%- else -%}
+      {%- for i in (1..4) -%}
+        <article class="blog-post-carousel__item blog-post-carousel__item--placeholder">
+          <div class="blog-post-carousel__image-wrapper">
+            {{ 'image' | placeholder_svg_tag: 'blog-post-carousel__placeholder' }}
+          </div>
+          <div class="blog-post-carousel__content">
+            <div class="blog-post-carousel__meta">
+              <span class="blog-post-carousel__date">Jan 01, 2025</span>
+            </div>
+            <h3 class="blog-post-carousel__title">Blog post title</h3>
+            <p class="blog-post-carousel__excerpt">Add a short description for your blog post here.</p>
+          </div>
+        </article>
+      {%- endfor -%}
+    {%- endif -%}
+  </div>
+
+  {%- if section.settings.show_view_all and section.settings.blog != blank -%}
+    <div class="blog-post-carousel__footer">
+      <a href="{{ section.settings.blog.url }}" class="btn btn--secondary">
+        {{ section.settings.view_all_label }}
+      </a>
+    </div>
+  {%- endif -%}
+</div>
+
+<script>
+  (function () {
+    var el = document.querySelector('[data-blog-carousel]');
+    if (!el || typeof $ === 'undefined') return;
+    $(el).slick({
+      slidesToShow: {{ section.settings.slides_to_show }},
+      slidesToScroll: 1,
+      arrows: true,
+      dots: {{ section.settings.show_dots }},
+      infinite: false,
+      responsive: [
+        { breakpoint: 1024, settings: { slidesToShow: 2 } },
+        { breakpoint: 640, settings: { slidesToShow: 1, dots: true } }
+      ]
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Blog post: Carousel",
+  "tag": "section",
+  "class": "blog-post-carousel-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "From our blog"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading"
+    },
+    {
+      "type": "blog",
+      "id": "blog",
+      "label": "Blog"
+    },
+    {
+      "type": "range",
+      "id": "posts_to_show",
+      "label": "Posts to show",
+      "min": 2,
+      "max": 12,
+      "step": 1,
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "slides_to_show",
+      "label": "Slides visible at once",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "checkbox",
+      "id": "show_dots",
+      "label": "Show dots",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Post details"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_date",
+      "label": "Show date",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_author",
+      "label": "Show author",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_excerpt",
+      "label": "Show excerpt",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_read_more",
+      "label": "Show read more link",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "read_more_label",
+      "label": "Read more label",
+      "default": "Read more"
+    },
+    {
+      "type": "header",
+      "content": "View all button"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_view_all",
+      "label": "Show view all button",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "view_all_label",
+      "label": "Button label",
+      "default": "View all posts"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Blog post: Carousel",
+      "category": "Storytelling"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,103 @@
+<div
+  class="collection-grid"
+  style="--collection-grid-columns: {{ section.settings.columns_desktop }}; --collection-grid-columns-mobile: {{ section.settings.columns_mobile }};"
+  {{ section.shopify_attributes }}
+>
+  {%- for block in section.blocks -%}
+    {%- liquid
+      assign collection = block.settings.collection
+      assign image = block.settings.image | default: collection.featured_image
+      assign title = collection.title
+      assign url = collection.url | default: '#'
+    -%}
+
+    <div class="collection-grid__item" {{ block.shopify_attributes }}>
+      <a href="{{ url }}" class="collection-grid__link" aria-label="{{ title | escape }}">
+        <div class="collection-grid__image-wrapper">
+          {%- if image != blank -%}
+            <img
+              src="{{ image | image_url: width: 832, height: 1032, crop: 'center' }}"
+              srcset="
+                {{ image | image_url: width: 416, height: 516, crop: 'center' }} 416w,
+                {{ image | image_url: width: 624, height: 774, crop: 'center' }} 624w,
+                {{ image | image_url: width: 832, height: 1032, crop: 'center' }} 832w
+              "
+              sizes="(max-width: 749px) calc(100vw / {{ section.settings.columns_mobile }}), calc(100vw / {{ section.settings.columns_desktop }})"
+              alt="{{ image.alt | default: title | escape }}"
+              width="832"
+              height="1032"
+              loading="lazy"
+            >
+          {%- else -%}
+            {{ 'collection-1' | placeholder_svg_tag: 'collection-grid__placeholder-svg' }}
+          {%- endif -%}
+        </div>
+        {%- if title != blank -%}
+          <p class="collection-grid__title">{{ title }}</p>
+        {%- endif -%}
+      </a>
+    </div>
+  {%- endfor -%}
+</div>
+
+{% schema %}
+{
+  "name": "Collection list: Grid",
+  "tag": "section",
+  "class": "collection-grid-section",
+  "settings": [
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "label": "Columns on desktop",
+      "min": 2,
+      "max": 6,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "range",
+      "id": "columns_mobile",
+      "label": "Columns on mobile",
+      "min": 1,
+      "max": 3,
+      "step": 1,
+      "default": 2
+    }
+  ],
+  "blocks": [
+    {
+      "type": "collection",
+      "name": "Collection",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Custom image",
+          "info": "Overrides the collection image"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Collection list: Grid",
+      "category": "Collection",
+      "blocks": [
+        { "type": "collection" },
+        { "type": "collection" },
+        { "type": "collection" },
+        { "type": "collection" },
+        { "type": "collection" },
+        { "type": "collection" }
+      ]
+    }
+  ],
+  "max_blocks": 6
+}
+{% endschema %}

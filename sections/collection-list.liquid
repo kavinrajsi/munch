@@ -1,0 +1,82 @@
+<div class="collection-list" {{ section.shopify_attributes }}>
+  {%- for block in section.blocks -%}
+    {%- liquid
+      assign collection = block.settings.collection
+      assign custom_image = block.settings.image
+      assign image = custom_image | default: collection.featured_image
+      assign title = collection.title
+      assign url = collection.url
+    -%}
+
+    <div class="collection-list__item" {{ block.shopify_attributes }}>
+      <a
+        href="{{ url }}"
+        class="collection-list__link"
+        aria-label="{{ title | escape }}"
+      >
+        <div class="collection-list__image-wrapper">
+          {%- if image != blank -%}
+            <img
+              src="{{ image | image_url: width: 832, height: 1032, crop: 'center' }}"
+              srcset="
+                {{ image | image_url: width: 416, height: 516, crop: 'center' }} 416w,
+                {{ image | image_url: width: 624, height: 774, crop: 'center' }} 624w,
+                {{ image | image_url: width: 832, height: 1032, crop: 'center' }} 832w
+              "
+              sizes="(max-width: 749px) 50vw, 25vw"
+              alt="{{ image.alt | default: title | escape }}"
+              width="832"
+              height="1032"
+              loading="lazy"
+            >
+          {%- else -%}
+            {{ 'collection-1' | placeholder_svg_tag: 'collection-list__placeholder-svg' }}
+          {%- endif -%}
+        </div>
+
+        {%- if title != blank -%}
+          <p class="collection-list__title">{{ title }}</p>
+        {%- endif -%}
+      </a>
+    </div>
+  {%- endfor -%}
+</div>
+
+{% schema %}
+{
+  "name": "Collection list",
+  "tag": "section",
+  "class": "collection-list-section",
+  "blocks": [
+    {
+      "type": "collection",
+      "name": "Collection",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Custom image",
+          "info": "Overrides the collection image"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Collection list",
+      "category": "Collection",
+      "blocks": [
+        { "type": "collection" },
+        { "type": "collection" },
+        { "type": "collection" }
+      ]
+    }
+  ],
+  "max_blocks": 6
+}
+{% endschema %}

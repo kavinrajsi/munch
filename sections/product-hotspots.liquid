@@ -1,0 +1,162 @@
+<div class="product-hotspots" {{ section.shopify_attributes }}>
+  <div class="product-hotspots__image-wrapper">
+    {%- if section.settings.image != blank -%}
+      <img
+        src="{{ section.settings.image | image_url: width: 1200 }}"
+        srcset="
+          {{ section.settings.image | image_url: width: 600 }} 600w,
+          {{ section.settings.image | image_url: width: 900 }} 900w,
+          {{ section.settings.image | image_url: width: 1200 }} 1200w
+        "
+        sizes="(max-width: 749px) 100vw, 70vw"
+        alt="{{ section.settings.image.alt | escape }}"
+        width="{{ section.settings.image.width }}"
+        height="{{ section.settings.image.height }}"
+        loading="lazy"
+      >
+    {%- else -%}
+      {{ 'lifestyle-1' | placeholder_svg_tag: 'product-hotspots__placeholder' }}
+    {%- endif -%}
+
+    {%- for block in section.blocks -%}
+      <div
+        class="product-hotspots__hotspot"
+        style="left: {{ block.settings.x_position }}%; top: {{ block.settings.y_position }}%;"
+        {{ block.shopify_attributes }}
+      >
+        <button
+          class="product-hotspots__dot"
+          aria-label="{{ block.settings.product.title | default: 'Product' | escape }}"
+          type="button"
+        >
+          <span class="product-hotspots__dot-inner"></span>
+        </button>
+
+        {%- if block.settings.product != blank -%}
+          {%- assign hs_product = block.settings.product -%}
+          <div class="product-hotspots__popup">
+            {%- if hs_product.featured_image != blank -%}
+              <div class="product-hotspots__popup-image">
+                <img
+                  src="{{ hs_product.featured_image | image_url: width: 832, height: 1032, crop: 'center' }}"
+                  srcset="
+                    {{ hs_product.featured_image | image_url: width: 416, height: 516, crop: 'center' }} 416w,
+                    {{ hs_product.featured_image | image_url: width: 832, height: 1032, crop: 'center' }} 832w
+                  "
+                  sizes="200px"
+                  alt="{{ hs_product.featured_image.alt | default: hs_product.title | escape }}"
+                  width="832"
+                  height="1032"
+                  loading="lazy"
+                >
+              </div>
+            {%- endif -%}
+            <div class="product-hotspots__popup-content">
+              <p class="product-hotspots__popup-title">{{ hs_product.title }}</p>
+              <p class="product-hotspots__popup-price">{{ hs_product.price | money }}</p>
+              <a href="{{ hs_product.url }}" class="product-hotspots__popup-link btn btn--primary">
+                {{ section.settings.button_label }}
+              </a>
+            </div>
+          </div>
+        {%- endif -%}
+      </div>
+    {%- endfor -%}
+  </div>
+
+  {%- if section.settings.caption != blank -%}
+    <p class="product-hotspots__caption">{{ section.settings.caption }}</p>
+  {%- endif -%}
+</div>
+
+<script>
+  (function () {
+    document.querySelectorAll('.product-hotspots__dot').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var hotspot = btn.closest('.product-hotspots__hotspot');
+        var isOpen = hotspot.classList.contains('is-open');
+        document.querySelectorAll('.product-hotspots__hotspot').forEach(function (h) {
+          h.classList.remove('is-open');
+        });
+        if (!isOpen) hotspot.classList.add('is-open');
+      });
+    });
+    document.addEventListener('click', function (e) {
+      if (!e.target.closest('.product-hotspots__hotspot')) {
+        document.querySelectorAll('.product-hotspots__hotspot').forEach(function (h) {
+          h.classList.remove('is-open');
+        });
+      }
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Product hotspots",
+  "tag": "section",
+  "class": "product-hotspots-section",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Background image"
+    },
+    {
+      "type": "text",
+      "id": "caption",
+      "label": "Caption"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Shop now"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "hotspot",
+      "name": "Hotspot",
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Product"
+        },
+        {
+          "type": "range",
+          "id": "x_position",
+          "label": "Horizontal position",
+          "min": 0,
+          "max": 100,
+          "step": 5,
+          "default": 50,
+          "unit": "%"
+        },
+        {
+          "type": "range",
+          "id": "y_position",
+          "label": "Vertical position",
+          "min": 0,
+          "max": 100,
+          "step": 5,
+          "default": 50,
+          "unit": "%"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product hotspots",
+      "category": "Products",
+      "blocks": [
+        { "type": "hotspot" },
+        { "type": "hotspot" }
+      ]
+    }
+  ],
+  "max_blocks": 8
+}
+{% endschema %}

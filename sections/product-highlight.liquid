@@ -1,0 +1,170 @@
+<div class="product-highlight" {{ section.shopify_attributes }}>
+  {%- if section.settings.background_image != blank -%}
+    <div class="product-highlight__bg">
+      <img
+        src="{{ section.settings.background_image | image_url: width: 1920 }}"
+        srcset="
+          {{ section.settings.background_image | image_url: width: 800 }} 800w,
+          {{ section.settings.background_image | image_url: width: 1200 }} 1200w,
+          {{ section.settings.background_image | image_url: width: 1920 }} 1920w
+        "
+        sizes="100vw"
+        alt="{{ section.settings.background_image.alt | escape }}"
+        width="{{ section.settings.background_image.width }}"
+        height="{{ section.settings.background_image.height }}"
+        loading="lazy"
+      >
+    </div>
+  {%- endif -%}
+
+  <div class="product-highlight__inner">
+    <div class="product-highlight__layout product-highlight__layout--{{ section.settings.image_position }}">
+      <div class="product-highlight__media">
+        {%- if section.settings.product != blank -%}
+          {%- assign hp = section.settings.product -%}
+          {%- if hp.featured_image != blank -%}
+            <img
+              src="{{ hp.featured_image | image_url: width: 832, height: 1032, crop: 'center' }}"
+              srcset="
+                {{ hp.featured_image | image_url: width: 416, height: 516, crop: 'center' }} 416w,
+                {{ hp.featured_image | image_url: width: 624, height: 774, crop: 'center' }} 624w,
+                {{ hp.featured_image | image_url: width: 832, height: 1032, crop: 'center' }} 832w
+              "
+              sizes="(max-width: 749px) 100vw, 45vw"
+              alt="{{ hp.featured_image.alt | default: hp.title | escape }}"
+              width="832"
+              height="1032"
+              loading="lazy"
+            >
+          {%- else -%}
+            {{ 'product-2' | placeholder_svg_tag: 'product-highlight__placeholder' }}
+          {%- endif -%}
+        {%- else -%}
+          {{ 'product-2' | placeholder_svg_tag: 'product-highlight__placeholder' }}
+        {%- endif -%}
+      </div>
+
+      <div class="product-highlight__content">
+        {%- if section.settings.eyebrow != blank -%}
+          <p class="product-highlight__eyebrow">{{ section.settings.eyebrow }}</p>
+        {%- endif -%}
+
+        {%- if section.settings.heading != blank -%}
+          <h2 class="product-highlight__heading">{{ section.settings.heading }}</h2>
+        {%- elsif section.settings.product != blank -%}
+          <h2 class="product-highlight__heading">{{ section.settings.product.title }}</h2>
+        {%- endif -%}
+
+        {%- if section.settings.description != blank -%}
+          <p class="product-highlight__description">{{ section.settings.description }}</p>
+        {%- endif -%}
+
+        {%- if section.blocks.size > 0 -%}
+          <ul class="product-highlight__features">
+            {%- for block in section.blocks -%}
+              <li class="product-highlight__feature" {{ block.shopify_attributes }}>
+                {%- if block.settings.icon != blank -%}
+                  <span class="product-highlight__feature-icon">{{ block.settings.icon }}</span>
+                {%- endif -%}
+                <span class="product-highlight__feature-text">{{ block.settings.text }}</span>
+              </li>
+            {%- endfor -%}
+          </ul>
+        {%- endif -%}
+
+        {%- if section.settings.product != blank -%}
+          <a href="{{ section.settings.product.url }}" class="btn btn--primary product-highlight__cta">
+            {{ section.settings.button_label }}
+          </a>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Product highlight",
+  "tag": "section",
+  "class": "product-highlight-section",
+  "settings": [
+    {
+      "type": "product",
+      "id": "product",
+      "label": "Product"
+    },
+    {
+      "type": "select",
+      "id": "image_position",
+      "label": "Image position",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Background image"
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow text"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "info": "Defaults to product title if empty"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Shop now"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Feature",
+      "settings": [
+        {
+          "type": "text",
+          "id": "icon",
+          "label": "Icon or emoji",
+          "info": "Enter an emoji or leave blank"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Feature text",
+          "default": "Product feature"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product highlight",
+      "category": "Products",
+      "blocks": [
+        { "type": "feature", "settings": { "text": "Feature one" } },
+        { "type": "feature", "settings": { "text": "Feature two" } },
+        { "type": "feature", "settings": { "text": "Feature three" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

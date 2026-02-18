@@ -1,0 +1,165 @@
+<div class="feat-collection-grid" {{ section.shopify_attributes }}>
+  {%- if section.settings.heading != blank or section.settings.subheading != blank -%}
+    <div class="feat-collection-grid__header">
+      {%- if section.settings.heading != blank -%}
+        <h2 class="feat-collection-grid__heading">{{ section.settings.heading }}</h2>
+      {%- endif -%}
+      {%- if section.settings.subheading != blank -%}
+        <p class="feat-collection-grid__subheading">{{ section.settings.subheading }}</p>
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+
+  <div
+    class="feat-collection-grid__grid"
+    style="--grid-columns: {{ section.settings.columns_desktop }}; --grid-columns-mobile: {{ section.settings.columns_mobile }};"
+  >
+    {%- if section.settings.collection != blank -%}
+      {%- for product in section.settings.collection.products limit: section.settings.products_to_show -%}
+        <div class="feat-collection-grid__item">
+          <a href="{{ product.url }}" class="feat-collection-grid__link">
+            <div class="feat-collection-grid__image-wrapper">
+              {%- if product.featured_image != blank -%}
+                <img
+                  src="{{ product.featured_image | image_url: width: 832, height: 1032, crop: 'center' }}"
+                  srcset="
+                    {{ product.featured_image | image_url: width: 416, height: 516, crop: 'center' }} 416w,
+                    {{ product.featured_image | image_url: width: 624, height: 774, crop: 'center' }} 624w,
+                    {{ product.featured_image | image_url: width: 832, height: 1032, crop: 'center' }} 832w
+                  "
+                  sizes="(max-width: 749px) calc(100vw / {{ section.settings.columns_mobile }}), calc(100vw / {{ section.settings.columns_desktop }})"
+                  alt="{{ product.featured_image.alt | default: product.title | escape }}"
+                  width="832"
+                  height="1032"
+                  loading="lazy"
+                >
+              {%- else -%}
+                {{ 'product-1' | placeholder_svg_tag: 'feat-collection-grid__placeholder' }}
+              {%- endif -%}
+            </div>
+            <div class="feat-collection-grid__content">
+              {%- if section.settings.show_vendor -%}
+                <p class="feat-collection-grid__vendor">{{ product.vendor }}</p>
+              {%- endif -%}
+              <h3 class="feat-collection-grid__title">{{ product.title }}</h3>
+              {%- if section.settings.show_price -%}
+                <p class="feat-collection-grid__price">{{ product.price | money }}</p>
+              {%- endif -%}
+            </div>
+          </a>
+        </div>
+      {%- endfor -%}
+    {%- else -%}
+      {%- for i in (1..section.settings.products_to_show) -%}
+        <div class="feat-collection-grid__item feat-collection-grid__item--placeholder">
+          <div class="feat-collection-grid__image-wrapper">
+            {{ 'product-1' | placeholder_svg_tag: 'feat-collection-grid__placeholder' }}
+          </div>
+          <div class="feat-collection-grid__content">
+            <h3 class="feat-collection-grid__title">Product title</h3>
+            <p class="feat-collection-grid__price">$0.00</p>
+          </div>
+        </div>
+      {%- endfor -%}
+    {%- endif -%}
+  </div>
+
+  {%- if section.settings.show_view_all and section.settings.collection != blank -%}
+    <div class="feat-collection-grid__footer">
+      <a href="{{ section.settings.collection.url }}" class="btn btn--secondary">
+        {{ section.settings.view_all_label }}
+      </a>
+    </div>
+  {%- endif -%}
+</div>
+
+{% schema %}
+{
+  "name": "Featured collection: Grid",
+  "tag": "section",
+  "class": "feat-collection-grid-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Featured collection"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "label": "Products to show",
+      "min": 4,
+      "max": 12,
+      "step": 4,
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "label": "Columns on desktop",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "columns_mobile",
+      "label": "Columns on mobile",
+      "min": 1,
+      "max": 3,
+      "step": 1,
+      "default": 2
+    },
+    {
+      "type": "header",
+      "content": "Product details"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_vendor",
+      "label": "Show vendor",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_price",
+      "label": "Show price",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "View all button"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_view_all",
+      "label": "Show view all button",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "view_all_label",
+      "label": "Button label",
+      "default": "View all"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Featured collection: Grid",
+      "category": "Products"
+    }
+  ]
+}
+{% endschema %}
