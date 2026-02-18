@@ -1,0 +1,63 @@
+{%- unless request.page_type == 'index' -%}
+  <nav class="breadcrumbs section-padding" aria-label="Breadcrumb" style="padding-top:16px;padding-bottom:16px;">
+    <div class="page-width">
+      <ol class="breadcrumbs__list" style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--color-secondary);">
+        <li>
+          <a href="{{ routes.root_url }}">{{ 'general.breadcrumbs.home' | t }}</a>
+        </li>
+
+        {%- if request.page_type == 'product' -%}
+          {%- if collection -%}
+            <li aria-hidden="true">/</li>
+            <li>
+              <a href="{{ collection.url }}">{{ collection.title }}</a>
+            </li>
+          {%- elsif product.collections.size > 0 -%}
+            <li aria-hidden="true">/</li>
+            <li>
+              <a href="{{ product.collections.first.url }}">{{ product.collections.first.title }}</a>
+            </li>
+          {%- endif -%}
+          <li aria-hidden="true">/</li>
+          <li aria-current="page">{{ product.title }}</li>
+
+        {%- elsif request.page_type == 'collection' -%}
+          <li aria-hidden="true">/</li>
+          <li aria-current="page">{{ collection.title }}</li>
+
+        {%- elsif request.page_type == 'blog' -%}
+          <li aria-hidden="true">/</li>
+          <li aria-current="page">{{ blog.title }}</li>
+
+        {%- elsif request.page_type == 'article' -%}
+          <li aria-hidden="true">/</li>
+          <li>
+            <a href="{{ blog.url }}">{{ blog.title }}</a>
+          </li>
+          <li aria-hidden="true">/</li>
+          <li aria-current="page">{{ article.title }}</li>
+
+        {%- elsif request.page_type == 'page' -%}
+          <li aria-hidden="true">/</li>
+          <li aria-current="page">{{ page.title }}</li>
+
+        {%- elsif request.page_type == 'search' -%}
+          <li aria-hidden="true">/</li>
+          <li aria-current="page">{{ 'general.search.title' | t }}</li>
+
+        {%- elsif request.page_type == 'cart' -%}
+          <li aria-hidden="true">/</li>
+          <li aria-current="page">{{ 'cart.general.title' | t }}</li>
+
+        {%- elsif request.page_type == 'policy' -%}
+          <li aria-hidden="true">/</li>
+          <li aria-current="page">{{ policy.title }}</li>
+
+        {%- else -%}
+          <li aria-hidden="true">/</li>
+          <li aria-current="page">{{ page_title }}</li>
+        {%- endif -%}
+      </ol>
+    </div>
+  </nav>
+{%- endunless -%}

@@ -1,0 +1,35 @@
+{%- comment -%}
+  Renders a blog article card.
+  Usage: {% render 'blog-card', article: article %}
+{%- endcomment -%}
+
+<div class="blog-card">
+  {%- if article.image -%}
+    <a href="{{ article.url }}" class="blog-card__image">
+      <img
+        src="{{ article.image | image_url: width: 600 }}"
+        alt="{{ article.image.alt | default: article.title | escape }}"
+        width="{{ article.image.width }}"
+        height="{{ article.image.height }}"
+        loading="lazy"
+      >
+    </a>
+  {%- endif -%}
+
+  <div class="blog-card__meta">
+    <span class="blog-card__date">{{ article.published_at | date: '%b %d, %Y' }}</span>
+    {%- if article.author -%}
+      <span class="blog-card__author">{{ article.author }}</span>
+    {%- endif -%}
+  </div>
+
+  <h3 class="blog-card__title">
+    <a href="{{ article.url }}">{{ article.title }}</a>
+  </h3>
+
+  {%- if article.excerpt_or_content != blank -%}
+    <p class="blog-card__excerpt">{{ article.excerpt_or_content | strip_html | truncate: 150 }}</p>
+  {%- endif -%}
+
+  <a href="{{ article.url }}" class="blog-card__read-more">{{ 'templates.blog.read_more' | t }}</a>
+</div>

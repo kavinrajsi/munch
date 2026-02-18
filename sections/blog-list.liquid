@@ -1,67 +1,55 @@
-{%- style -%}
-  .blog-list--{{ section.id }} {
-    --bl-pt: {{ section.settings.padding_top_mobile }}px;
-    --bl-pb: {{ section.settings.padding_bottom_mobile }}px;
-    --bl-pt-desktop: {{ section.settings.padding_top }}px;
-    --bl-pb-desktop: {{ section.settings.padding_bottom }}px;
-    --bl-title-color: {{ section.settings.title_color }};
-    --bl-title-align: {{ section.settings.title_alignment }};
-    --bl-title-font-size: {{ section.settings.title_font_size }}px;
-    --bl-title-font-size-mobile: {{ section.settings.title_font_size_mobile }}px;
-    --bl-grid-gap: {{ section.settings.grid_gap }}px;
-    --bl-grid-gap-mobile: {{ section.settings.grid_gap_mobile }}px;
-  }
-{%- endstyle -%}
-
-{%- assign blog_handle = section.settings.blog -%}
-{%- assign selected_blog = blogs[blog_handle] -%}
-
-{%- if selected_blog != blank and selected_blog.articles_count > 0 -%}
-  <div class="blog-list blog-list--{{ section.id }}">
-    <div class="page-width">
+<div class="blog-list section-padding" {{ section.shopify_attributes }}>
+  <div class="page-width">
+    <div class="blog-list__header">
       {%- if section.settings.title != blank -%}
-        <div class="blog-list__header">
-          <h2 class="blog-list__title">{{ section.settings.title }}</h2>
-        </div>
+        <h2 class="blog-list__title">{{ section.settings.title }}</h2>
       {%- endif -%}
-
-      <div class="blog-list__grid">
-        {%- for article in selected_blog.articles limit: 4 -%}
-          {%- render 'blog-card',
-            article: article,
-            show_image: section.settings.show_image,
-            show_title: section.settings.show_title,
-            show_description: section.settings.show_description,
-            show_date: section.settings.show_date,
-            show_author: section.settings.show_author,
-            show_tag: section.settings.show_tag,
-            show_comments: false,
-            show_read_more: section.settings.show_read_more,
-            title_line_clamp: 2,
-            description_line_clamp: 2
-          -%}
-        {%- endfor -%}
-      </div>
-
-      {%- if section.settings.show_view_all -%}
-        <div class="blog-list__footer">
-          <a href="{{ selected_blog.url }}" class="btn btn--secondary blog-list__view-all">
-            {{ section.settings.view_all_text | default: 'View all' }}
-          </a>
-        </div>
+      {%- if section.settings.subtitle != blank -%}
+        <p class="blog-list__subtitle">{{ section.settings.subtitle }}</p>
       {%- endif -%}
     </div>
+
+    <div class="blog-list__grid">
+      {%- if section.settings.blog != blank -%}
+        {%- for article in section.settings.blog.articles limit: section.settings.articles_to_show -%}
+          {% render 'blog-card', article: article %}
+        {%- endfor -%}
+      {%- else -%}
+        {%- for i in (1..3) -%}
+          <div class="blog-card">
+            <div class="blog-card__image">{{ 'image' | placeholder_svg_tag: 'placeholder' }}</div>
+            <div class="blog-card__meta"><span class="blog-card__date">Jan 01, 2025</span></div>
+            <h3 class="blog-card__title">Sample Blog Post {{ i }}</h3>
+            <p class="blog-card__excerpt">This is a sample blog post excerpt to show what the blog card looks like.</p>
+          </div>
+        {%- endfor -%}
+      {%- endif -%}
+    </div>
+
+    {%- if section.settings.show_view_all and section.settings.blog != blank -%}
+      <div class="blog-list__view-all">
+        <a href="{{ section.settings.blog.url }}" class="btn btn--secondary">View All Posts</a>
+      </div>
+    {%- endif -%}
   </div>
-{%- endif -%}
+</div>
 
 {% schema %}
 {
-  "name": "Blog list",
+  "name": "Blog List",
   "tag": "section",
+  "class": "blog-list-section",
   "settings": [
     {
-      "type": "header",
-      "content": "Blog"
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "From Our Blog"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subtitle"
     },
     {
       "type": "blog",
@@ -69,185 +57,24 @@
       "label": "Blog"
     },
     {
-      "type": "header",
-      "content": "Section layout"
-    },
-    {
       "type": "range",
-      "id": "padding_top",
-      "label": "Padding top (desktop)",
-      "min": 0,
-      "max": 120,
-      "step": 4,
-      "unit": "px",
-      "default": 40
-    },
-    {
-      "type": "range",
-      "id": "padding_bottom",
-      "label": "Padding bottom (desktop)",
-      "min": 0,
-      "max": 120,
-      "step": 4,
-      "unit": "px",
-      "default": 40
-    },
-    {
-      "type": "range",
-      "id": "padding_top_mobile",
-      "label": "Padding top (mobile)",
-      "min": 0,
-      "max": 80,
-      "step": 4,
-      "unit": "px",
-      "default": 24
-    },
-    {
-      "type": "range",
-      "id": "padding_bottom_mobile",
-      "label": "Padding bottom (mobile)",
-      "min": 0,
-      "max": 80,
-      "step": 4,
-      "unit": "px",
-      "default": 24
-    },
-    {
-      "type": "header",
-      "content": "Title"
-    },
-    {
-      "type": "text",
-      "id": "title",
-      "label": "Title",
-      "default": "Latest posts"
-    },
-    {
-      "type": "color",
-      "id": "title_color",
-      "label": "Title color",
-      "default": "#000000"
-    },
-    {
-      "type": "select",
-      "id": "title_alignment",
-      "label": "Title alignment",
-      "options": [
-        { "value": "left", "label": "Left" },
-        { "value": "center", "label": "Center" }
-      ],
-      "default": "left"
-    },
-    {
-      "type": "range",
-      "id": "title_font_size",
-      "label": "Title font size (desktop)",
-      "min": 20,
-      "max": 56,
-      "step": 2,
-      "unit": "px",
-      "default": 36
-    },
-    {
-      "type": "range",
-      "id": "title_font_size_mobile",
-      "label": "Title font size (mobile)",
-      "min": 18,
-      "max": 40,
-      "step": 2,
-      "unit": "px",
-      "default": 28
-    },
-    {
-      "type": "header",
-      "content": "Grid"
-    },
-    {
-      "type": "range",
-      "id": "grid_gap",
-      "label": "Grid gap (desktop)",
-      "min": 8,
-      "max": 48,
-      "step": 4,
-      "unit": "px",
-      "default": 24
-    },
-    {
-      "type": "range",
-      "id": "grid_gap_mobile",
-      "label": "Grid gap (mobile)",
-      "min": 8,
-      "max": 32,
-      "step": 4,
-      "unit": "px",
-      "default": 16
-    },
-    {
-      "type": "header",
-      "content": "Card visibility"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_image",
-      "label": "Show image",
-      "default": true
-    },
-    {
-      "type": "checkbox",
-      "id": "show_title",
-      "label": "Show title",
-      "default": true
-    },
-    {
-      "type": "checkbox",
-      "id": "show_description",
-      "label": "Show description",
-      "default": true
-    },
-    {
-      "type": "checkbox",
-      "id": "show_date",
-      "label": "Show date",
-      "default": true
-    },
-    {
-      "type": "checkbox",
-      "id": "show_author",
-      "label": "Show author",
-      "default": false
-    },
-    {
-      "type": "checkbox",
-      "id": "show_tag",
-      "label": "Show tag",
-      "default": false
-    },
-    {
-      "type": "checkbox",
-      "id": "show_read_more",
-      "label": "Show read more",
-      "default": true
-    },
-    {
-      "type": "header",
-      "content": "View all"
+      "id": "articles_to_show",
+      "label": "Articles to Show",
+      "min": 2,
+      "max": 6,
+      "step": 1,
+      "default": 3
     },
     {
       "type": "checkbox",
       "id": "show_view_all",
-      "label": "Show view all button",
+      "label": "Show View All Button",
       "default": true
-    },
-    {
-      "type": "text",
-      "id": "view_all_text",
-      "label": "Button text",
-      "default": "View all"
     }
   ],
   "presets": [
     {
-      "name": "Blog list"
+      "name": "Blog List"
     }
   ]
 }

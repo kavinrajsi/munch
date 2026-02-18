@@ -1,310 +1,50 @@
-<div class="contact-page section-padding">
-  <div class="page-width">
-    <div class="contact-page__grid">
+{% render 'breadcrumbs' %}
 
-      {%- comment -%} Left — Form {%- endcomment -%}
-      <div class="contact-page__form-col">
-        <h1 class="contact-page__title">{{ section.settings.heading }}</h1>
-        <p class="contact-page__desc">{{ section.settings.description }}</p>
+<div class="contact-page section-padding" {{ section.shopify_attributes }}>
+  <h1 class="contact-page__title">{{ page.title }}</h1>
 
-        {%- form 'contact', id: 'contact-form' -%}
+  {%- if page.content != blank -%}
+    <div class="rte" style="margin-bottom:32px;">{{ page.content }}</div>
+  {%- endif -%}
 
-          {%- if form.posted_successfully? -%}
-            <div class="contact-page__success">
-              Thank you for your message. We'll get back to you shortly.
-            </div>
-          {%- endif -%}
+  {% form 'contact', class: 'contact-page__form' %}
+    {%- if form.posted_successfully? -%}
+      <p class="contact-page__success">{{ 'templates.contact.form.success' | t }}</p>
+    {%- endif -%}
 
-          <div class="contact-page__field">
-            <label class="contact-page__label" for="ContactName">Name <span class="contact-page__required">*</span></label>
-            <div class="contact-page__input-wrap">
-              <input
-                class="contact-page__input{% if form.errors contains 'name' %} contact-page__input--error{% endif %}"
-                type="text"
-                name="contact[name]"
-                id="ContactName"
-                autocomplete="name"
-                required
-                data-required
-              >
-              <span class="contact-page__error" data-error-for="ContactName">This field is required</span>
-            </div>
-          </div>
-
-          <div class="contact-page__field">
-            <label class="contact-page__label" for="ContactEmail">Email <span class="contact-page__required">*</span></label>
-            <div class="contact-page__input-wrap">
-              <input
-                class="contact-page__input{% if form.errors contains 'email' %} contact-page__input--error{% endif %}"
-                type="email"
-                name="contact[email]"
-                id="ContactEmail"
-                autocomplete="email"
-                required
-                data-required
-              >
-              <span class="contact-page__error" data-error-for="ContactEmail">Please enter a valid email</span>
-            </div>
-          </div>
-
-          <div class="contact-page__field">
-            <label class="contact-page__label" for="ContactPhone">Phone Number <span class="contact-page__required">*</span></label>
-            <div class="contact-page__input-wrap">
-              <input
-                class="contact-page__input{% if form.errors contains 'phone' %} contact-page__input--error{% endif %}"
-                type="tel"
-                name="contact[phone]"
-                id="ContactPhone"
-                autocomplete="tel"
-                required
-                data-required
-              >
-              <span class="contact-page__error" data-error-for="ContactPhone">This field is required</span>
-            </div>
-          </div>
-
-          <div class="contact-page__field">
-            <label class="contact-page__label" for="ContactMessage">Message <span class="contact-page__required">*</span></label>
-            <div class="contact-page__input-wrap">
-              <textarea
-                class="contact-page__input contact-page__textarea{% if form.errors contains 'body' %} contact-page__input--error{% endif %}"
-                name="contact[body]"
-                id="ContactMessage"
-                rows="5"
-                required
-                data-required
-              ></textarea>
-              <span class="contact-page__error" data-error-for="ContactMessage">This field is required</span>
-            </div>
-          </div>
-
-          <div class="contact-page__checkbox">
-            <input type="checkbox" id="ContactSave" data-save-info>
-            <label for="ContactSave">Save my name, email, and website in this browser for the next time I comment.</label>
-          </div>
-
-          <button type="submit" class="btn btn--primary contact-page__submit">Send Message</button>
-        {%- endform -%}
+    {%- if form.errors -%}
+      <div class="customer-form__errors">
+        {{ form.errors | default_errors }}
       </div>
+    {%- endif -%}
 
-      {%- comment -%} Right — Contact info {%- endcomment -%}
-      <div class="contact-page__info-col">
-        <h2 class="contact-page__info-title">{{ section.settings.info_heading | default: 'Get In Touch' }}</h2>
-
-        {%- if section.settings.address != blank -%}
-          <div class="contact-page__info-block">
-            <div class="contact-page__info-icon">
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
-            </div>
-            <div class="contact-page__info-text">
-              <h4 class="contact-page__info-label">Address</h4>
-              <p>{{ section.settings.address }}</p>
-            </div>
-          </div>
-        {%- endif -%}
-
-        {%- if section.settings.phone != blank -%}
-          <div class="contact-page__info-block">
-            <div class="contact-page__info-icon">
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
-            </div>
-            <div class="contact-page__info-text">
-              <h4 class="contact-page__info-label">Phone</h4>
-              <p><a href="tel:{{ section.settings.phone | remove: ' ' }}">{{ section.settings.phone }}</a></p>
-            </div>
-          </div>
-        {%- endif -%}
-
-        {%- if section.settings.email != blank -%}
-          <div class="contact-page__info-block">
-            <div class="contact-page__info-icon">
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-            </div>
-            <div class="contact-page__info-text">
-              <h4 class="contact-page__info-label">Email</h4>
-              <p><a href="mailto:{{ section.settings.email }}">{{ section.settings.email }}</a></p>
-            </div>
-          </div>
-        {%- endif -%}
-
-        {%- assign has_social = false -%}
-        {%- if section.settings.facebook_url != blank or section.settings.instagram_url != blank or section.settings.youtube_url != blank or section.settings.twitter_url != blank -%}
-          {%- assign has_social = true -%}
-        {%- endif -%}
-
-        {%- if has_social -%}
-          <div class="contact-page__social">
-            <h4 class="contact-page__info-label">Follow Us</h4>
-            <div class="contact-page__social-icons">
-              {%- if section.settings.facebook_url != blank -%}
-                <a href="{{ section.settings.facebook_url }}" target="_blank" rel="noopener noreferrer" aria-label="Facebook" class="contact-page__social-link">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-                </a>
-              {%- endif -%}
-              {%- if section.settings.instagram_url != blank -%}
-                <a href="{{ section.settings.instagram_url }}" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="contact-page__social-link">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
-                </a>
-              {%- endif -%}
-              {%- if section.settings.youtube_url != blank -%}
-                <a href="{{ section.settings.youtube_url }}" target="_blank" rel="noopener noreferrer" aria-label="YouTube" class="contact-page__social-link">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
-                </a>
-              {%- endif -%}
-              {%- if section.settings.twitter_url != blank -%}
-                <a href="{{ section.settings.twitter_url }}" target="_blank" rel="noopener noreferrer" aria-label="X / Twitter" class="contact-page__social-link">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-                </a>
-              {%- endif -%}
-            </div>
-          </div>
-        {%- endif -%}
+    <div class="form-row">
+      <div class="form-group">
+        <label for="ContactName">{{ 'templates.contact.form.name' | t }}</label>
+        <input type="text" id="ContactName" name="contact[name]" value="{{ form.name }}" required>
       </div>
-
+      <div class="form-group">
+        <label for="ContactEmail">{{ 'templates.contact.form.email' | t }}</label>
+        <input type="email" id="ContactEmail" name="contact[email]" value="{{ form.email }}" required>
+      </div>
     </div>
-  </div>
+    <div class="form-group">
+      <label for="ContactPhone">{{ 'templates.contact.form.phone' | t }}</label>
+      <input type="tel" id="ContactPhone" name="contact[phone]" value="{{ form.phone }}">
+    </div>
+    <div class="form-group">
+      <label for="ContactMessage">{{ 'templates.contact.form.message' | t }}</label>
+      <textarea id="ContactMessage" name="contact[body]" required>{{ form.body }}</textarea>
+    </div>
+    <button type="submit" class="btn btn--primary">{{ 'templates.contact.form.submit' | t }}</button>
+  {% endform %}
 </div>
-
-<script>
-  (function() {
-    var form = document.getElementById('contact-form');
-    if (!form) return;
-
-    // Restore saved info from localStorage
-    var saved = localStorage.getItem('contact_saved_info');
-    if (saved) {
-      try {
-        var data = JSON.parse(saved);
-        var nameInput = document.getElementById('ContactName');
-        var emailInput = document.getElementById('ContactEmail');
-        var phoneInput = document.getElementById('ContactPhone');
-        if (data.name && nameInput) nameInput.value = data.name;
-        if (data.email && emailInput) emailInput.value = data.email;
-        if (data.phone && phoneInput) phoneInput.value = data.phone;
-        var saveCheckbox = document.querySelector('[data-save-info]');
-        if (saveCheckbox) saveCheckbox.checked = true;
-      } catch(e) {}
-    }
-
-    // Validation on submit
-    form.addEventListener('submit', function(e) {
-      var valid = true;
-      var fields = form.querySelectorAll('[data-required]');
-
-      fields.forEach(function(input) {
-        var error = form.querySelector('[data-error-for="' + input.id + '"]');
-        var isEmpty = !input.value.trim();
-        var isInvalidEmail = input.type === 'email' && input.value.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.value.trim());
-
-        if (isEmpty || isInvalidEmail) {
-          input.classList.add('contact-page__input--error');
-          if (error) error.classList.add('contact-page__error--visible');
-          valid = false;
-        } else {
-          input.classList.remove('contact-page__input--error');
-          if (error) error.classList.remove('contact-page__error--visible');
-        }
-      });
-
-      if (!valid) {
-        e.preventDefault();
-        return;
-      }
-
-      // Save info if checkbox checked
-      var saveCheckbox = form.querySelector('[data-save-info]');
-      if (saveCheckbox && saveCheckbox.checked) {
-        localStorage.setItem('contact_saved_info', JSON.stringify({
-          name: document.getElementById('ContactName').value,
-          email: document.getElementById('ContactEmail').value,
-          phone: document.getElementById('ContactPhone').value
-        }));
-      } else {
-        localStorage.removeItem('contact_saved_info');
-      }
-    });
-
-    // Clear error on input
-    form.querySelectorAll('[data-required]').forEach(function(input) {
-      input.addEventListener('input', function() {
-        this.classList.remove('contact-page__input--error');
-        var error = form.querySelector('[data-error-for="' + this.id + '"]');
-        if (error) error.classList.remove('contact-page__error--visible');
-      });
-    });
-  })();
-</script>
 
 {% schema %}
 {
-  "name": "Contact Page",
+  "name": "Contact Form",
   "tag": "section",
-  "settings": [
-    {
-      "type": "header",
-      "content": "Form"
-    },
-    {
-      "type": "text",
-      "id": "heading",
-      "label": "Heading",
-      "default": "We would love to hear from you"
-    },
-    {
-      "type": "textarea",
-      "id": "description",
-      "label": "Description",
-      "default": "If you've got great products you're making or looking to work with us then drop us a line."
-    },
-    {
-      "type": "header",
-      "content": "Contact Info"
-    },
-    {
-      "type": "text",
-      "id": "info_heading",
-      "label": "Heading",
-      "default": "Get In Touch"
-    },
-    {
-      "type": "textarea",
-      "id": "address",
-      "label": "Address"
-    },
-    {
-      "type": "text",
-      "id": "phone",
-      "label": "Phone number"
-    },
-    {
-      "type": "text",
-      "id": "email",
-      "label": "Email"
-    },
-    {
-      "type": "header",
-      "content": "Social Media"
-    },
-    {
-      "type": "url",
-      "id": "facebook_url",
-      "label": "Facebook URL"
-    },
-    {
-      "type": "url",
-      "id": "instagram_url",
-      "label": "Instagram URL"
-    },
-    {
-      "type": "url",
-      "id": "youtube_url",
-      "label": "YouTube URL"
-    },
-    {
-      "type": "url",
-      "id": "twitter_url",
-      "label": "X / Twitter URL"
-    }
-  ]
+  "class": "main-contact-section",
+  "settings": []
 }
 {% endschema %}

@@ -1,0 +1,23 @@
+{
+  "name": "nithyaamirtham",
+  "version": "1.0.0",
+  "description": "Nithyaamirtham - Traditional Indian Sweets Shopify Theme",
+  "author": "Kavinraj",
+  "license": "ISC",
+  "scripts": {
+    "build": "gulp style && gulp scripts && gulp product-scripts",
+    "dev": "gulp",
+    "watch": "gulp watch"
+  },
+  "devDependencies": {
+    "gulp": "^5.0.1",
+    "gulp-autoprefixer": "^8.0.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-minify": "^3.1.0",
+    "gulp-sass": "^5.1.0",
+    "sass": "^1.77.0"
+  },
+  "dependencies": {
+    "gulp-plumber": "^1.2.1"
+  }
+}

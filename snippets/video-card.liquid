@@ -1,0 +1,56 @@
+{%- comment -%}
+  Renders a video card with thumbnail and play overlay.
+  Usage: {% render 'video-card', block: block %}
+{%- endcomment -%}
+
+<div class="video-card" {{ block.shopify_attributes }}>
+  <div class="video-card__media" data-video-card>
+    {%- if block.settings.video_url != blank -%}
+      {%- if block.settings.thumbnail -%}
+        <img
+          src="{{ block.settings.thumbnail | image_url: width: 640 }}"
+          alt="{{ block.settings.title | escape }}"
+          width="{{ block.settings.thumbnail.width }}"
+          height="{{ block.settings.thumbnail.height }}"
+          loading="lazy"
+          data-video-thumb
+        >
+      {%- else -%}
+        {%- if block.settings.video_url.type == 'youtube' -%}
+          <img
+            src="https://img.youtube.com/vi/{{ block.settings.video_url.id }}/hqdefault.jpg"
+            alt="{{ block.settings.title | escape }}"
+            loading="lazy"
+            data-video-thumb
+          >
+        {%- endif -%}
+      {%- endif -%}
+
+      <button class="video-card__play" data-video-play aria-label="Play video" type="button">
+        <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+      </button>
+
+      <template data-video-embed>
+        {%- if block.settings.video_url.type == 'youtube' -%}
+          <iframe
+            src="https://www.youtube.com/embed/{{ block.settings.video_url.id }}?autoplay=1&rel=0"
+            allow="autoplay; encrypted-media"
+            allowfullscreen
+            title="{{ block.settings.title | escape }}"
+          ></iframe>
+        {%- elsif block.settings.video_url.type == 'vimeo' -%}
+          <iframe
+            src="https://player.vimeo.com/video/{{ block.settings.video_url.id }}?autoplay=1"
+            allow="autoplay; fullscreen"
+            allowfullscreen
+            title="{{ block.settings.title | escape }}"
+          ></iframe>
+        {%- endif -%}
+      </template>
+    {%- endif -%}
+  </div>
+
+  {%- if block.settings.title != blank -%}
+    <h4 class="video-card__title">{{ block.settings.title }}</h4>
+  {%- endif -%}
+</div>

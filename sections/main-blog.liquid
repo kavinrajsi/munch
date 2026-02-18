@@ -1,89 +1,40 @@
-{%- style -%}
-  .blog-page {
-    --blog-bg-color: {{ section.settings.background_color }};
-    --blog-padding-top: {{ section.settings.padding_top }}px;
-    --blog-padding-bottom: {{ section.settings.padding_bottom }}px;
-    --blog-padding-top-mobile: {{ section.settings.padding_top_mobile }}px;
-    --blog-padding-bottom-mobile: {{ section.settings.padding_bottom_mobile }}px;
+{% render 'breadcrumbs' %}
 
-    --blog-page-title-color: {{ section.settings.page_title_color }};
-    --blog-page-title-font-size: {{ section.settings.page_title_font_size }}px;
-    --blog-page-title-line-height: {{ section.settings.page_title_line_height }}px;
-    --blog-page-title-font-size-mobile: {{ section.settings.page_title_font_size_mobile }}px;
-    --blog-page-title-line-height-mobile: {{ section.settings.page_title_line_height_mobile }}px;
+<div class="blog-page section-padding" {{ section.shopify_attributes }}>
+  <div class="page-width">
+    <h1 class="text-center" style="margin-bottom:32px;">{{ blog.title }}</h1>
 
-    --blog-grid-cols: {{ section.settings.grid_columns }};
-    --blog-grid-cols-mobile: {{ section.settings.grid_columns_mobile }};
-    --blog-grid-gap: {{ section.settings.grid_gap }}px;
-    --blog-grid-gap-mobile: {{ section.settings.grid_gap_mobile }}px;
-
-    --blog-card-img-radius: {{ section.settings.image_border_radius }}px;
-    --blog-card-img-radius-mobile: {{ section.settings.image_border_radius_mobile }}px;
-
-    --blog-title-color: {{ section.settings.article_title_color }};
-    --blog-title-font-size: {{ section.settings.article_title_font_size }}px;
-    --blog-title-line-height: {{ section.settings.article_title_line_height }}px;
-    --blog-title-font-size-mobile: {{ section.settings.article_title_font_size_mobile }}px;
-    --blog-title-line-height-mobile: {{ section.settings.article_title_line_height_mobile }}px;
-
-    --blog-desc-color: {{ section.settings.description_color }};
-    --blog-desc-font-size: {{ section.settings.description_font_size }}px;
-    --blog-desc-line-height: {{ section.settings.description_line_height }}px;
-    --blog-desc-font-size-mobile: {{ section.settings.description_font_size_mobile }}px;
-    --blog-desc-line-height-mobile: {{ section.settings.description_line_height_mobile }}px;
-
-    --blog-meta-font-size: {{ section.settings.meta_font_size }}px;
-    --blog-meta-line-height: {{ section.settings.meta_line_height }}px;
-    --blog-meta-font-size-mobile: {{ section.settings.meta_font_size_mobile }}px;
-    --blog-meta-line-height-mobile: {{ section.settings.meta_line_height_mobile }}px;
-    --blog-date-color: {{ section.settings.date_color }};
-    --blog-author-color: {{ section.settings.author_color }};
-    --blog-tag-color: {{ section.settings.tag_color }};
-    --blog-comments-color: {{ section.settings.comments_color }};
-
-    --blog-readmore-color: {{ section.settings.read_more_color }};
-    --blog-readmore-font-size: {{ section.settings.read_more_font_size }}px;
-    --blog-readmore-line-height: {{ section.settings.read_more_line_height }}px;
-    --blog-readmore-font-size-mobile: {{ section.settings.read_more_font_size_mobile }}px;
-    --blog-readmore-line-height-mobile: {{ section.settings.read_more_line_height_mobile }}px;
-  }
-{%- endstyle -%}
-
-<div class="blog-page">
-  <div class="{% if section.settings.container_type == 'boxed' %}page-width{% endif %}">
-    {%- if section.settings.show_page_title -%}
-      <h1 class="blog-page__title">
-        {%- if section.settings.page_title != blank -%}
-          {{ section.settings.page_title }}
-        {%- else -%}
-          {{ blog.title }}
-        {%- endif -%}
-      </h1>
+    {%- if section.settings.show_tags and blog.all_tags.size > 0 -%}
+      <div class="blog-page__tags">
+        <a href="{{ blog.url }}" class="{% unless current_tags %}is-active{% endunless %}">All</a>
+        {%- for tag in blog.all_tags -%}
+          <a href="{{ blog.url }}/tagged/{{ tag | handle }}" class="{% if current_tags contains tag %}is-active{% endif %}">{{ tag }}</a>
+        {%- endfor -%}
+      </div>
     {%- endif -%}
 
     {%- paginate blog.articles by section.settings.articles_per_page -%}
       <div class="blog-page__grid">
         {%- for article in blog.articles -%}
-          {%- render 'blog-card',
-            article: article,
-            show_image: section.settings.show_image,
-            show_title: section.settings.show_title,
-            show_description: section.settings.show_description,
-            show_date: section.settings.show_date,
-            show_author: section.settings.show_author,
-            show_tag: section.settings.show_tag,
-            show_comments: section.settings.show_comments,
-            show_read_more: section.settings.show_read_more,
-            title_line_clamp: section.settings.title_line_clamp,
-            description_line_clamp: section.settings.description_line_clamp,
-            read_more_icon: section.settings.read_more_icon
-          -%}
+          {% render 'blog-card', article: article %}
         {%- endfor -%}
       </div>
 
       {%- if paginate.pages > 1 -%}
-        <div class="blog-page__pagination">
-          {{ paginate | default_pagination: next: '&raquo;', previous: '&laquo;' }}
+        <div class="pagination">
+          {%- if paginate.previous -%}
+            <a href="{{ paginate.previous.url }}" class="prev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg></a>
+          {%- endif -%}
+          {%- for part in paginate.parts -%}
+            {%- if part.is_link -%}
+              <a href="{{ part.url }}">{{ part.title }}</a>
+            {%- else -%}
+              <span class="{% if part.title == paginate.current_page %}is-active{% endif %}">{{ part.title }}</span>
+            {%- endif -%}
+          {%- endfor -%}
+          {%- if paginate.next -%}
+            <a href="{{ paginate.next.url }}" class="next"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></a>
+          {%- endif -%}
         </div>
       {%- endif -%}
     {%- endpaginate -%}
@@ -92,502 +43,24 @@
 
 {% schema %}
 {
-  "name": "Blog",
+  "name": "Blog Page",
   "tag": "section",
+  "class": "main-blog-section",
   "settings": [
-    {
-      "type": "header",
-      "content": "Section layout"
-    },
-    {
-      "type": "select",
-      "id": "container_type",
-      "label": "Container type",
-      "options": [
-        { "value": "boxed", "label": "Boxed" },
-        { "value": "fluid", "label": "Full width" }
-      ],
-      "default": "boxed"
-    },
-    {
-      "type": "color",
-      "id": "background_color",
-      "label": "Background color",
-      "default": "transparent"
-    },
-    {
-      "type": "range",
-      "id": "padding_top",
-      "label": "Padding top (desktop)",
-      "min": 0,
-      "max": 120,
-      "step": 4,
-      "unit": "px",
-      "default": 60
-    },
-    {
-      "type": "range",
-      "id": "padding_bottom",
-      "label": "Padding bottom (desktop)",
-      "min": 0,
-      "max": 120,
-      "step": 4,
-      "unit": "px",
-      "default": 60
-    },
-    {
-      "type": "range",
-      "id": "padding_top_mobile",
-      "label": "Padding top (mobile)",
-      "min": 0,
-      "max": 80,
-      "step": 4,
-      "unit": "px",
-      "default": 40
-    },
-    {
-      "type": "range",
-      "id": "padding_bottom_mobile",
-      "label": "Padding bottom (mobile)",
-      "min": 0,
-      "max": 80,
-      "step": 4,
-      "unit": "px",
-      "default": 40
-    },
-    {
-      "type": "header",
-      "content": "Page title"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_page_title",
-      "label": "Show page title",
-      "default": true
-    },
-    {
-      "type": "text",
-      "id": "page_title",
-      "label": "Custom page title",
-      "info": "Leave blank to use blog title"
-    },
-    {
-      "type": "color",
-      "id": "page_title_color",
-      "label": "Page title color",
-      "default": "#000000"
-    },
-    {
-      "type": "range",
-      "id": "page_title_font_size",
-      "label": "Title font size (desktop)",
-      "min": 24,
-      "max": 72,
-      "step": 2,
-      "unit": "px",
-      "default": 48
-    },
-    {
-      "type": "range",
-      "id": "page_title_line_height",
-      "label": "Title line height (desktop)",
-      "min": 24,
-      "max": 80,
-      "step": 2,
-      "unit": "px",
-      "default": 52
-    },
-    {
-      "type": "range",
-      "id": "page_title_font_size_mobile",
-      "label": "Title font size (mobile)",
-      "min": 20,
-      "max": 48,
-      "step": 2,
-      "unit": "px",
-      "default": 32
-    },
-    {
-      "type": "range",
-      "id": "page_title_line_height_mobile",
-      "label": "Title line height (mobile)",
-      "min": 20,
-      "max": 56,
-      "step": 2,
-      "unit": "px",
-      "default": 36
-    },
-    {
-      "type": "header",
-      "content": "Grid & pagination"
-    },
     {
       "type": "range",
       "id": "articles_per_page",
-      "label": "Articles per page",
+      "label": "Articles per Page",
       "min": 3,
       "max": 24,
       "step": 3,
-      "default": 12
-    },
-    {
-      "type": "range",
-      "id": "grid_columns",
-      "label": "Grid columns (desktop)",
-      "min": 1,
-      "max": 4,
-      "step": 1,
-      "default": 3
-    },
-    {
-      "type": "select",
-      "id": "grid_columns_mobile",
-      "label": "Grid columns (mobile)",
-      "options": [
-        { "value": "1", "label": "1 column" },
-        { "value": "2", "label": "2 columns" }
-      ],
-      "default": "1"
-    },
-    {
-      "type": "range",
-      "id": "grid_gap",
-      "label": "Grid gap (desktop)",
-      "min": 8,
-      "max": 64,
-      "step": 4,
-      "unit": "px",
-      "default": 32
-    },
-    {
-      "type": "range",
-      "id": "grid_gap_mobile",
-      "label": "Grid gap (mobile)",
-      "min": 8,
-      "max": 48,
-      "step": 4,
-      "unit": "px",
-      "default": 24
-    },
-    {
-      "type": "header",
-      "content": "Toggle visibility"
+      "default": 9
     },
     {
       "type": "checkbox",
-      "id": "show_image",
-      "label": "Show image",
+      "id": "show_tags",
+      "label": "Show Tags",
       "default": true
-    },
-    {
-      "type": "checkbox",
-      "id": "show_title",
-      "label": "Show title",
-      "default": true
-    },
-    {
-      "type": "checkbox",
-      "id": "show_description",
-      "label": "Show description",
-      "default": true
-    },
-    {
-      "type": "checkbox",
-      "id": "show_date",
-      "label": "Show date",
-      "default": true
-    },
-    {
-      "type": "checkbox",
-      "id": "show_author",
-      "label": "Show author",
-      "default": true
-    },
-    {
-      "type": "checkbox",
-      "id": "show_tag",
-      "label": "Show tag",
-      "default": false
-    },
-    {
-      "type": "checkbox",
-      "id": "show_comments",
-      "label": "Show comment count",
-      "default": false
-    },
-    {
-      "type": "checkbox",
-      "id": "show_read_more",
-      "label": "Show read more link",
-      "default": true
-    },
-    {
-      "type": "header",
-      "content": "Image"
-    },
-    {
-      "type": "range",
-      "id": "image_border_radius",
-      "label": "Border radius (desktop)",
-      "min": 0,
-      "max": 24,
-      "step": 2,
-      "unit": "px",
-      "default": 0
-    },
-    {
-      "type": "range",
-      "id": "image_border_radius_mobile",
-      "label": "Border radius (mobile)",
-      "min": 0,
-      "max": 24,
-      "step": 2,
-      "unit": "px",
-      "default": 0
-    },
-    {
-      "type": "header",
-      "content": "Article title"
-    },
-    {
-      "type": "color",
-      "id": "article_title_color",
-      "label": "Title color",
-      "default": "#000000"
-    },
-    {
-      "type": "range",
-      "id": "article_title_font_size",
-      "label": "Font size (desktop)",
-      "min": 14,
-      "max": 36,
-      "step": 1,
-      "unit": "px",
-      "default": 24
-    },
-    {
-      "type": "range",
-      "id": "article_title_line_height",
-      "label": "Line height (desktop)",
-      "min": 16,
-      "max": 44,
-      "step": 1,
-      "unit": "px",
-      "default": 28
-    },
-    {
-      "type": "range",
-      "id": "article_title_font_size_mobile",
-      "label": "Font size (mobile)",
-      "min": 14,
-      "max": 28,
-      "step": 1,
-      "unit": "px",
-      "default": 20
-    },
-    {
-      "type": "range",
-      "id": "article_title_line_height_mobile",
-      "label": "Line height (mobile)",
-      "min": 16,
-      "max": 36,
-      "step": 1,
-      "unit": "px",
-      "default": 24
-    },
-    {
-      "type": "select",
-      "id": "title_line_clamp",
-      "label": "Title max lines",
-      "options": [
-        { "value": "1", "label": "1 line" },
-        { "value": "2", "label": "2 lines" }
-      ],
-      "default": "2"
-    },
-    {
-      "type": "header",
-      "content": "Description"
-    },
-    {
-      "type": "color",
-      "id": "description_color",
-      "label": "Description color",
-      "default": "#555555"
-    },
-    {
-      "type": "range",
-      "id": "description_font_size",
-      "label": "Font size (desktop)",
-      "min": 12,
-      "max": 20,
-      "step": 1,
-      "unit": "px",
-      "default": 15
-    },
-    {
-      "type": "range",
-      "id": "description_line_height",
-      "label": "Line height (desktop)",
-      "min": 16,
-      "max": 28,
-      "step": 1,
-      "unit": "px",
-      "default": 22
-    },
-    {
-      "type": "range",
-      "id": "description_font_size_mobile",
-      "label": "Font size (mobile)",
-      "min": 12,
-      "max": 18,
-      "step": 1,
-      "unit": "px",
-      "default": 14
-    },
-    {
-      "type": "range",
-      "id": "description_line_height_mobile",
-      "label": "Line height (mobile)",
-      "min": 16,
-      "max": 26,
-      "step": 1,
-      "unit": "px",
-      "default": 20
-    },
-    {
-      "type": "select",
-      "id": "description_line_clamp",
-      "label": "Description max lines",
-      "options": [
-        { "value": "2", "label": "2 lines" },
-        { "value": "4", "label": "4 lines" }
-      ],
-      "default": "2"
-    },
-    {
-      "type": "header",
-      "content": "Meta (date, author, comments)"
-    },
-    {
-      "type": "range",
-      "id": "meta_font_size",
-      "label": "Font size (desktop)",
-      "min": 10,
-      "max": 18,
-      "step": 1,
-      "unit": "px",
-      "default": 14
-    },
-    {
-      "type": "range",
-      "id": "meta_line_height",
-      "label": "Line height (desktop)",
-      "min": 12,
-      "max": 24,
-      "step": 1,
-      "unit": "px",
-      "default": 18
-    },
-    {
-      "type": "range",
-      "id": "meta_font_size_mobile",
-      "label": "Font size (mobile)",
-      "min": 10,
-      "max": 16,
-      "step": 1,
-      "unit": "px",
-      "default": 13
-    },
-    {
-      "type": "range",
-      "id": "meta_line_height_mobile",
-      "label": "Line height (mobile)",
-      "min": 12,
-      "max": 22,
-      "step": 1,
-      "unit": "px",
-      "default": 16
-    },
-    {
-      "type": "color",
-      "id": "date_color",
-      "label": "Date color",
-      "default": "#888888"
-    },
-    {
-      "type": "color",
-      "id": "author_color",
-      "label": "Author color",
-      "default": "#888888"
-    },
-    {
-      "type": "color",
-      "id": "tag_color",
-      "label": "Tag color",
-      "default": "#666666"
-    },
-    {
-      "type": "color",
-      "id": "comments_color",
-      "label": "Comments color",
-      "default": "#888888"
-    },
-    {
-      "type": "header",
-      "content": "Read more"
-    },
-    {
-      "type": "color",
-      "id": "read_more_color",
-      "label": "Read more color",
-      "default": "#000000"
-    },
-    {
-      "type": "range",
-      "id": "read_more_font_size",
-      "label": "Font size (desktop)",
-      "min": 12,
-      "max": 20,
-      "step": 1,
-      "unit": "px",
-      "default": 14
-    },
-    {
-      "type": "range",
-      "id": "read_more_line_height",
-      "label": "Line height (desktop)",
-      "min": 14,
-      "max": 26,
-      "step": 1,
-      "unit": "px",
-      "default": 18
-    },
-    {
-      "type": "range",
-      "id": "read_more_font_size_mobile",
-      "label": "Font size (mobile)",
-      "min": 12,
-      "max": 18,
-      "step": 1,
-      "unit": "px",
-      "default": 14
-    },
-    {
-      "type": "range",
-      "id": "read_more_line_height_mobile",
-      "label": "Line height (mobile)",
-      "min": 14,
-      "max": 24,
-      "step": 1,
-      "unit": "px",
-      "default": 18
-    },
-    {
-      "type": "textarea",
-      "id": "read_more_icon",
-      "label": "Read more icon (SVG)",
-      "info": "Paste an SVG icon to show after 'Read more'"
     }
   ]
 }

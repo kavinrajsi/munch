@@ -1,18 +1,16 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
 {
   "type": "footer",
-  "name": "Footer group",
+  "name": "Footer Group",
   "sections": {
     "footer": {
       "type": "footer",
+      "blocks": {
+        "menu_1": { "type": "menu", "settings": { "title": "Quick Links" } },
+        "menu_2": { "type": "menu", "settings": { "title": "Information" } },
+        "contact": { "type": "contact", "settings": { "title": "Contact Us" } },
+        "newsletter": { "type": "newsletter", "settings": { "title": "Stay in Touch" } }
+      },
+      "block_order": ["menu_1", "menu_2", "contact", "newsletter"],
       "settings": {}
     }
   },

@@ -2,44 +2,58 @@
   {%- for block in section.blocks -%}
     {%- if block.settings.link != blank -%}
       <a href="{{ block.settings.link }}" class="announcement-bar__item" {{ block.shopify_attributes }}>
-        {{- block.settings.text -}}
+        {{ block.settings.text }}
       </a>
     {%- else -%}
       <span class="announcement-bar__item" {{ block.shopify_attributes }}>
-        {{- block.settings.text -}}
+        {{ block.settings.text }}
       </span>
     {%- endif -%}
   {%- endfor -%}
 {%- endcapture -%}
 
-{%- if section.blocks.size > 0 and announcement_items != blank -%}
+{%- if section.blocks.size > 0 -%}
   <div
-    class="announcement-bar"
+    class="announcement-bar{% if section.settings.pause_on_hover %} announcement-bar--pause-hover{% endif %}{% if section.settings.pause_on_focus %} announcement-bar--pause-focus{% endif %}"
+    data-announcement-bar
     data-section-id="{{ section.id }}"
-    data-speed="{{ section.settings.scroll_speed }}"
-    data-text-color="{{ section.settings.text_color }}"
-    data-bg-color="{{ section.settings.bg_color }}"
-    data-padding-top="{{ section.settings.padding_top_desktop }}"
-    data-padding-bottom="{{ section.settings.padding_bottom_desktop }}"
-    data-padding-top-mobile="{{ section.settings.padding_top_mobile }}"
-    data-padding-bottom-mobile="{{ section.settings.padding_bottom_mobile }}"
+    data-announcement-speed="{{ section.settings.scroll_speed }}s"
+    data-announcement-bg="{{ section.settings.bg_color }}"
+    data-announcement-text="{{ section.settings.text_color }}"
+    data-announcement-pt="{{ section.settings.padding_top_desktop }}px"
+    data-announcement-pb="{{ section.settings.padding_bottom_desktop }}px"
+    data-announcement-pt-m="{{ section.settings.padding_top_mobile }}px"
+    data-announcement-pb-m="{{ section.settings.padding_bottom_mobile }}px"
+    style="
+      --announcement-speed: {{ section.settings.scroll_speed }}s;
+      --announcement-bg-color: {{ section.settings.bg_color }};
+      --announcement-text-color: {{ section.settings.text_color }};
+      --announcement-padding-top: {{ section.settings.padding_top_desktop }}px;
+      --announcement-padding-bottom: {{ section.settings.padding_bottom_desktop }}px;
+      --announcement-padding-top-mobile: {{ section.settings.padding_top_mobile }}px;
+      --announcement-padding-bottom-mobile: {{ section.settings.padding_bottom_mobile }}px;
+    "
+    role="region"
+    aria-label="{{ 'sections.announcement_bar.close' | t }}"
   >
     <div class="announcement-bar__inner{% if section.settings.container_type == 'box' %} page-width{% endif %}">
-      <div class="announcement-bar__scroll" role="region" aria-label="Announcement" aria-live="off">
+      <div class="announcement-bar__scroll">
         <div class="announcement-bar__track">
-          <div class="announcement-bar__group">
-            {{ announcement_items }}
-          </div>
-          <div class="announcement-bar__group" aria-hidden="true">
-            {{ announcement_items }}
-          </div>
+          {{ announcement_items }}
+          {{ announcement_items }}
         </div>
       </div>
-      <button type="button" class="announcement-bar__close" aria-label="Close announcement" data-announcement-close>
+
+      <button
+        class="announcement-bar__close"
+        data-announcement-close
+        aria-label="{{ 'sections.announcement_bar.close' | t }}"
+        type="button"
+      >
         {%- if section.settings.close_icon_svg != blank -%}
           {{ section.settings.close_icon_svg }}
         {%- else -%}
-          &times;
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
         {%- endif -%}
       </button>
     </div>
@@ -48,86 +62,111 @@
 
 {% schema %}
 {
-  "name": "Announcement bar",
+  "name": "Announcement Bar",
+  "tag": "section",
+  "class": "announcement-bar-section",
   "settings": [
     {
       "type": "range",
       "id": "scroll_speed",
-      "label": "Scroll speed (seconds)",
+      "label": "Scroll Speed",
       "min": 5,
       "max": 60,
       "step": 1,
-      "unit": "s",
-      "default": 46
+      "default": 46,
+      "unit": "s"
+    },
+    {
+      "type": "checkbox",
+      "id": "pause_on_hover",
+      "label": "Pause on Hover",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "pause_on_focus",
+      "label": "Pause on Focus",
+      "default": true
     },
     {
       "type": "select",
       "id": "container_type",
-      "label": "Container type",
+      "label": "Container",
       "options": [
-        { "value": "fluid", "label": "Fluid" },
-        { "value": "box", "label": "Box" }
+        { "value": "fluid", "label": "Full Width" },
+        { "value": "box", "label": "Boxed" }
       ],
-      "default": "fluid",
-      "info": "Box uses the page width from theme settings"
+      "default": "fluid"
+    },
+    {
+      "type": "header",
+      "content": "Desktop Padding"
     },
     {
       "type": "range",
       "id": "padding_top_desktop",
-      "label": "Padding top (desktop)",
+      "label": "Top",
       "min": 0,
       "max": 60,
       "step": 2,
-      "unit": "px",
-      "default": 10
+      "default": 10,
+      "unit": "px"
     },
     {
       "type": "range",
       "id": "padding_bottom_desktop",
-      "label": "Padding bottom (desktop)",
+      "label": "Bottom",
       "min": 0,
       "max": 60,
       "step": 2,
-      "unit": "px",
-      "default": 10
+      "default": 10,
+      "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "Mobile Padding"
     },
     {
       "type": "range",
       "id": "padding_top_mobile",
-      "label": "Padding top (mobile)",
+      "label": "Top",
       "min": 0,
       "max": 40,
       "step": 2,
-      "unit": "px",
-      "default": 8
+      "default": 8,
+      "unit": "px"
     },
     {
       "type": "range",
       "id": "padding_bottom_mobile",
-      "label": "Padding bottom (mobile)",
+      "label": "Bottom",
       "min": 0,
       "max": 40,
       "step": 2,
-      "unit": "px",
-      "default": 8
+      "default": 8,
+      "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
     },
     {
       "type": "color",
       "id": "bg_color",
-      "label": "Background color",
+      "label": "Background Color",
       "default": "#000000"
     },
     {
       "type": "color",
       "id": "text_color",
-      "label": "Text color",
+      "label": "Text Color",
       "default": "#FFFFFF"
     },
     {
       "type": "textarea",
       "id": "close_icon_svg",
-      "label": "Close icon (SVG code)",
-      "info": "Paste full SVG markup, e.g. <svg ...>...</svg>"
+      "label": "Custom Close Icon (SVG)",
+      "info": "Leave blank for default"
     }
   ],
   "blocks": [
@@ -151,44 +190,14 @@
   ],
   "presets": [
     {
-      "name": "Announcement bar",
+      "name": "Announcement Bar",
       "blocks": [
-        {
-          "type": "announcement",
-          "settings": {
-            "text": "Enjoy FREE delivery on orders above ₹999. Order now!"
-          }
-        },
-        {
-          "type": "announcement",
-          "settings": {
-            "text": "Website orders: Delivery in 3–5 days across India and 4–7 days internationally"
-          }
-        },
-        {
-          "type": "announcement",
-          "settings": {
-            "text": "Freshly made, preservative-free sweets delivered to your doorstep"
-          }
-        },
-        {
-          "type": "announcement",
-          "settings": {
-            "text": "Authentic South Indian snacks crafted in small batches"
-          }
-        },
-        {
-          "type": "announcement",
-          "settings": {
-            "text": "Festive gift boxes available — limited stock"
-          }
-        },
-        {
-          "type": "announcement",
-          "settings": {
-            "text": "Need help? Call us or WhatsApp for quick support"
-          }
-        }
+        { "type": "announcement", "settings": { "text": "Enjoy FREE delivery on orders above ₹999. Order now!" } },
+        { "type": "announcement", "settings": { "text": "Website orders: Delivery in 3–5 days across India and 4–7 days internationally" } },
+        { "type": "announcement", "settings": { "text": "Freshly made, preservative-free sweets delivered to your doorstep" } },
+        { "type": "announcement", "settings": { "text": "Authentic South Indian snacks crafted in small batches" } },
+        { "type": "announcement", "settings": { "text": "Festive gift boxes available — limited stock" } },
+        { "type": "announcement", "settings": { "text": "Need help? Call us or WhatsApp for quick support" } }
       ]
     }
   ]

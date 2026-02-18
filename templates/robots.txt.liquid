@@ -1,0 +1,27 @@
+User-agent: *
+Disallow: /admin
+Disallow: /cart
+Disallow: /orders
+Disallow: /checkouts/
+Disallow: /checkout
+Disallow: /*/orders
+Disallow: /*/checkouts
+Disallow: /carts
+Disallow: /account
+Disallow: /collections/*+*
+Disallow: /collections/*%2B*
+Disallow: /collections/*%2b*
+Disallow: /*/collections/*+*
+Disallow: /*/collections/*%2B*
+Disallow: /*/collections/*%2b*
+Disallow: /*?*sort_by*
+Disallow: /search
+Disallow: /apple-app-site-association
+Disallow: /.well-known
+Allow: /search/suggest
+
+Sitemap: {{ shop.url }}/sitemap.xml
+
+{% comment %}
+  Shopify auto-generates the sitemap.xml file.
+{% endcomment %}

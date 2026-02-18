@@ -1,0 +1,15 @@
+.policy-page {
+  max-width: 800px;
+  margin: 0 auto;
+
+  &__title {
+    text-align: center;
+    margin-bottom: 32px;
+  }
+
+  &__content {
+    font-size: 15px;
+    line-height: 1.8;
+    color: var(--color-text);
+  }
+}

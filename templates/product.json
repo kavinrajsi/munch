@@ -1,0 +1,25 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "acc_1": { "type": "accordion", "settings": { "title": "Ingredients", "content_source": "metafield", "metafield_key": "ingredients" } },
+        "acc_2": { "type": "accordion", "settings": { "title": "Storage Instructions", "content_source": "metafield", "metafield_key": "storage" } },
+        "acc_3": { "type": "accordion", "settings": { "title": "Shipping Info", "content_source": "text", "text": "<p>We ship across India within 3-5 business days. International orders take 4-7 days.</p>" } }
+      },
+      "block_order": ["acc_1", "acc_2", "acc_3"],
+      "settings": {}
+    },
+    "related": {
+      "type": "related-products",
+      "settings": {
+        "title": "You May Also Like"
+      }
+    },
+    "recently-visited": {
+      "type": "recently-visited",
+      "settings": {}
+    }
+  },
+  "order": ["main", "related", "recently-visited"]
+}

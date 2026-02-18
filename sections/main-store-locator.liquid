@@ -1,88 +1,39 @@
-<div class="store-locator section-padding">
+{% render 'breadcrumbs' %}
+
+<div class="store-locator section-padding" {{ section.shopify_attributes }}>
   <div class="page-width">
+    <h1 class="text-center" style="margin-bottom:32px;">{{ section.settings.title }}</h1>
 
-    <div class="store-locator__header">
-      <h1 class="store-locator__title">{{ section.settings.heading | default: 'Our Stores' }}</h1>
-      {%- if section.settings.description != blank -%}
-        <p class="store-locator__desc">{{ section.settings.description }}</p>
+    <div class="store-locator__grid">
+      {%- if section.settings.map_embed != blank -%}
+        <div class="store-locator__map">
+          {{ section.settings.map_embed }}
+        </div>
       {%- endif -%}
-    </div>
 
-    {%- if section.blocks.size > 0 -%}
-      <div class="store-locator__grid">
+      <div class="store-locator__locations">
         {%- for block in section.blocks -%}
           <div class="store-locator__card" {{ block.shopify_attributes }}>
-
-            {%- if block.settings.location_url != blank -%}
-              <div class="store-locator__map">
-                <a href="{{ block.settings.location_url }}" target="_blank" rel="noopener noreferrer" class="store-locator__map-link">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                  <span>View on Map</span>
-                </a>
-              </div>
+            <h4>{{ block.settings.name }}</h4>
+            {%- if block.settings.address != blank -%}
+              <p>{{ block.settings.address }}</p>
             {%- endif -%}
-
-            <div class="store-locator__card-body">
-              {%- if block.settings.store_name != blank -%}
-                <h3 class="store-locator__card-name">{{ block.settings.store_name }}</h3>
-              {%- endif -%}
-
-              <div class="store-locator__card-details">
-                {%- if block.settings.store_address != blank -%}
-                  <div class="store-locator__card-row">
-                    <div class="store-locator__card-icon">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                    </div>
-                    <div class="store-locator__card-text">{{ block.settings.store_address }}</div>
-                  </div>
-                {%- endif -%}
-
-                {%- if block.settings.store_phone != blank -%}
-                  <div class="store-locator__card-row">
-                    <div class="store-locator__card-icon">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
-                    </div>
-                    <div class="store-locator__card-text">
-                      <a href="tel:{{ block.settings.store_phone | remove: ' ' }}">{{ block.settings.store_phone }}</a>
-                    </div>
-                  </div>
-                {%- endif -%}
-
-                {%- if block.settings.store_email != blank -%}
-                  <div class="store-locator__card-row">
-                    <div class="store-locator__card-icon">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-                    </div>
-                    <div class="store-locator__card-text">
-                      <a href="mailto:{{ block.settings.store_email }}">{{ block.settings.store_email }}</a>
-                    </div>
-                  </div>
-                {%- endif -%}
-
-                {%- if block.settings.store_time != blank -%}
-                  <div class="store-locator__card-row">
-                    <div class="store-locator__card-icon">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                    </div>
-                    <div class="store-locator__card-text">{{ block.settings.store_time }}</div>
-                  </div>
-                {%- endif -%}
-              </div>
-
-              {%- if block.settings.location_url != blank -%}
-                <a href="{{ block.settings.location_url }}" target="_blank" rel="noopener noreferrer" class="btn btn--primary store-locator__card-btn">
-                  Get Directions
-                </a>
-              {%- endif -%}
-            </div>
-
+            {%- if block.settings.phone != blank -%}
+              <p>Phone: <a href="tel:{{ block.settings.phone | remove: ' ' }}">{{ block.settings.phone }}</a></p>
+            {%- endif -%}
+            {%- if block.settings.hours != blank -%}
+              <p>{{ block.settings.hours }}</p>
+            {%- endif -%}
+            {%- if block.settings.directions_url != blank -%}
+              <a href="{{ block.settings.directions_url }}" target="_blank" rel="noopener" class="store-locator__directions">
+                {{ 'sections.store_locator.directions' | t }}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+              </a>
+            {%- endif -%}
           </div>
         {%- endfor -%}
       </div>
-    {%- else -%}
-      <p class="store-locator__empty">No stores added yet. Add stores using the theme editor.</p>
-    {%- endif -%}
-
+    </div>
   </div>
 </div>
 
@@ -90,57 +41,52 @@
 {
   "name": "Store Locator",
   "tag": "section",
+  "class": "main-store-locator-section",
   "settings": [
     {
       "type": "text",
-      "id": "heading",
-      "label": "Heading",
+      "id": "title",
+      "label": "Title",
       "default": "Our Stores"
     },
     {
-      "type": "textarea",
-      "id": "description",
-      "label": "Description",
-      "default": "Visit us at any of our store locations."
+      "type": "html",
+      "id": "map_embed",
+      "label": "Map Embed Code",
+      "info": "Paste Google Maps embed iframe"
     }
   ],
   "blocks": [
     {
-      "type": "store",
-      "name": "Store",
+      "type": "location",
+      "name": "Location",
       "settings": [
         {
           "type": "text",
-          "id": "store_name",
-          "label": "Store name",
+          "id": "name",
+          "label": "Store Name",
           "default": "Main Store"
         },
         {
           "type": "textarea",
-          "id": "store_address",
-          "label": "Store address",
-          "default": "123 Main Street, City, State, PIN"
+          "id": "address",
+          "label": "Address"
         },
         {
           "type": "text",
-          "id": "store_phone",
-          "label": "Phone number"
+          "id": "phone",
+          "label": "Phone"
         },
         {
           "type": "text",
-          "id": "store_email",
-          "label": "Email"
-        },
-        {
-          "type": "text",
-          "id": "store_time",
-          "label": "Store timing",
-          "default": "Mon - Sat: 9:00 AM - 9:00 PM"
+          "id": "hours",
+          "label": "Working Hours",
+          "default": "Mon-Sat: 9am - 8pm"
         },
         {
           "type": "url",
-          "id": "location_url",
-          "label": "Google Maps URL"
+          "id": "directions_url",
+          "label": "Directions Link"
         }
       ]
     }
@@ -149,9 +95,10 @@
     {
       "name": "Store Locator",
       "blocks": [
-        { "type": "store" }
+        { "type": "location", "settings": { "name": "Main Store" } }
       ]
     }
-  ]
+  ],
+  "max_blocks": 10
 }
 {% endschema %}

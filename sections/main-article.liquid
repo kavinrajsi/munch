@@ -1,31 +1,117 @@
-<article class="article section-padding">
+{% render 'breadcrumbs' %}
+
+<div class="article section-padding" {{ section.shopify_attributes }}>
   <div class="page-width">
+    <div class="article__header">
+      <div class="article__meta">
+        <span>{{ article.published_at | date: '%B %d, %Y' }}</span>
+        {%- if article.author -%}
+          <span>{{ article.author }}</span>
+        {%- endif -%}
+      </div>
+      <h1 class="article__title">{{ article.title }}</h1>
+    </div>
 
     {%- if article.image -%}
-      <img
-        src="{{ article.image | image_url: width: 1200 }}"
-        alt="{{ article.image.alt | escape }}"
-        width="1200"
-        height="auto"
-        loading="lazy"
-      >
+      <div class="article__hero-image">
+        <img
+          src="{{ article.image | image_url: width: 1200 }}"
+          alt="{{ article.image.alt | default: article.title | escape }}"
+          width="{{ article.image.width }}"
+          height="{{ article.image.height }}"
+        >
+      </div>
     {%- endif -%}
-
-    <h1>{{ article.title }}</h1>
-    <p class="article__meta">{{ article.published_at | date: '%B %d, %Y' }} &middot; {{ article.author }}</p>
 
     <div class="article__content rte">
       {{ article.content }}
     </div>
 
-    {% comment %} <a href="{{ blog.url }}">Back to {{ blog.title }}</a> {% endcomment %}
+    {%- if article.tags.size > 0 -%}
+      <div class="article__tags">
+        {%- for tag in article.tags -%}
+          <span>{{ tag }}</span>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+
+    {%- if blog.comments_enabled? -%}
+      <div class="article__comments">
+        <h3 class="article__comments-title">
+          {{ 'templates.blog.comments.title' | t }}
+          {%- if article.comments_count > 0 -%}
+            ({{ article.comments_count }})
+          {%- endif -%}
+        </h3>
+
+        {%- paginate article.comments by 10 -%}
+          {%- for comment in article.comments -%}
+            <div class="article__comment">
+              <p class="article__comment-meta">
+                {{ comment.author }}
+                <span>{{ comment.created_at | date: '%B %d, %Y' }}</span>
+              </p>
+              <div class="article__comment-body">{{ comment.content }}</div>
+            </div>
+          {%- endfor -%}
+        {%- endpaginate -%}
+
+        <div class="article__comment-form">
+          <h4>{{ 'templates.blog.comments.title' | t }}</h4>
+
+          {% form 'new_comment', article %}
+            {%- if form.posted_successfully? -%}
+              {%- if blog.moderated? -%}
+                <p class="contact-page__success">{{ 'templates.blog.comments.moderated' | t }}</p>
+              {%- else -%}
+                <p class="contact-page__success">{{ 'templates.blog.comments.success' | t }}</p>
+              {%- endif -%}
+            {%- endif -%}
+
+            {%- if form.errors -%}
+              <div class="customer-form__errors">
+                {{ form.errors | default_errors }}
+              </div>
+            {%- endif -%}
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="CommentAuthor">{{ 'templates.blog.comments.name' | t }}</label>
+                <input type="text" id="CommentAuthor" name="comment[author]" value="{{ form.author }}" required>
+              </div>
+              <div class="form-group">
+                <label for="CommentEmail">{{ 'templates.blog.comments.email' | t }}</label>
+                <input type="email" id="CommentEmail" name="comment[email]" value="{{ form.email }}" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="CommentBody">{{ 'templates.blog.comments.body' | t }}</label>
+              <textarea id="CommentBody" name="comment[body]" required>{{ form.body }}</textarea>
+            </div>
+            <button type="submit" class="btn btn--primary">{{ 'templates.blog.comments.submit' | t }}</button>
+          {% endform %}
+        </div>
+      </div>
+    {%- endif -%}
+
+    <div class="article__navigation">
+      {%- if blog.previous_article -%}
+        <a href="{{ blog.previous_article }}">← Previous</a>
+      {%- else -%}
+        <span></span>
+      {%- endif -%}
+      {%- if blog.next_article -%}
+        <a href="{{ blog.next_article }}">Next →</a>
+      {%- endif -%}
+    </div>
   </div>
-</article>
+</div>
 
 {% schema %}
 {
-  "name": "Article",
+  "name": "Article Page",
   "tag": "section",
+  "class": "main-article-section",
   "settings": []
 }
 {% endschema %}

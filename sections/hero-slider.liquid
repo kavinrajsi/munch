@@ -1,171 +1,77 @@
-<div
-  class="hero-slider"
-  {%- if section.blocks.size > 1 -%}
-    data-slick='{
-      "slidesToShow": {{ section.settings.slides_desktop }},
-      "slidesToScroll": 1,
-      "arrows": {{ section.settings.enable_arrows }},
-      "dots": {{ section.settings.enable_dots }},
-      "infinite": {{ section.settings.enable_loop }},
-      "autoplay": {{ section.settings.enable_autoplay }},
-      "autoplaySpeed": {{ section.settings.autoplay_speed | times: 1000 }},
-      "responsive": [
-        {
-          "breakpoint": 768,
-          "settings": {
-            "slidesToShow": {{ section.settings.slides_mobile }}
-          }
-        }
-      ]
-    }'
-  {%- endif -%}
-  style="--slider-gap: {{ section.settings.slide_gap }}px;"
->
+<div class="hero-slider" data-hero-slider {{ section.shopify_attributes }}>
   {%- for block in section.blocks -%}
-    <div class="hero-slider__item" {{ block.shopify_attributes }}>
-      {%- if block.settings.button_url != blank -%}
-        <a href="{{ block.settings.button_url }}" class="hero-slider__link">
-      {%- endif -%}
-
-      <picture class="hero-slider__picture">
-        {%- if block.settings.mobile_image -%}
-          <source
-            media="(max-width: 767px)"
-            type="image/avif"
-            srcset="{{ block.settings.mobile_image | image_url: width: 800, format: 'avif' }}"
-          >
-          <source
-            media="(max-width: 767px)"
-            type="image/webp"
-            srcset="{{ block.settings.mobile_image | image_url: width: 800, format: 'webp' }}"
-          >
-          <source
-            media="(max-width: 767px)"
-            srcset="{{ block.settings.mobile_image | image_url: width: 800 }}"
-          >
-        {%- endif -%}
-
-        {%- if block.settings.desktop_image -%}
-          <source
-            type="image/avif"
-            srcset="{{ block.settings.desktop_image | image_url: width: 1600, format: 'avif' }}"
-          >
-          <source
-            type="image/webp"
-            srcset="{{ block.settings.desktop_image | image_url: width: 1600, format: 'webp' }}"
-          >
-          <img
-            src="{{ block.settings.desktop_image | image_url: width: 1600 }}"
-            alt="{{ block.settings.alt_text | escape }}"
-            width="1600"
-            height="auto"
-            loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
-          >
+    <div class="hero-slider__slide" {{ block.shopify_attributes }}>
+      <div class="hero-slider__image">
+        {%- if block.settings.image -%}
+          <picture>
+            {%- if block.settings.mobile_image -%}
+              <source media="(max-width: 767px)" srcset="{{ block.settings.mobile_image | image_url: width: 800 }}">
+            {%- endif -%}
+            <img
+              src="{{ block.settings.image | image_url: width: 1920 }}"
+              alt="{{ block.settings.heading | default: shop.name | escape }}"
+              width="{{ block.settings.image.width }}"
+              height="{{ block.settings.image.height }}"
+              loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
+              fetchpriority="{% if forloop.first %}high{% else %}low{% endif %}"
+            >
+          </picture>
         {%- else -%}
-          <img
-            src="{{ 'demo-slider-' | append: forloop.index | append: '.png' | asset_url }}"
-            alt="Placeholder image"
-            width="1600"
-            height="auto"
-            class="hero-slider__placeholder"
-            loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
-          >
+          {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder' }}
         {%- endif -%}
-      </picture>
+      </div>
 
-      {%- if block.settings.button_url != blank -%}
-        </a>
-      {%- endif -%}
+      <div class="hero-slider__overlay" style="--hero-overlay: {{ block.settings.overlay_opacity | divided_by: 100.0 }}"></div>
+
+      <div class="hero-slider__content page-width" style="text-align: {{ block.settings.text_alignment }};">
+        {%- if block.settings.heading != blank -%}
+          <h2 class="hero-slider__heading">{{ block.settings.heading }}</h2>
+        {%- endif -%}
+        {%- if block.settings.subheading != blank -%}
+          <p class="hero-slider__subheading">{{ block.settings.subheading }}</p>
+        {%- endif -%}
+        {%- if block.settings.button_text != blank -%}
+          <a href="{{ block.settings.button_link | default: '#' }}" class="btn btn--primary btn--large">
+            {{ block.settings.button_text }}
+          </a>
+        {%- endif -%}
+      </div>
     </div>
   {%- endfor -%}
 </div>
 
-{%- if section.blocks.size > 1 -%}
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      if (typeof jQuery !== 'undefined' && typeof jQuery.fn.slick !== 'undefined') {
-        jQuery('.hero-slider').slick();
-      }
-    });
-  </script>
-{%- endif -%}
-
 {% schema %}
 {
-  "name": "Hero slider",
+  "name": "Hero Slider",
+  "tag": "section",
+  "class": "hero-slider-section",
   "settings": [
     {
-      "type": "header",
-      "content": "Slider settings"
-    },
-    {
-      "type": "range",
-      "id": "slides_desktop",
-      "label": "Slides to show (desktop)",
-      "min": 1,
-      "max": 5,
-      "step": 1,
-      "default": 1
-    },
-    {
-      "type": "range",
-      "id": "slides_mobile",
-      "label": "Slides to show (mobile)",
-      "min": 1,
-      "max": 3,
-      "step": 1,
-      "default": 1
-    },
-    {
-      "type": "range",
-      "id": "slide_gap",
-      "label": "Space between slides",
-      "min": 0,
-      "max": 40,
-      "step": 2,
-      "unit": "px",
-      "default": 0
-    },
-    {
-      "type": "header",
-      "content": "Autoplay"
-    },
-    {
       "type": "checkbox",
-      "id": "enable_autoplay",
-      "label": "Enable autoplay",
-      "default": false
+      "id": "autoplay",
+      "label": "Autoplay",
+      "default": true
     },
     {
       "type": "range",
       "id": "autoplay_speed",
-      "label": "Autoplay speed",
-      "min": 1,
+      "label": "Autoplay Speed",
+      "min": 3,
       "max": 10,
       "step": 1,
-      "unit": "s",
-      "default": 5
-    },
-    {
-      "type": "header",
-      "content": "Pagination"
+      "default": 5,
+      "unit": "s"
     },
     {
       "type": "checkbox",
-      "id": "enable_arrows",
-      "label": "Enable arrows",
+      "id": "show_dots",
+      "label": "Show Dots",
       "default": true
     },
     {
       "type": "checkbox",
-      "id": "enable_dots",
-      "label": "Enable dots",
-      "default": true
-    },
-    {
-      "type": "checkbox",
-      "id": "enable_loop",
-      "label": "Enable infinite loop",
+      "id": "show_arrows",
+      "label": "Show Arrows",
       "default": true
     }
   ],
@@ -176,42 +82,70 @@
       "settings": [
         {
           "type": "image_picker",
-          "id": "desktop_image",
-          "label": "Desktop image"
+          "id": "image",
+          "label": "Desktop Image"
         },
         {
           "type": "image_picker",
           "id": "mobile_image",
-          "label": "Mobile image"
+          "label": "Mobile Image"
         },
         {
           "type": "text",
-          "id": "alt_text",
-          "label": "Alt text"
+          "id": "heading",
+          "label": "Heading",
+          "default": "Welcome to Nithyaamirtham"
+        },
+        {
+          "type": "textarea",
+          "id": "subheading",
+          "label": "Subheading",
+          "default": "Authentic South Indian sweets & snacks"
+        },
+        {
+          "type": "text",
+          "id": "button_text",
+          "label": "Button Text",
+          "default": "Shop Now"
         },
         {
           "type": "url",
-          "id": "button_url",
-          "label": "Slide link"
+          "id": "button_link",
+          "label": "Button Link"
+        },
+        {
+          "type": "select",
+          "id": "text_alignment",
+          "label": "Text Alignment",
+          "options": [
+            { "value": "left", "label": "Left" },
+            { "value": "center", "label": "Center" },
+            { "value": "right", "label": "Right" }
+          ],
+          "default": "left"
+        },
+        {
+          "type": "range",
+          "id": "overlay_opacity",
+          "label": "Overlay Opacity",
+          "min": 0,
+          "max": 80,
+          "step": 5,
+          "default": 30,
+          "unit": "%"
         }
       ]
     }
   ],
   "presets": [
     {
-      "name": "Hero slider",
+      "name": "Hero Slider",
       "blocks": [
-        {
-          "type": "slide"
-        },
-        {
-          "type": "slide"
-        },
-        {
-          "type": "slide"
-        }
+        { "type": "slide", "settings": { "heading": "Welcome to Nithyaamirtham", "subheading": "Authentic South Indian sweets & snacks crafted with love", "button_text": "Shop Now" } },
+        { "type": "slide", "settings": { "heading": "Festive Gift Boxes", "subheading": "Share the sweetness with beautifully curated gift boxes", "button_text": "View Collection" } }
       ]
     }
-  ]
+  ],
+  "max_blocks": 6
 }
 {% endschema %}

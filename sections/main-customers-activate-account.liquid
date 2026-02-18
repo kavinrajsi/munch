@@ -1,31 +1,36 @@
-<div class="customer-activate section-padding">
+<div class="customer-form section-padding" {{ section.shopify_attributes }}>
   <div class="page-width">
-    <h1>{{ 'customer.activate_account.title' | t }}</h1>
-    <p>{{ 'customer.activate_account.subtext' | t }}</p>
+    <h1 class="customer-form__title">{{ 'customer.activate_account.title' | t }}</h1>
 
-    {%- form 'activate_customer_password' -%}
-      {{ form.errors | default_errors }}
+    {% form 'activate_customer_password' %}
+      {%- if form.errors -%}
+        <div class="customer-form__errors">
+          {{ form.errors | default_errors }}
+        </div>
+      {%- endif -%}
 
-      <div class="field">
-        <label class="field__label" for="Password">{{ 'customer.activate_account.password' | t }}</label>
-        <input class="field__input" type="password" name="customer[password]" id="Password">
+      <div class="form-group">
+        <label for="Password">{{ 'customer.activate_account.password' | t }}</label>
+        <input type="password" id="Password" name="customer[password]" autocomplete="new-password" required>
       </div>
-
-      <div class="field">
-        <label class="field__label" for="PasswordConfirmation">{{ 'customer.activate_account.password_confirm' | t }}</label>
-        <input class="field__input" type="password" name="customer[password_confirmation]" id="PasswordConfirmation">
+      <div class="form-group">
+        <label for="PasswordConfirm">{{ 'customer.activate_account.password_confirm' | t }}</label>
+        <input type="password" id="PasswordConfirm" name="customer[password_confirmation]" autocomplete="new-password" required>
       </div>
+      <button type="submit" class="btn btn--primary btn--full">{{ 'customer.activate_account.submit' | t }}</button>
+    {% endform %}
 
-      <button type="submit" class="btn btn--primary">{{ 'customer.activate_account.submit' | t }}</button>
-      <button type="submit" name="decline" class="btn btn--secondary">{{ 'customer.activate_account.cancel' | t }}</button>
-    {%- endform -%}
+    <div class="customer-form__footer">
+      <a href="{{ routes.account_url }}">{{ 'customer.activate_account.cancel' | t }}</a>
+    </div>
   </div>
 </div>
 
 {% schema %}
 {
-  "name": "Customer Activate",
+  "name": "Activate Account",
   "tag": "section",
+  "class": "main-customers-activate-section",
   "settings": []
 }
 {% endschema %}

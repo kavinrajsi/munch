@@ -1,39 +1,69 @@
-<div class="search section-padding">
-  <div class="page-width">
-    <h1>{{ 'general.search.title' | t }}</h1>
+{% render 'breadcrumbs' %}
 
-    <form action="{{ routes.search_url }}" method="get" role="search">
-      <div class="field">
-        <input
-          class="field__input"
-          type="search"
-          name="q"
-          value="{{ search.terms | escape }}"
-          placeholder="{{ 'general.search.placeholder' | t }}"
-        >
-        <button type="submit" class="btn btn--primary">{{ 'general.search.submit' | t }}</button>
-      </div>
-    </form>
+<div class="section-padding" {{ section.shopify_attributes }}>
+  <div class="page-width">
+    <h1 class="text-center" style="margin-bottom:24px;">{{ 'general.search.title' | t }}</h1>
+
+    <div style="max-width:600px;margin:0 auto 32px;">
+      <form action="{{ routes.search_url }}" method="get" role="search">
+        <div style="display:flex;gap:8px;">
+          <input
+            type="search"
+            name="q"
+            value="{{ search.terms | escape }}"
+            placeholder="{{ 'general.search.placeholder' | t }}"
+            aria-label="{{ 'general.search.title' | t }}"
+          >
+          <input type="hidden" name="type" value="product,article,page">
+          <button type="submit" class="btn btn--primary">{{ 'general.search.submit' | t }}</button>
+        </div>
+      </form>
+    </div>
 
     {%- if search.performed -%}
       {%- if search.results_count > 0 -%}
-        <p>{{ search.results_count }} results for "{{ search.terms }}"</p>
-        <div class="search__results collection__grid">
-          {%- for result in search.results -%}
-            {%- if result.object_type == 'product' -%}
-              <div class="collection__item">
-                {% render 'product-card', product: result %}
-              </div>
-            {%- else -%}
-              <div class="search__item">
-                <h3><a href="{{ result.url }}">{{ result.title }}</a></h3>
-                <p>{{ result.content | strip_html | truncatewords: 30 }}</p>
+        <p class="text-center" style="margin-bottom:24px;color:var(--color-secondary);">
+          {{ 'general.search.results_count' | t: count: search.results_count, terms: search.terms }}
+        </p>
+
+        <div class="collection__grid">
+          {%- paginate search.results by 16 -%}
+            {%- for item in search.results -%}
+              {%- if item.object_type == 'product' -%}
+                {% render 'product-card', product: item %}
+              {%- elsif item.object_type == 'article' -%}
+                {% render 'blog-card', article: item %}
+              {%- else -%}
+                <div class="blog-card">
+                  <h3 class="blog-card__title"><a href="{{ item.url }}">{{ item.title }}</a></h3>
+                  <p class="blog-card__excerpt">{{ item.content | strip_html | truncate: 150 }}</p>
+                </div>
+              {%- endif -%}
+            {%- endfor -%}
+
+            {%- if paginate.pages > 1 -%}
+              <div class="pagination" style="grid-column: 1 / -1;">
+                {%- if paginate.previous -%}
+                  <a href="{{ paginate.previous.url }}">←</a>
+                {%- endif -%}
+                {%- for part in paginate.parts -%}
+                  {%- if part.is_link -%}
+                    <a href="{{ part.url }}">{{ part.title }}</a>
+                  {%- else -%}
+                    <span class="{% if part.title == paginate.current_page %}is-active{% endif %}">{{ part.title }}</span>
+                  {%- endif -%}
+                {%- endfor -%}
+                {%- if paginate.next -%}
+                  <a href="{{ paginate.next.url }}">→</a>
+                {%- endif -%}
               </div>
             {%- endif -%}
-          {%- endfor -%}
+          {%- endpaginate -%}
         </div>
       {%- else -%}
-        <p>No results found for "{{ search.terms }}".</p>
+        <p class="text-center" style="color:var(--color-secondary);">
+          {{ 'general.search.no_results' | t: terms: search.terms }}
+        </p>
       {%- endif -%}
     {%- endif -%}
   </div>
@@ -43,6 +73,7 @@
 {
   "name": "Search",
   "tag": "section",
+  "class": "main-search-section",
   "settings": []
 }
 {% endschema %}

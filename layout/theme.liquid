@@ -1,0 +1,111 @@
+<!doctype html>
+<html class="no-js" lang="{{ request.locale.iso_code }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="{{ settings.color_primary }}">
+
+  <title>
+    {{ page_title }}
+    {%- if current_tags %} &ndash; {{ 'general.meta.tags' | t: tags: current_tags | join: ', ' }}{% endif -%}
+    {%- if current_page != 1 %} &ndash; {{ 'general.meta.page' | t: page: current_page }}{% endif -%}
+    {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
+  </title>
+
+  {%- if page_description -%}
+    <meta name="description" content="{{ page_description | escape }}">
+  {%- endif -%}
+
+  {% render 'social-meta-tags' %}
+  {% render 'json-ld' %}
+
+  {%- if settings.favicon -%}
+    <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
+  {%- endif -%}
+
+  {{ content_for_header }}
+
+  {%- liquid
+    assign heading_font = settings.type_heading_font
+    assign body_font = settings.type_body_font
+  -%}
+
+  <style>
+    {{ heading_font | font_face: font_display: 'swap' }}
+    {{ body_font | font_face: font_display: 'swap' }}
+
+    :root {
+      --font-heading-family: {{ heading_font.family }}, {{ heading_font.fallback_families }};
+      --font-heading-weight: {{ heading_font.weight }};
+      --font-heading-style: {{ heading_font.style }};
+      --font-body-family: {{ body_font.family }}, {{ body_font.fallback_families }};
+      --font-body-weight: {{ body_font.weight }};
+      --font-body-style: {{ body_font.style }};
+
+      --font-h1-size: {{ settings.heading_h1_size }}px;
+      --font-h2-size: {{ settings.heading_h2_size }}px;
+      --font-h3-size: {{ settings.heading_h3_size }}px;
+      --body-font-size: {{ settings.body_font_size }}px;
+
+      --color-primary: {{ settings.color_primary }};
+      --color-secondary: {{ settings.color_secondary }};
+      --color-text: {{ settings.color_text }};
+      --color-heading: {{ settings.color_heading }};
+      --color-background: {{ settings.color_background }};
+      --color-border: {{ settings.color_border }};
+
+      --btn-primary-text: {{ settings.btn_primary_text }};
+      --btn-primary-bg: {{ settings.btn_primary_bg }};
+      --btn-secondary-text: {{ settings.btn_secondary_text }};
+      --btn-secondary-bg: {{ settings.btn_secondary_bg }};
+      --btn-ghost-text: {{ settings.btn_ghost_text }};
+      --btn-radius: {{ settings.btn_border_radius }}px;
+
+      --page-width: {{ settings.page_width }}px;
+      --product-card-gap: {{ settings.product_card_gap }}px;
+    }
+  </style>
+
+  {{ 'base.css' | asset_url | stylesheet_tag }}
+  {{ 'slick.css' | asset_url | stylesheet_tag }}
+  {{ 'slick-theme.css' | asset_url | stylesheet_tag }}
+
+  <script src="{{ 'jquery.js' | asset_url }}" defer></script>
+  <script src="{{ 'slick.min.js' | asset_url }}" defer></script>
+  <script src="{{ 'global.js' | asset_url }}" defer></script>
+
+  {%- if request.page_type == 'product' -%}
+    <script src="{{ 'photoswipe-lightbox.umd.min.js' | asset_url }}" defer></script>
+    <script src="{{ 'photoswipe.umd.min.js' | asset_url }}" defer></script>
+    <script src="{{ 'product-page.js' | asset_url }}" defer></script>
+  {%- endif -%}
+</head>
+
+<body class="template-{{ request.page_type }}{% if request.page_type == 'index' %} template-index{% endif %}">
+  <a class="skip-to-content" href="#MainContent">{{ 'accessibility.skip_to_content' | t }}</a>
+
+  {% sections 'header-group' %}
+
+  <main id="MainContent" role="main" tabindex="-1">
+    {{ content_for_layout }}
+  </main>
+
+  {% sections 'footer-group' %}
+
+  {% render 'cart-drawer' %}
+  {% render 'product-drawer' %}
+  {% render 'search-overlay' %}
+
+  <script>
+    window.Shopify = window.Shopify || {};
+    window.Shopify.routes = {
+      root: '{{ routes.root_url }}'
+    };
+    window.Shopify.money_format = '{{ shop.money_format }}';
+    window.Shopify.currency = {
+      active: '{{ cart.currency.iso_code }}',
+      rate: '{{ cart.currency.rate }}'
+    };
+  </script>
+</body>
+</html>

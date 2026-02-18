@@ -1,278 +1,233 @@
-<div class="product section-padding">
-  <div class="page-width">
-    {% render 'breadcrumbs' %}
-    <div class="product__wrapper">
-      <div class="product__media">
-        {%- if product.images.size > 0 -%}
-          <div class="product__gallery">
-            {%- if product.images.size > 1 -%}
-              <div class="product__thumbs">
-                {%- for image in product.images -%}
-                  <button
-                    type="button"
-                    class="product__thumb{% if forloop.first %} product__thumb--active{% endif %}"
-                    data-index="{{ forloop.index0 }}"
-                    aria-label="View image {{ forloop.index }}"
-                  >
-                    <picture>
-                      <source type="image/webp" srcset="{{ image | image_url: width: 120, format: 'webp' }}">
-                      <img
-                        src="{{ image | image_url: width: 120 }}"
-                        alt="{{ image.alt | default: product.title | escape }}"
-                        width="60"
-                        height="60"
-                        loading="lazy"
-                      >
-                    </picture>
-                  </button>
-                {%- endfor -%}
-              </div>
-            {%- endif -%}
+{% render 'breadcrumbs' %}
 
-            <div class="product__main-image" id="ProductMainImage">
-              {%- for image in product.images -%}
-                <a href="{{ image | image_url: width: 1600 }}"
-                   data-pswp-width="{{ image.width }}"
-                   data-pswp-height="{{ image.height }}"
-                   class="product__gallery-link{% if forloop.first %} product__gallery-link--active{% endif %}"
-                   data-image-index="{{ forloop.index0 }}">
-                  <picture>
-                    <source type="image/webp" srcset="{{ image | image_url: width: 900, format: 'webp' }}">
-                    <img
-                      src="{{ image | image_url: width: 900 }}"
-                      alt="{{ image.alt | default: product.title | escape }}"
-                      width="{{ image.width }}"
-                      height="{{ image.height }}"
-                      loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
-                    >
-                  </picture>
-                </a>
-              {%- endfor -%}
-              <span class="product__zoom-hint" aria-hidden="true">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
-              </span>
-            </div>
+<div class="main-product section-padding" {{ section.shopify_attributes }}>
+  <div class="page-width">
+    <div class="main-product__grid">
+      {%- comment -%} Product Media {%- endcomment -%}
+      <div class="main-product__media">
+        <div class="main-product__gallery" id="ProductGallery" data-product-gallery>
+          <div class="main-product__gallery-main" data-gallery-main>
+            {%- if product.featured_image -%}
+              <a href="{{ product.featured_image | image_url: width: 1600 }}" data-pswp-image data-pswp-width="{{ product.featured_image.width }}" data-pswp-height="{{ product.featured_image.height }}">
+                <img
+                  src="{{ product.featured_image | image_url: width: 800 }}"
+                  alt="{{ product.featured_image.alt | default: product.title | escape }}"
+                  width="{{ product.featured_image.width }}"
+                  height="{{ product.featured_image.height }}"
+                  id="ProductMainImage"
+                >
+              </a>
+            {%- else -%}
+              {{ 'product-1' | placeholder_svg_tag: 'placeholder' }}
+            {%- endif -%}
           </div>
-        {%- endif -%}
+
+          {%- if product.images.size > 1 -%}
+            <div class="main-product__gallery-thumbs" data-gallery-thumbs>
+              {%- for image in product.images -%}
+                <button
+                  type="button"
+                  data-thumb-index="{{ forloop.index0 }}"
+                  data-full-src="{{ image | image_url: width: 800 }}"
+                  data-zoom-src="{{ image | image_url: width: 1600 }}"
+                  data-zoom-width="{{ image.width }}"
+                  data-zoom-height="{{ image.height }}"
+                  class="{% if forloop.first %}is-active{% endif %}"
+                  aria-label="View image {{ forloop.index }}"
+                >
+                  <img
+                    src="{{ image | image_url: width: 128 }}"
+                    alt="{{ image.alt | default: product.title | escape }}"
+                    loading="lazy"
+                  >
+                </button>
+              {%- endfor -%}
+            </div>
+          {%- endif -%}
+        </div>
       </div>
 
-      <div class="product__info">
-        {%- assign sorted_variants = product.variants | sort: 'price' -%}
-        {%- assign cheapest = sorted_variants | first -%}
+      {%- comment -%} Product Info {%- endcomment -%}
+      <div class="main-product__info">
+        {%- if section.settings.show_vendor and product.vendor != blank -%}
+          <p class="main-product__vendor">{{ product.vendor }}</p>
+        {%- endif -%}
 
-        <h1 class="product__title">{{ product.title }}</h1>
+        <h1 class="main-product__title">{{ product.title }}</h1>
 
-        {%- if product.description != blank -%}
-          <div class="product__description rte">
+        <div class="main-product__price" data-product-price>
+          {%- if product.compare_at_price > product.price -%}
+            <span class="sale-price">{{ product.price | money }}</span>
+            <span class="compare-price">{{ product.compare_at_price | money }}</span>
+          {%- else -%}
+            <span>{{ product.price | money }}</span>
+          {%- endif -%}
+
+          {%- if product.selected_or_first_available_variant.unit_price -%}
+            <span class="unit-price">
+              {{ product.selected_or_first_available_variant.unit_price | money }} / {{ product.selected_or_first_available_variant.unit_price_measurement.reference_value }}{{ product.selected_or_first_available_variant.unit_price_measurement.reference_unit }}
+            </span>
+          {%- endif -%}
+        </div>
+
+        {%- unless product.has_only_default_variant -%}
+          <div class="main-product__variants" data-product-variants>
+            {%- for option in product.options_with_values -%}
+              <div class="main-product__variant-group">
+                <label for="Option-{{ section.id }}-{{ forloop.index0 }}">{{ option.name }}</label>
+                <select
+                  id="Option-{{ section.id }}-{{ forloop.index0 }}"
+                  data-option-index="{{ forloop.index0 }}"
+                  data-option-select
+                >
+                  {%- for value in option.values -%}
+                    <option value="{{ value | escape }}" {% if value == option.selected_value %}selected{% endif %}>
+                      {{ value }}
+                    </option>
+                  {%- endfor -%}
+                </select>
+              </div>
+            {%- endfor -%}
+          </div>
+        {%- endunless -%}
+
+        {%- form 'product', product, id: 'ProductForm', data-product-form: '' -%}
+          <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}" data-variant-id>
+
+          {%- if section.settings.show_quantity -%}
+            <div class="main-product__quantity">
+              <label>{{ 'products.product.quantity.label' | t }}</label>
+              <button type="button" data-qty-minus aria-label="{{ 'products.product.quantity.decrease' | t }}">−</button>
+              <input type="number" name="quantity" value="1" min="1" data-qty-input>
+              <button type="button" data-qty-plus aria-label="{{ 'products.product.quantity.increase' | t }}">+</button>
+            </div>
+          {%- endif -%}
+
+          <div class="main-product__add-to-cart">
+            <button
+              type="submit"
+              class="btn btn--primary btn--full"
+              {% unless product.available %}disabled{% endunless %}
+              data-add-to-cart
+            >
+              {%- if product.available -%}
+                {{ 'products.product.add_to_cart' | t }}
+              {%- else -%}
+                {{ 'products.product.sold_out' | t }}
+              {%- endif -%}
+            </button>
+          </div>
+        {%- endform -%}
+
+        {%- if section.settings.show_description and product.description != blank -%}
+          <div class="main-product__description rte">
             {{ product.description }}
           </div>
         {%- endif -%}
 
-        {%- assign has_ingredients = product.metafields.custom.ingredients | default: blank -%}
-        {%- assign has_additives = product.metafields.custom.additives_declaration | default: blank -%}
-        {%- assign has_allergens = product.metafields.custom.allergens_declaration | default: blank -%}
-        {%- assign has_nutritional = product.metafields.custom.nutritional_values | default: blank -%}
-        {%- assign has_shelf_life = product.metafields.custom.shelf_life | default: blank -%}
-        {%- assign has_taste = product.metafields.custom.taste | default: blank -%}
-
-        {%- if has_ingredients != blank or has_additives != blank or has_allergens != blank or has_nutritional != blank or has_shelf_life != blank or has_taste != blank -%}
-          <div class="product__accordions">
-            {%- if has_ingredients != blank -%}
-              <div class="product__accordion">
-                <button type="button" class="product__accordion-header">
-                  <span>Ingredients</span>
-                  <svg class="product__accordion-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-                </button>
-                <div class="product__accordion-content rte">
-                  {{ product.metafields.custom.ingredients | metafield_tag }}
-                </div>
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'accordion' -%}
+            <div class="main-product__accordion" {{ block.shopify_attributes }}>
+              <button class="main-product__accordion-trigger" type="button" data-accordion-trigger>
+                {{ block.settings.title }}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+              </button>
+              <div class="main-product__accordion-content" data-accordion-content>
+                {%- if block.settings.content_source == 'metafield' and block.settings.metafield_key != blank -%}
+                  {{ product.metafields.custom[block.settings.metafield_key] | metafield_tag }}
+                {%- elsif block.settings.text != blank -%}
+                  {{ block.settings.text }}
+                {%- endif -%}
               </div>
-            {%- endif -%}
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
 
-            {%- if has_additives != blank -%}
-              <div class="product__accordion">
-                <button type="button" class="product__accordion-header">
-                  <span>Additives Declaration</span>
-                  <svg class="product__accordion-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-                </button>
-                <div class="product__accordion-content rte">
-                  {{ product.metafields.custom.additives_declaration | metafield_tag }}
-                </div>
-              </div>
-            {%- endif -%}
-
-            {%- if has_allergens != blank -%}
-              <div class="product__accordion">
-                <button type="button" class="product__accordion-header">
-                  <span>Allergens Declaration</span>
-                  <svg class="product__accordion-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-                </button>
-                <div class="product__accordion-content">
-                  {{ product.metafields.custom.allergens_declaration | metafield_tag }}
-                </div>
-              </div>
-            {%- endif -%}
-
-            {%- if has_nutritional != blank -%}
-              <div class="product__accordion">
-                <button type="button" class="product__accordion-header">
-                  <span>Nutritional Values</span>
-                  <svg class="product__accordion-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-                </button>
-                <div class="product__accordion-content">
-                  {%- assign nv = product.metafields.custom.nutritional_values.value -%}
-                  {%- if nv -%}
-                    <table class="product__nutrition-table">
-                      {%- if nv.title -%}
-                        <tr>
-                          <th colspan="4" class="nutrition-table__header">{{ nv.title }}</th>
-                        </tr>
-                      {%- endif -%}
-                      {%- if nv.serving_size or nv.servings_per_pack -%}
-                        <tr class="nutrition-table__serving">
-                          <td colspan="2">{{ nv.serving_size }}</td>
-                          <td colspan="2" class="text-right">{{ nv.servings_per_pack }}</td>
-                        </tr>
-                      {%- endif -%}
-                      {%- if nv.columns -%}
-                        <tr class="nutrition-table__columns">
-                          {%- for col in nv.columns -%}
-                            <th>{{ col }}</th>
-                          {%- endfor -%}
-                        </tr>
-                      {%- endif -%}
-                      {%- if nv.rows -%}
-                        {%- for row in nv.rows -%}
-                          <tr>
-                            <td>{{ row.nutrient }}</td>
-                            <td>{{ row.per_100g }}</td>
-                            <td>{{ row.per_serving }}</td>
-                            <td>{{ row.rda }}</td>
-                          </tr>
-                        {%- endfor -%}
-                      {%- endif -%}
-                      {%- if nv.notes -%}
-                        {%- for note in nv.notes -%}
-                          <tr>
-                            <td colspan="4" class="nutrition-table__note">{{ note }}</td>
-                          </tr>
-                        {%- endfor -%}
-                      {%- endif -%}
-                    </table>
-                  {%- endif -%}
-                </div>
-              </div>
-            {%- endif -%}
-
-            {%- if has_taste != blank -%}
-              <div class="product__accordion">
-                <button type="button" class="product__accordion-header">
-                  <span>Taste</span>
-                  <svg class="product__accordion-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-                </button>
-                <div class="product__accordion-content">
-                  {{ product.metafields.custom.taste }}
-                </div>
-              </div>
-            {%- endif -%}
-
-            {%- if has_shelf_life != blank -%}
-              <div class="product__accordion">
-                <button type="button" class="product__accordion-header">
-                  <span>Shelf Life</span>
-                  <svg class="product__accordion-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-                </button>
-                <div class="product__accordion-content">
-                  {{ product.metafields.custom.shelf_life }}
-                </div>
-              </div>
-            {%- endif -%}
+        {%- if section.settings.show_share -%}
+          <div class="main-product__share">
+            <span>{{ 'products.product.share' | t }}:</span>
+            <a href="https://www.facebook.com/sharer/sharer.php?u={{ product.url | prepend: shop.url }}" target="_blank" rel="noopener" aria-label="{{ 'general.social.share_on_facebook' | t }}">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+            </a>
+            <a href="https://twitter.com/intent/tweet?url={{ product.url | prepend: shop.url }}&text={{ product.title | url_encode }}" target="_blank" rel="noopener" aria-label="{{ 'general.social.share_on_twitter' | t }}">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/></svg>
+            </a>
           </div>
         {%- endif -%}
-
-        <div class="product__pricing" id="ProductPricing">
-          {%- if cheapest.compare_at_price > cheapest.price -%}
-            {%- assign save_pct = cheapest.compare_at_price | minus: cheapest.price | times: 100 | divided_by: cheapest.compare_at_price -%}
-            <span class="product__compare-price">{{ cheapest.compare_at_price | money }}</span>
-            <span class="product__sale-price">{{ cheapest.price | money }}</span>
-            <span class="product__save">Save {{ save_pct }}%</span>
-          {%- else -%}
-            <span class="product__regular-price">{{ cheapest.price | money }}</span>
-          {%- endif -%}
-        </div>
-
-        {%- form 'product', product, data-product-form: '', data-ajax-cart: '' -%}
-          <input type="hidden" name="id" value="{{ cheapest.id }}" data-variant-id>
-
-          {%- unless product.has_only_default_variant -%}
-            <div class="product__variants">
-              {%- for option in product.options_with_values -%}
-                {%- assign option_index = forloop.index0 -%}
-                <div class="product__variant-group">
-                  <span class="product__variant-label">{{ option.name }}</span>
-                  <div class="product__variant-options">
-                    {%- assign seen = '|||' -%}
-                    {%- assign first_value = true -%}
-                    {%- for variant in sorted_variants -%}
-                      {%- assign opt_val = variant.options[option_index] -%}
-                      {%- assign check = '|||' | append: opt_val | append: '|||' -%}
-                      {%- unless seen contains check -%}
-                        {%- assign seen = seen | append: opt_val | append: '|||' -%}
-                        <button
-                          type="button"
-                          class="product__variant-btn{% if first_value %} product__variant-btn--active{% endif %}"
-                          data-option-index="{{ option_index }}"
-                          data-value="{{ opt_val }}"
-                        >
-                          {{ opt_val }}
-                        </button>
-                        {%- assign first_value = false -%}
-                      {%- endunless -%}
-                    {%- endfor -%}
-                  </div>
-                </div>
-              {%- endfor -%}
-            </div>
-          {%- endunless -%}
-
-          <div class="product__qty">
-            <button type="button" class="product__qty-btn" data-product-qty-minus>-</button>
-            <input type="number" name="quantity" value="1" min="1" class="product__qty-input" data-product-qty-input readonly>
-            <button type="button" class="product__qty-btn" data-product-qty-plus>+</button>
-          </div>
-
-          <div class="product__actions">
-            <button type="submit" class="product__atc btn btn--primary" {% unless product.available %}disabled{% endunless %}>
-              {%- if product.available -%}
-                Add to cart
-              {%- else -%}
-                Sold out
-              {%- endif -%}
-            </button>
-            {%- if product.available -%}
-              <button type="button" class="product__buy-now btn btn--secondary" data-product-buy-now>
-                Buy it now
-              </button>
-            {%- endif -%}
-          </div>
-        {%- endform -%}
-
-        <script type="application/json" data-product-page-variants>
-          {{ product.variants | json }}
-        </script>
       </div>
     </div>
   </div>
 </div>
 
-<script src="{{ 'photoswipe-lightbox.umd.min.js' | asset_url }}"></script>
-<script src="{{ 'photoswipe.umd.min.js' | asset_url }}"></script>
-<script src="{{ 'product-page.js' | asset_url }}"></script>
+<script type="application/json" data-product-json>
+  {{ product | json }}
+</script>
 
 {% schema %}
 {
-  "name": "Product",
+  "name": "Product Page",
   "tag": "section",
-  "settings": []
+  "class": "main-product-section",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_vendor",
+      "label": "Show Vendor",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_quantity",
+      "label": "Show Quantity Selector",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_description",
+      "label": "Show Description",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_share",
+      "label": "Show Share Buttons",
+      "default": true
+    }
+  ],
+  "blocks": [
+    {
+      "type": "accordion",
+      "name": "Accordion",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Details"
+        },
+        {
+          "type": "select",
+          "id": "content_source",
+          "label": "Content Source",
+          "options": [
+            { "value": "text", "label": "Custom Text" },
+            { "value": "metafield", "label": "Product Metafield" }
+          ],
+          "default": "text"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Custom Text"
+        },
+        {
+          "type": "text",
+          "id": "metafield_key",
+          "label": "Metafield Key",
+          "info": "From custom namespace"
+        }
+      ]
+    }
+  ]
 }
 {% endschema %}

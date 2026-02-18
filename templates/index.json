@@ -1,0 +1,59 @@
+{
+  "sections": {
+    "hero": {
+      "type": "hero-slider",
+      "blocks": {
+        "slide_1": {
+          "type": "slide",
+          "settings": {
+            "heading": "Welcome to Nithyaamirtham",
+            "subheading": "Authentic South Indian sweets & snacks crafted with love",
+            "button_text": "Shop Now"
+          }
+        }
+      },
+      "block_order": ["slide_1"],
+      "settings": {}
+    },
+    "products": {
+      "type": "product-slider",
+      "settings": {
+        "title": "Our Bestsellers"
+      }
+    },
+    "tradition": {
+      "type": "tamil-tradition",
+      "blocks": {
+        "f1": { "type": "feature", "settings": { "text": "100% Pure Ghee" } },
+        "f2": { "type": "feature", "settings": { "text": "No Preservatives" } },
+        "f3": { "type": "feature", "settings": { "text": "Traditional Recipes" } },
+        "f4": { "type": "feature", "settings": { "text": "Small Batch Crafted" } }
+      },
+      "block_order": ["f1", "f2", "f3", "f4"],
+      "settings": {}
+    },
+    "testimonials": {
+      "type": "testimonials",
+      "blocks": {
+        "t1": { "type": "testimonial", "settings": { "text": "The sweets are absolutely divine!", "author": "Priya R.", "location": "Chennai", "rating": 5 } },
+        "t2": { "type": "testimonial", "settings": { "text": "Best online sweet shop. Fresh and authentic.", "author": "Karthik M.", "location": "Bangalore", "rating": 5 } },
+        "t3": { "type": "testimonial", "settings": { "text": "Ordered for Diwali and everyone loved it!", "author": "Anitha S.", "location": "Mumbai", "rating": 5 } }
+      },
+      "block_order": ["t1", "t2", "t3"],
+      "settings": {}
+    },
+    "blog": {
+      "type": "blog-list",
+      "settings": {
+        "title": "From Our Blog"
+      }
+    },
+    "videos": {
+      "type": "video-list",
+      "settings": {
+        "title": "Watch Our Videos"
+      }
+    }
+  },
+  "order": ["hero", "products", "tradition", "testimonials", "blog", "videos"]
+}

@@ -1,0 +1,278 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Nithyaamirtham",
+    "theme_version": "1.0.0",
+    "theme_author": "Kavinraj",
+    "theme_documentation_url": "https://sikavinraj.me/contact/",
+    "theme_support_url": "https://sikavinraj.me/contact/"
+  },
+  {
+    "name": "Favicon",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "favicon",
+        "label": "Favicon",
+        "info": "32x32px .png recommended"
+      }
+    ]
+  },
+  {
+    "name": "Colors",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Brand Colors"
+      },
+      {
+        "type": "color",
+        "id": "color_primary",
+        "label": "Primary Color",
+        "default": "#C61D23"
+      },
+      {
+        "type": "color",
+        "id": "color_secondary",
+        "label": "Secondary Color",
+        "default": "#666666"
+      },
+      {
+        "type": "header",
+        "content": "Text & Background"
+      },
+      {
+        "type": "color",
+        "id": "color_text",
+        "label": "Text Color",
+        "default": "#333333"
+      },
+      {
+        "type": "color",
+        "id": "color_heading",
+        "label": "Heading Color",
+        "default": "#000000"
+      },
+      {
+        "type": "color",
+        "id": "color_background",
+        "label": "Background Color",
+        "default": "#ffffff"
+      },
+      {
+        "type": "color",
+        "id": "color_border",
+        "label": "Border Color",
+        "default": "#e0e0e0"
+      }
+    ]
+  },
+  {
+    "name": "Layout",
+    "settings": [
+      {
+        "type": "range",
+        "id": "page_width",
+        "label": "Page Width",
+        "min": 900,
+        "max": 1600,
+        "step": 50,
+        "default": 1200,
+        "unit": "px"
+      }
+    ]
+  },
+  {
+    "name": "Typography",
+    "settings": [
+      {
+        "type": "font_picker",
+        "id": "type_heading_font",
+        "label": "Heading Font",
+        "default": "assistant_n7"
+      },
+      {
+        "type": "font_picker",
+        "id": "type_body_font",
+        "label": "Body Font",
+        "default": "assistant_n4"
+      },
+      {
+        "type": "range",
+        "id": "heading_h1_size",
+        "label": "H1 Size",
+        "min": 24,
+        "max": 80,
+        "step": 2,
+        "default": 56,
+        "unit": "px"
+      },
+      {
+        "type": "range",
+        "id": "heading_h2_size",
+        "label": "H2 Size",
+        "min": 20,
+        "max": 60,
+        "step": 2,
+        "default": 36,
+        "unit": "px"
+      },
+      {
+        "type": "range",
+        "id": "heading_h3_size",
+        "label": "H3 Size",
+        "min": 16,
+        "max": 48,
+        "step": 2,
+        "default": 28,
+        "unit": "px"
+      },
+      {
+        "type": "range",
+        "id": "body_font_size",
+        "label": "Body Font Size",
+        "min": 12,
+        "max": 24,
+        "step": 1,
+        "default": 16,
+        "unit": "px"
+      }
+    ]
+  },
+  {
+    "name": "Buttons",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Primary Button"
+      },
+      {
+        "type": "color",
+        "id": "btn_primary_text",
+        "label": "Text Color",
+        "default": "#FFFFFF"
+      },
+      {
+        "type": "color",
+        "id": "btn_primary_bg",
+        "label": "Background Color",
+        "default": "#C61D23"
+      },
+      {
+        "type": "range",
+        "id": "btn_border_radius",
+        "label": "Border Radius",
+        "min": 0,
+        "max": 30,
+        "step": 1,
+        "default": 4,
+        "unit": "px"
+      },
+      {
+        "type": "header",
+        "content": "Secondary Button"
+      },
+      {
+        "type": "color",
+        "id": "btn_secondary_text",
+        "label": "Text Color",
+        "default": "#C61D23"
+      },
+      {
+        "type": "color",
+        "id": "btn_secondary_bg",
+        "label": "Background Color",
+        "default": "#ffffff"
+      },
+      {
+        "type": "header",
+        "content": "Ghost Button"
+      },
+      {
+        "type": "color",
+        "id": "btn_ghost_text",
+        "label": "Text Color",
+        "default": "#333333"
+      }
+    ]
+  },
+  {
+    "name": "Product Card",
+    "settings": [
+      {
+        "type": "select",
+        "id": "product_card_image_ratio",
+        "label": "Image Aspect Ratio",
+        "options": [
+          { "value": "natural", "label": "Natural" },
+          { "value": "square", "label": "Square (1:1)" },
+          { "value": "portrait", "label": "Portrait (3:4)" },
+          { "value": "landscape", "label": "Landscape (4:3)" }
+        ],
+        "default": "natural"
+      },
+      {
+        "type": "range",
+        "id": "product_card_gap",
+        "label": "Card Gap",
+        "min": 8,
+        "max": 40,
+        "step": 4,
+        "default": 16,
+        "unit": "px"
+      },
+      {
+        "type": "checkbox",
+        "id": "product_card_show_vendor",
+        "label": "Show Vendor",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "product_card_show_secondary_image",
+        "label": "Show Second Image on Hover",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "product_card_show_quick_add",
+        "label": "Show Quick Add Button",
+        "default": true
+      }
+    ]
+  },
+  {
+    "name": "Social Media",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Social Accounts"
+      },
+      {
+        "type": "url",
+        "id": "social_facebook",
+        "label": "Facebook"
+      },
+      {
+        "type": "url",
+        "id": "social_instagram",
+        "label": "Instagram"
+      },
+      {
+        "type": "url",
+        "id": "social_twitter",
+        "label": "Twitter / X"
+      },
+      {
+        "type": "url",
+        "id": "social_youtube",
+        "label": "YouTube"
+      },
+      {
+        "type": "url",
+        "id": "social_whatsapp",
+        "label": "WhatsApp"
+      }
+    ]
+  }
+]
