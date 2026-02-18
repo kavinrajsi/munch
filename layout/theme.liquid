@@ -75,6 +75,7 @@
   <script src="{{ 'global.js' | asset_url }}" defer></script>
 
   {%- if request.page_type == 'product' -%}
+    {{ 'photoswipe.css' | asset_url | stylesheet_tag }}
     <script src="{{ 'photoswipe-lightbox.umd.min.js' | asset_url }}" defer></script>
     <script src="{{ 'photoswipe.umd.min.js' | asset_url }}" defer></script>
     <script src="{{ 'product-page.js' | asset_url }}" defer></script>
