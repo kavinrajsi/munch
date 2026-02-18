@@ -44,33 +44,21 @@
     },
     "collection_list_WAMfCD": {
       "type": "collection-list",
-      "blocks": {
-        "collection_UXdXkq": {
-          "type": "collection",
-          "settings": {
-            "collection": ""
-          }
-        },
-        "collection_QBYRrf": {
-          "type": "collection",
-          "settings": {
-            "collection": ""
-          }
-        },
-        "collection_jNyzRW": {
-          "type": "collection",
-          "settings": {
-            "collection": ""
-          }
-        }
-      },
-      "block_order": [
-        "collection_UXdXkq",
-        "collection_QBYRrf",
-        "collection_jNyzRW"
-      ],
       "name": "Collection list",
-      "settings": {}
+      "settings": {
+        "heading": "Collection List",
+        "collection": "chips",
+        "carousel_on_mobile": false,
+        "product_count": 8,
+        "columns": 4,
+        "gap_horizontal": 16,
+        "gap_vertical": 24,
+        "carousel_nav": "arrow",
+        "padding_top": 40,
+        "padding_bottom": 40,
+        "show_view_all": true,
+        "view_all_label": "View all"
+      }
     },
     "collection_list_carousel_mMxPjm": {
       "type": "collection-list-carousel",
