@@ -1,0 +1,133 @@
+<div
+  class="title-section section-padding"
+  style="text-align: {{ section.settings.alignment }};"
+  {{ section.shopify_attributes }}
+>
+  <div class="page-width">
+    {%- if section.settings.title != blank -%}
+      <{{ section.settings.heading_tag }} class="title-section__heading">
+        {{ section.settings.title }}
+      </{{ section.settings.heading_tag }}>
+    {%- endif -%}
+
+    {%- if section.settings.show_separator -%}
+      <div class="title-section__separator" style="
+        width: {{ section.settings.separator_width }}px;
+        height: {{ section.settings.separator_height }}px;
+        background-color: {{ section.settings.separator_color }};
+        margin-top: {{ section.settings.separator_spacing }}px;
+        {%- case section.settings.alignment -%}
+          {%- when 'left' -%}
+            margin-right: auto;
+          {%- when 'right' -%}
+            margin-left: auto;
+          {%- when 'center' -%}
+            margin-left: auto;
+            margin-right: auto;
+        {%- endcase -%}
+      "></div>
+    {%- endif -%}
+
+    {%- if section.settings.subtitle != blank -%}
+      <p class="title-section__subtitle" style="margin-top: 16px;">
+        {{ section.settings.subtitle }}
+      </p>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Title",
+  "tag": "section",
+  "class": "title-section-wrapper",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Section Title"
+    },
+    {
+      "type": "select",
+      "id": "heading_tag",
+      "label": "Heading tag",
+      "options": [
+        { "value": "h1", "label": "H1" },
+        { "value": "h2", "label": "H2" },
+        { "value": "h3", "label": "H3" },
+        { "value": "h4", "label": "H4" }
+      ],
+      "default": "h2"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subtitle"
+    },
+    {
+      "type": "select",
+      "id": "alignment",
+      "label": "Alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "header",
+      "content": "Separator"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_separator",
+      "label": "Show separator",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "separator_width",
+      "label": "Separator width",
+      "min": 20,
+      "max": 200,
+      "step": 5,
+      "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "separator_height",
+      "label": "Separator height",
+      "min": 1,
+      "max": 6,
+      "step": 1,
+      "unit": "px",
+      "default": 3
+    },
+    {
+      "type": "range",
+      "id": "separator_spacing",
+      "label": "Separator top spacing",
+      "min": 4,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "color",
+      "id": "separator_color",
+      "label": "Separator color",
+      "default": "#c8872b"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Title",
+      "category": "Text"
+    }
+  ]
+}
+{% endschema %}
