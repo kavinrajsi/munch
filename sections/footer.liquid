@@ -16,19 +16,8 @@
 >
   <div class="footer__container container">
 
-    <!-- Brand with lines -->
+    <!-- Brand -->
     <div class="footer__brand">
-      <span class="footer__brand-line" aria-hidden="true">
-        <svg preserveAspectRatio="none" width="100%" height="1" viewBox="0 0 454 1" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect width="454" height="1" transform="matrix(-1 0 0 1 454 0)" fill="url(#footer-line-left)"/>
-          <defs>
-            <linearGradient id="footer-line-left" x1="0" y1="0.5" x2="454" y2="0.5" gradientUnits="userSpaceOnUse">
-              <stop stop-color="{{ section.settings.divider_color }}"/>
-              <stop offset="1" stop-color="{{ section.settings.divider_color }}" stop-opacity="0"/>
-            </linearGradient>
-          </defs>
-        </svg>
-      </span>
 
       <a href="{{ routes.root_url }}" class="footer__logo" aria-label="{{ shop.name }} Home">
         {%- case section.settings.logo_type -%}
@@ -37,35 +26,26 @@
               <img
                 src="{{ section.settings.logo_image | image_url: width: 600 }}"
                 alt="{{ shop.name }}"
-                class="footer__logo-img"
                 loading="lazy"
               >
             {%- else -%}
-              <span class="footer__logo-text">{{ shop.name }}</span>
+              <span>{{ shop.name }}</span>
             {%- endif -%}
+
           {%- when 'svg' -%}
             {%- if section.settings.logo_svg != blank -%}
               {{ section.settings.logo_svg }}
             {%- else -%}
-              <span class="footer__logo-text">{{ shop.name }}</span>
+              <span>{{ shop.name }}</span>
             {%- endif -%}
+
           {%- else -%}
-            <span class="footer__logo-text">{{ shop.name }}</span>
+            <span>{{ shop.name }}</span>
         {%- endcase -%}
       </a>
 
-      <span class="footer__brand-line" aria-hidden="true">
-        <svg preserveAspectRatio="none" width="100%" height="1" viewBox="0 0 454 1" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect width="454" height="1" fill="url(#footer-line-right)"/>
-          <defs>
-            <linearGradient id="footer-line-right" x1="0" y1="0.5" x2="454" y2="0.5" gradientUnits="userSpaceOnUse">
-              <stop stop-color="{{ section.settings.divider_color }}"/>
-              <stop offset="1" stop-color="{{ section.settings.divider_color }}" stop-opacity="0"/>
-            </linearGradient>
-          </defs>
-        </svg>
-      </span>
     </div>
+
 
     <!-- Links Section -->
     <div class="footer__links">
@@ -73,50 +53,111 @@
         {%- case block.type -%}
 
           {%- when 'menu' -%}
-            <nav class="footer__nav" {{ block.shopify_attributes }} aria-labelledby="footer-nav-{{ block.id }}">
+            <nav {{ block.shopify_attributes }}>
               {%- if block.settings.title != blank -%}
-                <h2 id="footer-nav-{{ block.id }}" class="footer__title">{{ block.settings.title }}</h2>
+                <h2>{{ block.settings.title }}</h2>
               {%- endif -%}
+
               {%- if block.settings.menu != blank -%}
-                <ul class="footer__list">
+                <ul>
                   {%- for link in block.settings.menu.links -%}
-                    <li class="footer__item">
-                      <a href="{{ link.url }}" class="footer__link">{{ link.title }}</a>
+                    <li>
+                      <a href="{{ link.url }}">{{ link.title }}</a>
                     </li>
                   {%- endfor -%}
                 </ul>
               {%- endif -%}
             </nav>
 
+
           {%- when 'contact' -%}
-            <div class="footer__contact" {{ block.shopify_attributes }}>
+            <div {{ block.shopify_attributes }}>
               {%- if block.settings.title != blank -%}
-                <h2 class="footer__title">{{ block.settings.title }}</h2>
+                <h2>{{ block.settings.title }}</h2>
               {%- endif -%}
-              <address class="footer__address">
+
+              <address>
+
                 {%- if block.settings.address != blank -%}
-                  <p class="footer__contact-item">
-                    <svg class="footer__contact-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                    <span>{{ block.settings.address }}</span>
-                  </p>
+                  <div>{{ block.settings.address }}</div>
                 {%- endif -%}
+
                 {%- if block.settings.phone != blank -%}
-                  <p class="footer__contact-item">
-                    <svg class="footer__contact-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-                    <a href="tel:{{ block.settings.phone | remove: ' ' }}" class="footer__link">{{ block.settings.phone }}</a>
-                  </p>
+                  <div>
+                    <a href="tel:{{ block.settings.phone | remove: ' ' }}">
+                      {{ block.settings.phone }}
+                    </a>
+                  </div>
                 {%- endif -%}
+
                 {%- if block.settings.email != blank -%}
-                  <p class="footer__contact-item">
-                    <svg class="footer__contact-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-                    <a href="mailto:{{ block.settings.email }}" class="footer__link">{{ block.settings.email }}</a>
-                  </p>
+                  <div>
+                    <a href="mailto:{{ block.settings.email }}">
+                      {{ block.settings.email }}
+                    </a>
+                  </div>
                 {%- endif -%}
+
               </address>
             </div>
 
         {%- endcase -%}
       {%- endfor -%}
+    </div>
+
+
+    <hr>
+
+
+    <!-- Bottom Section -->
+    <div class="footer__bottom">
+
+      <!-- Brand Trust -->
+      {%- assign trust_blocks = section.blocks | where: "type", "brand_trust" -%}
+      {%- if trust_blocks.size > 0 -%}
+        <div class="footer__brand-trust">
+
+          {%- if section.settings.brand_trust_title != blank -%}
+            <h2>{{ section.settings.brand_trust_title }}</h2>
+          {%- endif -%}
+
+          <div>
+            {%- for block in trust_blocks -%}
+              <span {{ block.shopify_attributes }} title="{{ block.settings.trust_label }}">
+                {{ block.settings.trust_svg }}
+              </span>
+            {%- endfor -%}
+          </div>
+
+        </div>
+      {%- endif -%}
+
+
+      <!-- Social Icons -->
+      {%- assign social_blocks = section.blocks | where: "type", "social_icon" -%}
+      {%- if social_blocks.size > 0 -%}
+        <div class="footer__social">
+
+          {%- if section.settings.social_title != blank -%}
+            <h2>{{ section.settings.social_title }}</h2>
+          {%- endif -%}
+
+          <ul>
+            {%- for block in social_blocks -%}
+              <li {{ block.shopify_attributes }}>
+                <a href="{{ block.settings.social_url }}"
+                   target="{{ block.settings.social_target }}"
+                   rel="noopener"
+                   aria-label="{{ block.settings.social_label }}">
+                  {{ block.settings.social_svg }}
+                </a>
+              </li>
+            {%- endfor -%}
+          </ul>
+
+        </div>
+      {%- endif -%}
+
     </div>
 
   </div>
@@ -180,18 +221,9 @@
       "id": "logo_type",
       "label": "Logo Type",
       "options": [
-        {
-          "value": "text",
-          "label": "Store Name"
-        },
-        {
-          "value": "image",
-          "label": "Image"
-        },
-        {
-          "value": "svg",
-          "label": "SVG Code"
-        }
+        { "value": "text", "label": "Store Name" },
+        { "value": "image", "label": "Image" },
+        { "value": "svg", "label": "SVG Code" }
       ],
       "default": "text"
     },
@@ -224,6 +256,26 @@
       "step": 10,
       "unit": "px",
       "default": 140
+    },
+    {
+      "type": "header",
+      "content": "Brand Trust"
+    },
+    {
+      "type": "text",
+      "id": "brand_trust_title",
+      "label": "Brand Trust Title",
+      "default": "Brand Trust"
+    },
+    {
+      "type": "header",
+      "content": "Social"
+    },
+    {
+      "type": "text",
+      "id": "social_title",
+      "label": "Social Title",
+      "default": "Follow Us"
     }
   ],
   "blocks": [
@@ -271,6 +323,70 @@
           "type": "text",
           "id": "email",
           "label": "Email"
+        }
+      ]
+    },
+    {
+      "type": "brand_trust",
+      "name": "Brand Trust Icon",
+      "limit": 5,
+      "settings": [
+        {
+          "type": "select",
+          "id": "trust_label",
+          "label": "Payment Type",
+          "options": [
+            { "value": "Visa", "label": "Visa" },
+            { "value": "Mastercard", "label": "Mastercard" },
+            { "value": "RuPay", "label": "RuPay" },
+            { "value": "UPI", "label": "UPI" },
+            { "value": "Maestro", "label": "Maestro" }
+          ],
+          "default": "Visa"
+        },
+        {
+          "type": "html",
+          "id": "trust_svg",
+          "label": "Upload SVG Code"
+        }
+      ]
+    },
+    {
+      "type": "social_icon",
+      "name": "Social Icon",
+      "limit": 4,
+      "settings": [
+        {
+          "type": "select",
+          "id": "social_label",
+          "label": "Platform",
+          "options": [
+            { "value": "Instagram", "label": "Instagram" },
+            { "value": "Facebook", "label": "Facebook" },
+            { "value": "YouTube", "label": "YouTube" },
+            { "value": "Pinterest", "label": "Pinterest" }
+          ],
+          "default": "Instagram"
+        },
+        {
+          "type": "html",
+          "id": "social_svg",
+          "label": "Upload SVG Code"
+        },
+        {
+          "type": "url",
+          "id": "social_url",
+          "label": "Profile URL"
+        },
+        {
+          "type": "select",
+          "id": "social_target",
+          "label": "Open Link In",
+          "options": [
+            { "value": "_blank", "label": "New Tab" },
+            { "value": "_self", "label": "Same Tab" }
+          ],
+          "default": "_blank"
         }
       ]
     }

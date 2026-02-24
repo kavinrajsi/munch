@@ -82,6 +82,18 @@
   }
 }
 
+// Logo
+.search-overlay__logo {
+  margin-bottom: 12px;
+
+  img,
+  svg {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+}
+
 // Form
 .search-overlay__form {
   display: flex;

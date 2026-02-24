@@ -89,6 +89,22 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
       </button>
 
+      {%- if settings.search_show_logo -%}
+        <div class="search-overlay__logo" style="width: {{ settings.search_logo_width | default: 100 }}px;">
+          {%- if settings.search_logo_type == 'svg' and settings.search_logo_svg != blank -%}
+            {{ settings.search_logo_svg }}
+          {%- elsif settings.search_logo_image != blank -%}
+            <img
+              src="{{ settings.search_logo_image | image_url: width: 400 }}"
+              alt="{{ shop.name | escape }}"
+              width="{{ settings.search_logo_width | default: 100 }}"
+              height="auto"
+              loading="lazy"
+            >
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+
       <form class="search-overlay__form" action="{{ routes.search_url }}" method="get" role="search">
         <input
           class="search-overlay__input"

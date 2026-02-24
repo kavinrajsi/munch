@@ -1314,6 +1314,51 @@
     "name": "Predictive search",
     "settings": [
       {
+        "type": "header",
+        "content": "Logo"
+      },
+      {
+        "type": "checkbox",
+        "id": "search_show_logo",
+        "label": "Show logo before search bar",
+        "default": false
+      },
+      {
+        "type": "select",
+        "id": "search_logo_type",
+        "label": "Logo type",
+        "options": [
+          { "value": "image", "label": "Image" },
+          { "value": "svg", "label": "SVG Code" }
+        ],
+        "default": "image",
+        "info": "Only used when logo is enabled"
+      },
+      {
+        "type": "image_picker",
+        "id": "search_logo_image",
+        "label": "Logo image"
+      },
+      {
+        "type": "html",
+        "id": "search_logo_svg",
+        "label": "Logo SVG code"
+      },
+      {
+        "type": "range",
+        "id": "search_logo_width",
+        "label": "Logo width",
+        "min": 30,
+        "max": 200,
+        "step": 10,
+        "default": 100,
+        "unit": "px"
+      },
+      {
+        "type": "header",
+        "content": "General"
+      },
+      {
         "type": "checkbox",
         "id": "search_enable_predictive",
         "label": "Enable predictive search",

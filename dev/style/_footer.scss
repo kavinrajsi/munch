@@ -141,3 +141,89 @@
   flex-shrink: 0;
   margin-top: 2px;
 }
+
+// Divider
+.footer__divider {
+  border: none;
+  border-top: 1px solid var(--footer-divider-color, #C61D23);
+  opacity: 0.3;
+  margin: 32px 0;
+
+  @media (min-width: 768px) {
+    margin: 40px 0;
+  }
+}
+
+// Bottom: Brand Trust + Social
+.footer__bottom {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+
+  @media (min-width: 768px) {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+}
+
+// Brand Trust
+.footer__brand-trust {
+  flex: 1;
+}
+
+.footer__brand-trust-list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+
+.footer__brand-trust-icon {
+  display: inline-flex;
+  align-items: center;
+
+  svg {
+    height: 28px;
+    width: auto;
+  }
+}
+
+// Social
+.footer__social {
+  flex-shrink: 0;
+
+  @media (min-width: 768px) {
+    text-align: right;
+  }
+}
+
+.footer__social-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.footer__social-item {
+  margin: 0;
+}
+
+.footer__social-link {
+  color: var(--footer-text, #333);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.2s ease;
+
+  svg {
+    width: 28px;
+    height: 28px;
+  }
+
+  &:hover {
+    opacity: 0.7;
+  }
+}
