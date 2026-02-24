@@ -14,7 +14,14 @@
   <div class="{{ section.settings.container_type }}">
   {%- if section.settings.heading != blank -%}
     <div class="feat-collection-carousel__header">
-      <h2 class="feat-collection-carousel__heading">{{ section.settings.heading }}</h2>
+      {%- render 'section-heading',
+        title: section.settings.heading,
+        heading_tag: 'h2',
+        show_left_line: true,
+        show_left_icon: true,
+        show_right_icon: true,
+        show_right_line: true
+      -%}
     </div>
   {%- endif -%}
 
