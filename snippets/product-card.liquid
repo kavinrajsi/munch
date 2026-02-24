@@ -35,13 +35,16 @@
   <div class="product-card__media product-card__media--{{ settings.product_card_image_ratio }}">
     <a href="{{ card_product_url }}" aria-label="{{ product.title | escape }}">
       {%- if product.featured_image -%}
-        <img
-          src="{{ product.featured_image | image_url: width: 480 }}"
-          alt="{{ product.featured_image.alt | default: product.title | escape }}"
-          width="{{ product.featured_image.width }}"
-          height="{{ product.featured_image.height }}"
-          loading="lazy"
-        >
+        {{ product.featured_image
+          | image_url: width: 1100
+          | image_tag:
+              widths: '165, 360, 535, 750, 940, 1100',
+              sizes: '313px',
+              loading: 'lazy',
+              fetchpriority: 'low',
+              class: 'm:w-full m:h-full',
+              alt: product.title
+        }}
       {%- else -%}
         {{ 'product-1' | placeholder_svg_tag: 'placeholder' }}
       {%- endif -%}
@@ -50,11 +53,16 @@
     {%- if settings.product_card_show_secondary_image and product.images.size > 1 -%}
       <div class="product-card__media-secondary">
         <a href="{{ card_product_url }}" aria-label="{{ product.title | escape }}" tabindex="-1">
-          <img
-            src="{{ product.images[1] | image_url: width: 480 }}"
-            alt="{{ product.images[1].alt | default: product.title | escape }}"
-            loading="lazy"
-          >
+          {{ product.images[1]
+            | image_url: width: 1100
+            | image_tag:
+                widths: '165, 360, 535, 750, 940, 1100',
+                sizes: '313px',
+                loading: 'lazy',
+                fetchpriority: 'low',
+                class: 'm:w-full m:h-full',
+                alt: product.title
+          }}
         </a>
       </div>
     {%- endif -%}

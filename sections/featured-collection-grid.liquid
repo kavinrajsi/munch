@@ -20,19 +20,16 @@
           <a href="{{ product.url }}" class="feat-collection-grid__link">
             <div class="feat-collection-grid__image-wrapper">
               {%- if product.featured_image != blank -%}
-                <img
-                  src="{{ product.featured_image | image_url: width: 832, height: 1032, crop: 'center' }}"
-                  srcset="
-                    {{ product.featured_image | image_url: width: 416, height: 516, crop: 'center' }} 416w,
-                    {{ product.featured_image | image_url: width: 624, height: 774, crop: 'center' }} 624w,
-                    {{ product.featured_image | image_url: width: 832, height: 1032, crop: 'center' }} 832w
-                  "
-                  sizes="(max-width: 749px) calc(100vw / {{ section.settings.columns_mobile }}), calc(100vw / {{ section.settings.columns_desktop }})"
-                  alt="{{ product.featured_image.alt | default: product.title | escape }}"
-                  width="832"
-                  height="1032"
-                  loading="lazy"
-                >
+                {{ product.featured_image
+                  | image_url: width: 1100
+                  | image_tag:
+                      widths: '165, 360, 535, 750, 940, 1100',
+                      sizes: '313px',
+                      loading: 'lazy',
+                      fetchpriority: 'low',
+                      class: 'm:w-full m:h-full',
+                      alt: product.title
+                }}
               {%- else -%}
                 {{ 'product-1' | placeholder_svg_tag: 'feat-collection-grid__placeholder' }}
               {%- endif -%}
