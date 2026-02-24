@@ -182,7 +182,7 @@
         "bg_color": "#ffffff",
         "show_vendor": false,
         "show_price": true,
-        "show_view_all": true,
+        "show_view_all": false,
         "view_all_label": "View all"
       }
     },
@@ -261,14 +261,14 @@
         "bg_color": "#ffffff",
         "show_vendor": false,
         "show_price": true,
-        "show_view_all": true,
+        "show_view_all": false,
         "view_all_label": "View all"
       }
     },
-    "main_store_locator_aXC87N": {
+    "main_store_locator_ee4zwx": {
       "type": "main-store-locator",
       "blocks": {
-        "location_EnyD38": {
+        "location_rd68ar": {
           "type": "location",
           "settings": {
             "name": "Main Store",
@@ -280,7 +280,7 @@
         }
       },
       "block_order": [
-        "location_EnyD38"
+        "location_rd68ar"
       ],
       "name": "Store Locator",
       "settings": {
@@ -428,7 +428,7 @@
     "featured_collection_carousel_MBtUje",
     "icon_with_text_UktifF",
     "featured_collection_carousel_Kcce3V",
-    "main_store_locator_aXC87N",
+    "main_store_locator_ee4zwx",
     "testimonials_xGAihr"
   ]
 }
