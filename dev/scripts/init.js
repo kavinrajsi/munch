@@ -582,7 +582,10 @@
       var $slider = $(this);
       var $section = $slider.closest('.hero-slider-section');
       var autoplay = $section.find('[data-hero-slider]').length > 0;
-      var arrowSvg = $slider.find('.hero-slider__arrow-svg').html();
+      var slidesDesktop = parseInt($slider.data('slides-desktop'), 10) || 1;
+      var slidesMobile = parseInt($slider.data('slides-mobile'), 10) || 1;
+      var useFade = slidesDesktop === 1 && slidesMobile === 1;
+      var arrowSvg = '<svg xmlns="http://www.w3.org/2000/svg" width="19" height="13" fill="none" viewBox="0 0 19 13"><path fill="#161A1D" fill-rule="evenodd" d="M19 6.108a.679.679 0 0 0-.678-.679H2.317l4.27-4.27a.68.68 0 1 0-.96-.96L.199 5.627a.679.679 0 0 0 0 .961l5.429 5.428a.678.678 0 1 0 .96-.96l-4.27-4.27h16.004A.679.679 0 0 0 19 6.108Z" clip-rule="evenodd"/></svg>';
 
       $slider.slick({
         autoplay: true,
@@ -591,12 +594,22 @@
         arrows: true,
         prevArrow: '<button type="button" class="hero-slider__arrow hero-slider__arrow--prev">' + arrowSvg + '</button>',
         nextArrow: '<button type="button" class="hero-slider__arrow hero-slider__arrow--next">' + arrowSvg + '</button>',
-        fade: true,
+        fade: useFade,
+        slidesToShow: slidesDesktop,
+        slidesToScroll: 1,
         cssEase: 'ease-in-out',
         speed: 600,
         infinite: true,
         pauseOnHover: true,
-        adaptiveHeight: false
+        adaptiveHeight: false,
+        responsive: [
+          {
+            breakpoint: 768,
+            settings: {
+              slidesToShow: slidesMobile
+            }
+          }
+        ]
       });
     });
 
