@@ -25,27 +25,42 @@
       <h3 class="store-card__name">{{ block.settings.name }}</h3>
     {%- endif -%}
 
-    {%- if block.settings.address != blank -%}
-      <p class="store-card__address">{{ block.settings.address }}</p>
-    {%- endif -%}
+    <div class="store-card__details">
+      {%- if block.settings.address != blank -%}
+        <p class="store-card__address">{{ block.settings.address }}</p>
+      {%- endif -%}
 
-    {%- if block.settings.phone != blank -%}
-      <div class="store-card__info">
-        <svg class="store-card__icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-          <path d="M6.62 10.79C8.06 13.62 10.38 15.93 13.21 17.38L15.41 15.18C15.68 14.91 16.08 14.82 16.43 14.94C17.55 15.31 18.76 15.51 20 15.51C20.55 15.51 21 15.96 21 16.51V20C21 20.55 20.55 21 20 21C10.61 21 3 13.39 3 4C3 3.45 3.45 3 4 3H7.5C8.05 3 8.5 3.45 8.5 4C8.5 5.25 8.7 6.45 9.07 7.57C9.18 7.92 9.1 8.31 8.82 8.59L6.62 10.79Z" fill="currentColor"/>
-        </svg>
-        <a href="tel:{{ block.settings.phone | replace: ' ', '' }}" class="store-card__info-text">{{ block.settings.phone }}</a>
-      </div>
-    {%- endif -%}
+      {%- if block.settings.phone != blank -%}
+        <div class="store-card__info">
+          <svg class="store-card__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M13.661 0c-.259 0-.469.21-.469.469 0 .259.21.469.469.469 5.184 0 9.401 4.217 9.401 9.401 0 .259.21.469.469.469s.469-.21.469-.469C24 4.638 19.362 0 13.661 0z"/>
+            <path d="M20.711 10.808c.259 0 .469-.21.469-.469 0-4.146-3.373-7.519-7.519-7.519-.259 0-.469.21-.469.469s.21.469.469.469c3.629 0 6.581 2.952 6.581 6.581 0 .259.21.469.469.469z"/>
+            <path d="M17.422 10.339c0 .259.21.469.469.469s.469-.21.469-.469c0-2.591-2.108-4.698-4.699-4.698-.258 0-.468.21-.468.469 0 .258.21.468.468.468 2.074 0 3.761 1.687 3.761 3.761z"/>
+            <path d="M13.192 8.929c0 .259.21.469.469.469.519 0 .941.422.941.941 0 .259.21.469.469.469s.469-.21.469-.469c0-1.036-.843-1.879-1.879-1.879-.258 0-.469.21-.469.469z"/>
+            <path d="M8.786 15.219a.469.469 0 10-.938 0 .469.469 0 00.938 0z"/>
+            <path d="M12.845 23.431c2.135 1.046 4.702.611 6.39-1.077l.97-.969a1.33 1.33 0 00-.001-1.903l-3.744-3.744a1.33 1.33 0 00-1.903.001l-1.591 1.591a1.03 1.03 0 01-1.144.151 20.19 20.19 0 01-1.654-.799 17.2 17.2 0 01-.659-.834.469.469 0 10-.66.66c.554.453 1.14.877 1.743 1.263.719.459 1.691.342 2.311-.278l1.592-1.592a.394.394 0 01.577.001l3.745 3.745a.394.394 0 01-.001.577l-.969.969c-1.406 1.406-3.542 1.767-5.315.898C6.762 19.404 3.228 14.354 1.408 10.678.537 8.92.898 6.792 2.308 5.383l.948-.948a.394.394 0 01.576.001l3.746 3.745a.394.394 0 01-.001.577l-1.591 1.591a1.339 1.339 0 00.663 2.311c.27.423.562.841.867 1.241a.469.469 0 10.751-.563 17.5 17.5 0 01-.823-1.177 1.033 1.033 0 01.151-1.144l1.591-1.59a1.332 1.332 0 00-.001-1.903L5.44 3.772a1.33 1.33 0 00-1.903.001l-.948.948C.89 6.414.457 8.975 1.507 11.094c1.886 3.806 5.546 9.036 12.278 12.337h.06z"/>
+          </svg>
+          <a href="tel:{{ block.settings.phone | split: ',' | first | replace: ' ', '' | replace: '-', '' }}" class="store-card__info-text">{{ block.settings.phone }}</a>
+        </div>
+      {%- endif -%}
 
-    {%- if block.settings.hours != blank -%}
-      <div class="store-card__info">
-        <svg class="store-card__icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-          <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 20C7.59 20 4 16.41 4 12C4 7.59 7.59 4 12 4C16.41 4 20 7.59 20 12C20 16.41 16.41 20 12 20ZM12.5 7H11V13L16.25 16.15L17 14.92L12.5 12.25V7Z" fill="currentColor"/>
-        </svg>
-        <span class="store-card__info-text">{{ block.settings.hours }}</span>
-      </div>
-    {%- endif -%}
+      {%- if block.settings.hours != blank -%}
+        <div class="store-card__info">
+          <svg class="store-card__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M12 3.913c.287 0 .522-.235.522-.522v-.26a.522.522 0 00-1.044 0v.26c0 .287.235.522.522.522z"/>
+            <path d="M12 20.087a.522.522 0 00-.522.522v.26a.522.522 0 001.044 0v-.26a.522.522 0 00-.522-.522z"/>
+            <path d="M3.391 11.478H3.13a.522.522 0 000 1.044h.261a.522.522 0 000-1.044z"/>
+            <path d="M20.87 11.478h-.261a.522.522 0 000 1.044h.26a.522.522 0 000-1.044z"/>
+            <path d="M6.104 5.374a.517.517 0 00-.73.73l.183.183a.517.517 0 00.73-.73l-.183-.183z"/>
+            <path d="M5.557 17.713l-.183.183a.517.517 0 00.73.73l.183-.183a.517.517 0 00-.73-.73z"/>
+            <path d="M17.896 5.374l-.183.183a.517.517 0 00.73.73l.183-.183a.517.517 0 00-.73-.73z"/>
+            <path d="M12.522 11.791V7.043a.522.522 0 00-1.044 0V12c0 .13.053.261.157.365l5.713 5.713a.517.517 0 00.73-.73l-5.556-5.557z"/>
+            <path d="M12 0C5.374 0 0 5.374 0 12s5.374 12 12 12 12-5.374 12-12S18.626 0 12 0zm0 22.957C5.948 22.957 1.043 18.052 1.043 12S5.948 1.043 12 1.043 22.957 5.948 22.957 12 18.052 22.957 12 22.957z"/>
+          </svg>
+          <span class="store-card__info-text">{{ block.settings.hours }}</span>
+        </div>
+      {%- endif -%}
+    </div>
 
     {%- if block.settings.directions_url != blank -%}
       <a href="{{ block.settings.directions_url }}" class="store-card__btn" target="_blank" rel="noopener noreferrer">
