@@ -288,47 +288,137 @@
         "map_embed": ""
       }
     },
-    "testimonials_3rdEd4": {
+    "testimonials_xGAihr": {
       "type": "testimonials",
       "blocks": {
-        "testimonial_kmHpNx": {
+        "testimonial_f9G6ff": {
           "type": "testimonial",
           "settings": {
-            "text": "The sweets are absolutely divine! Reminds me of my grandmother's kitchen.",
+            "text": "The sweets are absolutely divine! Reminds me of my grandmother's kitchen. Every bite takes me back to childhood memories.",
             "author": "Priya R.",
             "location": "Chennai",
             "rating": 5
           }
         },
-        "testimonial_NPm38w": {
+        "testimonial_fpGnFL": {
           "type": "testimonial",
           "settings": {
-            "text": "Best online sweet shop. Fresh, authentic, and delivered on time.",
+            "text": "Best online sweet shop. Fresh, authentic, and delivered on time. The packaging was beautiful too!",
             "author": "Karthik M.",
             "location": "Bangalore",
             "rating": 5
           }
         },
-        "testimonial_DfN4Ad": {
+        "testimonial_cmB3hz": {
           "type": "testimonial",
           "settings": {
-            "text": "Ordered for Diwali and everyone loved the gift boxes!",
+            "text": "Ordered for Diwali and everyone loved the gift boxes! Will definitely order again for every festival.",
             "author": "Anitha S.",
             "location": "Mumbai",
+            "rating": 5
+          }
+        },
+        "testimonial_jx4fWC": {
+          "type": "testimonial",
+          "settings": {
+            "text": "Living outside Chennai, I was thrilled to find Nithya Amirtham delivering nationwide! The Butter Murku is a must-try!",
+            "author": "Kumar",
+            "location": "Hyderabad",
+            "rating": 5
+          }
+        },
+        "testimonial_AcP6y7": {
+          "type": "testimonial",
+          "settings": {
+            "text": "The Mysore Pak melts in your mouth. Authentic taste that you won't find anywhere else online. Highly recommend!",
+            "author": "Lakshmi V.",
+            "location": "Coimbatore",
+            "rating": 5
+          }
+        },
+        "testimonial_ireU8B": {
+          "type": "testimonial",
+          "settings": {
+            "text": "Sent a sweet box to my parents in India and they were so happy. The quality was perfect even after shipping.",
+            "author": "Ravi K.",
+            "location": "Singapore",
+            "rating": 4
+          }
+        },
+        "testimonial_kcWwcg": {
+          "type": "testimonial",
+          "settings": {
+            "text": "Their Kaju Katli is the best I've ever tasted. Pure ghee sweets with no artificial flavours. Outstanding quality!",
+            "author": "Meena D.",
+            "location": "Delhi",
+            "rating": 5
+          }
+        },
+        "testimonial_ENpYVq": {
+          "type": "testimonial",
+          "settings": {
+            "text": "Ordered the snack combo pack and it was gone in two days! The Ribbon Pakoda and Thattai are incredibly addictive.",
+            "author": "Suresh P.",
+            "location": "Pune",
+            "rating": 5
+          }
+        },
+        "testimonial_CH3kxq": {
+          "type": "testimonial",
+          "settings": {
+            "text": "We order from Nithya Amirtham for every family function. Consistent quality and the sweets always arrive fresh.",
+            "author": "Divya R.",
+            "location": "Trichy",
+            "rating": 5
+          }
+        },
+        "testimonial_C6NxkA": {
+          "type": "testimonial",
+          "settings": {
+            "text": "The Badusha was so soft and perfectly sweet. My kids loved it! Great to find traditional sweets available online.",
+            "author": "Arun M.",
+            "location": "Madurai",
+            "rating": 4
+          }
+        },
+        "testimonial_PGwk9f": {
+          "type": "testimonial",
+          "settings": {
+            "text": "Impressed by the freshness and taste. The Laddu and Jangiri were just like what you get at the shop. Five stars!",
+            "author": "Sangeetha L.",
+            "location": "Erode",
+            "rating": 5
+          }
+        },
+        "testimonial_rQndMM": {
+          "type": "testimonial",
+          "settings": {
+            "text": "Wonderful experience from ordering to delivery. Customer service was very responsive and the sweets were top-notch.",
+            "author": "Ganesh B.",
+            "location": "Vizag",
             "rating": 5
           }
         }
       },
       "block_order": [
-        "testimonial_kmHpNx",
-        "testimonial_NPm38w",
-        "testimonial_DfN4Ad"
+        "testimonial_f9G6ff",
+        "testimonial_fpGnFL",
+        "testimonial_cmB3hz",
+        "testimonial_jx4fWC",
+        "testimonial_AcP6y7",
+        "testimonial_ireU8B",
+        "testimonial_kcWwcg",
+        "testimonial_ENpYVq",
+        "testimonial_CH3kxq",
+        "testimonial_C6NxkA",
+        "testimonial_PGwk9f",
+        "testimonial_rQndMM"
       ],
       "name": "Testimonials",
       "settings": {
         "title": "What Our Customers Say",
-        "subtitle": "",
-        "layout": "grid"
+        "slides_to_show": 3,
+        "show_dots": true
       }
     }
   },
@@ -339,6 +429,6 @@
     "icon_with_text_UktifF",
     "featured_collection_carousel_Kcce3V",
     "main_store_locator_aXC87N",
-    "testimonials_3rdEd4"
+    "testimonials_xGAihr"
   ]
 }
