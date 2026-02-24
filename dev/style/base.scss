@@ -11,6 +11,10 @@
 @use 'icon-with-text';
 @use 'feat-collection-carousel';
 
+a {
+  text-decoration: none;
+}
+
 body{
   overflow-x: hidden;
 }

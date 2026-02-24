@@ -1,6 +1,7 @@
 <div
   class="feat-collection-carousel"
   style="
+    --fcc-bg: {{ section.settings.bg_color }};
     --fcc-pt-desktop: {{ section.settings.padding_top_desktop }}px;
     --fcc-pb-desktop: {{ section.settings.padding_bottom_desktop }}px;
     --fcc-pt-mobile: {{ section.settings.padding_top_mobile }}px;
@@ -10,14 +11,10 @@
   "
   {{ section.shopify_attributes }}
 >
-  {%- if section.settings.heading != blank or section.settings.subheading != blank -%}
+  <div class="{{ section.settings.container_type }}">
+  {%- if section.settings.heading != blank -%}
     <div class="feat-collection-carousel__header">
-      {%- if section.settings.heading != blank -%}
-        <h2 class="feat-collection-carousel__heading">{{ section.settings.heading }}</h2>
-      {%- endif -%}
-      {%- if section.settings.subheading != blank -%}
-        <p class="feat-collection-carousel__subheading">{{ section.settings.subheading }}</p>
-      {%- endif -%}
+      <h2 class="feat-collection-carousel__heading">{{ section.settings.heading }}</h2>
     </div>
   {%- endif -%}
 
@@ -52,6 +49,50 @@
               {%- endif -%}
             </div>
           </a>
+          <div class="fcc-controls" data-fcc-controls>
+            <div class="fcc-variants-qty">
+              {%- if product.variants.size > 1 -%}
+                <div class="fcc-variants">
+                  {%- for variant in product.variants -%}
+                    <button
+                      type="button"
+                      class="fcc-variants__btn{% if forloop.first %} fcc-variants__btn--active{% endif %}"
+                      data-fcc-variant-btn
+                      data-variant-id="{{ variant.id }}"
+                      data-variant-price="{{ variant.price | money }}"
+                      data-variant-available="{{ variant.available }}"
+                      {% unless variant.available %}disabled{% endunless %}
+                    >
+                      {{ variant.title }}
+                    </button>
+                  {%- endfor -%}
+                </div>
+              {%- endif -%}
+
+              <div class="fcc-qty-cart">
+                <div class="fcc-qty">
+                  <button type="button" class="fcc-qty__btn" data-fcc-qty-minus>-</button>
+                  <input type="number" class="fcc-qty__input" value="1" min="1" data-fcc-qty-input readonly>
+                  <button type="button" class="fcc-qty__btn" data-fcc-qty-plus>+</button>
+                </div>
+              </div>
+            </div>
+
+            {%- if product.available -%}
+              <button
+                class="fcc-atc"
+                type="button"
+                data-variant-id="{{ product.first_available_variant.id }}"
+                data-fcc-add-to-cart
+              >
+                Add to cart
+              </button>
+            {%- else -%}
+              <button class="fcc-atc fcc-atc--sold-out" type="button" disabled>
+                Sold Out
+              </button>
+            {%- endif -%}
+          </div>
         </div>
       {%- endfor -%}
     {%- else -%}
@@ -76,25 +117,9 @@
       </a>
     </div>
   {%- endif -%}
+  </div>
 </div>
 
-<script>
-  (function () {
-    var el = document.querySelector('[data-feat-collection-carousel]');
-    if (!el || typeof $ === 'undefined') return;
-    $(el).slick({
-      slidesToShow: 4,
-      slidesToScroll: 1,
-      arrows: true,
-      dots: {{ section.settings.show_dots }},
-      infinite: false,
-      responsive: [
-        { breakpoint: 1024, settings: { slidesToShow: 4 } },
-        { breakpoint: 768, settings: { slidesToShow: 1.2, arrows: false } }
-      ]
-    });
-  })();
-</script>
 
 {% schema %}
 {
@@ -103,15 +128,20 @@
   "class": "feat-collection-carousel-section",
   "settings": [
     {
+      "type": "select",
+      "id": "container_type",
+      "label": "Container Type",
+      "options": [
+        { "value": "container", "label": "Container" },
+        { "value": "container-fluid", "label": "Container Fluid" }
+      ],
+      "default": "container"
+    },
+    {
       "type": "text",
       "id": "heading",
       "label": "Heading",
       "default": "Featured collection"
-    },
-    {
-      "type": "text",
-      "id": "subheading",
-      "label": "Subheading"
     },
     {
       "type": "collection",
@@ -209,6 +239,16 @@
       "step": 2,
       "default": 30,
       "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background color",
+      "default": "#FFFFFF"
     },
     {
       "type": "header",

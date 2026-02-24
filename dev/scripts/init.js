@@ -687,6 +687,93 @@
   }
 
   // ============================================================
+  // Featured Collection Carousel – Variants, Qty & Add to Cart
+  // ============================================================
+  function initFccAddToCart() {
+    // Variant selection
+    $(document).on('click', '[data-fcc-variant-btn]', function(e) {
+      e.preventDefault();
+      var $btn = $(this);
+      var $controls = $btn.closest('[data-fcc-controls]');
+
+      // Toggle active state
+      $btn.siblings().removeClass('fcc-variants__btn--active');
+      $btn.addClass('fcc-variants__btn--active');
+
+      // Update ATC button variant id
+      var variantId = $btn.data('variant-id');
+      var variantAvailable = $btn.data('variant-available');
+      var $atc = $controls.find('[data-fcc-add-to-cart]');
+
+      if ($atc.length) {
+        $atc.data('variant-id', variantId);
+      }
+
+      // Update price
+      var variantPrice = $btn.data('variant-price');
+      if (variantPrice) {
+        $controls.closest('.feat-collection-carousel__item').find('.feat-collection-carousel__price').text(variantPrice);
+      }
+
+      // Handle sold out variant
+      var $atcWrapper = $controls.find('.fcc-atc');
+      if (!variantAvailable) {
+        $atcWrapper.prop('disabled', true).text('Sold Out').addClass('fcc-atc--sold-out');
+      } else {
+        $atcWrapper.prop('disabled', false).text('Add to cart').removeClass('fcc-atc--sold-out');
+      }
+    });
+
+    // Quantity minus
+    $(document).on('click', '[data-fcc-qty-minus]', function(e) {
+      e.preventDefault();
+      var $input = $(this).siblings('[data-fcc-qty-input]');
+      var val = parseInt($input.val(), 10);
+      if (val > 1) $input.val(val - 1);
+    });
+
+    // Quantity plus
+    $(document).on('click', '[data-fcc-qty-plus]', function(e) {
+      e.preventDefault();
+      var $input = $(this).siblings('[data-fcc-qty-input]');
+      var val = parseInt($input.val(), 10);
+      $input.val(val + 1);
+    });
+
+    // Add to cart
+    $(document).on('click', '[data-fcc-add-to-cart]', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      var $btn = $(this);
+      var $controls = $btn.closest('[data-fcc-controls]');
+      var variantId = $btn.data('variant-id');
+      var qty = parseInt($controls.find('[data-fcc-qty-input]').val(), 10) || 1;
+
+      $btn.prop('disabled', true).text('Adding...');
+
+      $.ajax({
+        type: 'POST',
+        url: '/cart/add.js',
+        data: { id: variantId, quantity: qty },
+        dataType: 'json',
+        success: function() {
+          $btn.text('Added!');
+          $.getJSON('/cart.js', function(cart) {
+            CartDrawer.refreshCart(cart);
+            CartDrawer.open();
+          });
+          setTimeout(function() {
+            $btn.prop('disabled', false).text('Add to cart');
+          }, 1500);
+        },
+        error: function() {
+          $btn.prop('disabled', false).text('Add to cart');
+        }
+      });
+    });
+  }
+
+  // ============================================================
   // AJAX Product Form Submit
   // ============================================================
   function initProductForm() {
@@ -814,6 +901,25 @@
       });
     });
 
+    // Featured collection carousel
+    $('[data-feat-collection-carousel]').each(function() {
+      var arrowSvg = '<svg xmlns="http://www.w3.org/2000/svg" width="19" height="13" fill="none" viewBox="0 0 19 13"><path fill="#161A1D" fill-rule="evenodd" d="M19 6.108a.679.679 0 0 0-.678-.679H2.317l4.27-4.27a.68.68 0 1 0-.96-.96L.199 5.627a.679.679 0 0 0 0 .961l5.429 5.428a.678.678 0 1 0 .96-.96l-4.27-4.27h16.004A.679.679 0 0 0 19 6.108Z" clip-rule="evenodd"/></svg>';
+
+      $(this).slick({
+        slidesToShow: 4,
+        slidesToScroll: 1,
+        arrows: true,
+        dots: true,
+        infinite: false,
+        prevArrow: '<button type="button" class="fcc-arrow fcc-arrow--prev">' + arrowSvg + '</button>',
+        nextArrow: '<button type="button" class="fcc-arrow fcc-arrow--next">' + arrowSvg + '</button>',
+        responsive: [
+          { breakpoint: 1024, settings: { slidesToShow: 4 } },
+          { breakpoint: 768, settings: { slidesToShow: 1.2, arrows: false } }
+        ]
+      });
+    });
+
     // Product sliders
     $('[data-product-slider]').each(function() {
       $(this).slick({
@@ -899,6 +1005,7 @@
     AnnouncementBar.init();
     initQuantityControls();
     initQuickAdd();
+    initFccAddToCart();
     initProductForm();
     initVariantSelection();
     initSliders();
