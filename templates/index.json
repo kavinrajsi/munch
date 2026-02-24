@@ -50,6 +50,10 @@
         "slide_1"
       ],
       "settings": {
+        "slider_height_desktop": 500,
+        "slider_height_mobile": 300,
+        "slides_desktop": 1,
+        "slides_mobile": 1,
         "autoplay": true,
         "autoplay_speed": 5,
         "show_dots_desktop": true,
@@ -68,11 +72,105 @@
         "arrow_border_radius": 20,
         "arrow_width": 40,
         "arrow_height": 40,
-        "arrow_gap": 16
+        "arrow_gap": 16,
+        "arrow_svg_width": 19,
+        "arrow_svg_height": 13
+      }
+    },
+    "icon_with_text_4KhBJd": {
+      "type": "icon-with-text",
+      "blocks": {
+        "icon_item_VfE3y6": {
+          "type": "icon_item",
+          "settings": {
+            "title": "Item 1",
+            "link": ""
+          }
+        },
+        "icon_item_racDQx": {
+          "type": "icon_item",
+          "settings": {
+            "title": "Item 2",
+            "link": ""
+          }
+        },
+        "icon_item_NxwJep": {
+          "type": "icon_item",
+          "settings": {
+            "title": "Item 3",
+            "link": ""
+          }
+        },
+        "icon_item_kTFGwq": {
+          "type": "icon_item",
+          "settings": {
+            "title": "Item 4",
+            "link": ""
+          }
+        },
+        "icon_item_hbLpdj": {
+          "type": "icon_item",
+          "settings": {
+            "title": "Item 5",
+            "link": ""
+          }
+        },
+        "icon_item_CBdEDC": {
+          "type": "icon_item",
+          "settings": {
+            "title": "Item 6",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "icon_item_VfE3y6",
+        "icon_item_racDQx",
+        "icon_item_NxwJep",
+        "icon_item_kTFGwq",
+        "icon_item_hbLpdj",
+        "icon_item_CBdEDC"
+      ],
+      "name": "Icon with Text",
+      "settings": {
+        "container_type": "container",
+        "items_per_row_desktop": 6,
+        "items_per_row_tablet": 4,
+        "items_per_row_mobile": 3,
+        "image_width_desktop": 120,
+        "image_height_desktop": 120,
+        "image_width_mobile": 80,
+        "image_height_mobile": 80,
+        "gap_image_text": 8,
+        "gap_items": 20,
+        "padding_top_desktop": 40,
+        "padding_bottom_desktop": 40,
+        "padding_top_mobile": 20,
+        "padding_bottom_mobile": 20,
+        "text_color": "#161A1D",
+        "bg_color": "transparent"
+      }
+    },
+    "featured_collection_carousel_MBtUje": {
+      "type": "featured-collection-carousel",
+      "name": "Feat Collection: Carousel",
+      "settings": {
+        "heading": "Featured collection",
+        "subheading": "",
+        "collection": "other-collection",
+        "products_to_show": 8,
+        "slides_to_show": 3,
+        "show_dots": true,
+        "show_vendor": false,
+        "show_price": true,
+        "show_view_all": true,
+        "view_all_label": "View all"
       }
     }
   },
   "order": [
-    "hero"
+    "hero",
+    "icon_with_text_4KhBJd",
+    "featured_collection_carousel_MBtUje"
   ]
 }
