@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "type": "footer",
   "name": "Footer Group",
@@ -5,26 +14,133 @@
     "footer": {
       "type": "footer",
       "blocks": {
-        "menu_1": { "type": "menu", "settings": { "title": "Quick Links" } },
-        "menu_2": { "type": "menu", "settings": { "title": "Information" } },
-        "contact": { "type": "contact", "settings": { "title": "Contact Us" } },
-        "social_instagram": { "type": "social_icon", "settings": { "social_platform": "instagram", "social_label": "Instagram" } },
-        "social_facebook": { "type": "social_icon", "settings": { "social_platform": "facebook", "social_label": "Facebook" } },
-        "social_x": { "type": "social_icon", "settings": { "social_platform": "x", "social_label": "X" } },
-        "social_youtube": { "type": "social_icon", "settings": { "social_platform": "youtube", "social_label": "YouTube" } },
-        "social_whatsapp": { "type": "social_icon", "settings": { "social_platform": "whatsapp", "social_label": "WhatsApp" } },
-        "social_pinterest": { "type": "social_icon", "settings": { "social_platform": "pinterest", "social_label": "Pinterest" } }
+        "menu_1": {
+          "type": "menu",
+          "settings": {
+            "title": "Quick Links",
+            "menu": "footer"
+          }
+        },
+        "menu_2": {
+          "type": "menu",
+          "settings": {
+            "title": "Information",
+            "menu": "footer"
+          }
+        },
+        "contact": {
+          "type": "contact",
+          "settings": {
+            "title": "Contact Us",
+            "address": "",
+            "phone": "",
+            "email": ""
+          }
+        },
+        "social_instagram": {
+          "type": "social_icon",
+          "settings": {
+            "social_platform": "instagram",
+            "social_label": "Instagram",
+            "social_url": "",
+            "social_svg": ""
+          }
+        },
+        "social_facebook": {
+          "type": "social_icon",
+          "settings": {
+            "social_platform": "facebook",
+            "social_label": "Facebook",
+            "social_url": "",
+            "social_svg": ""
+          }
+        },
+        "social_x": {
+          "type": "social_icon",
+          "settings": {
+            "social_platform": "x",
+            "social_label": "X",
+            "social_url": "",
+            "social_svg": ""
+          }
+        },
+        "social_youtube": {
+          "type": "social_icon",
+          "settings": {
+            "social_platform": "youtube",
+            "social_label": "YouTube",
+            "social_url": "",
+            "social_svg": ""
+          }
+        },
+        "social_whatsapp": {
+          "type": "social_icon",
+          "settings": {
+            "social_platform": "whatsapp",
+            "social_label": "WhatsApp",
+            "social_url": "",
+            "social_svg": ""
+          }
+        },
+        "social_pinterest": {
+          "type": "social_icon",
+          "settings": {
+            "social_platform": "pinterest",
+            "social_label": "Pinterest",
+            "social_url": "",
+            "social_svg": ""
+          }
+        }
       },
-      "block_order": ["menu_1", "menu_2", "contact", "social_instagram", "social_facebook", "social_x", "social_youtube", "social_whatsapp", "social_pinterest"],
+      "block_order": [
+        "menu_1",
+        "menu_2",
+        "contact",
+        "social_instagram",
+        "social_facebook",
+        "social_x",
+        "social_youtube",
+        "social_whatsapp",
+        "social_pinterest"
+      ],
       "settings": {
+        "bg_color": "#1a1a1a",
+        "text_color": "#cccccc",
+        "link_color": "#cccccc",
+        "title_color": "#ffffff",
+        "logo_type": "text",
+        "logo_svg": "",
+        "show_social": true,
+        "social_title": "Follow Us",
+        "show_payment_icons": true,
         "payment_title": "Brand Trust",
-        "social_title": "Follow Us"
+        "payment_icons_type": "shopify",
+        "payment_icons_svg": ""
       }
     },
     "credit-bar": {
       "type": "credit-bar",
-      "settings": {}
+      "settings": {
+        "container_type": "container",
+        "bg_color": "#c61d23",
+        "text_color": "#ffffff",
+        "link_color": "#ffffff",
+        "credit_text": "Madarth",
+        "credit_link": "https://madarth.com/",
+        "credit_link_target": "_blank",
+        "padding_top_desktop": 16,
+        "padding_bottom_desktop": 16,
+        "padding_top_mobile": 12,
+        "padding_bottom_mobile": 12,
+        "font_weight": 400,
+        "font_size": 12,
+        "line_height": 15,
+        "credit_gap": 8
+      }
     }
   },
-  "order": ["footer", "credit-bar"]
+  "order": [
+    "footer",
+    "credit-bar"
+  ]
 }
