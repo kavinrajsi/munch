@@ -1613,6 +1613,7 @@ svg {
   flex-direction: column;
   align-items: center;
   gap: var(--iwt-gap-img-text, 8px);
+  background-color: var(--iwt-item-bg, transparent);
 }
 
 .icon-with-text__image {

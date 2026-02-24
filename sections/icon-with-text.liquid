@@ -22,7 +22,7 @@
   <div class="{{ section.settings.container_type }}">
     <div class="icon-with-text__grid">
       {%- for block in section.blocks -%}
-        <div class="icon-with-text__item" {{ block.shopify_attributes }}>
+        <div class="icon-with-text__item" style="--iwt-item-bg: {{ block.settings.item_bg_color }};" {{ block.shopify_attributes }}>
           {%- if block.settings.image != blank -%}
             <img
               class="icon-with-text__image"
@@ -247,6 +247,12 @@
           "type": "url",
           "id": "link",
           "label": "Link"
+        },
+        {
+          "type": "color",
+          "id": "item_bg_color",
+          "label": "Background color",
+          "default": "transparent"
         }
       ]
     }
