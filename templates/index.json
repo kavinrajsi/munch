@@ -15,12 +15,15 @@
         "slide_1": {
           "type": "slide",
           "settings": {
+            "mobile_image": "shopify://shop_images/nithyaamirtham-pongal-special-mobile.jpg",
+            "desktop_image": "shopify://shop_images/nithyaamirtham-pongal-special.jpg",
+            "show_content": false,
             "heading": "Welcome to Nithyaamirtham",
             "subheading": "Authentic South Indian sweets & snacks crafted with love",
             "button_text": "Shop Now",
             "button_link": "",
-            "text_alignment": "left",
-            "overlay_opacity": 30
+            "overlay_opacity": 30,
+            "overlay_color": "#000000"
           }
         }
       },
