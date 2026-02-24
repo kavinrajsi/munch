@@ -57,7 +57,11 @@
         --scroll-top-right: {{ section.settings.scroll_top_right }}px;
       "
     >
-      {% render 'icon-chevron-up' %}
+      {%- if section.settings.scroll_top_svg != blank -%}
+        {{ section.settings.scroll_top_svg }}
+      {%- else -%}
+        {% render 'icon-chevron-up' %}
+      {%- endif -%}
     </button>
 
     <script>
@@ -262,6 +266,12 @@
       "step": 2,
       "unit": "px",
       "default": 40
+    },
+    {
+      "type": "html",
+      "id": "scroll_top_svg",
+      "label": "Custom Icon SVG Code",
+      "info": "Paste SVG code for a custom icon. Leave blank to use the default chevron."
     },
     {
       "type": "color",

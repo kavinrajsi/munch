@@ -1,0 +1,74 @@
+{%- liquid
+  assign heading_tag = heading_tag | default: 'h5'
+-%}
+
+<style>
+  .section-heading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    width: 100%;
+  }
+
+  .section-heading__line--left,
+  .section-heading__line--right {
+    flex: 1;
+    height: 2px;
+    display: block;
+  }
+
+  .section-heading__line--left {
+    background: linear-gradient(to right, transparent, #C61D23);
+  }
+
+  .section-heading__line--right {
+    background: linear-gradient(to right, #C61D23, transparent);
+  }
+
+  .section-heading__icon {
+    display: flex;
+    align-items: center;
+    color: #C61D23;
+  }
+
+  .section-heading__title {
+    font-family: 'allerbold', sans-serif;
+    font-size: 28px;
+    line-height: 32px;
+    color: #C61D23;
+    text-align: center;
+    margin: 0;
+    white-space: nowrap;
+  }
+</style>
+
+<div class="section-heading">
+  {%- if show_left_line -%}
+    <span class="section-heading__line--left"></span>
+  {%- endif -%}
+
+  {%- if show_left_icon -%}
+    <span class="section-heading__icon">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M17.75 2.01C12.01 2.01 6.99 5.5 4.73 10.62c-.09.2-.02.44.17.56.19.12.44.07.57-.12C7.48 7.77 11.02 5.5 15 5.18c-2.34 1.86-3.93 4.54-4.42 7.57-.03.18.05.36.2.47.15.1.34.12.51.04C14.96 11.87 18 8.22 18.75 3.82c.04-.22-.07-.44-.27-.54a.47.47 0 0 0-.22-.05c-.17 0-.34.09-.42.26-.01.02-.05.1-.09.2V2.01zM6.5 12.5c-.28 0-.5.22-.5.5 0 4.42 3.58 8 8 8 .28 0 .5-.22.5-.5s-.22-.5-.5-.5c-3.87 0-7-3.13-7-7 0-.28-.22-.5-.5-.5z"/>
+      </svg>
+    </span>
+  {%- endif -%}
+
+  <{{ heading_tag }} class="section-heading__title">
+    {{- title | escape -}}
+  </{{ heading_tag }}>
+
+  {%- if show_right_icon -%}
+    <span class="section-heading__icon">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="transform: scaleX(-1);">
+        <path d="M17.75 2.01C12.01 2.01 6.99 5.5 4.73 10.62c-.09.2-.02.44.17.56.19.12.44.07.57-.12C7.48 7.77 11.02 5.5 15 5.18c-2.34 1.86-3.93 4.54-4.42 7.57-.03.18.05.36.2.47.15.1.34.12.51.04C14.96 11.87 18 8.22 18.75 3.82c.04-.22-.07-.44-.27-.54a.47.47 0 0 0-.22-.05c-.17 0-.34.09-.42.26-.01.02-.05.1-.09.2V2.01zM6.5 12.5c-.28 0-.5.22-.5.5 0 4.42 3.58 8 8 8 .28 0 .5-.22.5-.5s-.22-.5-.5-.5c-3.87 0-7-3.13-7-7 0-.28-.22-.5-.5-.5z"/>
+      </svg>
+    </span>
+  {%- endif -%}
+
+  {%- if show_right_line -%}
+    <span class="section-heading__line--right"></span>
+  {%- endif -%}
+</div>
