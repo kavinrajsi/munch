@@ -30,3 +30,38 @@
   color: var(--credit-bar-link, #fff);
   text-decoration: none;
 }
+
+.credit-bar__scroll-top {
+  position: fixed;
+  bottom: var(--scroll-top-bottom, 20px);
+  right: var(--scroll-top-right, 20px);
+  width: var(--scroll-top-size, 40px);
+  height: var(--scroll-top-size, 40px);
+  background-color: var(--scroll-top-bg, #C61D23);
+  color: var(--scroll-top-color, #fff);
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  z-index: 99;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+
+  &.is-visible {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  &:hover {
+    opacity: 0.85;
+  }
+
+  svg {
+    width: 50%;
+    height: 50%;
+  }
+}

@@ -30,13 +30,11 @@
   {{ content_for_header }}
 
   {%- liquid
-    assign body_font = settings.type_body_font
     assign body2_font = settings.type_body2_font
     assign caption_font = settings.type_caption_font
   -%}
 
   <style>
-    {{ body_font | font_face: font_display: 'swap' }}
     {{ body2_font | font_face: font_display: 'swap' }}
     {{ caption_font | font_face: font_display: 'swap' }}
 
@@ -97,9 +95,9 @@
       --font-h4-family: {{ settings.type_h4_font }}, sans-serif;
       --font-h5-family: {{ settings.type_h5_font }}, sans-serif;
       --font-h6-family: {{ settings.type_h6_font }}, sans-serif;
-      --font-body-family: {{ body_font.family }}, {{ body_font.fallback_families }};
-      --font-body-weight: {{ body_font.weight }};
-      --font-body-style: {{ body_font.style }};
+      --font-body-family: '{{ settings.type_body_font }}', sans-serif;
+      --font-body-weight: normal;
+      --font-body-style: normal;
       --font-body2-family: {{ body2_font.family }}, {{ body2_font.fallback_families }};
       --font-body2-weight: {{ body2_font.weight }};
       --font-body2-style: {{ body2_font.style }};

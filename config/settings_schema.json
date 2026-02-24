@@ -744,10 +744,19 @@
         "content": "Body 1"
       },
       {
-        "type": "font_picker",
+        "type": "select",
         "id": "type_body_font",
         "label": "Body 1 Font",
-        "default": "assistant_n4"
+        "default": "allerregular",
+        "options": [
+          { "value": "allerregular", "label": "Aller Regular" },
+          { "value": "allerlight", "label": "Aller Light" },
+          { "value": "allerbold", "label": "Aller Bold" },
+          { "value": "alleritalic", "label": "Aller Italic" },
+          { "value": "allerlight_italic", "label": "Aller Light Italic" },
+          { "value": "allerbold_italic", "label": "Aller Bold Italic" },
+          { "value": "aller_displayregular", "label": "Aller Display" }
+        ]
       },
       {
         "type": "range",

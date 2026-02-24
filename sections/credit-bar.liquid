@@ -23,7 +23,18 @@
       <p class="credit-bar__credit">
         Made by
         {%- if section.settings.credit_link != blank -%}
-          <a href="{{ section.settings.credit_link }}" class="credit-bar__link" target="{{ section.settings.credit_link_target }}" rel="noopener">
+          {%- liquid
+            assign credit_url = section.settings.credit_link
+            assign utm_source = shop.permanent_domain | url_encode
+            assign utm_medium = 'referral'
+            assign utm_campaign = 'theme-credit'
+            if credit_url contains '?'
+              assign credit_url = credit_url | append: '&utm_source=' | append: utm_source | append: '&utm_medium=' | append: utm_medium | append: '&utm_campaign=' | append: utm_campaign
+            else
+              assign credit_url = credit_url | append: '?utm_source=' | append: utm_source | append: '&utm_medium=' | append: utm_medium | append: '&utm_campaign=' | append: utm_campaign
+            endif
+          -%}
+          <a href="{{ credit_url }}" class="credit-bar__link" target="{{ section.settings.credit_link_target }}" rel="noopener">
             {{ section.settings.credit_text }}
           </a>
         {%- else -%}
@@ -32,6 +43,38 @@
       </p>
     {%- endif -%}
   </div>
+
+  {%- if section.settings.show_scroll_to_top -%}
+    <button
+      class="credit-bar__scroll-top"
+      type="button"
+      aria-label="Scroll to top"
+      style="
+        --scroll-top-size: {{ section.settings.scroll_top_size }}px;
+        --scroll-top-bg: {{ section.settings.scroll_top_bg }};
+        --scroll-top-color: {{ section.settings.scroll_top_color }};
+        --scroll-top-bottom: {{ section.settings.scroll_top_bottom }}px;
+        --scroll-top-right: {{ section.settings.scroll_top_right }}px;
+      "
+    >
+      {% render 'icon-chevron-up' %}
+    </button>
+
+    <script>
+      (function () {
+        const btn = document.querySelector('.credit-bar__scroll-top');
+        if (!btn) return;
+
+        window.addEventListener('scroll', function () {
+          btn.classList.toggle('is-visible', window.scrollY > 300);
+        });
+
+        btn.addEventListener('click', function () {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+      })();
+    </script>
+  {%- endif -%}
 </div>
 
 {% schema %}
@@ -199,6 +242,58 @@
       "step": 1,
       "unit": "px",
       "default": 8
+    },
+    {
+      "type": "header",
+      "content": "Scroll to Top"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_scroll_to_top",
+      "label": "Show Scroll to Top Button",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "scroll_top_size",
+      "label": "Button Size",
+      "min": 30,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "color",
+      "id": "scroll_top_bg",
+      "label": "Button Background",
+      "default": "#C61D23"
+    },
+    {
+      "type": "color",
+      "id": "scroll_top_color",
+      "label": "Button Icon Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "scroll_top_bottom",
+      "label": "Bottom Offset",
+      "min": 10,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "scroll_top_right",
+      "label": "Right Offset",
+      "min": 10,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "default": 20
     }
   ]
 }
