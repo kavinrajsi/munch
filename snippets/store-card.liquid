@@ -1,0 +1,56 @@
+{%- comment -%}
+  Renders a store location card.
+  Usage: {% render 'store-card', block: block %}
+{%- endcomment -%}
+
+<div class="store-card" {{ block.shopify_attributes }}>
+  <div class="store-card__image-wrapper">
+    {%- if block.settings.image -%}
+      {{
+        block.settings.image
+        | image_url: width: 750
+        | image_tag:
+          widths: '360, 535, 750',
+          sizes: '(min-width: 750px) calc((100vw - 64px - 40px) / 3), calc(100vw - 32px)',
+          class: 'store-card__image',
+          loading: 'lazy'
+      }}
+    {%- else -%}
+      {{ 'image' | placeholder_svg_tag: 'store-card__image store-card__image--placeholder' }}
+    {%- endif -%}
+  </div>
+
+  <div class="store-card__content">
+    {%- if block.settings.name != blank -%}
+      <h3 class="store-card__name">{{ block.settings.name }}</h3>
+    {%- endif -%}
+
+    {%- if block.settings.address != blank -%}
+      <p class="store-card__address">{{ block.settings.address }}</p>
+    {%- endif -%}
+
+    {%- if block.settings.phone != blank -%}
+      <div class="store-card__info">
+        <svg class="store-card__icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M6.62 10.79C8.06 13.62 10.38 15.93 13.21 17.38L15.41 15.18C15.68 14.91 16.08 14.82 16.43 14.94C17.55 15.31 18.76 15.51 20 15.51C20.55 15.51 21 15.96 21 16.51V20C21 20.55 20.55 21 20 21C10.61 21 3 13.39 3 4C3 3.45 3.45 3 4 3H7.5C8.05 3 8.5 3.45 8.5 4C8.5 5.25 8.7 6.45 9.07 7.57C9.18 7.92 9.1 8.31 8.82 8.59L6.62 10.79Z" fill="currentColor"/>
+        </svg>
+        <a href="tel:{{ block.settings.phone | replace: ' ', '' }}" class="store-card__info-text">{{ block.settings.phone }}</a>
+      </div>
+    {%- endif -%}
+
+    {%- if block.settings.hours != blank -%}
+      <div class="store-card__info">
+        <svg class="store-card__icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 20C7.59 20 4 16.41 4 12C4 7.59 7.59 4 12 4C16.41 4 20 7.59 20 12C20 16.41 16.41 20 12 20ZM12.5 7H11V13L16.25 16.15L17 14.92L12.5 12.25V7Z" fill="currentColor"/>
+        </svg>
+        <span class="store-card__info-text">{{ block.settings.hours }}</span>
+      </div>
+    {%- endif -%}
+
+    {%- if block.settings.directions_url != blank -%}
+      <a href="{{ block.settings.directions_url }}" class="store-card__btn" target="_blank" rel="noopener noreferrer">
+        Get Direction
+      </a>
+    {%- endif -%}
+  </div>
+</div>

@@ -1,0 +1,138 @@
+<div class="store-locations" style="padding-top: {{ section.settings.padding_top }}px; padding-bottom: {{ section.settings.padding_bottom }}px;" {{ section.shopify_attributes }}>
+  <div class="container">
+    {%- if section.settings.title != blank -%}
+      <div class="store-locations__header">
+        {%- render 'section-heading',
+          title: section.settings.title,
+          heading_tag: 'h2',
+          show_left_line: true,
+          show_left_icon: true,
+          show_right_icon: true,
+          show_right_line: true
+        -%}
+      </div>
+    {%- endif -%}
+
+    {%- if section.blocks.size > 0 -%}
+      <div class="store-locations__grid">
+        {%- for block in section.blocks -%}
+          {%- render 'store-card', block: block -%}
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Store Locations",
+  "tag": "section",
+  "class": "store-locations-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Visit us"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 56
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 56
+    }
+  ],
+  "blocks": [
+    {
+      "type": "location",
+      "name": "Store Location",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Store image"
+        },
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Store name",
+          "default": "Nithya Amirtham"
+        },
+        {
+          "type": "textarea",
+          "id": "address",
+          "label": "Address",
+          "default": "123 Sweet Street, Chennai, Tamil Nadu 600001"
+        },
+        {
+          "type": "text",
+          "id": "phone",
+          "label": "Phone number",
+          "default": "+91 44 1234 5678"
+        },
+        {
+          "type": "text",
+          "id": "hours",
+          "label": "Operating hours",
+          "default": "8:00 AM - 10:00 PM"
+        },
+        {
+          "type": "url",
+          "id": "directions_url",
+          "label": "Directions URL"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Store Locations",
+      "category": "Store information",
+      "blocks": [
+        {
+          "type": "location",
+          "settings": {
+            "name": "Nithya Amirtham - T Nagar",
+            "address": "No. 45, South Usman Road, T Nagar, Chennai, Tamil Nadu 600017",
+            "phone": "+91 44 2434 5678",
+            "hours": "8:00 AM - 10:00 PM"
+          }
+        },
+        {
+          "type": "location",
+          "settings": {
+            "name": "Nithya Amirtham - Adyar",
+            "address": "No. 12, LB Road, Adyar, Chennai, Tamil Nadu 600020",
+            "phone": "+91 44 2441 9876",
+            "hours": "8:00 AM - 10:00 PM"
+          }
+        },
+        {
+          "type": "location",
+          "settings": {
+            "name": "Nithya Amirtham - Anna Nagar",
+            "address": "No. 78, 2nd Avenue, Anna Nagar, Chennai, Tamil Nadu 600040",
+            "phone": "+91 44 2626 5432",
+            "hours": "8:00 AM - 10:00 PM"
+          }
+        }
+      ]
+    }
+  ],
+  "max_blocks": 6
+}
+{% endschema %}
