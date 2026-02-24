@@ -1,41 +1,93 @@
+{%- comment -%}
+  Hero Slider Section
+  ───────────────────
+  A full-width image slider with optional text overlay per slide.
+
+  Structure:
+    .hero-slider               – Slider wrapper (data-hero-slider for JS init)
+      .hero-slider__slide      – Individual slide (one per block)
+        .hero-slider__image    – Responsive <picture> element
+        .hero-slider__overlay  – Color overlay with configurable opacity
+        .hero-slider__content  – Optional text content (heading, subheading, CTA)
+
+  Images (mobile-first):
+    - <picture> always renders; desktop_image and mobile_image are independent.
+    - <img> serves mobile_image (800px) as the default source.
+    - <source min-width: 768px> swaps to desktop_image (1920px) on larger screens.
+    - If no mobile_image is set, desktop_image is used as fallback at all sizes.
+    - First slide loads eagerly with high fetchpriority; rest are lazy-loaded.
+
+  Overlay:
+    - Uses CSS custom properties --hero-overlay (opacity) and
+      --hero-overlay-bg (background color) set via inline styles.
+
+  Content:
+    - Toggled per slide via the "Enable Content" checkbox (show_content).
+    - Supports heading (h2), subheading (p), and a CTA button with link.
+
+  Section settings: autoplay, autoplay speed, show dots, show arrows.
+  Block settings:   mobile_image, desktop_image, content toggle, heading,
+                    subheading, button text/link, overlay opacity/color.
+  Max blocks: 6
+{%- endcomment -%}
+
 <div class="hero-slider" data-hero-slider {{ section.shopify_attributes }}>
   {%- for block in section.blocks -%}
     <div class="hero-slider__slide" {{ block.shopify_attributes }}>
+
+      {%- comment -%} Slide image – mobile-first responsive <picture> {%- endcomment -%}
       <div class="hero-slider__image">
-        {%- if block.settings.image -%}
-          <picture>
-            {%- if block.settings.mobile_image -%}
-              <source media="(max-width: 767px)" srcset="{{ block.settings.mobile_image | image_url: width: 800 }}">
-            {%- endif -%}
+        <picture>
+          {%- if block.settings.desktop_image -%}
+            <!-- Desktop Image -->
+            <source
+              media="(min-width: 768px)"
+              srcset="{{ block.settings.desktop_image | image_url: width: 1920 }}">
+          {%- endif -%}
+
+          {%- if block.settings.mobile_image -%}
+            <!-- Mobile Image (default / fallback) -->
             <img
-              src="{{ block.settings.image | image_url: width: 1920 }}"
+              src="{{ block.settings.mobile_image | image_url: width: 800 }}"
               alt="{{ block.settings.heading | default: shop.name | escape }}"
-              width="{{ block.settings.image.width }}"
-              height="{{ block.settings.image.height }}"
+              width="{{ block.settings.mobile_image.width }}"
+              height="{{ block.settings.mobile_image.height }}"
               loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
               fetchpriority="{% if forloop.first %}high{% else %}low{% endif %}"
             >
-          </picture>
-        {%- else -%}
-          {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder' }}
-        {%- endif -%}
+          {%- else -%}
+            <!-- Fallback to desktop if no mobile image -->
+            <img
+              src="{{ block.settings.desktop_image | image_url: width: 800 }}"
+              alt="{{ block.settings.heading | default: shop.name | escape }}"
+              width="{{ block.settings.desktop_image.width }}"
+              height="{{ block.settings.desktop_image.height }}"
+              loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
+              fetchpriority="{% if forloop.first %}high{% else %}low{% endif %}"
+            >
+          {%- endif -%}
+        </picture>
       </div>
 
-      <div class="hero-slider__overlay" style="--hero-overlay: {{ block.settings.overlay_opacity | divided_by: 100.0 }}"></div>
+      {%- comment -%} Overlay: color + opacity via CSS custom properties {%- endcomment -%}
+      <div class="hero-slider__overlay" style="--hero-overlay: {{ block.settings.overlay_opacity | divided_by: 100.0 }}; --hero-overlay-bg: {{ block.settings.overlay_color }};"></div>
 
-      <div class="hero-slider__content page-width" style="text-align: {{ block.settings.text_alignment }};">
-        {%- if block.settings.heading != blank -%}
-          <h2 class="hero-slider__heading">{{ block.settings.heading }}</h2>
-        {%- endif -%}
-        {%- if block.settings.subheading != blank -%}
-          <p class="hero-slider__subheading">{{ block.settings.subheading }}</p>
-        {%- endif -%}
-        {%- if block.settings.button_text != blank -%}
-          <a href="{{ block.settings.button_link | default: '#' }}" class="btn btn--primary btn--large">
-            {{ block.settings.button_text }}
-          </a>
-        {%- endif -%}
-      </div>
+      {%- comment -%} Text content: only rendered when "Enable Content" is checked {%- endcomment -%}
+      {%- if block.settings.show_content -%}
+        <div class="hero-slider__content page-width">
+          {%- if block.settings.heading != blank -%}
+            <h2 class="hero-slider__heading">{{ block.settings.heading }}</h2>
+          {%- endif -%}
+          {%- if block.settings.subheading != blank -%}
+            <p class="hero-slider__subheading">{{ block.settings.subheading }}</p>
+          {%- endif -%}
+          {%- if block.settings.button_text != blank -%}
+            <a href="{{ block.settings.button_link | default: '#' }}" class="btn btn--primary btn--large">
+              {{ block.settings.button_text }}
+            </a>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
     </div>
   {%- endfor -%}
 </div>
@@ -81,14 +133,28 @@
       "name": "Slide",
       "settings": [
         {
-          "type": "image_picker",
-          "id": "image",
-          "label": "Desktop Image"
+          "type": "header",
+          "content": "Image"
         },
         {
           "type": "image_picker",
           "id": "mobile_image",
           "label": "Mobile Image"
+        },
+        {
+          "type": "image_picker",
+          "id": "desktop_image",
+          "label": "Desktop Image"
+        },
+        {
+          "type": "header",
+          "content": "Content"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_content",
+          "label": "Enable Content",
+          "default": true
         },
         {
           "type": "text",
@@ -114,15 +180,8 @@
           "label": "Button Link"
         },
         {
-          "type": "select",
-          "id": "text_alignment",
-          "label": "Text Alignment",
-          "options": [
-            { "value": "left", "label": "Left" },
-            { "value": "center", "label": "Center" },
-            { "value": "right", "label": "Right" }
-          ],
-          "default": "left"
+          "type": "header",
+          "content": "Overlay"
         },
         {
           "type": "range",
@@ -133,6 +192,12 @@
           "step": 5,
           "default": 30,
           "unit": "%"
+        },
+        {
+          "type": "color",
+          "id": "overlay_color",
+          "label": "Overlay Background Color",
+          "default": "#000000"
         }
       ]
     }
