@@ -225,13 +225,37 @@
         "subtitle": "",
         "layout": "grid"
       }
+    },
+    "main_store_locator_aXC87N": {
+      "type": "main-store-locator",
+      "blocks": {
+        "location_EnyD38": {
+          "type": "location",
+          "settings": {
+            "name": "Main Store",
+            "address": "",
+            "phone": "",
+            "hours": "Mon-Sat: 9am - 8pm",
+            "directions_url": ""
+          }
+        }
+      },
+      "block_order": [
+        "location_EnyD38"
+      ],
+      "name": "Store Locator",
+      "settings": {
+        "title": "Our Stores",
+        "map_embed": ""
+      }
     }
   },
   "order": [
     "hero",
     "icon_with_text_4KhBJd",
     "featured_collection_carousel_MBtUje",
-    "testimonials_3rdEd4",
-    "featured_collection_carousel_Kcce3V"
+    "main_store_locator_aXC87N",
+    "featured_collection_carousel_Kcce3V",
+    "testimonials_3rdEd4"
   ]
 }
