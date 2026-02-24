@@ -7,15 +7,33 @@
   "scripts": {
     "build": "gulp style && gulp scripts && gulp product-scripts",
     "dev": "gulp",
-    "watch": "gulp watch"
+    "watch": "gulp watch",
+    "lint:js": "eslint dev/scripts/",
+    "lint:css": "stylelint 'dev/style/**/*.scss'",
+    "lint": "npm run lint:js && npm run lint:css",
+    "test": "jest",
+    "test:structure": "jest tests/theme-structure.test.js tests/theme-sections.test.js tests/theme-locale.test.js tests/theme-assets.test.js",
+    "test:shopify": "shopify theme check --fail-level error",
+    "test:theme": "npm run test:structure && npm run test:shopify"
+  },
+  "jest": {
+    "testEnvironment": "jsdom",
+    "testMatch": [
+      "**/tests/**/*.test.js"
+    ]
   },
   "devDependencies": {
+    "eslint": "^8.57.1",
     "gulp": "^5.0.1",
     "gulp-autoprefixer": "^8.0.0",
     "gulp-concat": "^2.6.1",
     "gulp-minify": "^3.1.0",
-    "gulp-sass": "^5.1.0",
-    "sass": "^1.77.0"
+    "gulp-sass": "^6.0.1",
+    "jest": "^30.2.0",
+    "jest-environment-jsdom": "^30.2.0",
+    "sass": "^1.77.0",
+    "stylelint": "^17.3.0",
+    "stylelint-config-standard-scss": "^17.0.0"
   },
   "dependencies": {
     "gulp-plumber": "^1.2.1"

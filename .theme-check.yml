@@ -2,3 +2,21 @@ MatchingTranslations:
   enabled: true
 TemplateLength:
   enabled: true
+MissingTemplate:
+  enabled: true
+UnusedAssign:
+  enabled: true
+RequiredDirectories:
+  enabled: true
+ValidHTMLTranslation:
+  enabled: true
+ValidSchema:
+  enabled: true
+RemoteAsset:
+  enabled: true
+ImgLazyLoading:
+  enabled: true
+SpaceInsideBraces:
+  enabled: false
+TranslationKeyExists:
+  enabled: false
