@@ -14,6 +14,9 @@
 @use 'store-locations';
 @use 'home-about';
 @use 'about-page';
+@use 'main-collection';
+@use 'exclusive-collections';
+@use 'cart-page';
 
 a {
   text-decoration: none;

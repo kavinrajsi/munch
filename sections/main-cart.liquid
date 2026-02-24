@@ -1,76 +1,167 @@
-{% render 'breadcrumbs' %}
-
-<div class="cart-page section-padding" {{ section.shopify_attributes }}>
+<div class="cart-page" {{ section.shopify_attributes }}>
   <div class="container">
+    {%- comment -%} Breadcrumbs {%- endcomment -%}
+    <nav class="cart-page__breadcrumbs" aria-label="Breadcrumb">
+      <ol>
+        <li><a href="{{ routes.root_url }}">Home</a></li>
+        <li aria-hidden="true">&gt;</li>
+        <li aria-current="page">Your Shopping cart</li>
+      </ol>
+    </nav>
+
+    {%- comment -%} Section Heading {%- endcomment -%}
+    {%- render 'section-heading',
+      title: 'Shopping Cart',
+      heading_tag: 'h1',
+      show_left_line: true,
+      show_left_icon: true,
+      show_right_icon: true,
+      show_right_line: true,
+      margin_bottom_desktop: 40,
+      margin_bottom_mobile: 24
+    -%}
+
     {%- if cart.item_count > 0 -%}
-      <h1>{{ 'cart.general.title' | t }} ({{ cart.item_count }})</h1>
-
       <form action="{{ routes.cart_url }}" method="post" data-cart-form>
-        <table class="cart-page__table">
-          <thead>
-            <tr>
-              <th colspan="2">{{ 'cart.items.product' | t }}</th>
-              <th>{{ 'cart.items.price' | t }}</th>
-              <th>{{ 'cart.items.quantity' | t }}</th>
-              <th>{{ 'cart.items.total' | t }}</th>
-            </tr>
-          </thead>
-          <tbody>
-            {%- for item in cart.items -%}
-              <tr data-cart-item data-line="{{ forloop.index }}">
-                <td>
-                  <a href="{{ item.url }}" class="cart-page__item-image">
-                    {%- if item.image -%}
-                      <img src="{{ item.image | image_url: width: 160 }}" alt="{{ item.title | escape }}" loading="lazy">
-                    {%- endif -%}
-                  </a>
-                </td>
-                <td>
-                  <a href="{{ item.url }}" class="cart-page__item-title">{{ item.product.title }}</a>
-                  {%- if item.variant.title != 'Default Title' -%}
-                    <p class="cart-page__item-variant">{{ item.variant.title }}</p>
-                  {%- endif -%}
-                </td>
-                <td class="cart-page__item-price">{{ item.original_price | money }}</td>
-                <td>
-                  <div class="cart-page__item-quantity">
-                    <button type="button" data-qty-minus aria-label="{{ 'products.product.quantity.decrease' | t }}">−</button>
-                    <input type="number" name="updates[]" value="{{ item.quantity }}" min="0" data-qty-input aria-label="{{ 'products.product.quantity.label' | t }}">
-                    <button type="button" data-qty-plus aria-label="{{ 'products.product.quantity.increase' | t }}">+</button>
-                  </div>
-                  <button type="button" class="cart-page__item-remove" data-remove-item>{{ 'cart.general.remove' | t }}</button>
-                </td>
-                <td class="cart-page__item-price">{{ item.final_line_price | money }}</td>
+        {%- comment -%} Desktop Table {%- endcomment -%}
+        <div class="cart-page__table-wrap">
+          <table class="cart-page__table">
+            <thead>
+              <tr>
+                <th class="cart-page__th cart-page__th--product">Product</th>
+                <th class="cart-page__th cart-page__th--price">Price</th>
+                <th class="cart-page__th cart-page__th--qty">Quantity</th>
+                <th class="cart-page__th cart-page__th--total">Total</th>
               </tr>
-            {%- endfor -%}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {%- for item in cart.items -%}
+                <tr class="cart-page__row" data-cart-item data-line="{{ forloop.index }}">
+                  {%- comment -%} Product {%- endcomment -%}
+                  <td class="cart-page__cell cart-page__cell--product">
+                    <a href="{{ item.url }}" class="cart-page__product-img">
+                      {%- if item.image -%}
+                        <img
+                          src="{{ item.image | image_url: width: 200 }}"
+                          alt="{{ item.title | escape }}"
+                          width="95"
+                          height="100"
+                          loading="lazy"
+                        >
+                      {%- endif -%}
+                    </a>
+                    <div class="cart-page__product-info">
+                      <a href="{{ item.url }}" class="cart-page__product-title">{{ item.product.title }}</a>
+                      {%- if item.variant.title != 'Default Title' -%}
+                        <p class="cart-page__product-variant">
+                          Weight: <span>{{ item.variant.title }}</span>
+                        </p>
+                      {%- endif -%}
+                      <button type="button" class="cart-page__remove" data-remove-item>Remove</button>
+                    </div>
+                  </td>
 
+                  {%- comment -%} Price {%- endcomment -%}
+                  <td class="cart-page__cell cart-page__cell--price" data-label="Price">
+                    {{ item.original_price | money }}
+                  </td>
+
+                  {%- comment -%} Quantity {%- endcomment -%}
+                  <td class="cart-page__cell cart-page__cell--qty" data-label="Quantity">
+                    <div class="cart-page__qty">
+                      <button type="button" class="cart-page__qty-btn" data-qty-minus aria-label="Decrease quantity">−</button>
+                      <input
+                        type="number"
+                        class="cart-page__qty-input"
+                        name="updates[]"
+                        value="{{ item.quantity }}"
+                        min="0"
+                        data-qty-input
+                        aria-label="Quantity"
+                      >
+                      <button type="button" class="cart-page__qty-btn" data-qty-plus aria-label="Increase quantity">+</button>
+                    </div>
+                  </td>
+
+                  {%- comment -%} Total {%- endcomment -%}
+                  <td class="cart-page__cell cart-page__cell--total" data-label="Total">
+                    {{ item.final_line_price | money }}
+                  </td>
+                </tr>
+              {%- endfor -%}
+            </tbody>
+          </table>
+        </div>
+
+        {%- comment -%} Mobile Cards {%- endcomment -%}
+        <div class="cart-page__mobile-items">
+          {%- for item in cart.items -%}
+            <div class="cart-page__mobile-card" data-cart-item data-line="{{ forloop.index }}">
+              <a href="{{ item.url }}" class="cart-page__mobile-img">
+                {%- if item.image -%}
+                  <img
+                    src="{{ item.image | image_url: width: 200 }}"
+                    alt="{{ item.title | escape }}"
+                    width="95"
+                    height="100"
+                    loading="lazy"
+                  >
+                {%- endif -%}
+              </a>
+              <div class="cart-page__mobile-details">
+                <a href="{{ item.url }}" class="cart-page__product-title">{{ item.product.title }}</a>
+                {%- if item.variant.title != 'Default Title' -%}
+                  <p class="cart-page__product-variant">
+                    Weight: <span>{{ item.variant.title }}</span>
+                  </p>
+                {%- endif -%}
+                <p class="cart-page__mobile-price">{{ item.original_price | money }}</p>
+                <div class="cart-page__mobile-bottom">
+                  <div class="cart-page__qty">
+                    <button type="button" class="cart-page__qty-btn" data-qty-minus aria-label="Decrease quantity">−</button>
+                    <input
+                      type="number"
+                      class="cart-page__qty-input"
+                      name="updates[]"
+                      value="{{ item.quantity }}"
+                      min="0"
+                      data-qty-input
+                      aria-label="Quantity"
+                    >
+                    <button type="button" class="cart-page__qty-btn" data-qty-plus aria-label="Increase quantity">+</button>
+                  </div>
+                  <button type="button" class="cart-page__remove" data-remove-item>Remove</button>
+                </div>
+              </div>
+            </div>
+          {%- endfor -%}
+        </div>
+
+        {%- comment -%} Footer {%- endcomment -%}
         <div class="cart-page__footer">
           {%- if section.settings.show_note -%}
-            <div class="cart-page__note form-group">
+            <div class="cart-page__note">
               <label for="CartNote">{{ 'cart.general.note' | t }}</label>
               <textarea id="CartNote" name="note" placeholder="{{ 'cart.general.note_placeholder' | t }}">{{ cart.note }}</textarea>
             </div>
           {%- endif -%}
 
-          <div class="cart-page__subtotal">
-            <span>{{ 'cart.general.subtotal' | t }}</span>
-            <span>{{ cart.total_price | money }}</span>
-          </div>
-          <p class="cart-page__shipping-note">{{ 'cart.general.taxes_and_shipping' | t }}</p>
-
-          <div class="cart-page__actions">
-            <button type="submit" name="checkout" class="btn btn--primary btn--full">{{ 'cart.general.checkout' | t }}</button>
-            <a href="{{ routes.all_products_collection_url }}" class="btn btn--ghost btn--full">{{ 'cart.general.continue_shopping' | t }}</a>
+          <div class="cart-page__summary">
+            <div class="cart-page__subtotal">
+              <div class="cart-page__subtotal-label">
+                <span>Subtotal</span>
+                <span class="cart-page__tax-note">Tax included and shipping calculated at checkout</span>
+              </div>
+              <span class="cart-page__subtotal-amount">{{ cart.total_price | money }}</span>
+            </div>
+            <button type="submit" name="checkout" class="cart-page__checkout-btn">Check Out</button>
           </div>
         </div>
       </form>
     {%- else -%}
       <div class="cart-page__empty">
-        <h2>{{ 'cart.general.title' | t }}</h2>
-        <p>{{ 'cart.general.empty' | t }}</p>
-        <a href="{{ routes.all_products_collection_url }}" class="btn btn--primary">{{ 'cart.general.continue_shopping' | t }}</a>
+        <p>Your cart is empty</p>
+        <a href="{{ routes.all_products_collection_url }}" class="cart-page__checkout-btn">Continue Shopping</a>
       </div>
     {%- endif -%}
   </div>
@@ -86,7 +177,7 @@
       "type": "checkbox",
       "id": "show_note",
       "label": "Show Order Note",
-      "default": true
+      "default": false
     }
   ]
 }
