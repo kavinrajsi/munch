@@ -14,6 +14,13 @@
     "footer": {
       "type": "footer",
       "blocks": {
+        "menu_yVHXnE": {
+          "type": "menu",
+          "settings": {
+            "title": "Quick Links",
+            "menu": "main-menu"
+          }
+        },
         "menu_1": {
           "type": "menu",
           "settings": {
@@ -93,6 +100,7 @@
         }
       },
       "block_order": [
+        "menu_yVHXnE",
         "menu_1",
         "menu_2",
         "contact",
