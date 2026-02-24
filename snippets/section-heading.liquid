@@ -1,5 +1,7 @@
 {%- liquid
   assign heading_tag = heading_tag | default: 'h5'
+  assign margin_bottom_desktop = margin_bottom_desktop | default: 40
+  assign margin_bottom_mobile = margin_bottom_mobile | default: 25
 -%}
 
 <style>
@@ -9,6 +11,13 @@
     justify-content: center;
     gap: 12px;
     width: 100%;
+    padding-bottom: {{ margin_bottom_mobile }}px;
+  }
+
+  @media (min-width: 768px) {
+    .section-heading {
+      padding-bottom: {{ margin_bottom_desktop }}px;
+    }
   }
 
   .section-heading__line--left,

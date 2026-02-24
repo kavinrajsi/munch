@@ -17,7 +17,7 @@
         "a1": {
           "type": "announcement",
           "settings": {
-            "text": "Order before 6PM to get delivery within 3 hours in Chennai, Coimbatore, Palakkad",
+            "text": "Order before 6PM to get delivery within 3 hours in Chennai",
             "link": ""
           }
         },
@@ -25,13 +25,6 @@
           "type": "announcement",
           "settings": {
             "text": "All other cities take 3-5 business days to deliver PAN India & 4-7 business days Internationally",
-            "link": ""
-          }
-        },
-        "a3": {
-          "type": "announcement",
-          "settings": {
-            "text": "1-Hour Delivery via Swiggy/Zomato in Chennai, Coimbatore & Palakkad",
             "link": ""
           }
         },
@@ -46,7 +39,6 @@
       "block_order": [
         "a1",
         "a2",
-        "a3",
         "a4"
       ],
       "settings": {
