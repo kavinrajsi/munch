@@ -4,39 +4,42 @@
 {%- endcomment -%}
 
 <div class="testimonial-card" {{ block.shopify_attributes }}>
-  <div class="testimonial-card__quote-icon">
-    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 17h3l2-4V7H5v6h3zm8 0h3l2-4V7h-6v6h3z"/></svg>
+  <div class="testimonial-card__body">
+    {%- if block.settings.rating > 0 -%}
+      <div class="testimonial-card__rating">
+        {%- for i in (1..block.settings.rating) -%}
+          <svg viewBox="0 0 17 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M3.836 15.939a.429.429 0 0 1-.792-.631l.882-5.045L.182 6.683a.429.429 0 0 1 .301-1.013l5.204-.743 2.32-4.616a.429.429 0 0 1 .985 0l2.32 4.616 5.204.743a.429.429 0 0 1 .301 1.013l-3.743 3.58.882 5.045a.429.429 0 0 1-.793.631L8.498 13.533l-4.663 2.406z"/>
+          </svg>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+
+    {%- if block.settings.text != blank -%}
+      <p class="testimonial-card__text">{{ block.settings.text }}</p>
+    {%- endif -%}
   </div>
 
-  <p class="testimonial-card__text">{{ block.settings.text }}</p>
-
-  {%- if block.settings.rating > 0 -%}
-    <div class="testimonial-card__rating">
-      {%- for i in (1..block.settings.rating) -%}
-        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-      {%- endfor -%}
-    </div>
-  {%- endif -%}
-
   <div class="testimonial-card__footer">
-    {%- if block.settings.avatar -%}
-      <div class="testimonial-card__avatar">
+    <div class="testimonial-card__avatar">
+      {%- if block.settings.avatar -%}
         <img
           src="{{ block.settings.avatar | image_url: width: 80, height: 80, crop: 'center' }}"
           alt="{{ block.settings.author | escape }}"
-          width="40"
-          height="40"
+          width="32"
+          height="32"
           loading="lazy"
         >
-      </div>
-    {%- endif -%}
-    <div>
-      {%- if block.settings.author != blank -%}
-        <div class="testimonial-card__author">{{ block.settings.author }}</div>
-      {%- endif -%}
-      {%- if block.settings.location != blank -%}
-        <div class="testimonial-card__location">{{ block.settings.location }}</div>
+      {%- else -%}
+        <span class="testimonial-card__avatar-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 13 16" fill="#C61D23" aria-hidden="true">
+            <path d="M10.719.757C10.293 1.457 9.838 2.138 9.387 2.815 8.606 3.982 7.8 5.19 7.165 6.468 5.06 10.7 6.11 14.416 6.759 16c.921-.793 2.62-2.356 4.315-4.428C13.007 6.84 12.247 3.615 10.72.757zM5.836 6.468C5.202 5.19 4.395 3.982 3.615 2.815 3.163 2.138 2.709 1.457 2.282.757.755 3.615-.005 6.838 1.927 11.57c1.467 1.793 2.94 3.208 3.906 4.069-.608-1.811-1.205-5.007.056-8.618a8.49 8.49 0 0 1-.054-.553z"/>
+          </svg>
+        </span>
       {%- endif -%}
     </div>
+    {%- if block.settings.author != blank -%}
+      <div class="testimonial-card__author">{{ block.settings.author }}</div>
+    {%- endif -%}
   </div>
 </div>

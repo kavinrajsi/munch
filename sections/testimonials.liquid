@@ -1,27 +1,28 @@
-<div class="testimonials section-padding" {{ section.shopify_attributes }}>
+<div class="testimonials" {{ section.shopify_attributes }}>
   <div class="container">
-    <div class="testimonials__header">
-      {%- if section.settings.title != blank -%}
-        <h2>{{ section.settings.title }}</h2>
-      {%- endif -%}
-      {%- if section.settings.subtitle != blank -%}
-        <p style="color:var(--color-secondary);margin-top:8px;">{{ section.settings.subtitle }}</p>
-      {%- endif -%}
-    </div>
-
-    {%- if section.settings.layout == 'slider' -%}
-      <div class="testimonials__slider" data-testimonial-slider>
-        {%- for block in section.blocks -%}
-          {% render 'testimonial-card', block: block %}
-        {%- endfor -%}
-      </div>
-    {%- else -%}
-      <div class="testimonials__grid">
-        {%- for block in section.blocks -%}
-          {% render 'testimonial-card', block: block %}
-        {%- endfor -%}
+    {%- if section.settings.title != blank -%}
+      <div class="testimonials__header">
+        {%- render 'section-heading',
+          title: section.settings.title,
+          heading_tag: 'h2',
+          show_left_line: true,
+          show_left_icon: true,
+          show_right_icon: true,
+          show_right_line: true
+        -%}
       </div>
     {%- endif -%}
+
+    <div
+      class="testimonials__track"
+      data-testimonial-slider
+      data-slides-to-show="{{ section.settings.slides_to_show }}"
+      data-show-dots="{{ section.settings.show_dots }}"
+    >
+      {%- for block in section.blocks -%}
+        {% render 'testimonial-card', block: block %}
+      {%- endfor -%}
+    </div>
   </div>
 </div>
 
@@ -38,19 +39,19 @@
       "default": "What Our Customers Say"
     },
     {
-      "type": "text",
-      "id": "subtitle",
-      "label": "Subtitle"
+      "type": "range",
+      "id": "slides_to_show",
+      "label": "Slides visible at once",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "default": 3
     },
     {
-      "type": "select",
-      "id": "layout",
-      "label": "Layout",
-      "options": [
-        { "value": "grid", "label": "Grid" },
-        { "value": "slider", "label": "Slider" }
-      ],
-      "default": "grid"
+      "type": "checkbox",
+      "id": "show_dots",
+      "label": "Show dots",
+      "default": true
     }
   ],
   "blocks": [
@@ -98,9 +99,18 @@
       "name": "Testimonials",
       "category": "Storytelling",
       "blocks": [
-        { "type": "testimonial", "settings": { "text": "The sweets are absolutely divine! Reminds me of my grandmother's kitchen.", "author": "Priya R.", "location": "Chennai", "rating": 5 } },
-        { "type": "testimonial", "settings": { "text": "Best online sweet shop. Fresh, authentic, and delivered on time.", "author": "Karthik M.", "location": "Bangalore", "rating": 5 } },
-        { "type": "testimonial", "settings": { "text": "Ordered for Diwali and everyone loved the gift boxes!", "author": "Anitha S.", "location": "Mumbai", "rating": 5 } }
+        { "type": "testimonial", "settings": { "text": "The sweets are absolutely divine! Reminds me of my grandmother's kitchen. Every bite takes me back to childhood memories.", "author": "Priya R.", "location": "Chennai", "rating": 5 } },
+        { "type": "testimonial", "settings": { "text": "Best online sweet shop. Fresh, authentic, and delivered on time. The packaging was beautiful too!", "author": "Karthik M.", "location": "Bangalore", "rating": 5 } },
+        { "type": "testimonial", "settings": { "text": "Ordered for Diwali and everyone loved the gift boxes! Will definitely order again for every festival.", "author": "Anitha S.", "location": "Mumbai", "rating": 5 } },
+        { "type": "testimonial", "settings": { "text": "Living outside Chennai, I was thrilled to find Nithya Amirtham delivering nationwide! The Butter Murku is a must-try!", "author": "Kumar", "location": "Hyderabad", "rating": 5 } },
+        { "type": "testimonial", "settings": { "text": "The Mysore Pak melts in your mouth. Authentic taste that you won't find anywhere else online. Highly recommend!", "author": "Lakshmi V.", "location": "Coimbatore", "rating": 5 } },
+        { "type": "testimonial", "settings": { "text": "Sent a sweet box to my parents in India and they were so happy. The quality was perfect even after shipping.", "author": "Ravi K.", "location": "Singapore", "rating": 4 } },
+        { "type": "testimonial", "settings": { "text": "Their Kaju Katli is the best I've ever tasted. Pure ghee sweets with no artificial flavours. Outstanding quality!", "author": "Meena D.", "location": "Delhi", "rating": 5 } },
+        { "type": "testimonial", "settings": { "text": "Ordered the snack combo pack and it was gone in two days! The Ribbon Pakoda and Thattai are incredibly addictive.", "author": "Suresh P.", "location": "Pune", "rating": 5 } },
+        { "type": "testimonial", "settings": { "text": "We order from Nithya Amirtham for every family function. Consistent quality and the sweets always arrive fresh.", "author": "Divya R.", "location": "Trichy", "rating": 5 } },
+        { "type": "testimonial", "settings": { "text": "The Badusha was so soft and perfectly sweet. My kids loved it! Great to find traditional sweets available online.", "author": "Arun M.", "location": "Madurai", "rating": 4 } },
+        { "type": "testimonial", "settings": { "text": "Impressed by the freshness and taste. The Laddu and Jangiri were just like what you get at the shop. Five stars!", "author": "Sangeetha L.", "location": "Erode", "rating": 5 } },
+        { "type": "testimonial", "settings": { "text": "Wonderful experience from ordering to delivery. Customer service was very responsive and the sweets were top-notch.", "author": "Ganesh B.", "location": "Vizag", "rating": 5 } }
       ]
     }
   ],
