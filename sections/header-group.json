@@ -17,29 +17,37 @@
         "a1": {
           "type": "announcement",
           "settings": {
-            "text": "Enjoy FREE delivery on orders above ₹999. Order now!",
-            "link": "shopify://collections/all"
+            "text": "Order before 6PM to get delivery within 3 hours in Chennai, Coimbatore, Palakkad",
+            "link": ""
           }
         },
         "a2": {
           "type": "announcement",
           "settings": {
-            "text": "Freshly made, preservative-free sweets delivered to your doorstep",
-            "link": "shopify://collections/all"
+            "text": "All other cities take 3-5 business days to deliver PAN India & 4-7 business days Internationally",
+            "link": ""
           }
         },
         "a3": {
           "type": "announcement",
           "settings": {
-            "text": "Authentic South Indian snacks crafted in small batches",
-            "link": "shopify://collections/all"
+            "text": "1-Hour Delivery via Swiggy/Zomato in Chennai, Coimbatore & Palakkad",
+            "link": ""
+          }
+        },
+        "a4": {
+          "type": "announcement",
+          "settings": {
+            "text": "Free India Delivery on orders above ₹1000",
+            "link": ""
           }
         }
       },
       "block_order": [
         "a1",
         "a2",
-        "a3"
+        "a3",
+        "a4"
       ],
       "settings": {
         "scroll_speed": 30,

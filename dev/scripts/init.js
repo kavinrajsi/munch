@@ -131,6 +131,13 @@
     },
 
     refreshCart: function(cart) {
+      // Read settings from data attributes
+      var showImage = this.$drawer.data('show-image') !== false;
+      var showVariant = this.$drawer.data('show-variant') !== false;
+      var emptyText = this.$drawer.data('empty-text') || 'Your cart is empty';
+      var emptyBtnText = this.$drawer.data('empty-btn-text') || 'Continue Shopping';
+      var emptyBtnLink = this.$drawer.data('empty-btn-link') || '/collections/all';
+
       // Update count badges
       $('[data-cart-count]').text(cart.item_count);
       $('[data-cart-count-badge]').text(cart.item_count);
@@ -148,8 +155,8 @@
       if (cart.item_count === 0) {
         $items.html(
           '<div class="cart-drawer__empty">' +
-          '<p>Your cart is empty</p>' +
-          '<a href="/collections/all" class="btn btn--primary">Continue Shopping</a>' +
+          '<p>' + emptyText + '</p>' +
+          '<a href="' + emptyBtnLink + '" class="cart-drawer__checkout">' + emptyBtnText + '</a>' +
           '</div>'
         );
         this.$drawer.find('.cart-drawer__footer').hide();
@@ -161,14 +168,16 @@
       cart.items.forEach(function(item, index) {
         var variantTitle = item.variant_title && item.variant_title !== 'Default Title' ? item.variant_title : '';
         html += '<div class="cart-drawer__item" data-cart-item data-line="' + (index + 1) + '">';
-        html += '<a href="' + item.url + '" class="cart-drawer__item-image">';
-        if (item.image) {
-          html += '<img src="' + item.image.replace(/(\.[^.]+)$/, '_144x$1') + '" alt="' + item.title + '" width="72" height="90" loading="lazy">';
+        if (showImage) {
+          html += '<a href="' + item.url + '" class="cart-drawer__item-image">';
+          if (item.image) {
+            html += '<img src="' + item.image.replace(/(\.[^.]+)$/, '_144x$1') + '" alt="' + item.title + '" width="72" height="90" loading="lazy">';
+          }
+          html += '</a>';
         }
-        html += '</a>';
         html += '<div class="cart-drawer__item-info">';
         html += '<a href="' + item.url + '" class="cart-drawer__item-title">' + item.product_title + '</a>';
-        if (variantTitle) {
+        if (showVariant && variantTitle) {
           html += '<p class="cart-drawer__item-variant">' + variantTitle + '</p>';
         }
         html += '<p class="cart-drawer__item-price">' + formatMoney(item.final_line_price) + '</p>';
@@ -316,10 +325,27 @@
   var SearchOverlay = {
     $overlay: null,
     searchTimeout: null,
+    activeIndex: -1,
+    lastQuery: '',
+    config: {},
 
     init: function() {
       this.$overlay = $('[data-search-overlay]');
       if (!this.$overlay.length) return;
+
+      // Read settings from data attributes
+      this.config = {
+        predictive: this.$overlay.data('predictive') !== false,
+        minChars: parseInt(this.$overlay.data('min-chars'), 10) || 2,
+        resourceTypes: this.$overlay.data('resource-types') || 'product',
+        productsLimit: parseInt(this.$overlay.data('products-limit'), 10) || 6,
+        collectionsLimit: parseInt(this.$overlay.data('collections-limit'), 10) || 3,
+        pagesLimit: parseInt(this.$overlay.data('pages-limit'), 10) || 3,
+        articlesLimit: parseInt(this.$overlay.data('articles-limit'), 10) || 3,
+        showProductImage: this.$overlay.data('show-product-image') !== false,
+        showProductVendor: this.$overlay.data('show-product-vendor') !== false,
+        showProductPrice: this.$overlay.data('show-product-price') !== false
+      };
 
       var self = this;
 
@@ -333,22 +359,57 @@
         self.close();
       });
 
-      this.$overlay.find('[data-search-input]').on('input', function() {
-        var query = $(this).val().trim();
-        clearTimeout(self.searchTimeout);
-        if (query.length < 3) {
-          self.$overlay.find('[data-search-results]').empty();
-          return;
+      if (this.config.predictive) {
+        this.$overlay.find('[data-search-input]').on('input', function() {
+          var query = $(this).val().trim();
+          clearTimeout(self.searchTimeout);
+          if (query.length < self.config.minChars) {
+            self.clearResults();
+            return;
+          }
+          self.searchTimeout = setTimeout(function() {
+            self.search(query);
+          }, 300);
+        });
+      }
+
+      // Popular search term clicks
+      this.$overlay.on('click', '[data-popular-term]', function(e) {
+        e.preventDefault();
+        var term = $(this).data('popular-term');
+        self.$overlay.find('[data-search-input]').val(term);
+        if (self.config.predictive) {
+          self.search(term);
+        } else {
+          self.$overlay.find('form').submit();
         }
-        self.searchTimeout = setTimeout(function() {
-          self.search(query);
-        }, 300);
+      });
+
+      // Keyboard navigation
+      this.$overlay.find('[data-search-input]').on('keydown', function(e) {
+        var $items = self.$overlay.find('.search-overlay__result-item');
+        if (!$items.length) return;
+
+        if (e.key === 'ArrowDown') {
+          e.preventDefault();
+          self.activeIndex = Math.min(self.activeIndex + 1, $items.length - 1);
+          self.highlightItem($items);
+        } else if (e.key === 'ArrowUp') {
+          e.preventDefault();
+          self.activeIndex = Math.max(self.activeIndex - 1, -1);
+          self.highlightItem($items);
+        } else if (e.key === 'Enter' && self.activeIndex >= 0) {
+          e.preventDefault();
+          var href = $items.eq(self.activeIndex).attr('href');
+          if (href) window.location.href = href;
+        }
       });
     },
 
     open: function() {
       this.$overlay.addClass('is-open');
-      this.$overlay.find('[data-search-input]').focus();
+      this.$overlay.find('[data-search-input]').val('').focus();
+      this.clearResults();
       $('body').css('overflow', 'hidden');
     },
 
@@ -357,25 +418,163 @@
       $('body').css('overflow', '');
     },
 
+    clearResults: function() {
+      this.$overlay.find('[data-search-results]').empty();
+      this.$overlay.find('[data-search-loading]').removeClass('is-visible');
+      this.$overlay.find('[data-search-popular]').show();
+      this.activeIndex = -1;
+      this.lastQuery = '';
+    },
+
+    highlightItem: function($items) {
+      $items.removeClass('is-active');
+      if (this.activeIndex >= 0) {
+        var $active = $items.eq(this.activeIndex).addClass('is-active');
+        var container = this.$overlay.find('[data-search-results]')[0];
+        var item = $active[0];
+        if (container && item) {
+          var top = item.offsetTop;
+          var bottom = top + item.offsetHeight;
+          if (top < container.scrollTop) {
+            container.scrollTop = top;
+          } else if (bottom > container.scrollTop + container.clientHeight) {
+            container.scrollTop = bottom - container.clientHeight;
+          }
+        }
+      }
+    },
+
     search: function(query) {
+      var self = this;
+      var cfg = this.config;
       var $results = this.$overlay.find('[data-search-results]');
-      $.getJSON('/search/suggest.json', { q: query, resources: { type: 'product', limit: 6 } }, function(data) {
-        var products = data.resources && data.resources.results && data.resources.results.products;
-        if (!products || products.length === 0) {
+      var $loading = this.$overlay.find('[data-search-loading]');
+
+      self.activeIndex = -1;
+      self.lastQuery = query;
+      $loading.addClass('is-visible');
+      $results.empty();
+      self.$overlay.find('[data-search-popular]').hide();
+
+      // Build limit — Shopify suggest API uses a single limit for all types
+      var maxLimit = Math.max(cfg.productsLimit, cfg.collectionsLimit, cfg.pagesLimit, cfg.articlesLimit);
+
+      $.getJSON('/search/suggest.json', {
+        q: query,
+        'resources[type]': cfg.resourceTypes,
+        'resources[limit]': maxLimit,
+        'resources[options][fields]': 'title,product_type,vendor,tag,body'
+      }, function(data) {
+        if (self.lastQuery !== query) return;
+
+        $loading.removeClass('is-visible');
+
+        var results = data.resources && data.resources.results;
+        if (!results) {
           $results.html('<div class="search-overlay__no-results">No results found</div>');
           return;
         }
+
+        var products = (results.products || []).slice(0, cfg.productsLimit);
+        var collections = (results.collections || []).slice(0, cfg.collectionsLimit);
+        var articles = (results.articles || []).slice(0, cfg.articlesLimit);
+        var pages = (results.pages || []).slice(0, cfg.pagesLimit);
+
+        var totalCount = products.length + collections.length + articles.length + pages.length;
+        if (totalCount === 0) {
+          $results.html('<div class="search-overlay__no-results">No results found</div>');
+          return;
+        }
+
         var html = '';
-        products.forEach(function(p) {
-          html += '<a href="' + p.url + '" class="search-overlay__result-item">';
-          if (p.image) html += '<img src="' + p.image + '" alt="' + p.title + '">';
-          html += '<div class="search-overlay__result-item-info">';
-          html += '<div class="search-overlay__result-item-title">' + p.title + '</div>';
-          html += '<div class="search-overlay__result-item-price">' + formatMoney(p.price) + '</div>';
-          html += '</div></a>';
-        });
+
+        // Products
+        if (products.length > 0) {
+          html += '<div class="search-overlay__group">';
+          html += '<div class="search-overlay__group-title">Products</div>';
+          products.forEach(function(p) {
+            html += '<a href="' + p.url + '" class="search-overlay__result-item">';
+            if (cfg.showProductImage && p.image) {
+              html += '<img class="search-overlay__result-thumb" src="' + p.image + '" alt="' + self.escapeHtml(p.title) + '" loading="lazy">';
+            }
+            html += '<div class="search-overlay__result-info">';
+            html += '<div class="search-overlay__result-title">' + self.escapeHtml(p.title) + '</div>';
+            if (cfg.showProductVendor && p.vendor) {
+              html += '<div class="search-overlay__result-meta">' + self.escapeHtml(p.vendor) + '</div>';
+            }
+            html += '</div>';
+            if (cfg.showProductPrice) {
+              html += '<div class="search-overlay__result-price">';
+              if (p.compare_at_price_max && parseFloat(p.compare_at_price_max) > parseFloat(p.price)) {
+                html += '<span class="sale-price">' + formatMoney(p.price) + '</span>';
+                html += '<span class="compare-price">' + formatMoney(p.compare_at_price_max) + '</span>';
+              } else {
+                html += formatMoney(p.price);
+              }
+              html += '</div>';
+            }
+            html += '</a>';
+          });
+          html += '</div>';
+        }
+
+        // Collections
+        if (collections.length > 0) {
+          html += '<div class="search-overlay__group">';
+          html += '<div class="search-overlay__group-title">Collections</div>';
+          collections.forEach(function(c) {
+            html += '<a href="' + c.url + '" class="search-overlay__result-item search-overlay__result-item--text">';
+            html += '<div class="search-overlay__result-info">';
+            html += '<div class="search-overlay__result-title">' + self.escapeHtml(c.title) + '</div>';
+            html += '</div></a>';
+          });
+          html += '</div>';
+        }
+
+        // Pages
+        if (pages.length > 0) {
+          html += '<div class="search-overlay__group">';
+          html += '<div class="search-overlay__group-title">Pages</div>';
+          pages.forEach(function(pg) {
+            html += '<a href="' + pg.url + '" class="search-overlay__result-item search-overlay__result-item--text">';
+            html += '<div class="search-overlay__result-info">';
+            html += '<div class="search-overlay__result-title">' + self.escapeHtml(pg.title) + '</div>';
+            html += '</div></a>';
+          });
+          html += '</div>';
+        }
+
+        // Articles
+        if (articles.length > 0) {
+          html += '<div class="search-overlay__group">';
+          html += '<div class="search-overlay__group-title">Articles</div>';
+          articles.forEach(function(a) {
+            html += '<a href="' + a.url + '" class="search-overlay__result-item search-overlay__result-item--text">';
+            html += '<div class="search-overlay__result-info">';
+            html += '<div class="search-overlay__result-title">' + self.escapeHtml(a.title) + '</div>';
+            if (a.author) {
+              html += '<div class="search-overlay__result-meta">by ' + self.escapeHtml(a.author) + '</div>';
+            }
+            html += '</div></a>';
+          });
+          html += '</div>';
+        }
+
+        // View all link
+        html += '<a href="/search?q=' + encodeURIComponent(query) + '&type=' + encodeURIComponent(cfg.resourceTypes) + '" class="search-overlay__view-all">View all results</a>';
+
         $results.html(html);
+      }).fail(function() {
+        if (self.lastQuery !== query) return;
+        $loading.removeClass('is-visible');
+        $results.html('<div class="search-overlay__no-results">Something went wrong. Please try again.</div>');
       });
+    },
+
+    escapeHtml: function(str) {
+      var div = document.createElement('div');
+      div.appendChild(document.createTextNode(str));
+      return div.innerHTML;
     }
   };
 

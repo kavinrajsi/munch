@@ -8,11 +8,23 @@
         "menu_1": { "type": "menu", "settings": { "title": "Quick Links" } },
         "menu_2": { "type": "menu", "settings": { "title": "Information" } },
         "contact": { "type": "contact", "settings": { "title": "Contact Us" } },
-        "newsletter": { "type": "newsletter", "settings": { "title": "Stay in Touch" } }
+        "social_instagram": { "type": "social_icon", "settings": { "social_platform": "instagram", "social_label": "Instagram" } },
+        "social_facebook": { "type": "social_icon", "settings": { "social_platform": "facebook", "social_label": "Facebook" } },
+        "social_x": { "type": "social_icon", "settings": { "social_platform": "x", "social_label": "X" } },
+        "social_youtube": { "type": "social_icon", "settings": { "social_platform": "youtube", "social_label": "YouTube" } },
+        "social_whatsapp": { "type": "social_icon", "settings": { "social_platform": "whatsapp", "social_label": "WhatsApp" } },
+        "social_pinterest": { "type": "social_icon", "settings": { "social_platform": "pinterest", "social_label": "Pinterest" } }
       },
-      "block_order": ["menu_1", "menu_2", "contact", "newsletter"],
+      "block_order": ["menu_1", "menu_2", "contact", "social_instagram", "social_facebook", "social_x", "social_youtube", "social_whatsapp", "social_pinterest"],
+      "settings": {
+        "payment_title": "Brand Trust",
+        "social_title": "Follow Us"
+      }
+    },
+    "credit-bar": {
+      "type": "credit-bar",
       "settings": {}
     }
   },
-  "order": ["footer"]
+  "order": ["footer", "credit-bar"]
 }

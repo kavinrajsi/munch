@@ -1,24 +1,132 @@
-<div class="search-overlay" id="SearchOverlay" data-search-overlay>
-  <button class="search-overlay__close" data-search-overlay-close aria-label="{{ 'accessibility.close' | t }}">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-  </button>
+{%- liquid
+  assign predictive_enabled = settings.search_enable_predictive | default: true
+  assign placeholder = settings.search_placeholder | default: 'Search'
+  assign min_chars = settings.search_min_chars | default: 2
 
-  <div class="search-overlay__inner">
-    <form class="search-overlay__form" action="{{ routes.search_url }}" method="get" role="search">
-      <input
-        type="search"
-        name="q"
-        placeholder="{{ 'general.search.placeholder' | t }}"
-        autocomplete="off"
-        data-search-input
-        aria-label="{{ 'general.search.title' | t }}"
-      >
-      <input type="hidden" name="type" value="product,article,page">
-      <button type="submit" aria-label="{{ 'general.search.submit' | t }}">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+  assign show_products = settings.search_show_products | default: true
+  assign products_limit = settings.search_products_limit | default: 6
+  assign show_collections = settings.search_show_collections | default: true
+  assign collections_limit = settings.search_collections_limit | default: 3
+  assign show_pages = settings.search_show_pages | default: true
+  assign pages_limit = settings.search_pages_limit | default: 3
+  assign show_articles = settings.search_show_articles | default: true
+  assign articles_limit = settings.search_articles_limit | default: 3
+
+  assign show_product_image = settings.search_show_product_image | default: true
+  assign show_product_vendor = settings.search_show_product_vendor | default: true
+  assign show_product_price = settings.search_show_product_price | default: true
+
+  assign show_popular = settings.search_show_popular | default: true
+  assign popular_label = settings.search_popular_label | default: 'Popular Searches:'
+  assign popular_terms = settings.search_popular_terms | default: ''
+
+  assign panel_bg = settings.search_panel_bg | default: '#F5F0E8'
+  assign input_bg = settings.search_input_bg | default: '#FFFFFF'
+  assign text_color = settings.search_text_color | default: '#333333'
+  assign border_color = settings.search_border_color | default: '#d9d3c7'
+  assign input_radius = settings.search_input_radius | default: 4
+  assign results_radius = settings.search_results_radius | default: 4
+  assign thumb_radius = settings.search_thumb_radius | default: 4
+  assign title_case = settings.search_title_case | default: 'none'
+
+  assign resource_types = ''
+  if show_products
+    assign resource_types = 'product'
+  endif
+  if show_collections
+    if resource_types != blank
+      assign resource_types = resource_types | append: ',collection'
+    else
+      assign resource_types = 'collection'
+    endif
+  endif
+  if show_pages
+    if resource_types != blank
+      assign resource_types = resource_types | append: ',page'
+    else
+      assign resource_types = 'page'
+    endif
+  endif
+  if show_articles
+    if resource_types != blank
+      assign resource_types = resource_types | append: ',article'
+    else
+      assign resource_types = 'article'
+    endif
+  endif
+-%}
+
+<div
+  class="search-overlay"
+  id="SearchOverlay"
+  data-search-overlay
+  data-predictive="{{ predictive_enabled }}"
+  data-min-chars="{{ min_chars }}"
+  data-resource-types="{{ resource_types }}"
+  data-products-limit="{{ products_limit }}"
+  data-collections-limit="{{ collections_limit }}"
+  data-pages-limit="{{ pages_limit }}"
+  data-articles-limit="{{ articles_limit }}"
+  data-show-product-image="{{ show_product_image }}"
+  data-show-product-vendor="{{ show_product_vendor }}"
+  data-show-product-price="{{ show_product_price }}"
+  style="
+    --search-panel-bg: {{ panel_bg }};
+    --search-input-bg: {{ input_bg }};
+    --search-text-color: {{ text_color }};
+    --search-border-color: {{ border_color }};
+    --search-input-radius: {{ input_radius }}px;
+    --search-results-radius: {{ results_radius }}px;
+    --search-thumb-radius: {{ thumb_radius }}px;
+    --search-title-case: {{ title_case }};
+  "
+>
+  <div class="search-overlay__backdrop" data-search-overlay-close></div>
+
+  <div class="search-overlay__panel">
+    <div class="search-overlay__container">
+      <button class="search-overlay__close" data-search-overlay-close aria-label="{{ 'accessibility.close' | t }}">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
       </button>
-    </form>
 
-    <div class="search-overlay__results" data-search-results></div>
+      <form class="search-overlay__form" action="{{ routes.search_url }}" method="get" role="search">
+        <input
+          class="search-overlay__input"
+          type="search"
+          name="q"
+          placeholder="{{ placeholder | escape }}"
+          autocomplete="off"
+          data-search-input
+          aria-label="{{ 'general.search.title' | t }}"
+        >
+        <input type="hidden" name="type" value="{{ resource_types }}">
+        <button class="search-overlay__submit" type="submit" aria-label="{{ 'general.search.submit' | t }}">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </button>
+      </form>
+
+      {%- if show_popular and popular_terms != blank -%}
+        {%- assign popular_array = popular_terms | split: ',' -%}
+        <div class="search-overlay__popular" data-search-popular>
+          <span class="search-overlay__popular-label">{{ popular_label | escape }}</span>
+          {%- for term in popular_array -%}
+            {%- assign trimmed = term | strip -%}
+            {%- if trimmed != blank -%}
+              <a
+                href="{{ routes.search_url }}?q={{ trimmed | url_encode }}&type={{ resource_types }}"
+                class="search-overlay__popular-link"
+                data-popular-term="{{ trimmed | escape }}"
+              >{{ trimmed }}</a>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+
+      <div class="search-overlay__loading" data-search-loading>
+        <span class="search-overlay__spinner"></span>
+      </div>
+
+      <div class="search-overlay__results" data-search-results></div>
+    </div>
   </div>
 </div>

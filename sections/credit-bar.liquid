@@ -1,0 +1,205 @@
+<div
+  class="credit-bar"
+  style="
+    --credit-bar-bg: {{ section.settings.bg_color }};
+    --credit-bar-text: {{ section.settings.text_color }};
+    --credit-bar-link: {{ section.settings.link_color }};
+    --credit-bar-pt-desktop: {{ section.settings.padding_top_desktop }}px;
+    --credit-bar-pb-desktop: {{ section.settings.padding_bottom_desktop }}px;
+    --credit-bar-pt-mobile: {{ section.settings.padding_top_mobile }}px;
+    --credit-bar-pb-mobile: {{ section.settings.padding_bottom_mobile }}px;
+    --credit-bar-font-weight: {{ section.settings.font_weight }};
+    --credit-bar-font-size: {{ section.settings.font_size }}px;
+    --credit-bar-line-height: {{ section.settings.line_height }}px;
+    --credit-bar-credit-gap: {{ section.settings.credit_gap }}px;
+  "
+  {{ section.shopify_attributes }}
+>
+  <div class="credit-bar__inner {% if section.settings.container_type == 'container-fluid' %}container-fluid{% else %}container{% endif %}">
+    <p class="credit-bar__copyright">
+      &copy; {{ 'now' | date: '%Y' }} {{ shop.name }}. All rights reserved.
+    </p>
+    {%- if section.settings.credit_text != blank -%}
+      <p class="credit-bar__credit">
+        Made by
+        {%- if section.settings.credit_link != blank -%}
+          <a href="{{ section.settings.credit_link }}" class="credit-bar__link" target="{{ section.settings.credit_link_target }}" rel="noopener">
+            {{ section.settings.credit_text }}
+          </a>
+        {%- else -%}
+          <span class="credit-bar__name">{{ section.settings.credit_text }}</span>
+        {%- endif -%}
+      </p>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Credit Bar",
+  "tag": "section",
+  "class": "credit-bar-section",
+  "settings": [
+    {
+      "type": "select",
+      "id": "container_type",
+      "label": "Container Type",
+      "options": [
+        {
+          "value": "container",
+          "label": "Container"
+        },
+        {
+          "value": "container-fluid",
+          "label": "Container Fluid"
+        }
+      ],
+      "default": "container"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#C61D23"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "link_color",
+      "label": "Link Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "credit_text",
+      "label": "Credit Text",
+      "default": "Madarth"
+    },
+    {
+      "type": "url",
+      "id": "credit_link",
+      "label": "Credit Link"
+    },
+    {
+      "type": "select",
+      "id": "credit_link_target",
+      "label": "Credit Link Target",
+      "options": [
+        {
+          "value": "_blank",
+          "label": "New Tab"
+        },
+        {
+          "value": "_self",
+          "label": "Same Tab"
+        }
+      ],
+      "default": "_blank"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top_desktop",
+      "label": "Padding Top (Desktop)",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_desktop",
+      "label": "Padding Bottom (Desktop)",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "label": "Padding Top (Mobile)",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "label": "Padding Bottom (Mobile)",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "range",
+      "id": "font_weight",
+      "label": "Font Weight",
+      "min": 100,
+      "max": 900,
+      "step": 100,
+      "default": 400
+    },
+    {
+      "type": "range",
+      "id": "font_size",
+      "label": "Font Size",
+      "min": 8,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "line_height",
+      "label": "Line Height",
+      "min": 8,
+      "max": 48,
+      "step": 1,
+      "unit": "px",
+      "default": 15
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "credit_gap",
+      "label": "Credit Gap",
+      "min": 0,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "default": 8
+    }
+  ]
+}
+{% endschema %}

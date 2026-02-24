@@ -1,5 +1,5 @@
 <div class="customer-order section-padding" {{ section.shopify_attributes }}>
-  <div class="page-width">
+  <div class="container">
     <div class="customer-order__header">
       <h1>{{ 'customer.order.title' | t: name: order.name }}</h1>
       <p>{{ 'customer.order.date' | t: date: order.created_at | date: '%B %d, %Y' }}</p>

@@ -1,7 +1,7 @@
 {% render 'breadcrumbs' %}
 
 <div class="cart-page section-padding" {{ section.shopify_attributes }}>
-  <div class="page-width">
+  <div class="container">
     {%- if cart.item_count > 0 -%}
       <h1>{{ 'cart.general.title' | t }} ({{ cart.item_count }})</h1>
 

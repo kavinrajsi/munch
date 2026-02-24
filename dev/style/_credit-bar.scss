@@ -1,0 +1,32 @@
+.credit-bar {
+  background-color: var(--credit-bar-bg, #C61D23);
+  color: var(--credit-bar-text, #fff);
+  padding: var(--credit-bar-pt-mobile, 12px) 0 var(--credit-bar-pb-mobile, 12px);
+
+  @media (min-width: 768px) {
+    padding: var(--credit-bar-pt-desktop, 16px) 0 var(--credit-bar-pb-desktop, 16px);
+  }
+}
+
+.credit-bar__inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.credit-bar__copyright,
+.credit-bar__credit {
+  font-weight: var(--credit-bar-font-weight, 400);
+  font-size: var(--credit-bar-font-size, 12px);
+  line-height: var(--credit-bar-line-height, 15px);
+  margin: 0;
+}
+
+.credit-bar__credit {
+  margin-left: var(--credit-bar-credit-gap, 8px);
+}
+
+.credit-bar__link {
+  color: var(--credit-bar-link, #fff);
+  text-decoration: none;
+}

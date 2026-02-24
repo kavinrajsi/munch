@@ -45,6 +45,8 @@
   data-slides-desktop="{{ section.settings.slides_desktop }}"
   data-slides-mobile="{{ section.settings.slides_mobile }}"
   style="
+    --hero-slider-height-desktop: {{ section.settings.slider_height_desktop }}px;
+    --hero-slider-height-mobile: {{ section.settings.slider_height_mobile }}px;
     --hero-dots-bottom: {{ section.settings.dots_bottom_position }}px;
     --hero-dot-width: {{ section.settings.dot_width }}px;
     --hero-dot-height: {{ section.settings.dot_height }}px;
@@ -58,6 +60,8 @@
     --hero-arrow-width: {{ section.settings.arrow_width }}px;
     --hero-arrow-height: {{ section.settings.arrow_height }}px;
     --hero-arrow-gap: {{ section.settings.arrow_gap }}px;
+    --hero-arrow-svg-width: {{ section.settings.arrow_svg_width }}px;
+    --hero-arrow-svg-height: {{ section.settings.arrow_svg_height }}px;
   "
   {{ section.shopify_attributes }}
 >
@@ -113,7 +117,7 @@
 
       {%- comment -%} Text content: only rendered when "Enable Content" is checked {%- endcomment -%}
       {%- if block.settings.show_content -%}
-        <div class="hero-slider__content page-width">
+        <div class="hero-slider__content container">
           {%- if block.settings.heading != blank -%}
             <h2 class="hero-slider__heading">{{ block.settings.heading }}</h2>
           {%- endif -%}
@@ -137,6 +141,26 @@
   "tag": "section",
   "class": "hero-slider-section",
   "settings": [
+    {
+      "type": "range",
+      "id": "slider_height_desktop",
+      "label": "Slider Height Desktop",
+      "min": 200,
+      "max": 800,
+      "step": 10,
+      "default": 500,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "slider_height_mobile",
+      "label": "Slider Height Mobile",
+      "min": 150,
+      "max": 600,
+      "step": 10,
+      "default": 300,
+      "unit": "px"
+    },
     {
       "type": "range",
       "id": "slides_desktop",
@@ -315,6 +339,26 @@
       "max": 40,
       "step": 2,
       "default": 16,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "arrow_svg_width",
+      "label": "Arrow Icon Width",
+      "min": 8,
+      "max": 40,
+      "step": 1,
+      "default": 19,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "arrow_svg_height",
+      "label": "Arrow Icon Height",
+      "min": 8,
+      "max": 40,
+      "step": 1,
+      "default": 13,
       "unit": "px"
     }
   ],

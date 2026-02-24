@@ -41,7 +41,7 @@
     role="region"
     aria-label="{{ 'sections.announcement_bar.close' | t }}"
   >
-    <div class="announcement-bar__inner{% if section.settings.container_type == 'box' %} page-width{% endif %}">
+    <div class="announcement-bar__inner{% if section.settings.container_type == 'box' %} container{% endif %}">
       <div class="announcement-bar__scroll">
         <div class="announcement-bar__track">
           {{ announcement_items }}

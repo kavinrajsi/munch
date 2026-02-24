@@ -1,6 +1,6 @@
 {%- unless request.page_type == 'index' -%}
   <nav class="breadcrumbs section-padding" aria-label="Breadcrumb" style="padding-top:16px;padding-bottom:16px;">
-    <div class="page-width">
+    <div class="container">
       <ol class="breadcrumbs__list" style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--color-secondary);">
         <li>
           <a href="{{ routes.root_url }}">{{ 'general.breadcrumbs.home' | t }}</a>

@@ -1046,17 +1046,102 @@
     ]
   },
   {
-    "name": "Cart",
+    "name": "Mini cart",
     "settings": [
       {
         "type": "select",
         "id": "cart_type",
-        "label": "Type",
+        "label": "Cart type",
         "options": [
-          { "value": "page", "label": "Page" },
-          { "value": "drawer", "label": "Drawer" }
+          { "value": "drawer", "label": "Drawer" },
+          { "value": "page", "label": "Page" }
         ],
         "default": "drawer"
+      },
+      {
+        "type": "checkbox",
+        "id": "cart_auto_open_drawer",
+        "label": "Auto-open drawer on add to cart",
+        "default": true
+      },
+      {
+        "type": "header",
+        "content": "Colors"
+      },
+      {
+        "type": "color",
+        "id": "cart_bg_color",
+        "label": "Panel background",
+        "default": "#FFFFFF"
+      },
+      {
+        "type": "color",
+        "id": "cart_header_bg_color",
+        "label": "Header & footer background",
+        "default": "#FFFFFF"
+      },
+      {
+        "type": "color",
+        "id": "cart_text_color",
+        "label": "Text color",
+        "default": "#333333"
+      },
+      {
+        "type": "color",
+        "id": "cart_border_color",
+        "label": "Border color",
+        "default": "#e5e5e5"
+      },
+      {
+        "type": "color",
+        "id": "cart_overlay_color",
+        "label": "Overlay color",
+        "default": "#000000",
+        "info": "Overlay opacity is set separately"
+      },
+      {
+        "type": "range",
+        "id": "cart_overlay_opacity",
+        "label": "Overlay opacity",
+        "min": 0,
+        "max": 100,
+        "step": 5,
+        "default": 40,
+        "unit": "%"
+      },
+      {
+        "type": "header",
+        "content": "Appearance"
+      },
+      {
+        "type": "range",
+        "id": "cart_width",
+        "label": "Drawer width (desktop)",
+        "min": 300,
+        "max": 500,
+        "step": 10,
+        "default": 380,
+        "unit": "px"
+      },
+      {
+        "type": "range",
+        "id": "cart_image_radius",
+        "label": "Product image corner radius",
+        "min": 0,
+        "max": 30,
+        "step": 1,
+        "default": 4,
+        "unit": "px"
+      },
+      {
+        "type": "range",
+        "id": "cart_item_gap",
+        "label": "Item row gap",
+        "min": 8,
+        "max": 24,
+        "step": 2,
+        "default": 12,
+        "unit": "px"
       },
       {
         "type": "select",
@@ -1064,29 +1149,52 @@
         "label": "Product title case",
         "options": [
           { "value": "none", "label": "Default" },
-          { "value": "uppercase", "label": "Uppercase" }
+          { "value": "uppercase", "label": "Uppercase" },
+          { "value": "capitalize", "label": "Capitalize" }
         ],
         "default": "none"
       },
       {
-        "type": "select",
-        "id": "cart_price_font",
-        "label": "Price font",
-        "options": [
-          { "value": "body", "label": "Body" },
-          { "value": "subheading", "label": "Subheading" }
-        ],
-        "default": "body"
+        "type": "header",
+        "content": "Checkout button"
       },
       {
-        "type": "checkbox",
-        "id": "cart_auto_open_drawer",
-        "label": "\"Add to cart\" auto-opens drawer",
-        "default": true
+        "type": "color",
+        "id": "cart_checkout_bg",
+        "label": "Button background",
+        "default": "#333333"
+      },
+      {
+        "type": "color",
+        "id": "cart_checkout_text",
+        "label": "Button text color",
+        "default": "#FFFFFF"
+      },
+      {
+        "type": "range",
+        "id": "cart_checkout_radius",
+        "label": "Button corner radius",
+        "min": 0,
+        "max": 30,
+        "step": 1,
+        "default": 4,
+        "unit": "px"
       },
       {
         "type": "header",
-        "content": "Cart features"
+        "content": "Features"
+      },
+      {
+        "type": "checkbox",
+        "id": "cart_show_product_image",
+        "label": "Show product image",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "cart_show_variant",
+        "label": "Show variant title",
+        "default": true
       },
       {
         "type": "checkbox",
@@ -1096,21 +1204,8 @@
       },
       {
         "type": "checkbox",
-        "id": "cart_allow_discounts",
-        "label": "Allow discounts in cart",
-        "default": false
-      },
-      {
-        "type": "checkbox",
-        "id": "cart_show_installments",
-        "label": "Installments",
-        "default": false
-      },
-      {
-        "type": "checkbox",
-        "id": "cart_show_accelerated_checkout",
-        "label": "Accelerated checkout buttons",
-        "info": "Allows buyers to check out faster and can improve conversion.",
+        "id": "cart_show_shipping_note",
+        "label": "Show shipping/taxes note",
         "default": true
       },
       {
@@ -1118,9 +1213,21 @@
         "content": "Empty cart"
       },
       {
+        "type": "text",
+        "id": "cart_empty_text",
+        "label": "Empty cart message",
+        "default": "Your cart is empty"
+      },
+      {
+        "type": "text",
+        "id": "cart_empty_btn_text",
+        "label": "Button text",
+        "default": "Continue Shopping"
+      },
+      {
         "type": "url",
         "id": "cart_empty_btn_link",
-        "label": "Empty cart button link",
+        "label": "Button link",
         "default": "/collections/all"
       }
     ]
@@ -1195,45 +1302,207 @@
     ]
   },
   {
-    "name": "Search",
+    "name": "Predictive search",
     "settings": [
       {
-        "type": "collection",
-        "id": "search_empty_state_collection",
-        "label": "Empty state collection",
-        "info": "Shown before a search is entered"
+        "type": "checkbox",
+        "id": "search_enable_predictive",
+        "label": "Enable predictive search",
+        "default": true
       },
       {
-        "type": "header",
-        "content": "Search popover"
+        "type": "text",
+        "id": "search_placeholder",
+        "label": "Input placeholder text",
+        "default": "Search"
       },
       {
         "type": "range",
-        "id": "search_product_corner_radius",
-        "label": "Product corner radius",
-        "min": 0,
-        "max": 100,
+        "id": "search_min_chars",
+        "label": "Minimum characters to search",
+        "min": 1,
+        "max": 5,
         "step": 1,
-        "default": 10,
+        "default": 2
+      },
+      {
+        "type": "header",
+        "content": "Resource types"
+      },
+      {
+        "type": "checkbox",
+        "id": "search_show_products",
+        "label": "Show products",
+        "default": true
+      },
+      {
+        "type": "range",
+        "id": "search_products_limit",
+        "label": "Products limit",
+        "min": 1,
+        "max": 10,
+        "step": 1,
+        "default": 6
+      },
+      {
+        "type": "checkbox",
+        "id": "search_show_collections",
+        "label": "Show collections",
+        "default": true
+      },
+      {
+        "type": "range",
+        "id": "search_collections_limit",
+        "label": "Collections limit",
+        "min": 1,
+        "max": 10,
+        "step": 1,
+        "default": 3
+      },
+      {
+        "type": "checkbox",
+        "id": "search_show_pages",
+        "label": "Show pages",
+        "default": true
+      },
+      {
+        "type": "range",
+        "id": "search_pages_limit",
+        "label": "Pages limit",
+        "min": 1,
+        "max": 10,
+        "step": 1,
+        "default": 3
+      },
+      {
+        "type": "checkbox",
+        "id": "search_show_articles",
+        "label": "Show articles",
+        "default": true
+      },
+      {
+        "type": "range",
+        "id": "search_articles_limit",
+        "label": "Articles limit",
+        "min": 1,
+        "max": 10,
+        "step": 1,
+        "default": 3
+      },
+      {
+        "type": "header",
+        "content": "Product results"
+      },
+      {
+        "type": "checkbox",
+        "id": "search_show_product_image",
+        "label": "Show product image",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "search_show_product_vendor",
+        "label": "Show vendor",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "search_show_product_price",
+        "label": "Show price",
+        "default": true
+      },
+      {
+        "type": "header",
+        "content": "Popular searches"
+      },
+      {
+        "type": "checkbox",
+        "id": "search_show_popular",
+        "label": "Show popular searches",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "search_popular_label",
+        "label": "Label text",
+        "default": "Popular Searches:"
+      },
+      {
+        "type": "text",
+        "id": "search_popular_terms",
+        "label": "Search terms",
+        "info": "Comma-separated (e.g. Ghee Mysore Pak, Kaju Katli, Murukku, Sev)"
+      },
+      {
+        "type": "header",
+        "content": "Colors"
+      },
+      {
+        "type": "color",
+        "id": "search_panel_bg",
+        "label": "Panel background",
+        "default": "#F5F0E8"
+      },
+      {
+        "type": "color",
+        "id": "search_input_bg",
+        "label": "Input background",
+        "default": "#FFFFFF"
+      },
+      {
+        "type": "color",
+        "id": "search_text_color",
+        "label": "Text color",
+        "default": "#333333"
+      },
+      {
+        "type": "color",
+        "id": "search_border_color",
+        "label": "Border color",
+        "default": "#d9d3c7"
+      },
+      {
+        "type": "header",
+        "content": "Appearance"
+      },
+      {
+        "type": "range",
+        "id": "search_input_radius",
+        "label": "Input corner radius",
+        "min": 0,
+        "max": 30,
+        "step": 1,
+        "default": 4,
         "unit": "px"
       },
       {
         "type": "range",
-        "id": "search_card_corner_radius",
-        "label": "Card corner radius",
+        "id": "search_results_radius",
+        "label": "Results corner radius",
         "min": 0,
-        "max": 100,
+        "max": 30,
         "step": 1,
-        "default": 10,
+        "default": 4,
+        "unit": "px"
+      },
+      {
+        "type": "range",
+        "id": "search_thumb_radius",
+        "label": "Product image corner radius",
+        "min": 0,
+        "max": 50,
+        "step": 1,
+        "default": 4,
         "unit": "px"
       },
       {
         "type": "select",
         "id": "search_title_case",
-        "label": "Product and card title case",
+        "label": "Result title case",
         "options": [
           { "value": "none", "label": "Default" },
-          { "value": "uppercase", "label": "Uppercase" }
+          { "value": "uppercase", "label": "Uppercase" },
+          { "value": "capitalize", "label": "Capitalize" }
         ],
         "default": "none"
       }

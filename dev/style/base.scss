@@ -3,9 +3,26 @@
 @use 'announcement-bar';
 @use 'header';
 @use 'hero-slider';
+@use 'search-overlay';
+@use 'cart-drawer';
+@use 'credit-bar';
 
 body{
   overflow-x: hidden;
+}
+
+.container {
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+.container-fluid {
+  width: 100%;
+  padding-left: 16px;
+  padding-right: 16px;
 }
 
 .skip-to-content {

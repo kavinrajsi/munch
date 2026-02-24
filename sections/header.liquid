@@ -1,5 +1,5 @@
 <header class="header{% if section.settings.sticky %} header--sticky{% endif %}" data-header {{ section.shopify_attributes }}>
-  <div class="page-width">
+  <div class="{% if section.settings.container_type == 'container-fluid' %}container-fluid{% else %}container{% endif %}">
     <div class="header__inner">
       {%- comment -%} Mobile menu toggle {%- endcomment -%}
       <button class="header__icon header__menu-toggle" data-mobile-menu-toggle aria-label="{{ 'sections.header.menu' | t }}" type="button">
@@ -138,6 +138,22 @@
   "tag": "section",
   "class": "header-section",
   "settings": [
+    {
+      "type": "select",
+      "id": "container_type",
+      "label": "Container Type",
+      "options": [
+        {
+          "value": "container",
+          "label": "Container"
+        },
+        {
+          "value": "container-fluid",
+          "label": "Container Fluid"
+        }
+      ],
+      "default": "container"
+    },
     {
       "type": "header",
       "content": "Logo"

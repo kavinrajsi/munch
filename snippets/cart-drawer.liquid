@@ -1,8 +1,58 @@
-<div class="cart-drawer" id="CartDrawer" data-cart-drawer>
+{%- liquid
+  assign cart_bg = settings.cart_bg_color | default: '#FFFFFF'
+  assign cart_header_bg = settings.cart_header_bg_color | default: '#FFFFFF'
+  assign cart_text = settings.cart_text_color | default: '#333333'
+  assign cart_border = settings.cart_border_color | default: '#e5e5e5'
+  assign cart_overlay = settings.cart_overlay_color | default: '#000000'
+  assign cart_overlay_opacity = settings.cart_overlay_opacity | default: 40
+  assign cart_width = settings.cart_width | default: 380
+  assign cart_image_radius = settings.cart_image_radius | default: 4
+  assign cart_item_gap = settings.cart_item_gap | default: 12
+  assign cart_title_case = settings.cart_product_title_case | default: 'none'
+  assign cart_checkout_bg = settings.cart_checkout_bg | default: '#333333'
+  assign cart_checkout_text = settings.cart_checkout_text | default: '#FFFFFF'
+  assign cart_checkout_radius = settings.cart_checkout_radius | default: 4
+  assign show_image = settings.cart_show_product_image | default: true
+  assign show_variant = settings.cart_show_variant | default: true
+  assign allow_note = settings.cart_allow_note | default: false
+  assign show_shipping_note = settings.cart_show_shipping_note | default: true
+  assign empty_text = settings.cart_empty_text | default: 'Your cart is empty'
+  assign empty_btn_text = settings.cart_empty_btn_text | default: 'Continue Shopping'
+  assign empty_btn_link = settings.cart_empty_btn_link | default: '/collections/all'
+
+  assign overlay_alpha = cart_overlay_opacity | divided_by: 100.0
+-%}
+
+<div
+  class="cart-drawer"
+  id="CartDrawer"
+  data-cart-drawer
+  data-show-image="{{ show_image }}"
+  data-show-variant="{{ show_variant }}"
+  data-allow-note="{{ allow_note }}"
+  data-show-shipping-note="{{ show_shipping_note }}"
+  data-empty-text="{{ empty_text | escape }}"
+  data-empty-btn-text="{{ empty_btn_text | escape }}"
+  data-empty-btn-link="{{ empty_btn_link }}"
+  style="
+    --cart-bg: {{ cart_bg }};
+    --cart-header-bg: {{ cart_header_bg }};
+    --cart-text-color: {{ cart_text }};
+    --cart-border-color: {{ cart_border }};
+    --cart-overlay-color: {{ cart_overlay | color_modify: 'alpha', overlay_alpha }};
+    --cart-width: {{ cart_width }}px;
+    --cart-image-radius: {{ cart_image_radius }}px;
+    --cart-item-gap: {{ cart_item_gap }}px;
+    --cart-title-case: {{ cart_title_case }};
+    --cart-checkout-bg: {{ cart_checkout_bg }};
+    --cart-checkout-text: {{ cart_checkout_text }};
+    --cart-checkout-radius: {{ cart_checkout_radius }}px;
+  "
+>
   <div class="cart-drawer__overlay" data-cart-drawer-close></div>
   <div class="cart-drawer__panel">
     <div class="cart-drawer__header">
-      <h3>{{ 'cart.general.title' | t }} (<span data-cart-count>{{ cart.item_count }}</span>)</h3>
+      <h3>{{ 'cart.general.title' | t | default: 'Cart' }} (<span data-cart-count>{{ cart.item_count }}</span>)</h3>
       <button class="cart-drawer__close" data-cart-drawer-close aria-label="{{ 'accessibility.close' | t }}">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
       </button>
@@ -12,20 +62,22 @@
       {%- if cart.item_count > 0 -%}
         {%- for item in cart.items -%}
           <div class="cart-drawer__item" data-cart-item data-line="{{ forloop.index }}">
-            <a href="{{ item.url }}" class="cart-drawer__item-image">
-              {%- if item.image -%}
-                <img
-                  src="{{ item.image | image_url: width: 144 }}"
-                  alt="{{ item.title | escape }}"
-                  width="72"
-                  height="90"
-                  loading="lazy"
-                >
-              {%- endif -%}
-            </a>
+            {%- if show_image -%}
+              <a href="{{ item.url }}" class="cart-drawer__item-image">
+                {%- if item.image -%}
+                  <img
+                    src="{{ item.image | image_url: width: 144 }}"
+                    alt="{{ item.title | escape }}"
+                    width="72"
+                    height="90"
+                    loading="lazy"
+                  >
+                {%- endif -%}
+              </a>
+            {%- endif -%}
             <div class="cart-drawer__item-info">
               <a href="{{ item.url }}" class="cart-drawer__item-title">{{ item.product.title }}</a>
-              {%- if item.variant.title != 'Default Title' -%}
+              {%- if show_variant and item.variant.title != 'Default Title' -%}
                 <p class="cart-drawer__item-variant">{{ item.variant.title }}</p>
               {%- endif -%}
               <p class="cart-drawer__item-price">{{ item.final_line_price | money }}</p>
@@ -34,14 +86,14 @@
                 <input type="number" value="{{ item.quantity }}" min="1" data-qty-input aria-label="{{ 'accessibility.quantity_input' | t: product: item.product.title }}">
                 <button type="button" data-qty-plus aria-label="{{ 'accessibility.increase_quantity' | t: product: item.product.title }}">+</button>
               </div>
-              <button class="cart-drawer__item-remove" data-remove-item type="button">{{ 'cart.general.remove' | t }}</button>
+              <button class="cart-drawer__item-remove" data-remove-item type="button">{{ 'cart.general.remove' | t | default: 'Remove' }}</button>
             </div>
           </div>
         {%- endfor -%}
       {%- else -%}
         <div class="cart-drawer__empty">
-          <p>{{ 'cart.general.empty' | t }}</p>
-          <a href="{{ routes.all_products_collection_url }}" class="btn btn--primary">{{ 'cart.general.continue_shopping' | t }}</a>
+          <p>{{ empty_text }}</p>
+          <a href="{{ empty_btn_link }}" class="cart-drawer__checkout">{{ empty_btn_text }}</a>
         </div>
       {%- endif -%}
     </div>
@@ -49,11 +101,19 @@
     {%- if cart.item_count > 0 -%}
       <div class="cart-drawer__footer">
         <div class="cart-drawer__subtotal">
-          <span>{{ 'cart.general.subtotal' | t }}</span>
+          <span>{{ 'cart.general.subtotal' | t | default: 'Subtotal' }}</span>
           <span data-cart-subtotal>{{ cart.total_price | money }}</span>
         </div>
-        <p class="cart-drawer__shipping-note">{{ 'cart.general.taxes_and_shipping' | t }}</p>
-        <a href="{{ routes.cart_url }}/checkout" class="btn btn--primary cart-drawer__checkout">{{ 'cart.general.checkout' | t }}</a>
+        {%- if show_shipping_note -%}
+          <p class="cart-drawer__shipping-note">{{ 'cart.general.taxes_and_shipping' | t | default: 'Taxes and shipping calculated at checkout' }}</p>
+        {%- endif -%}
+        {%- if allow_note -%}
+          <div class="cart-drawer__note">
+            <label class="cart-drawer__note-label" for="CartNote">{{ 'cart.general.note' | t | default: 'Order note' }}</label>
+            <textarea class="cart-drawer__note-textarea" id="CartNote" name="note" data-cart-note>{{ cart.note }}</textarea>
+          </div>
+        {%- endif -%}
+        <a href="{{ routes.cart_url }}/checkout" class="cart-drawer__checkout">{{ 'cart.general.checkout' | t | default: 'Checkout' }}</a>
       </div>
     {%- endif -%}
   </div>
