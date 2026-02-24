@@ -15,13 +15,15 @@
         "slide_1": {
           "type": "slide",
           "settings": {
-            "mobile_image": "shopify://shop_images/nithyaamirtham-pongal-special-mobile.jpg",
-            "desktop_image": "shopify://shop_images/nithyaamirtham-pongal-special.jpg",
+            "mobile_image": "shopify://shop_images/kondattangal-thodangattum-banner-mobile.jpg",
+            "desktop_image": "shopify://shop_images/kondattangal-thodangattum-banner-dekstop.jpg",
+            "image_link": "shopify://collections",
             "show_content": false,
             "heading": "Welcome to Nithyaamirtham",
             "subheading": "Authentic South Indian sweets & snacks crafted with love",
             "button_text": "Shop Now",
             "button_link": "",
+            "show_overlay": true,
             "overlay_opacity": 30,
             "overlay_color": "#000000"
           }
@@ -33,8 +35,23 @@
       "settings": {
         "autoplay": true,
         "autoplay_speed": 5,
-        "show_dots": true,
-        "show_arrows": true
+        "show_dots_desktop": true,
+        "show_dots_mobile": true,
+        "dot_width": 8,
+        "dot_height": 8,
+        "dot_bg_color": "#d3d3d3",
+        "dot_active_bg_color": "#c61d23",
+        "dot_border_color": "#d3d3d3",
+        "dot_active_border_color": "#c61d23",
+        "dots_bottom_position": 20,
+        "show_arrows_desktop": true,
+        "show_arrows_mobile": true,
+        "arrow_bg_color": "#f5f3f4",
+        "arrow_border_color": "#f5f3f4",
+        "arrow_border_radius": 20,
+        "arrow_width": 40,
+        "arrow_height": 40,
+        "arrow_gap": 16
       }
     }
   },
