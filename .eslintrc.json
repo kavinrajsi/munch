@@ -1,0 +1,28 @@
+{
+  "env": {
+    "browser": true,
+    "jquery": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 5
+  },
+  "globals": {
+    "Shopify": "readonly",
+    "theme": "readonly",
+    "PhotoSwipe": "readonly",
+    "PhotoSwipeLightbox": "readonly"
+  },
+  "rules": {
+    "quotes": ["warn", "single"],
+    "semi": ["warn", "always"],
+    "indent": ["warn", 2],
+    "no-unused-vars": "warn",
+    "no-undef": "error",
+    "no-redeclare": "warn",
+    "eqeqeq": "warn",
+    "curly": ["warn", "multi-line"],
+    "no-trailing-spaces": "warn",
+    "comma-dangle": ["warn", "never"],
+    "no-console": "warn"
+  }
+}

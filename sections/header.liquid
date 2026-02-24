@@ -8,9 +8,10 @@
 
       {%- comment -%} Logo {%- endcomment -%}
       <div class="header__logo">
-        <a href="{{ routes.root_url }}">
+        <a href="{{ routes.root_url }}" class="header__logo-link">
           {%- if section.settings.logo_type == 'image' and section.settings.logo -%}
             <img
+              class="header__logo-img"
               src="{{ section.settings.logo | image_url: width: 300 }}"
               alt="{{ shop.name | escape }}"
               width="{{ section.settings.logo.width }}"
@@ -19,7 +20,7 @@
               loading="eager"
             >
           {%- elsif section.settings.logo_type == 'svg' and section.settings.logo_svg != blank -%}
-            <div style="max-width: {{ section.settings.logo_width }}px;">
+            <div class="header__logo-svg" style="max-width: {{ section.settings.logo_width }}px;">
               {{ section.settings.logo_svg }}
             </div>
           {%- else -%}
@@ -32,11 +33,16 @@
       <nav class="header__nav" aria-label="Main navigation">
         {%- for link in section.settings.menu.links -%}
           <div class="header__nav-item">
-            <a href="{{ link.url }}">{{ link.title }}</a>
+            <a href="{{ link.url }}" class="header__nav-link{% if link.active %} header__nav-link--active{% endif %}">
+              {{- link.title -}}
+              {%- if link.links.size > 0 -%}
+                <svg class="header__nav-chevron" width="10" height="9" viewBox="0 0 10 9" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M0.112982 4.1049C0.148705 4.07165 0.191143 4.04527 0.237865 4.02727C0.284586 4.00927 0.334673 4 0.385258 4C0.435842 4 0.485929 4.00927 0.532651 4.02727C0.579373 4.04527 0.62181 4.07165 0.657534 4.1049L5.0001 8.13744L9.34267 4.1049C9.37842 4.0717 9.42087 4.04537 9.46759 4.0274C9.51431 4.00943 9.56438 4.00019 9.61494 4.00019C9.66551 4.00019 9.71558 4.00943 9.7623 4.0274C9.80902 4.04537 9.85146 4.0717 9.88722 4.1049C9.92298 4.13809 9.95134 4.17751 9.97069 4.22088C9.99004 4.26425 10 4.31074 10 4.35769C10 4.40464 9.99004 4.45113 9.97069 4.4945C9.95134 4.53787 9.92298 4.57729 9.88722 4.61048L5.27238 8.8951C5.23665 8.92835 5.19422 8.95473 5.14749 8.97273C5.10077 8.99073 5.05068 9 5.0001 9C4.94952 9 4.89943 8.99073 4.85271 8.97273C4.80599 8.95473 4.76355 8.92835 4.72783 8.8951L0.112982 4.61048C0.0771683 4.57732 0.0487541 4.53791 0.0293668 4.49454C0.00997949 4.45116 0 4.40465 0 4.35769C0 4.31073 0.00997949 4.26422 0.0293668 4.22084C0.0487541 4.17747 0.0771683 4.13806 0.112982 4.1049Z" fill="currentColor"/></svg>
+              {%- endif -%}
+            </a>
             {%- if link.links.size > 0 -%}
               <div class="header__dropdown">
                 {%- for child_link in link.links -%}
-                  <a href="{{ child_link.url }}">{{ child_link.title }}</a>
+                  <a href="{{ child_link.url }}" class="header__dropdown-link">{{ child_link.title }}</a>
                 {%- endfor -%}
               </div>
             {%- endif -%}
@@ -81,11 +87,11 @@
     </div>
     <nav class="mobile-menu__nav">
       {%- for link in section.settings.menu.links -%}
-        <a href="{{ link.url }}">{{ link.title }}</a>
+        <a href="{{ link.url }}" class="mobile-menu__nav-link">{{ link.title }}</a>
         {%- if link.links.size > 0 -%}
           <div class="mobile-menu__submenu">
             {%- for child_link in link.links -%}
-              <a href="{{ child_link.url }}">{{ child_link.title }}</a>
+              <a href="{{ child_link.url }}" class="mobile-menu__submenu-link">{{ child_link.title }}</a>
             {%- endfor -%}
           </div>
         {%- endif -%}
@@ -93,6 +99,37 @@
     </nav>
   </div>
 </div>
+
+{%- if section.settings.sticky -%}
+<script>
+  (function () {
+    var header = document.querySelector('[data-header]');
+    if (!header) return;
+
+    var lastScroll = 0;
+    var customThreshold = {{ section.settings.sticky_threshold }};
+    var threshold = customThreshold > 0 ? customThreshold : window.innerHeight;
+
+    window.addEventListener('scroll', function () {
+      var currentScroll = window.scrollY;
+
+      if (currentScroll > threshold) {
+        header.classList.add('header--fixed');
+
+        if (currentScroll < lastScroll) {
+          header.classList.add('header--visible');
+        } else {
+          header.classList.remove('header--visible');
+        }
+      } else {
+        header.classList.remove('header--fixed', 'header--visible');
+      }
+
+      lastScroll = currentScroll;
+    });
+  })();
+</script>
+{%- endif -%}
 
 {% schema %}
 {
@@ -150,6 +187,17 @@
       "id": "sticky",
       "label": "Sticky Header",
       "default": true
+    },
+    {
+      "type": "range",
+      "id": "sticky_threshold",
+      "label": "Show sticky after (px)",
+      "info": "0 = use viewport height",
+      "min": 0,
+      "max": 2000,
+      "step": 50,
+      "default": 0,
+      "unit": "px"
     },
     {
       "type": "header",

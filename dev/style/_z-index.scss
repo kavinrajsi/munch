@@ -1,0 +1,12 @@
+@use 'sass:map';
+
+$layers: (
+  skip-to-content: 100,
+  mobile-menu: 50,
+  header: 20,
+  announcement-bar: 10,
+);
+
+@function z($layer) {
+  @return map.get($layers, $layer);
+}

@@ -1,7 +1,7 @@
 {%- capture announcement_items -%}
   {%- for block in section.blocks -%}
     {%- if block.settings.link != blank -%}
-      <a href="{{ block.settings.link }}" class="announcement-bar__item" {{ block.shopify_attributes }}>
+      <a href="{{ block.settings.link }}" class="announcement-bar__item announcement-bar__item--link" {{ block.shopify_attributes }}>
         {{ block.settings.text }}
       </a>
     {%- else -%}
@@ -17,6 +17,7 @@
     class="announcement-bar{% if section.settings.pause_on_hover %} announcement-bar--pause-hover{% endif %}{% if section.settings.pause_on_focus %} announcement-bar--pause-focus{% endif %}"
     data-announcement-bar
     data-section-id="{{ section.id }}"
+    data-dismiss-duration="{{ section.settings.dismiss_duration }}"
     data-announcement-speed="{{ section.settings.scroll_speed }}s"
     data-announcement-bg="{{ section.settings.bg_color }}"
     data-announcement-text="{{ section.settings.text_color }}"
@@ -32,6 +33,10 @@
       --announcement-padding-bottom: {{ section.settings.padding_bottom_desktop }}px;
       --announcement-padding-top-mobile: {{ section.settings.padding_top_mobile }}px;
       --announcement-padding-bottom-mobile: {{ section.settings.padding_bottom_mobile }}px;
+      --announcement-gap: {{ section.settings.gap_desktop }}px;
+      --announcement-gap-mobile: {{ section.settings.gap_mobile }}px;
+      --announcement-font-size: {{ section.settings.font_size_desktop }}px;
+      --announcement-font-size-mobile: {{ section.settings.font_size_mobile }}px;
     "
     role="region"
     aria-label="{{ 'sections.announcement_bar.close' | t }}"
@@ -60,6 +65,37 @@
   </div>
 {%- endif -%}
 
+<script>
+  (function () {
+    var bar = document.querySelector('[data-announcement-bar]');
+    if (!bar) return;
+
+    var sectionId = bar.dataset.sectionId;
+    var storageKey = 'announcement-dismissed-' + sectionId;
+    var dismissDuration = parseInt(bar.dataset.dismissDuration, 10);
+    var dismissed = localStorage.getItem(storageKey);
+
+    if (dismissed && dismissDuration > 0) {
+      var dismissedAt = parseInt(dismissed, 10);
+      if (Date.now() - dismissedAt < dismissDuration) {
+        bar.style.display = 'none';
+        return;
+      }
+      localStorage.removeItem(storageKey);
+    }
+
+    var closeBtn = bar.querySelector('[data-announcement-close]');
+    if (closeBtn) {
+      closeBtn.addEventListener('click', function () {
+        bar.style.display = 'none';
+        if (dismissDuration > 0) {
+          localStorage.setItem(storageKey, Date.now().toString());
+        }
+      });
+    }
+  })();
+</script>
+
 {% schema %}
 {
   "name": "Announcement Bar",
@@ -73,7 +109,7 @@
       "min": 5,
       "max": 60,
       "step": 1,
-      "default": 46,
+      "default": 30,
       "unit": "s"
     },
     {
@@ -107,9 +143,9 @@
       "id": "padding_top_desktop",
       "label": "Top",
       "min": 0,
-      "max": 60,
+      "max": 40,
       "step": 2,
-      "default": 10,
+      "default": 8,
       "unit": "px"
     },
     {
@@ -117,9 +153,9 @@
       "id": "padding_bottom_desktop",
       "label": "Bottom",
       "min": 0,
-      "max": 60,
+      "max": 40,
       "step": 2,
-      "default": 10,
+      "default": 8,
       "unit": "px"
     },
     {
@@ -148,19 +184,79 @@
     },
     {
       "type": "header",
+      "content": "Marquee Gap"
+    },
+    {
+      "type": "range",
+      "id": "gap_desktop",
+      "label": "Desktop gap",
+      "min": 10,
+      "max": 100,
+      "step": 2,
+      "default": 40,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "gap_mobile",
+      "label": "Mobile gap",
+      "min": 10,
+      "max": 60,
+      "step": 2,
+      "default": 20,
+      "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "Font Size"
+    },
+    {
+      "type": "range",
+      "id": "font_size_desktop",
+      "label": "Desktop",
+      "min": 10,
+      "max": 24,
+      "step": 1,
+      "default": 12,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "font_size_mobile",
+      "label": "Mobile",
+      "min": 8,
+      "max": 20,
+      "step": 1,
+      "default": 11,
+      "unit": "px"
+    },
+    {
+      "type": "header",
       "content": "Colors"
     },
     {
       "type": "color",
       "id": "bg_color",
       "label": "Background Color",
-      "default": "#000000"
+      "default": "#C61D23"
     },
     {
       "type": "color",
       "id": "text_color",
       "label": "Text Color",
       "default": "#FFFFFF"
+    },
+    {
+      "type": "select",
+      "id": "dismiss_duration",
+      "label": "Stay hidden after close",
+      "options": [
+        { "value": "0", "label": "Until page reload" },
+        { "value": "86400000", "label": "24 hours" },
+        { "value": "604800000", "label": "1 week" },
+        { "value": "2592000000", "label": "30 days" }
+      ],
+      "default": "604800000"
     },
     {
       "type": "textarea",
@@ -183,7 +279,8 @@
         {
           "type": "url",
           "id": "link",
-          "label": "Link"
+          "label": "Link",
+          "default": "/collections/all"
         }
       ]
     }

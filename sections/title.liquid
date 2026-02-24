@@ -11,28 +11,34 @@
     {%- endif -%}
 
     {%- if section.settings.show_separator -%}
-      <div class="title-section__separator" style="
-        width: {{ section.settings.separator_width }}px;
-        height: {{ section.settings.separator_height }}px;
-        background-color: {{ section.settings.separator_color }};
-        margin-top: {{ section.settings.separator_spacing }}px;
-        {%- case section.settings.alignment -%}
-          {%- when 'left' -%}
-            margin-right: auto;
-          {%- when 'right' -%}
-            margin-left: auto;
-          {%- when 'center' -%}
-            margin-left: auto;
-            margin-right: auto;
-        {%- endcase -%}
-      "></div>
+      {%- liquid
+        case section.settings.alignment
+          when 'left'
+            assign separator_svg = section.settings.separator_svg_left
+          when 'right'
+            assign separator_svg = section.settings.separator_svg_right
+          when 'center'
+            assign separator_svg = section.settings.separator_svg_center
+        endcase
+      -%}
+
+      {%- if separator_svg != blank -%}
+        <div class="title-section__separator" style="
+          {%- case section.settings.alignment -%}
+            {%- when 'left' -%}
+              margin-right: auto;
+            {%- when 'right' -%}
+              margin-left: auto;
+            {%- when 'center' -%}
+              margin-left: auto;
+              margin-right: auto;
+          {%- endcase -%}
+        ">
+          {{ separator_svg }}
+        </div>
+      {%- endif -%}
     {%- endif -%}
 
-    {%- if section.settings.subtitle != blank -%}
-      <p class="title-section__subtitle" style="margin-top: 16px;">
-        {{ section.settings.subtitle }}
-      </p>
-    {%- endif -%}
   </div>
 </div>
 
@@ -60,12 +66,7 @@
       ],
       "default": "h2"
     },
-    {
-      "type": "text",
-      "id": "subtitle",
-      "label": "Subtitle"
-    },
-    {
+{
       "type": "select",
       "id": "alignment",
       "label": "Alignment",
@@ -87,40 +88,22 @@
       "default": true
     },
     {
-      "type": "range",
-      "id": "separator_width",
-      "label": "Separator width",
-      "min": 20,
-      "max": 200,
-      "step": 5,
-      "unit": "px",
-      "default": 60
+      "type": "html",
+      "id": "separator_svg_left",
+      "label": "Separator SVG (Left)",
+      "info": "Paste SVG code for left-aligned separator"
     },
     {
-      "type": "range",
-      "id": "separator_height",
-      "label": "Separator height",
-      "min": 1,
-      "max": 6,
-      "step": 1,
-      "unit": "px",
-      "default": 3
+      "type": "html",
+      "id": "separator_svg_center",
+      "label": "Separator SVG (Center)",
+      "info": "Paste SVG code for center-aligned separator"
     },
     {
-      "type": "range",
-      "id": "separator_spacing",
-      "label": "Separator top spacing",
-      "min": 4,
-      "max": 32,
-      "step": 2,
-      "unit": "px",
-      "default": 12
-    },
-    {
-      "type": "color",
-      "id": "separator_color",
-      "label": "Separator color",
-      "default": "#c8872b"
+      "type": "html",
+      "id": "separator_svg_right",
+      "label": "Separator SVG (Right)",
+      "info": "Paste SVG code for right-aligned separator"
     }
   ],
   "presets": [
