@@ -183,6 +183,29 @@
         "view_all_label": "View all"
       }
     },
+    "main_store_locator_aXC87N": {
+      "type": "main-store-locator",
+      "blocks": {
+        "location_EnyD38": {
+          "type": "location",
+          "settings": {
+            "name": "Main Store",
+            "address": "",
+            "phone": "",
+            "hours": "Mon-Sat: 9am - 8pm",
+            "directions_url": ""
+          }
+        }
+      },
+      "block_order": [
+        "location_EnyD38"
+      ],
+      "name": "Store Locator",
+      "settings": {
+        "title": "Our Stores",
+        "map_embed": ""
+      }
+    },
     "testimonials_3rdEd4": {
       "type": "testimonials",
       "blocks": {
@@ -226,27 +249,54 @@
         "layout": "grid"
       }
     },
-    "main_store_locator_aXC87N": {
-      "type": "main-store-locator",
+    "icon_with_text_UktifF": {
+      "type": "icon-with-text",
       "blocks": {
-        "location_EnyD38": {
-          "type": "location",
+        "icon_item_KXmkay": {
+          "type": "icon_item",
           "settings": {
-            "name": "Main Store",
-            "address": "",
-            "phone": "",
-            "hours": "Mon-Sat: 9am - 8pm",
-            "directions_url": ""
+            "title": "Item 1",
+            "link": ""
+          }
+        },
+        "icon_item_L8CtNN": {
+          "type": "icon_item",
+          "settings": {
+            "title": "Item 2",
+            "link": ""
+          }
+        },
+        "icon_item_iCXCx7": {
+          "type": "icon_item",
+          "settings": {
+            "title": "Title",
+            "link": ""
           }
         }
       },
       "block_order": [
-        "location_EnyD38"
+        "icon_item_KXmkay",
+        "icon_item_L8CtNN",
+        "icon_item_iCXCx7"
       ],
-      "name": "Store Locator",
+      "name": "Icon with Text",
       "settings": {
-        "title": "Our Stores",
-        "map_embed": ""
+        "container_type": "container",
+        "items_per_row_desktop": 6,
+        "items_per_row_tablet": 4,
+        "items_per_row_mobile": 3,
+        "image_width_desktop": 120,
+        "image_height_desktop": 120,
+        "image_width_mobile": 80,
+        "image_height_mobile": 80,
+        "gap_image_text": 8,
+        "gap_items": 20,
+        "padding_top_desktop": 40,
+        "padding_bottom_desktop": 40,
+        "padding_top_mobile": 20,
+        "padding_bottom_mobile": 20,
+        "text_color": "#161A1D",
+        "bg_color": "transparent"
       }
     }
   },
@@ -254,8 +304,9 @@
     "hero",
     "icon_with_text_4KhBJd",
     "featured_collection_carousel_MBtUje",
-    "main_store_locator_aXC87N",
+    "icon_with_text_UktifF",
     "featured_collection_carousel_Kcce3V",
+    "main_store_locator_aXC87N",
     "testimonials_3rdEd4"
   ]
 }
