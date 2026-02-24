@@ -31,7 +31,34 @@
   Max blocks: 6
 {%- endcomment -%}
 
-<div class="hero-slider" data-hero-slider style="--hero-dots-bottom: {{ section.settings.dots_bottom_position }}px; --hero-arrow-bg: {{ section.settings.arrow_bg_color }}; --hero-arrow-border-color: {{ section.settings.arrow_border_color }}; --hero-arrow-border-radius: {{ section.settings.arrow_border_radius }}px; --hero-arrow-width: {{ section.settings.arrow_width }}px; --hero-arrow-height: {{ section.settings.arrow_height }}px; --hero-arrow-gap: {{ section.settings.arrow_gap }}px;" {{ section.shopify_attributes }}>
+{%- capture hero_classes -%}
+  hero-slider
+  {%- unless section.settings.show_dots_desktop %} hero-slider--hide-dots-desktop{%- endunless -%}
+  {%- unless section.settings.show_dots_mobile %} hero-slider--hide-dots-mobile{%- endunless -%}
+  {%- unless section.settings.show_arrows_desktop %} hero-slider--hide-arrows-desktop{%- endunless -%}
+  {%- unless section.settings.show_arrows_mobile %} hero-slider--hide-arrows-mobile{%- endunless -%}
+{%- endcapture -%}
+
+<div
+  class="{{ hero_classes | strip_newlines | strip }}"
+  data-hero-slider
+  style="
+    --hero-dots-bottom: {{ section.settings.dots_bottom_position }}px;
+    --hero-dot-width: {{ section.settings.dot_width }}px;
+    --hero-dot-height: {{ section.settings.dot_height }}px;
+    --hero-dot-bg: {{ section.settings.dot_bg_color }};
+    --hero-dot-active-bg: {{ section.settings.dot_active_bg_color }};
+    --hero-dot-border-color: {{ section.settings.dot_border_color }};
+    --hero-dot-active-border-color: {{ section.settings.dot_active_border_color }};
+    --hero-arrow-bg: {{ section.settings.arrow_bg_color }};
+    --hero-arrow-border-color: {{ section.settings.arrow_border_color }};
+    --hero-arrow-border-radius: {{ section.settings.arrow_border_radius }}px;
+    --hero-arrow-width: {{ section.settings.arrow_width }}px;
+    --hero-arrow-height: {{ section.settings.arrow_height }}px;
+    --hero-arrow-gap: {{ section.settings.arrow_gap }}px;
+  "
+  {{ section.shopify_attributes }}
+>
   {%- comment -%} Arrow SVGs used by slick prevArrow / nextArrow {%- endcomment -%}
   <template class="hero-slider__arrow-svg">
     <svg xmlns="http://www.w3.org/2000/svg" width="19" height="13" fill="none" viewBox="0 0 19 13">
@@ -132,15 +159,93 @@
       "unit": "s"
     },
     {
+      "type": "header",
+      "content": "Dots Visibility"
+    },
+    {
       "type": "checkbox",
-      "id": "show_dots",
-      "label": "Show Dots",
+      "id": "show_dots_desktop",
+      "label": "Show Dots on Desktop",
       "default": true
     },
     {
       "type": "checkbox",
-      "id": "show_arrows",
-      "label": "Show Arrows",
+      "id": "show_dots_mobile",
+      "label": "Show Dots on Mobile",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Dot Settings"
+    },
+    {
+      "type": "range",
+      "id": "dot_width",
+      "label": "Dot Width",
+      "min": 4,
+      "max": 20,
+      "step": 1,
+      "default": 8,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "dot_height",
+      "label": "Dot Height",
+      "min": 4,
+      "max": 20,
+      "step": 1,
+      "default": 8,
+      "unit": "px"
+    },
+    {
+      "type": "color",
+      "id": "dot_bg_color",
+      "label": "Dot Background Color",
+      "default": "#D3D3D3"
+    },
+    {
+      "type": "color",
+      "id": "dot_active_bg_color",
+      "label": "Dot Active Background Color",
+      "default": "#C61D23"
+    },
+    {
+      "type": "color",
+      "id": "dot_border_color",
+      "label": "Dot Border Color",
+      "default": "#D3D3D3"
+    },
+    {
+      "type": "color",
+      "id": "dot_active_border_color",
+      "label": "Dot Active Border Color",
+      "default": "#C61D23"
+    },
+    {
+      "type": "range",
+      "id": "dots_bottom_position",
+      "label": "Dots Bottom Position",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 20,
+      "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "Arrows Visibility"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_arrows_desktop",
+      "label": "Show Arrows on Desktop",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_arrows_mobile",
+      "label": "Show Arrows on Mobile",
       "default": true
     },
     {
@@ -197,16 +302,6 @@
       "max": 40,
       "step": 2,
       "default": 16,
-      "unit": "px"
-    },
-    {
-      "type": "range",
-      "id": "dots_bottom_position",
-      "label": "Dots Bottom Position",
-      "min": 0,
-      "max": 100,
-      "step": 5,
-      "default": 20,
       "unit": "px"
     }
   ],
