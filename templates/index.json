@@ -173,6 +173,12 @@
         "products_to_show": 8,
         "slides_to_show": 3,
         "show_dots": true,
+        "padding_top_desktop": 56,
+        "padding_bottom_desktop": 56,
+        "padding_top_mobile": 56,
+        "padding_bottom_mobile": 56,
+        "title_gap_desktop": 40,
+        "title_gap_mobile": 30,
         "show_vendor": false,
         "show_price": true,
         "show_view_all": true,
@@ -185,7 +191,8 @@
         "icon_item_KXmkay": {
           "type": "icon_item",
           "settings": {
-            "title": "Item 1",
+            "image": "shopify://shop_images/ghee-sweets.png",
+            "title": "Ghee Sweets",
             "link": "",
             "item_bg_color": "rgba(0,0,0,0)"
           }
@@ -193,7 +200,8 @@
         "icon_item_L8CtNN": {
           "type": "icon_item",
           "settings": {
-            "title": "Item 2",
+            "image": "shopify://shop_images/home-made-sweets.png",
+            "title": "Home Made Sweets",
             "link": "",
             "item_bg_color": "rgba(0,0,0,0)"
           }
@@ -201,7 +209,8 @@
         "icon_item_iCXCx7": {
           "type": "icon_item",
           "settings": {
-            "title": "Title",
+            "image": "shopify://shop_images/traditional-savories.png",
+            "title": "Traditional Savories",
             "link": "",
             "item_bg_color": "rgba(0,0,0,0)"
           }
@@ -215,11 +224,11 @@
       "name": "Icon with Text",
       "settings": {
         "container_type": "container",
-        "items_per_row_desktop": 6,
-        "items_per_row_tablet": 4,
+        "items_per_row_desktop": 3,
+        "items_per_row_tablet": 3,
         "items_per_row_mobile": 3,
-        "image_width_desktop": 120,
-        "image_height_desktop": 120,
+        "image_width_desktop": 200,
+        "image_height_desktop": 200,
         "image_width_mobile": 80,
         "image_height_mobile": 80,
         "gap_image_text": 8,
@@ -242,6 +251,12 @@
         "products_to_show": 8,
         "slides_to_show": 3,
         "show_dots": true,
+        "padding_top_desktop": 56,
+        "padding_bottom_desktop": 56,
+        "padding_top_mobile": 56,
+        "padding_bottom_mobile": 56,
+        "title_gap_desktop": 40,
+        "title_gap_mobile": 30,
         "show_vendor": false,
         "show_price": true,
         "show_view_all": true,
