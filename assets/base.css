@@ -199,6 +199,14 @@ svg {
   text-decoration: none;
   color: inherit;
 }
+.header__logo-img, .header__logo-svg {
+  max-width: var(--logo-width-mobile, 100px);
+}
+@media (min-width: 750px) {
+  .header__logo-img, .header__logo-svg {
+    max-width: var(--logo-width, 150px);
+  }
+}
 .header__logo-img {
   display: block;
   height: auto;
