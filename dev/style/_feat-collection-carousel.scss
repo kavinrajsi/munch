@@ -1,0 +1,36 @@
+.feat-collection-carousel {
+  overflow: hidden;
+  padding-top: var(--fcc-pt-mobile, 56px);
+  padding-bottom: var(--fcc-pb-mobile, 56px);
+
+  @media (min-width: 992px) {
+    padding-top: var(--fcc-pt-desktop, 56px);
+    padding-bottom: var(--fcc-pb-desktop, 56px);
+  }
+}
+
+.feat-collection-carousel__header {
+  margin-bottom: var(--fcc-title-gap-mobile, 30px);
+
+  @media (min-width: 992px) {
+    margin-bottom: var(--fcc-title-gap-desktop, 40px);
+  }
+}
+
+.feat-collection-carousel__heading {
+  font-family: 'Aller', sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 32px;
+  text-align: center;
+  color: #C61D23;
+}
+
+.feat-collection-carousel__track {
+  @media (max-width: 767px) {
+    .slick-list {
+      overflow: visible;
+    }
+  }
+}

@@ -1,4 +1,15 @@
-<div class="feat-collection-carousel" {{ section.shopify_attributes }}>
+<div
+  class="feat-collection-carousel"
+  style="
+    --fcc-pt-desktop: {{ section.settings.padding_top_desktop }}px;
+    --fcc-pb-desktop: {{ section.settings.padding_bottom_desktop }}px;
+    --fcc-pt-mobile: {{ section.settings.padding_top_mobile }}px;
+    --fcc-pb-mobile: {{ section.settings.padding_bottom_mobile }}px;
+    --fcc-title-gap-desktop: {{ section.settings.title_gap_desktop }}px;
+    --fcc-title-gap-mobile: {{ section.settings.title_gap_mobile }}px;
+  "
+  {{ section.shopify_attributes }}
+>
   {%- if section.settings.heading != blank or section.settings.subheading != blank -%}
     <div class="feat-collection-carousel__header">
       {%- if section.settings.heading != blank -%}
@@ -72,14 +83,14 @@
     var el = document.querySelector('[data-feat-collection-carousel]');
     if (!el || typeof $ === 'undefined') return;
     $(el).slick({
-      slidesToShow: {{ section.settings.slides_to_show }},
+      slidesToShow: 4,
       slidesToScroll: 1,
       arrows: true,
       dots: {{ section.settings.show_dots }},
       infinite: false,
       responsive: [
-        { breakpoint: 1024, settings: { slidesToShow: 2 } },
-        { breakpoint: 640, settings: { slidesToShow: 1, dots: true } }
+        { breakpoint: 1024, settings: { slidesToShow: 4 } },
+        { breakpoint: 768, settings: { slidesToShow: 1.2, arrows: false } }
       ]
     });
   })();
@@ -130,6 +141,74 @@
       "id": "show_dots",
       "label": "Show dots",
       "default": false
+    },
+    {
+      "type": "header",
+      "content": "Section Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top_desktop",
+      "label": "Padding top — desktop",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "default": 56,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_desktop",
+      "label": "Padding bottom — desktop",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "default": 56,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "label": "Padding top — mobile",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "default": 56,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "label": "Padding bottom — mobile",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "default": 56,
+      "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "Title Spacing"
+    },
+    {
+      "type": "range",
+      "id": "title_gap_desktop",
+      "label": "Space after title — desktop",
+      "min": 0,
+      "max": 80,
+      "step": 2,
+      "default": 40,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "title_gap_mobile",
+      "label": "Space after title — mobile",
+      "min": 0,
+      "max": 80,
+      "step": 2,
+      "default": 30,
+      "unit": "px"
     },
     {
       "type": "header",
