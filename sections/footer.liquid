@@ -15,9 +15,26 @@
   {{ section.shopify_attributes }}
 >
   <div class="footer__container container">
-
-    <!-- Brand -->
+    <!-- Brand with lines -->
     <div class="footer__brand">
+      <span class="footer__brand-line" aria-hidden="true">
+        <svg
+          preserveAspectRatio="none"
+          width="100%"
+          height="1"
+          viewBox="0 0 454 1"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <rect width="454" height="1" transform="matrix(-1 0 0 1 454 0)" fill="url(#footer-line-left)"/>
+          <defs>
+            <linearGradient id="footer-line-left" x1="0" y1="0.5" x2="454" y2="0.5" gradientUnits="userSpaceOnUse">
+              <stop stop-color="{{ section.settings.divider_color }}"/>
+              <stop offset="1" stop-color="{{ section.settings.divider_color }}" stop-opacity="0"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </span>
 
       <a href="{{ routes.root_url }}" class="footer__logo" aria-label="{{ shop.name }} Home">
         {%- case section.settings.logo_type -%}
@@ -26,49 +43,65 @@
               <img
                 src="{{ section.settings.logo_image | image_url: width: 600 }}"
                 alt="{{ shop.name }}"
+                class="footer__logo-img"
+                width="{{ section.settings.logo_width_desktop }}"
+                height="auto"
                 loading="lazy"
               >
             {%- else -%}
-              <span>{{ shop.name }}</span>
+              <span class="footer__logo-text">{{ shop.name }}</span>
             {%- endif -%}
-
           {%- when 'svg' -%}
             {%- if section.settings.logo_svg != blank -%}
               {{ section.settings.logo_svg }}
             {%- else -%}
-              <span>{{ shop.name }}</span>
+              <span class="footer__logo-text">{{ shop.name }}</span>
             {%- endif -%}
-
           {%- else -%}
-            <span>{{ shop.name }}</span>
+            <span class="footer__logo-text">{{ shop.name }}</span>
         {%- endcase -%}
       </a>
 
+      <span class="footer__brand-line" aria-hidden="true">
+        <svg
+          preserveAspectRatio="none"
+          width="100%"
+          height="1"
+          viewBox="0 0 454 1"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <rect width="454" height="1" fill="url(#footer-line-right)"/>
+          <defs>
+            <linearGradient id="footer-line-right" x1="0" y1="0.5" x2="454" y2="0.5" gradientUnits="userSpaceOnUse">
+              <stop stop-color="{{ section.settings.divider_color }}"/>
+              <stop offset="1" stop-color="{{ section.settings.divider_color }}" stop-opacity="0"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </span>
     </div>
 
-
+    <!-- Links Section -->
     <!-- Links Section -->
     <div class="footer__links">
       {%- for block in section.blocks -%}
         {%- case block.type -%}
-
           {%- when 'menu' -%}
-            <nav {{ block.shopify_attributes }}>
+            <nav class="footer__nav" {{ block.shopify_attributes }} aria-labelledby="footer-nav-{{ block.id }}">
               {%- if block.settings.title != blank -%}
-                <h2>{{ block.settings.title }}</h2>
+                <h2 id="footer-nav-{{ block.id }}" class="footer__title">{{ block.settings.title }}</h2>
               {%- endif -%}
-
               {%- if block.settings.menu != blank -%}
-                <ul>
+                <ul class="footer__list">
                   {%- for link in block.settings.menu.links -%}
-                    <li>
-                      <a href="{{ link.url }}">{{ link.title }}</a>
+                    <li class="footer__item">
+                      <a href="{{ link.url }}" class="footer__link">{{ link.title }}</a>
                     </li>
                   {%- endfor -%}
                 </ul>
               {%- endif -%}
             </nav>
-
 
           {%- when 'contact' -%}
             <div {{ block.shopify_attributes }}>
@@ -77,7 +110,6 @@
               {%- endif -%}
 
               <address>
-
                 {%- if block.settings.address != blank -%}
                   <div>{{ block.settings.address }}</div>
                 {%- endif -%}
@@ -97,69 +129,107 @@
                     </a>
                   </div>
                 {%- endif -%}
-
               </address>
             </div>
-
         {%- endcase -%}
       {%- endfor -%}
     </div>
 
-
-    <hr>
-
-
     <!-- Bottom Section -->
     <div class="footer__bottom">
-
       <!-- Brand Trust -->
-      {%- assign trust_blocks = section.blocks | where: "type", "brand_trust" -%}
-      {%- if trust_blocks.size > 0 -%}
-        <div class="footer__brand-trust">
-
-          {%- if section.settings.brand_trust_title != blank -%}
-            <h2>{{ section.settings.brand_trust_title }}</h2>
+      {%- assign trust_block = section.blocks | where: 'type', 'brand_trust' | first -%}
+      {%- if trust_block -%}
+        <div class="footer__brand-trust" {{ trust_block.shopify_attributes }}>
+          {%- if trust_block.settings.title != blank -%}
+            <h2>{{ trust_block.settings.title }}</h2>
           {%- endif -%}
 
-          <div>
-            {%- for block in trust_blocks -%}
-              <span {{ block.shopify_attributes }} title="{{ block.settings.trust_label }}">
-                {{ block.settings.trust_svg }}
-              </span>
-            {%- endfor -%}
+          <div class="footer__brand-trust-icons">
+            {%- if trust_block.settings.visa_svg != blank -%}
+              <span title="Visa">{{ trust_block.settings.visa_svg }}</span>
+            {%- endif -%}
+            {%- if trust_block.settings.mastercard_svg != blank -%}
+              <span title="Mastercard">{{ trust_block.settings.mastercard_svg }}</span>
+            {%- endif -%}
+            {%- if trust_block.settings.rupay_svg != blank -%}
+              <span title="RuPay">{{ trust_block.settings.rupay_svg }}</span>
+            {%- endif -%}
+            {%- if trust_block.settings.upi_svg != blank -%}
+              <span title="UPI">{{ trust_block.settings.upi_svg }}</span>
+            {%- endif -%}
+            {%- if trust_block.settings.maestro_svg != blank -%}
+              <span title="Maestro">{{ trust_block.settings.maestro_svg }}</span>
+            {%- endif -%}
           </div>
-
         </div>
       {%- endif -%}
-
 
       <!-- Social Icons -->
-      {%- assign social_blocks = section.blocks | where: "type", "social_icon" -%}
-      {%- if social_blocks.size > 0 -%}
-        <div class="footer__social">
-
-          {%- if section.settings.social_title != blank -%}
-            <h2>{{ section.settings.social_title }}</h2>
+      {%- assign social_block = section.blocks | where: 'type', 'social_icons' | first -%}
+      {%- if social_block -%}
+        <div class="footer__social" {{ social_block.shopify_attributes }}>
+          {%- if social_block.settings.title != blank -%}
+            <h2>{{ social_block.settings.title }}</h2>
           {%- endif -%}
 
-          <ul>
-            {%- for block in social_blocks -%}
-              <li {{ block.shopify_attributes }}>
-                <a href="{{ block.settings.social_url }}"
-                   target="{{ block.settings.social_target }}"
-                   rel="noopener"
-                   aria-label="{{ block.settings.social_label }}">
-                  {{ block.settings.social_svg }}
+          <ul class="footer__social-list">
+            {%- if social_block.settings.instagram_svg != blank and social_block.settings.instagram_url != blank -%}
+              <li>
+                <a
+                  href="{{ social_block.settings.instagram_url }}"
+                  target="_blank"
+                  rel="noopener"
+                  aria-label="Instagram"
+                  class="footer__social-link"
+                >
+                  {{ social_block.settings.instagram_svg }}
                 </a>
               </li>
-            {%- endfor -%}
+            {%- endif -%}
+            {%- if social_block.settings.facebook_svg != blank and social_block.settings.facebook_url != blank -%}
+              <li>
+                <a
+                  href="{{ social_block.settings.facebook_url }}"
+                  target="_blank"
+                  rel="noopener"
+                  aria-label="Facebook"
+                  class="footer__social-link"
+                >
+                  {{ social_block.settings.facebook_svg }}
+                </a>
+              </li>
+            {%- endif -%}
+            {%- if social_block.settings.youtube_svg != blank and social_block.settings.youtube_url != blank -%}
+              <li>
+                <a
+                  href="{{ social_block.settings.youtube_url }}"
+                  target="_blank"
+                  rel="noopener"
+                  aria-label="YouTube"
+                  class="footer__social-link"
+                >
+                  {{ social_block.settings.youtube_svg }}
+                </a>
+              </li>
+            {%- endif -%}
+            {%- if social_block.settings.pinterest_svg != blank and social_block.settings.pinterest_url != blank -%}
+              <li>
+                <a
+                  href="{{ social_block.settings.pinterest_url }}"
+                  target="_blank"
+                  rel="noopener"
+                  aria-label="Pinterest"
+                  class="footer__social-link"
+                >
+                  {{ social_block.settings.pinterest_svg }}
+                </a>
+              </li>
+            {%- endif -%}
           </ul>
-
         </div>
       {%- endif -%}
-
     </div>
-
   </div>
 </footer>
 
@@ -328,65 +398,96 @@
     },
     {
       "type": "brand_trust",
-      "name": "Brand Trust Icon",
-      "limit": 5,
+      "name": "Brand Trust",
+      "limit": 1,
       "settings": [
         {
-          "type": "select",
-          "id": "trust_label",
-          "label": "Payment Type",
-          "options": [
-            { "value": "Visa", "label": "Visa" },
-            { "value": "Mastercard", "label": "Mastercard" },
-            { "value": "RuPay", "label": "RuPay" },
-            { "value": "UPI", "label": "UPI" },
-            { "value": "Maestro", "label": "Maestro" }
-          ],
-          "default": "Visa"
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Secure Payments"
         },
         {
           "type": "html",
-          "id": "trust_svg",
-          "label": "Upload SVG Code"
+          "id": "visa_svg",
+          "label": "Visa SVG Code"
+        },
+        {
+          "type": "html",
+          "id": "mastercard_svg",
+          "label": "Mastercard SVG Code"
+        },
+        {
+          "type": "html",
+          "id": "rupay_svg",
+          "label": "RuPay SVG Code"
+        },
+        {
+          "type": "html",
+          "id": "upi_svg",
+          "label": "UPI SVG Code"
+        },
+        {
+          "type": "html",
+          "id": "maestro_svg",
+          "label": "Maestro SVG Code"
         }
       ]
     },
     {
-      "type": "social_icon",
-      "name": "Social Icon",
-      "limit": 4,
+      "type": "social_icons",
+      "name": "Social Icons",
+      "limit": 1,
       "settings": [
         {
-          "type": "select",
-          "id": "social_label",
-          "label": "Platform",
-          "options": [
-            { "value": "Instagram", "label": "Instagram" },
-            { "value": "Facebook", "label": "Facebook" },
-            { "value": "YouTube", "label": "YouTube" },
-            { "value": "Pinterest", "label": "Pinterest" }
-          ],
-          "default": "Instagram"
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Follow Us"
         },
+
         {
           "type": "html",
-          "id": "social_svg",
-          "label": "Upload SVG Code"
+          "id": "instagram_svg",
+          "label": "Instagram SVG Code"
         },
         {
           "type": "url",
-          "id": "social_url",
-          "label": "Profile URL"
+          "id": "instagram_url",
+          "label": "Instagram Profile URL"
+        },
+
+        {
+          "type": "html",
+          "id": "facebook_svg",
+          "label": "Facebook SVG Code"
         },
         {
-          "type": "select",
-          "id": "social_target",
-          "label": "Open Link In",
-          "options": [
-            { "value": "_blank", "label": "New Tab" },
-            { "value": "_self", "label": "Same Tab" }
-          ],
-          "default": "_blank"
+          "type": "url",
+          "id": "facebook_url",
+          "label": "Facebook Profile URL"
+        },
+
+        {
+          "type": "html",
+          "id": "youtube_svg",
+          "label": "YouTube SVG Code"
+        },
+        {
+          "type": "url",
+          "id": "youtube_url",
+          "label": "YouTube Channel URL"
+        },
+
+        {
+          "type": "html",
+          "id": "pinterest_svg",
+          "label": "Pinterest SVG Code"
+        },
+        {
+          "type": "url",
+          "id": "pinterest_url",
+          "label": "Pinterest Profile URL"
         }
       ]
     }
