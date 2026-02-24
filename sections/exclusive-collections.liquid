@@ -1,0 +1,129 @@
+<div
+  class="exclusive-collections"
+  style="
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  "
+  {{ section.shopify_attributes }}
+>
+  <div class="container">
+    {%- if section.settings.title != blank -%}
+      {% render 'section-heading',
+        title: section.settings.title,
+        heading_tag: 'h2',
+        show_left_line: true,
+        show_left_icon: true,
+        show_right_icon: true,
+        show_right_line: true,
+        margin_bottom_desktop: 40,
+        margin_bottom_mobile: 25
+      %}
+    {%- endif -%}
+
+    <div class="exclusive-collections__grid">
+      {%- for block in section.blocks -%}
+        {%- if block.settings.collection != blank -%}
+          {%- assign col = block.settings.collection -%}
+          <a href="{{ col.url }}" class="exclusive-collections__card" {{ block.shopify_attributes }}>
+            <div class="exclusive-collections__image">
+              {%- if block.settings.image != blank -%}
+                {{ block.settings.image
+                  | image_url: width: 750
+                  | image_tag:
+                      widths: '360, 535, 750',
+                      sizes: '(min-width: 750px) 33vw, 100vw',
+                      loading: 'lazy',
+                      alt: col.title
+                }}
+              {%- elsif col.image != blank -%}
+                {{ col.image
+                  | image_url: width: 750
+                  | image_tag:
+                      widths: '360, 535, 750',
+                      sizes: '(min-width: 750px) 33vw, 100vw',
+                      loading: 'lazy',
+                      alt: col.title
+                }}
+              {%- else -%}
+                {{ 'collection-1' | placeholder_svg_tag: 'exclusive-collections__placeholder' }}
+              {%- endif -%}
+            </div>
+            <h3 class="exclusive-collections__name">{{ col.title }}</h3>
+          </a>
+        {%- else -%}
+          <div class="exclusive-collections__card" {{ block.shopify_attributes }}>
+            <div class="exclusive-collections__image">
+              {{ 'collection-1' | placeholder_svg_tag: 'exclusive-collections__placeholder' }}
+            </div>
+            <h3 class="exclusive-collections__name">Collection name</h3>
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Exclusive Collections",
+  "tag": "section",
+  "class": "exclusive-collections-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Exclusive Collections"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "default": 40,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "default": 40,
+      "unit": "px"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "collection_card",
+      "name": "Collection",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Custom Image",
+          "info": "Optional. Uses collection image if not set."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Exclusive Collections",
+      "blocks": [
+        { "type": "collection_card" },
+        { "type": "collection_card" },
+        { "type": "collection_card" }
+      ]
+    }
+  ]
+}
+{% endschema %}

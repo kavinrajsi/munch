@@ -1,0 +1,45 @@
+// ── Exclusive Collections Section ──
+.exclusive-collections {
+  background: #FFFFFF;
+}
+
+.exclusive-collections__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+
+  @media (min-width: 750px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.exclusive-collections__card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+}
+
+.exclusive-collections__image {
+  aspect-ratio: 1 / 1;
+  width: 100%;
+  border-radius: 20px;
+  overflow: hidden;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.exclusive-collections__name {
+  font-family: 'Aller', sans-serif;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 24px;
+  color: #0B090A;
+  text-align: center;
+  margin: 0;
+}

@@ -3,7 +3,13 @@
     "main": {
       "type": "main-collection",
       "settings": {}
+    },
+    "exclusive": {
+      "type": "exclusive-collections",
+      "settings": {
+        "title": "Exclusive Collections"
+      }
     }
   },
-  "order": ["main"]
+  "order": ["main", "exclusive"]
 }
