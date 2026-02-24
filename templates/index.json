@@ -83,33 +83,37 @@
         "icon_item_VfE3y6": {
           "type": "icon_item",
           "settings": {
-            "image": "shopify://shop_images/dry-fruit-sweets.jpg",
+            "image": "shopify://shop_images/dry-fruit-sweets.png",
             "title": "Dry Fruit Sweets",
-            "link": "shopify://collections"
+            "link": "shopify://collections",
+            "item_bg_color": "rgba(0,0,0,0)"
           }
         },
         "icon_item_racDQx": {
           "type": "icon_item",
           "settings": {
-            "image": "shopify://shop_images/traditional-sweets.jpg",
+            "image": "shopify://shop_images/traditional-sweets.png",
             "title": "Traditional Sweets",
-            "link": ""
+            "link": "",
+            "item_bg_color": "rgba(0,0,0,0)"
           }
         },
         "icon_item_NxwJep": {
           "type": "icon_item",
           "settings": {
-            "image": "shopify://shop_images/traditional-savouries.jpg",
+            "image": "shopify://shop_images/traditional-savouries.png",
             "title": "Traditional Savouries",
-            "link": ""
+            "link": "",
+            "item_bg_color": "rgba(0,0,0,0)"
           }
         },
         "icon_item_kTFGwq": {
           "type": "icon_item",
           "settings": {
-            "image": "shopify://shop_images/baklava.jpg",
+            "image": "shopify://shop_images/baklava.png",
             "title": "Baklava",
-            "link": ""
+            "link": "",
+            "item_bg_color": "rgba(0,0,0,0)"
           }
         },
         "icon_item_hbLpdj": {
@@ -117,7 +121,8 @@
           "settings": {
             "image": "shopify://shop_images/savouries.jpg",
             "title": "Savouries",
-            "link": ""
+            "link": "",
+            "item_bg_color": "rgba(0,0,0,0)"
           }
         },
         "icon_item_CBdEDC": {
@@ -125,7 +130,8 @@
           "settings": {
             "image": "shopify://shop_images/gifting-combos.jpg",
             "title": "Gifting Combos",
-            "link": ""
+            "link": "",
+            "item_bg_color": "rgba(0,0,0,0)"
           }
         }
       },
@@ -153,8 +159,8 @@
         "padding_bottom_desktop": 40,
         "padding_top_mobile": 20,
         "padding_bottom_mobile": 20,
-        "text_color": "#161A1D",
-        "bg_color": "transparent"
+        "text_color": "#161a1d",
+        "bg_color": "#fff7f3"
       }
     },
     "featured_collection_carousel_MBtUje": {
@@ -180,21 +186,24 @@
           "type": "icon_item",
           "settings": {
             "title": "Item 1",
-            "link": ""
+            "link": "",
+            "item_bg_color": "rgba(0,0,0,0)"
           }
         },
         "icon_item_L8CtNN": {
           "type": "icon_item",
           "settings": {
             "title": "Item 2",
-            "link": ""
+            "link": "",
+            "item_bg_color": "rgba(0,0,0,0)"
           }
         },
         "icon_item_iCXCx7": {
           "type": "icon_item",
           "settings": {
             "title": "Title",
-            "link": ""
+            "link": "",
+            "item_bg_color": "rgba(0,0,0,0)"
           }
         }
       },
@@ -219,8 +228,8 @@
         "padding_bottom_desktop": 40,
         "padding_top_mobile": 20,
         "padding_bottom_mobile": 20,
-        "text_color": "#161A1D",
-        "bg_color": "transparent"
+        "text_color": "#161a1d",
+        "bg_color": "rgba(0,0,0,0)"
       }
     },
     "featured_collection_carousel_Kcce3V": {
