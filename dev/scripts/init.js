@@ -582,12 +582,15 @@
       var $slider = $(this);
       var $section = $slider.closest('.hero-slider-section');
       var autoplay = $section.find('[data-hero-slider]').length > 0;
+      var arrowSvg = $slider.find('.hero-slider__arrow-svg').html();
 
       $slider.slick({
         autoplay: true,
         autoplaySpeed: 5000,
         dots: true,
         arrows: true,
+        prevArrow: '<button type="button" class="hero-slider__arrow hero-slider__arrow--prev">' + arrowSvg + '</button>',
+        nextArrow: '<button type="button" class="hero-slider__arrow hero-slider__arrow--next">' + arrowSvg + '</button>',
         fade: true,
         cssEase: 'ease-in-out',
         speed: 600,

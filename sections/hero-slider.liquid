@@ -31,7 +31,14 @@
   Max blocks: 6
 {%- endcomment -%}
 
-<div class="hero-slider" data-hero-slider {{ section.shopify_attributes }}>
+<div class="hero-slider" data-hero-slider style="--hero-dots-bottom: {{ section.settings.dots_bottom_position }}px; --hero-arrow-bg: {{ section.settings.arrow_bg_color }}; --hero-arrow-border-color: {{ section.settings.arrow_border_color }}; --hero-arrow-border-radius: {{ section.settings.arrow_border_radius }}px; --hero-arrow-width: {{ section.settings.arrow_width }}px; --hero-arrow-height: {{ section.settings.arrow_height }}px; --hero-arrow-gap: {{ section.settings.arrow_gap }}px;" {{ section.shopify_attributes }}>
+  {%- comment -%} Arrow SVGs used by slick prevArrow / nextArrow {%- endcomment -%}
+  <template class="hero-slider__arrow-svg">
+    <svg xmlns="http://www.w3.org/2000/svg" width="19" height="13" fill="none" viewBox="0 0 19 13">
+      <path fill="#161A1D" fill-rule="evenodd" d="M19 6.108a.679.679 0 0 0-.678-.679H2.317l4.27-4.27a.68.68 0 1 0-.96-.96L.199 5.627a.679.679 0 0 0 0 .961l5.429 5.428a.678.678 0 1 0 .96-.96l-4.27-4.27h16.004A.679.679 0 0 0 19 6.108Z" clip-rule="evenodd"/>
+    </svg>
+  </template>
+
   {%- for block in section.blocks -%}
     <div class="hero-slider__slide" {{ block.shopify_attributes }}>
 
@@ -135,6 +142,72 @@
       "id": "show_arrows",
       "label": "Show Arrows",
       "default": true
+    },
+    {
+      "type": "header",
+      "content": "Arrow Settings"
+    },
+    {
+      "type": "color",
+      "id": "arrow_bg_color",
+      "label": "Arrow Background Color",
+      "default": "#F5F3F4"
+    },
+    {
+      "type": "color",
+      "id": "arrow_border_color",
+      "label": "Arrow Border Color",
+      "default": "#F5F3F4"
+    },
+    {
+      "type": "range",
+      "id": "arrow_border_radius",
+      "label": "Arrow Border Radius",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "default": 20,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "arrow_width",
+      "label": "Arrow Width",
+      "min": 20,
+      "max": 80,
+      "step": 2,
+      "default": 40,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "arrow_height",
+      "label": "Arrow Height",
+      "min": 20,
+      "max": 80,
+      "step": 2,
+      "default": 40,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "arrow_gap",
+      "label": "Gap Between Arrows",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "default": 16,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "dots_bottom_position",
+      "label": "Dots Bottom Position",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 20,
+      "unit": "px"
     }
   ],
   "blocks": [
