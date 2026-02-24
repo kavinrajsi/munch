@@ -83,42 +83,48 @@
         "icon_item_VfE3y6": {
           "type": "icon_item",
           "settings": {
-            "title": "Item 1",
-            "link": ""
+            "image": "shopify://shop_images/dry-fruit-sweets.jpg",
+            "title": "Dry Fruit Sweets",
+            "link": "shopify://collections"
           }
         },
         "icon_item_racDQx": {
           "type": "icon_item",
           "settings": {
-            "title": "Item 2",
+            "image": "shopify://shop_images/traditional-sweets.jpg",
+            "title": "Traditional Sweets",
             "link": ""
           }
         },
         "icon_item_NxwJep": {
           "type": "icon_item",
           "settings": {
-            "title": "Item 3",
+            "image": "shopify://shop_images/traditional-savouries.jpg",
+            "title": "Traditional Savouries",
             "link": ""
           }
         },
         "icon_item_kTFGwq": {
           "type": "icon_item",
           "settings": {
-            "title": "Item 4",
+            "image": "shopify://shop_images/baklava.jpg",
+            "title": "Baklava",
             "link": ""
           }
         },
         "icon_item_hbLpdj": {
           "type": "icon_item",
           "settings": {
-            "title": "Item 5",
+            "image": "shopify://shop_images/savouries.jpg",
+            "title": "Savouries",
             "link": ""
           }
         },
         "icon_item_CBdEDC": {
           "type": "icon_item",
           "settings": {
-            "title": "Item 6",
+            "image": "shopify://shop_images/gifting-combos.jpg",
+            "title": "Gifting Combos",
             "link": ""
           }
         }
@@ -165,6 +171,56 @@
         "show_price": true,
         "show_view_all": true,
         "view_all_label": "View all"
+      }
+    },
+    "icon_with_text_UktifF": {
+      "type": "icon-with-text",
+      "blocks": {
+        "icon_item_KXmkay": {
+          "type": "icon_item",
+          "settings": {
+            "title": "Item 1",
+            "link": ""
+          }
+        },
+        "icon_item_L8CtNN": {
+          "type": "icon_item",
+          "settings": {
+            "title": "Item 2",
+            "link": ""
+          }
+        },
+        "icon_item_iCXCx7": {
+          "type": "icon_item",
+          "settings": {
+            "title": "Title",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "icon_item_KXmkay",
+        "icon_item_L8CtNN",
+        "icon_item_iCXCx7"
+      ],
+      "name": "Icon with Text",
+      "settings": {
+        "container_type": "container",
+        "items_per_row_desktop": 6,
+        "items_per_row_tablet": 4,
+        "items_per_row_mobile": 3,
+        "image_width_desktop": 120,
+        "image_height_desktop": 120,
+        "image_width_mobile": 80,
+        "image_height_mobile": 80,
+        "gap_image_text": 8,
+        "gap_items": 20,
+        "padding_top_desktop": 40,
+        "padding_bottom_desktop": 40,
+        "padding_top_mobile": 20,
+        "padding_bottom_mobile": 20,
+        "text_color": "#161A1D",
+        "bg_color": "transparent"
       }
     },
     "featured_collection_carousel_Kcce3V": {
@@ -247,56 +303,6 @@
         "title": "What Our Customers Say",
         "subtitle": "",
         "layout": "grid"
-      }
-    },
-    "icon_with_text_UktifF": {
-      "type": "icon-with-text",
-      "blocks": {
-        "icon_item_KXmkay": {
-          "type": "icon_item",
-          "settings": {
-            "title": "Item 1",
-            "link": ""
-          }
-        },
-        "icon_item_L8CtNN": {
-          "type": "icon_item",
-          "settings": {
-            "title": "Item 2",
-            "link": ""
-          }
-        },
-        "icon_item_iCXCx7": {
-          "type": "icon_item",
-          "settings": {
-            "title": "Title",
-            "link": ""
-          }
-        }
-      },
-      "block_order": [
-        "icon_item_KXmkay",
-        "icon_item_L8CtNN",
-        "icon_item_iCXCx7"
-      ],
-      "name": "Icon with Text",
-      "settings": {
-        "container_type": "container",
-        "items_per_row_desktop": 6,
-        "items_per_row_tablet": 4,
-        "items_per_row_mobile": 3,
-        "image_width_desktop": 120,
-        "image_height_desktop": 120,
-        "image_width_mobile": 80,
-        "image_height_mobile": 80,
-        "gap_image_text": 8,
-        "gap_items": 20,
-        "padding_top_desktop": 40,
-        "padding_bottom_desktop": 40,
-        "padding_top_mobile": 20,
-        "padding_bottom_mobile": 20,
-        "text_color": "#161A1D",
-        "bg_color": "transparent"
       }
     }
   },
