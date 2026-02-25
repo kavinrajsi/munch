@@ -162,18 +162,27 @@
 
       // Rebuild items
       var $items = this.$drawer.find('[data-cart-items]');
+      var $footer = this.$drawer.find('.cart-drawer__footer');
       if (cart.item_count === 0) {
-        $items.html(
-          '<div class="cart-drawer__empty">' +
-            '<p>' + emptyText + '</p>' +
-            '<a href="' + emptyBtnLink + '" class="cart-drawer__checkout-btn">' + emptyBtnText + '</a>' +
+        $items.html('<div class="cart-drawer__empty"></div>');
+        $footer.html(
+          '<div class="cart-drawer__footer-actions">' +
+            '<a href="' + emptyBtnLink + '" class="cart-drawer__checkout-btn">Continue Shopping</a>' +
           '</div>'
-        );
-        this.$drawer.find('.cart-drawer__footer').hide();
+        ).show();
         return;
       }
 
-      this.$drawer.find('.cart-drawer__footer').show();
+      $footer.html(
+        '<div class="cart-drawer__subtotal">' +
+          '<span class="cart-drawer__subtotal-label">Subtotal</span>' +
+          '<span class="cart-drawer__subtotal-price" data-cart-subtotal>' + formatMoney(cart.total_price) + '</span>' +
+        '</div>' +
+        '<div class="cart-drawer__footer-actions">' +
+          '<a href="/checkout" class="cart-drawer__checkout-btn">Check Out</a>' +
+          '<a href="/cart" class="cart-drawer__view-cart">View Cart</a>' +
+        '</div>'
+      ).show();
       var html = '';
       cart.items.forEach(function(item, index) {
         var variantTitle = item.variant_title && item.variant_title !== 'Default Title' ? item.variant_title : '';

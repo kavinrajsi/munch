@@ -107,22 +107,7 @@
 
 // Empty state
 .cart-drawer__empty {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 48px 0;
-  gap: 16px;
-
-  p {
-    font-family: 'Aller', sans-serif;
-    font-size: 16px;
-    line-height: 20px;
-    color: #0B090A;
-    opacity: 0.6;
-    margin: 0;
-  }
+  flex: 1;
 }
 
 // Single item

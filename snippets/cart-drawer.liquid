@@ -66,15 +66,12 @@
           </div>
         {%- endfor -%}
       {%- else -%}
-        <div class="cart-drawer__empty">
-          <p>{{ empty_text }}</p>
-          <a href="{{ empty_btn_link }}" class="cart-drawer__checkout-btn">{{ empty_btn_text }}</a>
-        </div>
+        <div class="cart-drawer__empty"></div>
       {%- endif -%}
     </div>
 
-    {%- if cart.item_count > 0 -%}
-      <div class="cart-drawer__footer">
+    <div class="cart-drawer__footer" {% if cart.item_count == 0 %}data-cart-empty-footer{% endif %}>
+      {%- if cart.item_count > 0 -%}
         <div class="cart-drawer__subtotal">
           <span class="cart-drawer__subtotal-label">Subtotal</span>
           <span class="cart-drawer__subtotal-price" data-cart-subtotal>{{ cart.total_price | money }}</span>
@@ -83,7 +80,11 @@
           <a href="{{ routes.cart_url }}/checkout" class="cart-drawer__checkout-btn">Check Out</a>
           <a href="{{ routes.cart_url }}" class="cart-drawer__view-cart">View Cart</a>
         </div>
-      </div>
-    {%- endif -%}
+      {%- else -%}
+        <div class="cart-drawer__footer-actions">
+          <a href="{{ empty_btn_link }}" class="cart-drawer__checkout-btn">Continue Shopping</a>
+        </div>
+      {%- endif -%}
+    </div>
   </div>
 </div>

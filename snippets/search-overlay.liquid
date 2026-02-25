@@ -20,15 +20,6 @@
   assign popular_label = settings.search_popular_label | default: 'Popular Searches:'
   assign popular_terms = settings.search_popular_terms | default: ''
 
-  assign panel_bg = settings.search_panel_bg | default: '#FFFFFF'
-  assign input_bg = settings.search_input_bg | default: '#FFFFFF'
-  assign text_color = settings.search_text_color | default: '#660808'
-  assign border_color = settings.search_border_color | default: '#D3D3D3'
-  assign input_radius = settings.search_input_radius | default: 6
-  assign results_radius = settings.search_results_radius | default: 6
-  assign thumb_radius = settings.search_thumb_radius | default: 4
-  assign title_case = settings.search_title_case | default: 'none'
-
   assign resource_types = ''
   if show_products
     assign resource_types = 'product'
@@ -70,41 +61,34 @@
   data-show-product-image="{{ show_product_image }}"
   data-show-product-vendor="{{ show_product_vendor }}"
   data-show-product-price="{{ show_product_price }}"
-  style="
-    --search-panel-bg: {{ panel_bg }};
-    --search-input-bg: {{ input_bg }};
-    --search-text-color: {{ text_color }};
-    --search-border-color: {{ border_color }};
-    --search-input-radius: {{ input_radius }}px;
-    --search-results-radius: {{ results_radius }}px;
-    --search-thumb-radius: {{ thumb_radius }}px;
-    --search-title-case: {{ title_case }};
-  "
 >
   <div class="search-overlay__backdrop" data-search-overlay-close></div>
 
   <div class="search-overlay__panel">
-    <div class="search-overlay__container">
-      <button class="search-overlay__close" data-search-overlay-close aria-label="{{ 'accessibility.close' | t }}">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-      </button>
-
-      {%- if settings.search_show_logo -%}
-        <div class="search-overlay__logo" style="width: {{ settings.search_logo_width | default: 100 }}px;">
+    <div class="search-overlay__bar">
+      {%- comment -%} Logo {%- endcomment -%}
+      <div class="search-overlay__logo">
+        <a href="{{ routes.root_url }}" class="header__logo-link">
           {%- if settings.search_logo_type == 'svg' and settings.search_logo_svg != blank -%}
-            {{ settings.search_logo_svg }}
+            <div class="header__logo-svg">
+              {{ settings.search_logo_svg }}
+            </div>
           {%- elsif settings.search_logo_image != blank -%}
             <img
+              class="header__logo-img"
               src="{{ settings.search_logo_image | image_url: width: 400 }}"
               alt="{{ shop.name | escape }}"
-              width="{{ settings.search_logo_width | default: 100 }}"
+              width="165"
               height="auto"
               loading="lazy"
             >
+          {%- else -%}
+            <span class="header__logo-text">{{ shop.name }}</span>
           {%- endif -%}
-        </div>
-      {%- endif -%}
+        </a>
+      </div>
 
+      {%- comment -%} Search Form {%- endcomment -%}
       <form class="search-overlay__form" action="{{ routes.search_url }}" method="get" role="search">
         <input
           class="search-overlay__input"
@@ -121,6 +105,19 @@
         </button>
       </form>
 
+      {%- comment -%} Icons {%- endcomment -%}
+      <div class="search-overlay__icons">
+        <button class="search-overlay__icon-btn" data-search-overlay-close aria-label="{{ 'accessibility.close' | t }}">
+          <svg width="11" height="11" viewBox="0 0 11 11" fill="none" stroke="currentColor" stroke-width="1.5">
+            <line x1="1" y1="1" x2="10" y2="10"/>
+            <line x1="10" y1="1" x2="1" y2="10"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    {%- comment -%} Dropdown area {%- endcomment -%}
+    <div class="search-overlay__dropdown">
       {%- if show_popular and popular_terms != blank -%}
         {%- assign popular_array = popular_terms | split: ',' -%}
         <div class="search-overlay__popular" data-search-popular>
