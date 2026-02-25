@@ -242,29 +242,6 @@
         "bg_color": "rgba(0,0,0,0)"
       }
     },
-    "featured_collection_carousel_Kcce3V": {
-      "type": "featured-collection-carousel",
-      "name": "Feat Collection: Carousel",
-      "settings": {
-        "container_type": "container",
-        "heading": "Featured collection",
-        "collection": "dry-fruit-sweets",
-        "products_to_show": 8,
-        "slides_to_show": 3,
-        "show_dots": true,
-        "padding_top_desktop": 56,
-        "padding_bottom_desktop": 56,
-        "padding_top_mobile": 56,
-        "padding_bottom_mobile": 56,
-        "title_gap_desktop": 40,
-        "title_gap_mobile": 30,
-        "bg_color": "#ffffff",
-        "show_vendor": false,
-        "show_price": true,
-        "show_view_all": false,
-        "view_all_label": "View all"
-      }
-    },
     "home_about_XNnJ7y": {
       "type": "home-about",
       "blocks": {
@@ -496,10 +473,9 @@
   "order": [
     "hero",
     "icon_with_text_4KhBJd",
-    "featured_collection_carousel_MBtUje",
     "icon_with_text_UktifF",
-    "featured_collection_carousel_Kcce3V",
     "home_about_XNnJ7y",
+    "featured_collection_carousel_MBtUje",
     "visit_us_locations_hzNWNb",
     "testimonials_xGAihr"
   ]
