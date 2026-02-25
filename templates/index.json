@@ -27,27 +27,10 @@
             "overlay_opacity": 30,
             "overlay_color": "#000000"
           }
-        },
-        "slide_1": {
-          "type": "slide",
-          "settings": {
-            "mobile_image": "shopify://shop_images/kondattangal-thodangattum-banner-mobile.jpg",
-            "desktop_image": "shopify://shop_images/kondattangal-thodangattum-banner-dekstop.jpg",
-            "image_link": "shopify://collections",
-            "show_content": false,
-            "heading": "Welcome to Nithyaamirtham",
-            "subheading": "Authentic South Indian sweets & snacks crafted with love",
-            "button_text": "Shop Now",
-            "button_link": "",
-            "show_overlay": true,
-            "overlay_opacity": 30,
-            "overlay_color": "#000000"
-          }
         }
       },
       "block_order": [
-        "slide_tm6Xke",
-        "slide_1"
+        "slide_tm6Xke"
       ],
       "settings": {
         "slider_height_desktop": 500,
