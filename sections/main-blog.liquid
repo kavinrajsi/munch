@@ -1,8 +1,17 @@
-{% render 'breadcrumbs' %}
-
-<div class="blog-page section-padding" {{ section.shopify_attributes }}>
+<div class="blog-page" {{ section.shopify_attributes }}>
   <div class="container">
-    <h1 class="text-center" style="margin-bottom:32px;">{{ blog.title }}</h1>
+
+    {%- comment -%} Decorated heading {%- endcomment -%}
+    {% render 'section-heading',
+      title: blog.title,
+      heading_tag: 'h1',
+      show_left_line: true,
+      show_left_icon: true,
+      show_right_icon: true,
+      show_right_line: true,
+      margin_bottom_desktop: 24,
+      margin_bottom_mobile: 16
+    %}
 
     {%- if section.settings.show_tags and blog.all_tags.size > 0 -%}
       <div class="blog-page__tags">
@@ -21,10 +30,15 @@
       </div>
 
       {%- if paginate.pages > 1 -%}
-        <div class="pagination">
+        <nav class="blog-page__pagination" aria-label="Blog pagination">
           {%- if paginate.previous -%}
-            <a href="{{ paginate.previous.url }}" class="prev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg></a>
+            <a href="{{ paginate.previous.url }}" class="blog-page__pagination-arrow" aria-label="Previous page">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <polyline points="15 18 9 12 15 6"/>
+              </svg>
+            </a>
           {%- endif -%}
+
           {%- for part in paginate.parts -%}
             {%- if part.is_link -%}
               <a href="{{ part.url }}">{{ part.title }}</a>
@@ -32,12 +46,18 @@
               <span class="{% if part.title == paginate.current_page %}is-active{% endif %}">{{ part.title }}</span>
             {%- endif -%}
           {%- endfor -%}
+
           {%- if paginate.next -%}
-            <a href="{{ paginate.next.url }}" class="next"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></a>
+            <a href="{{ paginate.next.url }}" class="blog-page__pagination-arrow" aria-label="Next page">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <polyline points="9 18 15 12 9 6"/>
+              </svg>
+            </a>
           {%- endif -%}
-        </div>
+        </nav>
       {%- endif -%}
     {%- endpaginate -%}
+
   </div>
 </div>
 
@@ -60,7 +80,7 @@
       "type": "checkbox",
       "id": "show_tags",
       "label": "Show Tags",
-      "default": true
+      "default": false
     }
   ]
 }

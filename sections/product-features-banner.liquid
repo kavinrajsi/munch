@@ -1,0 +1,112 @@
+<div
+  class="product-features-banner"
+  style="
+    margin-top: {{ section.settings.margin_top }}px;
+    margin-bottom: {{ section.settings.margin_bottom }}px;
+  "
+  {{ section.shopify_attributes }}
+>
+  {%- if section.settings.title != blank -%}
+    {% render 'section-heading',
+      title: section.settings.title,
+      heading_tag: 'h2',
+      show_left_line: true,
+      show_left_icon: true,
+      show_right_icon: true,
+      show_right_line: true,
+      margin_bottom_desktop: 40,
+      margin_bottom_mobile: 24
+    %}
+  {%- endif -%}
+
+  <div class="product-features-banner__grid">
+    {%- for block in section.blocks -%}
+      <div class="product-features-banner__item" {{ block.shopify_attributes }}>
+        {%- if block.settings.icon != blank -%}
+          <div class="product-features-banner__icon">
+            {{ block.settings.icon }}
+          </div>
+        {%- endif -%}
+        <div class="product-features-banner__content">
+          {%- if block.settings.title != blank -%}
+            <p class="product-features-banner__title">{{ block.settings.title }}</p>
+          {%- endif -%}
+          {%- if block.settings.text != blank -%}
+            <p class="product-features-banner__text">{{ block.settings.text }}</p>
+          {%- endif -%}
+        </div>
+      </div>
+    {%- endfor -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Product Features Banner",
+  "tag": "section",
+  "class": "product-features-banner-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Where Tradition Meets Perfection"
+    },
+    {
+      "type": "range",
+      "id": "margin_top",
+      "label": "Margin top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "default": 40,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "margin_bottom",
+      "label": "Margin bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "default": 0,
+      "unit": "px"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Feature",
+      "settings": [
+        {
+          "type": "html",
+          "id": "icon",
+          "label": "Icon (SVG)",
+          "info": "Paste inline SVG for the feature icon"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Description"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product Features Banner",
+      "blocks": [
+        { "type": "feature", "settings": { "title": "Fresh from Our Kitchen", "text": "Freshly prepared daily for unmatched homemade taste" } },
+        { "type": "feature", "settings": { "title": "Taste of Tradition", "text": "Authentic flavours inspired by timeless family recipes" } },
+        { "type": "feature", "settings": { "title": "Purely Vegetarian", "text": "Made using 100% pure vegetarian ingredients" } },
+        { "type": "feature", "settings": { "title": "Crafted with Love", "text": "Lovingly handcrafted with care and dedication" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

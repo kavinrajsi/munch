@@ -1,50 +1,197 @@
-{% render 'breadcrumbs' %}
+{%- comment -%} Hero Banner {%- endcomment -%}
+{%- if section.settings.hero_image != blank -%}
+  <div class="contact-page__hero">
+    <img
+      src="{{ section.settings.hero_image | image_url: width: 1440 }}"
+      alt="{{ section.settings.hero_image.alt | default: 'Contact Us' | escape }}"
+      class="contact-page__hero-img"
+      loading="eager"
+      width="1440"
+      height="400"
+    >
+  </div>
+{%- endif -%}
 
-<div class="contact-page section-padding" {{ section.shopify_attributes }}>
-  <h1 class="contact-page__title">{{ page.title }}</h1>
+<div class="contact-page" {{ section.shopify_attributes }}>
+  <div class="container">
+    {%- comment -%} Section Heading {%- endcomment -%}
+    {%- render 'section-heading',
+      title: 'Contact Us',
+      heading_tag: 'h1',
+      show_left_line: true,
+      show_left_icon: true,
+      show_right_icon: true,
+      show_right_line: true,
+      margin_bottom_desktop: 40,
+      margin_bottom_mobile: 24
+    -%}
 
-  {%- if page.content != blank -%}
-    <div class="rte" style="margin-bottom:32px;">{{ page.content }}</div>
-  {%- endif -%}
+    <div class="contact-page__layout">
+      {%- comment -%} Left: Contact Info Card {%- endcomment -%}
+      <div class="contact-page__info-card">
+        <div class="contact-page__info-inner">
+          {%- comment -%} Address {%- endcomment -%}
+          <div class="contact-page__info-block">
+            <p class="contact-page__info-label">Address</p>
+            <div class="contact-page__info-text">{{ section.settings.address }}</div>
+          </div>
 
-  {% form 'contact', class: 'contact-page__form' %}
-    {%- if form.posted_successfully? -%}
-      <p class="contact-page__success">{{ 'templates.contact.form.success' | t }}</p>
-    {%- endif -%}
+          {%- comment -%} Email & Phone {%- endcomment -%}
+          <div class="contact-page__info-block">
+            <div class="contact-page__info-row">
+              <span class="contact-page__info-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <g transform="translate(16.51, 4.77)">
+                    <path d="M7.2787 0L0 7.23183L7.2787 14.4637C7.41028 14.1886 7.49011 13.8846 7.49011 13.56V0.903703C7.49011 0.579 7.41028 0.275016 7.2787 0Z"/>
+                  </g>
+                  <g transform="translate(1.20, 3.56)">
+                    <path d="M20.685 0H0.903703C0.579 0 0.275016 0.0798282 0 0.211406L9.30295 9.46748C10.1255 10.29 11.4631 10.29 12.2857 9.46748L21.5887 0.211406C21.3136 0.0798282 21.0097 0 20.685 0Z"/>
+                  </g>
+                  <g transform="translate(0, 4.77)">
+                    <path d="M0.211406 0C0.0798281 0.275016 0 0.579 0 0.903703V13.56C0 13.8847 0.0798281 14.1887 0.211406 14.4637L7.49011 7.23183L0.211406 0Z"/>
+                  </g>
+                  <g transform="translate(1.20, 13.0)">
+                    <path d="M14.31 0L13.28 1.02998C11.9094 2.40056 9.67922 2.40056 8.30864 1.02998L7.2787 0L0 7.23183C0.275016 7.36341 0.579 7.44323 0.903703 7.44323H20.685C21.0097 7.44323 21.3136 7.36341 21.5887 7.23183L14.31 0Z"/>
+                  </g>
+                </svg>
+              </span>
+              <div class="contact-page__info-detail">
+                <span class="contact-page__info-label">Email</span>
+                <a href="mailto:{{ section.settings.email }}" class="contact-page__info-value">{{ section.settings.email }}</a>
+              </div>
+            </div>
 
-    {%- if form.errors -%}
-      <div class="customer-form__errors">
-        {{ form.errors | default_errors }}
+            <div class="contact-page__info-row">
+              <span class="contact-page__info-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M22.0742 15.7533C20.6049 15.7533 19.1621 15.5234 17.7949 15.0716C17.125 14.8431 16.3014 15.0528 15.8926 15.4727L13.194 17.5098C10.0644 15.8393 8.13669 13.9121 6.48894 10.8061L8.46612 8.17781C8.97981 7.66481 9.16406 6.91544 8.94331 6.21231C8.48956 4.83794 8.25906 3.39587 8.25906 1.92587C8.25913 0.863937 7.39519 0 6.33331 0H1.92581C0.863937 0 0 0.863937 0 1.92581C0 14.0977 9.90237 24 22.0742 24C23.1361 24 24.0001 23.1361 24.0001 22.0742V17.679C24 16.6172 23.1361 15.7533 22.0742 15.7533Z"/>
+                </svg>
+              </span>
+              <div class="contact-page__info-detail">
+                <span class="contact-page__info-label">Contact</span>
+                <a href="tel:{{ section.settings.phone }}" class="contact-page__info-value">{{ section.settings.phone }}</a>
+              </div>
+            </div>
+          </div>
+
+          {%- comment -%} Social Links {%- endcomment -%}
+          <div class="contact-page__info-block">
+            <p class="contact-page__info-label">Social links</p>
+            <div class="contact-page__social-links">
+              {%- if section.settings.instagram_url != blank -%}
+                <a href="{{ section.settings.instagram_url }}" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="contact-page__social-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 19 19" fill="currentColor" aria-hidden="true">
+                    <path d="M14.1738 3.154C13.9545 3.154 13.7401 3.218 13.5578 3.338C13.3754 3.459 13.2333 3.629 13.1494 3.829C13.0655 4.029 13.0435 4.249 13.0863 4.461C13.1291 4.673 13.2347 4.868 13.3898 5.021C13.5448 5.174 13.7424 5.279 13.9575 5.321C14.1725 5.363 14.3955 5.341 14.5981 5.259C14.8007 5.176 14.9738 5.036 15.0957 4.856C15.2175 4.676 15.2825 4.464 15.2825 4.248C15.2825 3.958 15.1657 3.68 14.9578 3.474C14.7499 3.269 14.4678 3.154 14.1738 3.154ZM18.4241 5.36C18.4061 4.604 18.2625 3.855 17.999 3.145C17.7641 2.537 17.3984 1.987 16.9272 1.531C16.4697 1.064 15.9104 0.706 15.2918 0.483C14.5735 0.215 13.8142 0.07 13.0465 0.055C12.0671 0 11.753 0 9.24 0C6.727 0 6.412 0 5.433 0.055C4.665 0.07 3.906 0.215 3.188 0.483C2.57 0.708 2.011 1.066 1.552 1.531C1.079 1.983 0.715 2.535 0.49 3.145C0.218 3.853 0.071 4.603 0.055 5.36C0 6.326 0 6.636 0 9.116C0 11.595 0 11.905 0.055 12.871C0.071 13.629 0.218 14.378 0.49 15.086C0.715 15.697 1.079 16.249 1.552 16.7C2.011 17.165 2.57 17.523 3.188 17.748C3.906 18.016 4.665 18.161 5.433 18.177C6.412 18.231 6.727 18.231 9.24 18.231C11.753 18.231 12.067 18.231 13.047 18.177C13.814 18.161 14.574 18.016 15.292 17.748C15.91 17.526 16.47 17.167 16.927 16.7C17.401 16.246 17.767 15.696 17.999 15.086C18.263 14.376 18.406 13.628 18.424 12.871C18.424 11.905 18.48 11.595 18.48 9.116C18.48 6.636 18.48 6.326 18.424 5.36ZM16.761 12.762C16.754 13.341 16.648 13.914 16.447 14.457C16.299 14.854 16.062 15.213 15.754 15.506C15.454 15.807 15.092 16.04 14.691 16.189C14.14 16.388 13.559 16.493 12.973 16.499C12.049 16.545 11.707 16.554 9.277 16.554C6.847 16.554 6.505 16.554 5.581 16.499C4.972 16.511 4.365 16.418 3.788 16.226C3.406 16.069 3.06 15.836 2.772 15.542C2.465 15.249 2.231 14.891 2.088 14.494C1.863 13.943 1.737 13.356 1.719 12.762C1.719 11.85 1.663 11.513 1.663 9.116C1.663 6.718 1.663 6.381 1.719 5.469C1.723 4.878 1.832 4.292 2.042 3.737C2.205 3.353 2.454 3.01 2.772 2.735C3.053 2.421 3.4 2.172 3.788 2.005C4.352 1.805 4.945 1.7 5.544 1.696C6.468 1.696 6.81 1.641 9.24 1.641C11.67 1.641 12.012 1.641 12.936 1.696C13.522 1.702 14.103 1.807 14.654 2.005C15.074 2.159 15.451 2.409 15.754 2.735C16.057 3.015 16.293 3.357 16.447 3.737C16.652 4.293 16.758 4.878 16.761 5.469C16.807 6.381 16.816 6.718 16.816 9.116C16.816 11.513 16.807 11.85 16.761 12.762ZM9.24 4.439C8.303 4.441 7.387 4.717 6.609 5.232C5.831 5.747 5.225 6.478 4.867 7.332C4.51 8.187 4.417 9.127 4.601 10.034C4.785 10.94 5.237 11.772 5.901 12.426C6.564 13.079 7.408 13.523 8.328 13.703C9.247 13.883 10.2 13.789 11.065 13.435C11.931 13.081 12.67 12.482 13.191 11.713C13.711 10.944 13.989 10.04 13.989 9.116C13.99 8.5 13.868 7.891 13.63 7.323C13.391 6.754 13.042 6.238 12.6 5.803C12.159 5.368 11.635 5.024 11.058 4.79C10.481 4.556 9.863 4.437 9.24 4.439ZM9.24 12.151C8.631 12.151 8.036 11.973 7.53 11.64C7.024 11.306 6.63 10.832 6.397 10.277C6.164 9.723 6.103 9.112 6.222 8.523C6.341 7.935 6.634 7.394 7.064 6.969C7.494 6.545 8.043 6.256 8.639 6.138C9.236 6.021 9.855 6.081 10.417 6.311C10.979 6.541 11.46 6.93 11.798 7.429C12.136 7.928 12.317 8.515 12.317 9.116C12.317 9.514 12.237 9.909 12.082 10.277C11.928 10.646 11.701 10.98 11.415 11.262C11.13 11.544 10.791 11.768 10.417 11.92C10.044 12.073 9.644 12.151 9.24 12.151Z"/>
+                  </svg>
+                </a>
+              {%- endif -%}
+              {%- if section.settings.facebook_url != blank -%}
+                <a href="{{ section.settings.facebook_url }}" target="_blank" rel="noopener noreferrer" aria-label="Facebook" class="contact-page__social-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="11" height="19" viewBox="0 0 11 19" fill="currentColor" aria-hidden="true">
+                    <path d="M7.863 3.026H9.6V0.128C8.759 0.041 7.914 -0.001 7.068 0C4.555 0 2.836 1.513 2.836 4.284V6.673H0V9.918H2.836V18.231H6.237V9.918H9.064L9.489 6.673H6.237V4.603C6.237 3.646 6.495 3.026 7.863 3.026Z"/>
+                  </svg>
+                </a>
+              {%- endif -%}
+              {%- if section.settings.youtube_url != blank -%}
+                <a href="{{ section.settings.youtube_url }}" target="_blank" rel="noopener noreferrer" aria-label="YouTube" class="contact-page__social-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="27" height="19" viewBox="0 0 27 19" fill="currentColor" aria-hidden="true">
+                    <path d="M26.162 6.425C26.221 4.738 25.847 3.064 25.075 1.558C24.551 0.94 23.824 0.523 23.02 0.379C19.696 0.082 16.359 -0.04 13.021 0.014C9.696 -0.043 6.37 0.075 3.058 0.367C2.403 0.485 1.797 0.788 1.314 1.24C0.239 2.218 0.119 3.891 0 5.306C-0.174 7.849 -0.174 10.4 0 12.943C0.034 13.739 0.154 14.529 0.358 15.3C0.502 15.896 0.793 16.446 1.206 16.903C1.693 17.379 2.313 17.699 2.986 17.822C5.562 18.136 8.157 18.266 10.751 18.211C14.933 18.27 18.6 18.211 22.937 17.881C23.627 17.765 24.264 17.445 24.765 16.962C25.099 16.632 25.349 16.228 25.493 15.783C25.921 14.49 26.13 13.136 26.115 11.776C26.162 11.116 26.162 7.133 26.162 6.425ZM10.321 12.483V5.188L17.394 8.853C15.411 9.938 12.794 11.163 10.321 12.483Z"/>
+                  </svg>
+                </a>
+              {%- endif -%}
+            </div>
+          </div>
+        </div>
       </div>
-    {%- endif -%}
 
-    <div class="form-row">
-      <div class="form-group">
-        <label for="ContactName">{{ 'templates.contact.form.name' | t }}</label>
-        <input type="text" id="ContactName" name="contact[name]" value="{{ form.name }}" required>
-      </div>
-      <div class="form-group">
-        <label for="ContactEmail">{{ 'templates.contact.form.email' | t }}</label>
-        <input type="email" id="ContactEmail" name="contact[email]" value="{{ form.email }}" required>
+      {%- comment -%} Right: Contact Form Card {%- endcomment -%}
+      <div class="contact-page__form-card">
+        <h2 class="contact-page__form-heading">{{ section.settings.form_heading | default: "We'd love to hear from you" }}</h2>
+        <p class="contact-page__form-subtitle">{{ section.settings.form_subtitle | default: 'Please use the form to send us your message or ideas.' }}</p>
+
+        {% form 'contact', class: 'contact-page__form' %}
+          {%- if form.posted_successfully? -%}
+            <p class="contact-page__success">Thank you for your message! We'll get back to you soon.</p>
+          {%- endif -%}
+
+          {%- if form.errors -%}
+            <div class="contact-page__errors">
+              {{ form.errors | default_errors }}
+            </div>
+          {%- endif -%}
+
+          <div class="contact-page__form-fields">
+            <div class="contact-page__form-row">
+              <input type="text" name="contact[name]" placeholder="Full Name*" value="{{ form.name }}" required class="contact-page__input">
+              <input type="email" name="contact[email]" placeholder="Email Address*" value="{{ form.email }}" required class="contact-page__input">
+            </div>
+            <input type="tel" name="contact[phone]" placeholder="Phone Number*" value="{{ form.phone }}" required class="contact-page__input">
+            <textarea name="contact[body]" placeholder="Message" required class="contact-page__textarea">{{ form.body }}</textarea>
+          </div>
+
+          <button type="submit" class="contact-page__submit-btn">Submit</button>
+        {% endform %}
       </div>
     </div>
-    <div class="form-group">
-      <label for="ContactPhone">{{ 'templates.contact.form.phone' | t }}</label>
-      <input type="tel" id="ContactPhone" name="contact[phone]" value="{{ form.phone }}">
-    </div>
-    <div class="form-group">
-      <label for="ContactMessage">{{ 'templates.contact.form.message' | t }}</label>
-      <textarea id="ContactMessage" name="contact[body]" required>{{ form.body }}</textarea>
-    </div>
-    <button type="submit" class="btn btn--primary">{{ 'templates.contact.form.submit' | t }}</button>
-  {% endform %}
+  </div>
 </div>
 
 {% schema %}
 {
-  "name": "Contact Form",
+  "name": "Contact Page",
   "tag": "section",
   "class": "main-contact-section",
-  "settings": []
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Hero Image"
+    },
+    {
+      "type": "richtext",
+      "id": "address",
+      "label": "Address",
+      "default": "<p>Nithya Amirtham Indian Food Pvt Ltd<br>Old No 41 New No 2/52A, Karuneegar Street,<br>Nerkundram, Tamil Nadu,<br>Chennai-600107</p>"
+    },
+    {
+      "type": "text",
+      "id": "email",
+      "label": "Email",
+      "default": "feedback@nithyaamirtham.com"
+    },
+    {
+      "type": "text",
+      "id": "phone",
+      "label": "Phone",
+      "default": "8754401444"
+    },
+    {
+      "type": "url",
+      "id": "instagram_url",
+      "label": "Instagram URL"
+    },
+    {
+      "type": "url",
+      "id": "facebook_url",
+      "label": "Facebook URL"
+    },
+    {
+      "type": "url",
+      "id": "youtube_url",
+      "label": "YouTube URL"
+    },
+    {
+      "type": "text",
+      "id": "form_heading",
+      "label": "Form Heading",
+      "default": "We'd love to hear from you"
+    },
+    {
+      "type": "text",
+      "id": "form_subtitle",
+      "label": "Form Subtitle",
+      "default": "Please use the form to send us your message or ideas."
+    }
+  ]
 }
 {% endschema %}

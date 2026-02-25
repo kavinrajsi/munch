@@ -1,0 +1,431 @@
+// ── Product Breadcrumbs ──
+.main-product__breadcrumbs {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Aller', sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 18px;
+  color: #2A2A29;
+  padding: 16px 0;
+
+  a {
+    color: #2A2A29;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .current {
+    color: #C61D23;
+  }
+
+  svg {
+    width: 6px;
+    height: 10px;
+    flex-shrink: 0;
+  }
+}
+
+// ── Product Grid (2-col) ──
+.main-product__grid {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+
+  @media (min-width: 750px) {
+    flex-direction: row;
+    gap: 20px;
+    align-items: flex-start;
+  }
+}
+
+// ── Media Column ──
+.main-product__media {
+  width: 100%;
+
+  @media (min-width: 750px) {
+    width: 550px;
+    flex-shrink: 0;
+  }
+}
+
+.main-product__gallery-main {
+  border-radius: 20px;
+  overflow: hidden;
+  margin-bottom: 12px;
+
+  img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  a {
+    display: block;
+  }
+}
+
+.main-product__gallery-thumbs {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+
+  button {
+    width: 64px;
+    height: 64px;
+    flex-shrink: 0;
+    border: 2px solid transparent;
+    border-radius: 8px;
+    overflow: hidden;
+    padding: 0;
+    background: none;
+    cursor: pointer;
+
+    &.is-active {
+      border-color: #C61D23;
+    }
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+}
+
+// ── Info Column ──
+.main-product__info {
+  flex: 1;
+  min-width: 0;
+}
+
+.main-product__vendor {
+  font-family: 'Aller', sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 18px;
+  color: #6F6F6F;
+  margin-bottom: 4px;
+}
+
+.main-product__title {
+  font-family: 'Aller', sans-serif;
+  font-weight: 400;
+  font-size: 28px;
+  line-height: 32px;
+  color: #0B090A;
+  margin: 0 0 16px;
+
+  @media (min-width: 750px) {
+    font-size: 32px;
+    line-height: 36px;
+  }
+}
+
+.main-product__description {
+  font-family: 'Aller', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 20px;
+  color: #2A2A29;
+  margin-bottom: 24px;
+}
+
+// ── Price ──
+.main-product__price {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  margin-bottom: 24px;
+
+  .sale-price,
+  .regular-price {
+    font-family: 'Aleo', serif;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 28px;
+    color: #0B090A;
+  }
+
+  .compare-price {
+    font-family: 'Aleo', serif;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 20px;
+    color: #6F6F6F;
+    text-decoration: line-through;
+  }
+
+  .unit-price {
+    font-family: 'Aller', sans-serif;
+    font-size: 14px;
+    line-height: 18px;
+    color: #6F6F6F;
+  }
+}
+
+// ── Meta Badges (Shelf Life, Sweetness) ──
+.main-product__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  align-items: center;
+  border-top: 1px solid #FFC44C;
+  border-bottom: 1px solid #FFC44C;
+  padding: 16px 0;
+  margin-bottom: 24px;
+}
+
+.main-product__meta-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  img, svg {
+    width: 56px;
+    height: 56px;
+    flex-shrink: 0;
+  }
+
+  span {
+    font-family: 'Aller', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 20px;
+    color: #0B090A;
+  }
+}
+
+// ── Variant Buttons ──
+.main-product__variants {
+  margin-bottom: 24px;
+}
+
+.main-product__variant-group {
+  margin-bottom: 16px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  > label {
+    display: block;
+    font-family: 'Aleo', serif;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 20px;
+    color: #0B090A;
+    margin-bottom: 8px;
+  }
+}
+
+.main-product__variant-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+}
+
+.main-product__variant-btn {
+  padding: 12px 24px;
+  font-family: 'Aleo', serif;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 18px;
+  color: #0B090A;
+  background: transparent;
+  border: 1px solid #D3D3D3;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s, border-color 0.2s;
+
+  &.is-selected {
+    background-color: #FDDECF;
+    border-color: #FDDECF;
+  }
+
+  &:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+}
+
+// ── Quantity + ATC Row ──
+.main-product__buy-row {
+  display: flex;
+  gap: 8px;
+  align-items: flex-end;
+  margin-bottom: 24px;
+}
+
+.main-product__quantity {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex-shrink: 0;
+
+  > label {
+    font-family: 'Aller', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 20px;
+    color: #0B090A;
+  }
+}
+
+.main-product__quantity-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid #D3D3D3;
+  border-radius: 4px;
+  width: 100px;
+  padding: 12px 16px;
+
+  button {
+    background: none;
+    border: none;
+    font-size: 14px;
+    font-weight: 700;
+    color: #0B090A;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+  }
+
+  input {
+    width: 24px;
+    text-align: center;
+    border: none;
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 14px;
+    color: #0B090A;
+    padding: 0;
+    -moz-appearance: textfield;
+
+    &::-webkit-inner-spin-button,
+    &::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+  }
+}
+
+.main-product__add-to-cart {
+  flex: 1;
+
+  button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 41px;
+    padding: 12px 16px;
+    background-color: #C61D23;
+    border: 1px solid #C61D23;
+    border-radius: 6px;
+    font-family: 'Aller', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 20px;
+    color: #FFFFFF;
+    cursor: pointer;
+    transition: background-color 0.2s;
+
+    &:hover {
+      background-color: #a8171c;
+      border-color: #a8171c;
+    }
+
+    &:disabled {
+      background-color: #D3D3D3;
+      border-color: #D3D3D3;
+      color: #666;
+      cursor: not-allowed;
+    }
+  }
+}
+
+// ── Accordion ──
+.main-product__accordion {
+  border-bottom: 1px solid #F5F3F4;
+
+  &:first-of-type {
+    border-top: 1px solid #F5F3F4;
+  }
+}
+
+.main-product__accordion-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 16px 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: 'Aller', sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 20px;
+  color: #0B090A;
+
+  svg {
+    width: 16px;
+    height: 16px;
+    transition: transform 0.3s;
+  }
+
+  &.is-open svg {
+    transform: rotate(180deg);
+  }
+}
+
+.main-product__accordion-content {
+  display: none;
+  padding-bottom: 16px;
+  font-family: 'Aller', sans-serif;
+  font-size: 14px;
+  line-height: 18px;
+  color: #2A2A29;
+
+  &.is-open {
+    display: block;
+  }
+}
+
+// ── Share ──
+.main-product__share {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 24px;
+
+  span {
+    font-family: 'Aller', sans-serif;
+    font-size: 14px;
+    color: #0B090A;
+  }
+
+  a {
+    color: #0B090A;
+
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    &:hover {
+      color: #C61D23;
+    }
+  }
+}
+
+// ── Section padding ──
+.main-product {
+  padding-top: 0;
+  padding-bottom: 40px;
+}

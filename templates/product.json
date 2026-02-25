@@ -10,16 +10,25 @@
       "block_order": ["acc_1", "acc_2", "acc_3"],
       "settings": {}
     },
+    "features-banner": {
+      "type": "product-features-banner",
+      "blocks": {
+        "feat_1": { "type": "feature", "settings": { "title": "Fresh from Our Kitchen", "text": "Freshly prepared daily for unmatched homemade taste" } },
+        "feat_2": { "type": "feature", "settings": { "title": "Taste of Tradition", "text": "Authentic flavours inspired by timeless family recipes" } },
+        "feat_3": { "type": "feature", "settings": { "title": "Purely Vegetarian", "text": "Made using 100% pure vegetarian ingredients" } },
+        "feat_4": { "type": "feature", "settings": { "title": "Crafted with Love", "text": "Lovingly handcrafted with care and dedication" } }
+      },
+      "block_order": ["feat_1", "feat_2", "feat_3", "feat_4"],
+      "settings": {
+        "title": "Where Tradition Meets Perfection"
+      }
+    },
     "related": {
       "type": "related-products",
       "settings": {
-        "title": "You May Also Like"
+        "title": "Complete the Meal"
       }
-    },
-    "recently-visited": {
-      "type": "recently-visited",
-      "settings": {}
     }
   },
-  "order": ["main", "related", "recently-visited"]
+  "order": ["main", "features-banner", "related"]
 }

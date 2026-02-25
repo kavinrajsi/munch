@@ -7,29 +7,29 @@
   {%- if article.image -%}
     <a href="{{ article.url }}" class="blog-card__image">
       <img
-        src="{{ article.image | image_url: width: 600 }}"
+        src="{{ article.image | image_url: width: 750 }}"
+        srcset="
+          {{ article.image | image_url: width: 360 }} 360w,
+          {{ article.image | image_url: width: 535 }} 535w,
+          {{ article.image | image_url: width: 750 }} 750w
+        "
+        sizes="(min-width: 750px) 33vw, 100vw"
         alt="{{ article.image.alt | default: article.title | escape }}"
         width="{{ article.image.width }}"
         height="{{ article.image.height }}"
         loading="lazy"
       >
     </a>
+  {%- else -%}
+    <a href="{{ article.url }}" class="blog-card__image">
+      {{ 'image' | placeholder_svg_tag: 'blog-card__placeholder' }}
+    </a>
   {%- endif -%}
 
-  <div class="blog-card__meta">
-    <span class="blog-card__date">{{ article.published_at | date: '%b %d, %Y' }}</span>
-    {%- if article.author -%}
-      <span class="blog-card__author">{{ article.author }}</span>
-    {%- endif -%}
+  <div class="blog-card__content">
+    <h3 class="blog-card__title">
+      <a href="{{ article.url }}">{{ article.title }}</a>
+    </h3>
+    <span class="blog-card__date">{{ article.published_at | date: '%d %b %Y' }}</span>
   </div>
-
-  <h3 class="blog-card__title">
-    <a href="{{ article.url }}">{{ article.title }}</a>
-  </h3>
-
-  {%- if article.excerpt_or_content != blank -%}
-    <p class="blog-card__excerpt">{{ article.excerpt_or_content | strip_html | truncate: 150 }}</p>
-  {%- endif -%}
-
-  <a href="{{ article.url }}" class="blog-card__read-more">{{ 'templates.blog.read_more' | t }}</a>
 </div>
