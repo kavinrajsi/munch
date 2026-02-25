@@ -310,6 +310,55 @@
         "paragraph_2": "<p>Our online store allows you to enjoy the same delicious treats from the comfort of your home. From traditional sweets to crispy savouries, order online and have fresh sweets delivered to your doorstep across India.</p>"
       }
     },
+    "visit_us_locations_hzNWNb": {
+      "type": "visit-us-locations",
+      "blocks": {
+        "location_MQGMNQ": {
+          "type": "location",
+          "settings": {
+            "image": "shopify://shop_images/aminjikarai.jpg",
+            "name": "Aminjikarai",
+            "address": "No. 52, Priyan Plaza, Nelson Manickam Road, Railway Colony, Aminjikarai, Chennai, Tamil Nadu - 600 029.",
+            "phone": "044-4359 1021, 8056164927",
+            "hours": "8am - 11pm",
+            "directions_url": "https://maps.app.goo.gl/u8JfztKb59JRPpMf7"
+          }
+        },
+        "location_Pg4her": {
+          "type": "location",
+          "settings": {
+            "image": "shopify://shop_images/anna-nagar-east.jpg",
+            "name": "Anna Nagar East",
+            "address": "C40, 2nd Ave, Anna Nagar, AF Block, Anna Nagar, Chennai, Tamil Nadu - 600 040.",
+            "phone": "74186 44435, 044-2853 4905",
+            "hours": "8am - 11pm",
+            "directions_url": "https://maps.app.goo.gl/EDPHr4M589fsPiDy7"
+          }
+        },
+        "location_bDiYqW": {
+          "type": "location",
+          "settings": {
+            "image": "shopify://shop_images/arumbakkam.jpg",
+            "name": "Arumbakkam",
+            "address": "17/6, Razzak Garden Main Road, near NSK Signal, Chennai, Tamil Nadu - 600 106.",
+            "phone": "044-4359 2744, 7358576128",
+            "hours": "8am - 11pm",
+            "directions_url": "https://maps.app.goo.gl/oYsShRB7HxNSFn7PA"
+          }
+        }
+      },
+      "block_order": [
+        "location_MQGMNQ",
+        "location_Pg4her",
+        "location_bDiYqW"
+      ],
+      "name": "Visit Locations",
+      "settings": {
+        "title": "Visit us",
+        "padding_top": 56,
+        "padding_bottom": 56
+      }
+    },
     "testimonials_xGAihr": {
       "type": "testimonials",
       "blocks": {
@@ -442,55 +491,6 @@
         "slides_to_show": 3,
         "show_dots": true
       }
-    },
-    "visit_us_locations_hzNWNb": {
-      "type": "visit-us-locations",
-      "blocks": {
-        "location_MQGMNQ": {
-          "type": "location",
-          "settings": {
-            "image": "shopify://shop_images/aminjikarai.jpg",
-            "name": "Aminjikarai",
-            "address": "No. 52, Priyan Plaza, Nelson Manickam Road, Railway Colony, Aminjikarai, Chennai, Tamil Nadu - 600 029.",
-            "phone": "044-4359 1021, 8056164927",
-            "hours": "8am - 11pm",
-            "directions_url": "https://maps.app.goo.gl/u8JfztKb59JRPpMf7"
-          }
-        },
-        "location_Pg4her": {
-          "type": "location",
-          "settings": {
-            "image": "shopify://shop_images/anna-nagar-east.jpg",
-            "name": "Anna Nagar East",
-            "address": "C40, 2nd Ave, Anna Nagar, AF Block, Anna Nagar, Chennai, Tamil Nadu - 600 040.",
-            "phone": "74186 44435, 044-2853 4905",
-            "hours": "8am - 11pm",
-            "directions_url": "https://maps.app.goo.gl/EDPHr4M589fsPiDy7"
-          }
-        },
-        "location_bDiYqW": {
-          "type": "location",
-          "settings": {
-            "image": "shopify://shop_images/arumbakkam.jpg",
-            "name": "Arumbakkam",
-            "address": "17/6, Razzak Garden Main Road, near NSK Signal, Chennai, Tamil Nadu - 600 106.",
-            "phone": "044-4359 2744, 7358576128",
-            "hours": "8am - 11pm",
-            "directions_url": "https://maps.app.goo.gl/oYsShRB7HxNSFn7PA"
-          }
-        }
-      },
-      "block_order": [
-        "location_MQGMNQ",
-        "location_Pg4her",
-        "location_bDiYqW"
-      ],
-      "name": "Visit Locations",
-      "settings": {
-        "title": "Visit us",
-        "padding_top": 56,
-        "padding_bottom": 56
-      }
     }
   },
   "order": [
@@ -500,7 +500,7 @@
     "icon_with_text_UktifF",
     "featured_collection_carousel_Kcce3V",
     "home_about_XNnJ7y",
-    "testimonials_xGAihr",
-    "visit_us_locations_hzNWNb"
+    "visit_us_locations_hzNWNb",
+    "testimonials_xGAihr"
   ]
 }
