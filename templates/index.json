@@ -444,7 +444,7 @@
       }
     },
     "store_locations_TTPC3x": {
-      "type": "store-locations",
+      "type": "visit-us-locations",
       "blocks": {
         "location_jNYUdq": {
           "type": "location",
