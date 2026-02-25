@@ -20,6 +20,18 @@
   {{ section.shopify_attributes }}
 >
   <div class="{{ section.settings.container_type }}">
+    {%- if section.settings.title != blank -%}
+      <div class="icon-with-text__header">
+        {%- render 'section-heading',
+          title: section.settings.title,
+          heading_tag: 'h2',
+          show_left_line: true,
+          show_left_icon: true,
+          show_right_icon: true,
+          show_right_line: true
+        -%}
+      </div>
+    {%- endif -%}
     <div class="icon-with-text__grid">
       {%- for block in section.blocks -%}
         <div class="icon-with-text__item" style="--iwt-item-bg: {{ block.settings.item_bg_color }};" {{ block.shopify_attributes }}>
@@ -74,6 +86,12 @@
         { "value": "container-fluid", "label": "Container fluid" }
       ],
       "default": "container"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section title",
+      "default": "Shop by Category"
     },
     {
       "type": "range",

@@ -9,6 +9,11 @@
   }
 }
 
+.icon-with-text__header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
 .icon-with-text__grid {
   display: grid;
   grid-template-columns: repeat(var(--iwt-cols-mobile, 3), 1fr);
