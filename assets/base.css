@@ -1293,7 +1293,7 @@ svg {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  color: var(--footer-text, #333);
+  color: var(--footer-text, #161A1D);
   padding: 40px 0;
 }
 @media (min-width: 768px) {
@@ -1356,7 +1356,7 @@ svg {
 .footer__logo-text {
   font-size: 24px;
   font-weight: 700;
-  color: var(--footer-title-color, #C61D23);
+  color: var(--footer-title-color, #A5161A);
 }
 
 .footer__links {
@@ -1372,16 +1372,17 @@ svg {
 @media (min-width: 992px) {
   .footer__links {
     grid-template-columns: repeat(4, 1fr);
-    gap: 40px;
+    gap: 20px;
   }
 }
 
 .footer__title {
   font-size: 16px;
-  font-weight: 600;
-  color: var(--footer-title-color, #C61D23);
-  margin: 0 0 16px;
-  font-style: italic;
+  font-weight: 700;
+  font-family: var(--font-heading-family, "Aller", sans-serif);
+  color: var(--footer-title-color, #A5161A);
+  margin: 0 0 32px;
+  line-height: 20px;
 }
 
 .footer__list {
@@ -1390,7 +1391,7 @@ svg {
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 8px;
 }
 
 .footer__item {
@@ -1398,38 +1399,58 @@ svg {
 }
 
 .footer__link {
-  color: var(--footer-link-color, #333);
+  color: var(--footer-link-color, #161A1D);
   text-decoration: none;
   font-size: 14px;
+  line-height: 18px;
   transition: opacity 0.2s ease;
 }
 .footer__link:hover {
   opacity: 0.7;
 }
 
-.footer__contact {
-  font-style: normal;
+.footer__contact-block {
+  min-width: 0;
 }
 
 .footer__address {
   font-style: normal;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 16px;
 }
 
 .footer__contact-item {
   display: flex;
   align-items: flex-start;
-  gap: 10px;
+  gap: 12px;
   margin: 0;
   font-size: 14px;
-  line-height: 1.5;
+  line-height: 18px;
+  color: var(--footer-text, #161A1D);
 }
 
 .footer__contact-icon {
   flex-shrink: 0;
-  margin-top: 2px;
+  display: inline-flex;
+  color: var(--footer-text, #161A1D);
+}
+.footer__contact-icon svg {
+  display: block;
+}
+
+.footer__contact-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.footer__contact-link {
+  color: var(--footer-link-color, #161A1D);
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+.footer__contact-link:hover {
+  opacity: 0.7;
 }
 
 .footer__divider {
@@ -1500,7 +1521,7 @@ svg {
 }
 
 .footer__social-link {
-  color: var(--footer-text, #333);
+  color: var(--footer-text, #161A1D);
   display: inline-flex;
   align-items: center;
   justify-content: center;
