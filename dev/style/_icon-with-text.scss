@@ -44,6 +44,9 @@
   @media (min-width: 992px) {
     width: var(--iwt-img-w-desktop, 120px);
     height: var(--iwt-img-h-desktop, 120px);
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 }
 
@@ -60,12 +63,12 @@
 }
 
 .icon-with-text__title {
-  font-family: 'Aller', sans-serif;
+  font-family: "Aller", sans-serif;
   font-weight: 400;
   font-size: 16px;
   line-height: 20px;
   text-align: center;
-  color: var(--iwt-text, #161A1D);
+  color: var(--iwt-text, #161a1d);
   text-decoration: none;
 }
 
