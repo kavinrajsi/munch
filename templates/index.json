@@ -66,7 +66,6 @@
         "icon_item_VfE3y6": {
           "type": "icon_item",
           "settings": {
-            "image": "shopify://shop_images/dry-fruit-sweets.png",
             "title": "Dry Fruit Sweets",
             "link": "shopify://collections",
             "item_bg_color": "rgba(0,0,0,0)"
@@ -75,7 +74,6 @@
         "icon_item_racDQx": {
           "type": "icon_item",
           "settings": {
-            "image": "shopify://shop_images/traditional-sweets.png",
             "title": "Traditional Sweets",
             "link": "",
             "item_bg_color": "rgba(0,0,0,0)"
@@ -84,7 +82,6 @@
         "icon_item_NxwJep": {
           "type": "icon_item",
           "settings": {
-            "image": "shopify://shop_images/traditional-savouries.png",
             "title": "Traditional Savouries",
             "link": "",
             "item_bg_color": "rgba(0,0,0,0)"
@@ -93,7 +90,6 @@
         "icon_item_kTFGwq": {
           "type": "icon_item",
           "settings": {
-            "image": "shopify://shop_images/baklava.png",
             "title": "Baklava",
             "link": "",
             "item_bg_color": "rgba(0,0,0,0)"
@@ -102,7 +98,6 @@
         "icon_item_hbLpdj": {
           "type": "icon_item",
           "settings": {
-            "image": "shopify://shop_images/savouries.png",
             "title": "Savouries",
             "link": "",
             "item_bg_color": "rgba(0,0,0,0)"
@@ -111,7 +106,6 @@
         "icon_item_CBdEDC": {
           "type": "icon_item",
           "settings": {
-            "image": "shopify://shop_images/gifting-combos.png",
             "title": "Gifting Combos",
             "link": "",
             "item_bg_color": "rgba(0,0,0,0)"
@@ -176,7 +170,6 @@
         "icon_item_KXmkay": {
           "type": "icon_item",
           "settings": {
-            "image": "shopify://shop_images/ghee-sweets.png",
             "title": "Ghee Sweets",
             "link": "shopify://collections/gheesweets",
             "item_bg_color": "rgba(0,0,0,0)"
@@ -185,7 +178,6 @@
         "icon_item_L8CtNN": {
           "type": "icon_item",
           "settings": {
-            "image": "shopify://shop_images/home-made-sweets.png",
             "title": "Home Made Sweets",
             "link": "shopify://collections/home-made-sweets",
             "item_bg_color": "rgba(0,0,0,0)"
@@ -194,7 +186,6 @@
         "icon_item_iCXCx7": {
           "type": "icon_item",
           "settings": {
-            "image": "shopify://shop_images/traditional-savories.png",
             "title": "Traditional Savories",
             "link": "shopify://collections/home-made-savouries",
             "item_bg_color": "rgba(0,0,0,0)"
@@ -233,7 +224,7 @@
       "settings": {
         "container_type": "container",
         "heading": "All Time favourite",
-        "collection": "other-collection",
+        "collection": "baklava",
         "products_to_show": 8,
         "slides_to_show": 3,
         "show_dots": true,
@@ -256,7 +247,6 @@
         "location_MQGMNQ": {
           "type": "location",
           "settings": {
-            "image": "shopify://shop_images/aminjikarai.jpg",
             "name": "Aminjikarai",
             "address": "No. 52, Priyan Plaza, Nelson Manickam Road, Railway Colony, Aminjikarai, Chennai, Tamil Nadu - 600 029.",
             "phone": "044-4359 1021, 8056164927",
@@ -267,7 +257,6 @@
         "location_Pg4her": {
           "type": "location",
           "settings": {
-            "image": "shopify://shop_images/anna-nagar-east.jpg",
             "name": "Anna Nagar East",
             "address": "C40, 2nd Ave, Anna Nagar, AF Block, Anna Nagar, Chennai, Tamil Nadu - 600 040.",
             "phone": "74186 44435, 044-2853 4905",
@@ -278,7 +267,6 @@
         "location_bDiYqW": {
           "type": "location",
           "settings": {
-            "image": "shopify://shop_images/arumbakkam.jpg",
             "name": "Arumbakkam",
             "address": "17/6, Razzak Garden Main Road, near NSK Signal, Chennai, Tamil Nadu - 600 106.",
             "phone": "044-4359 2744, 7358576128",
