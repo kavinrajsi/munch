@@ -92,97 +92,12 @@
       {%- paginate collection.products by section.settings.products_per_page -%}
         <div class="collection__grid">
           {%- for product in collection.products -%}
-            {%- liquid
-              assign fv = product.selected_or_first_available_variant
-              assign has_compare = false
-              assign discount_pct = 0
-              if fv.compare_at_price > fv.price
-                assign has_compare = true
-                assign diff = fv.compare_at_price | minus: fv.price
-                assign discount_pct = diff | times: 100 | divided_by: fv.compare_at_price
-              endif
-              assign has_range = false
-              if product.price_min != product.price_max
-                assign has_range = true
-              endif
-            -%}
-
-            <div class="collection-card" data-product-card data-first-variant-selected="true">
-              <script type="application/json" data-product-json>
-                {
-                  "variants": [
-                    {%- for variant in product.variants -%}
-                      {
-                        "id": {{ variant.id }},
-                        "title": {{ variant.title | json }},
-                        "price": {{ variant.price }},
-                        "compare_at_price": {{ variant.compare_at_price | default: 0 }},
-                        "available": {{ variant.available }},
-                        "options": [{% for opt in variant.options %}{{ opt | json }}{% unless forloop.last %},{% endunless %}{% endfor %}]
-                      }{% unless forloop.last %},{% endunless %}
-                    {%- endfor -%}
-                  ]
-                }
-              </script>
-
-              <a href="{{ product.url }}" class="collection-card__media-link" tabindex="-1" aria-hidden="true">
-                <div class="collection-card__media">
-                  {%- render 'card-image', product: product, columns: 4 -%}
-                </div>
-              </a>
-
-              <div class="collection-card__body">
-                <div class="collection-card__header">
-                  <h3 class="collection-card__title">
-                    <a href="{{ product.url }}">{{ product.title }}</a>
-                  </h3>
-                  {%- render 'card-price', product: product, fv: fv, has_range: has_range, has_compare: has_compare, discount_pct: discount_pct, price_display: 'auto' -%}
-                </div>
-
-                {%- unless product.has_only_default_variant -%}
-                  <div class="collection-card__options">
-                    {%- for option in product.options_with_values -%}
-                      <div
-                        class="collection-card__option-group"
-                        data-option-group
-                        data-option-position="{{ option.position }}"
-                      >
-                        {%- for value in option.values -%}
-                          <button
-                            type="button"
-                            class="collection-card__option-button{% if forloop.first %} is-selected{% endif %}"
-                            data-option-btn
-                            data-option-position="{{ option.position }}"
-                            data-option-value="{{ value | escape }}"
-                            aria-label="{{ option.name | escape }}: {{ value | escape }}"
-                          >{{ value }}</button>
-                        {%- endfor -%}
-                      </div>
-                    {%- endfor -%}
-                  </div>
-                {%- endunless -%}
-
-                <div class="collection-card__quantity">
-                  <button type="button" class="collection-card__quantity-button" data-qty-minus aria-label="Decrease quantity">−</button>
-                  <input
-                    type="number"
-                    class="collection-card__quantity-input"
-                    value="1"
-                    min="1"
-                    max="99"
-                    readonly
-                    data-qty-input
-                    aria-label="Quantity"
-                  >
-                  <button type="button" class="collection-card__quantity-button" data-qty-plus aria-label="Increase quantity">+</button>
-                </div>
-
-                <form action="{{ routes.cart_add_url }}" method="post" class="collection-card__form" data-card-form>
-                  <input type="hidden" name="id" value="{{ fv.id }}" data-variant-id>
-                  <input type="hidden" name="quantity" value="1" data-qty-value>
-                  <button type="submit" class="collection-card__add-to-cart">Add to cart</button>
-                </form>
-              </div>
+            <div data-aos="fade-up" data-aos-delay="{{ forloop.index0 | times: 100 | at_most: 300 }}">
+              {%- render 'fcc-product-card',
+                product: product,
+                show_vendor: false,
+                show_price: true
+              -%}
             </div>
           {%- endfor -%}
         </div>
@@ -228,82 +143,6 @@
 
 <script>
   (function () {
-    /* ── Variant selection, quantity, and price update ── */
-    document.querySelectorAll('[data-product-card]').forEach(function (card) {
-      var jsonEl = card.querySelector('[data-product-json]');
-      if (!jsonEl) return;
-
-      var data     = JSON.parse(jsonEl.textContent);
-      var variants = data.variants;
-      var firstVariantSelected = card.dataset.firstVariantSelected === 'true';
-      var selOpts  = (firstVariantSelected && variants[0]) ? variants[0].options.slice() : [];
-
-      var variantIdInput = card.querySelector('[data-variant-id]');
-      var qtyValueInput  = card.querySelector('[data-qty-value]');
-      var qtyInput       = card.querySelector('[data-qty-input]');
-      var priceCurrentEl = card.querySelector('[data-price-current]');
-      var priceCompareEl = card.querySelector('[data-price-compare]');
-      var priceBadgeEl   = card.querySelector('[data-price-badge]');
-
-      function getVariant() {
-        return variants.find(function (v) {
-          return v.options.every(function (opt, i) { return opt === selOpts[i]; });
-        });
-      }
-
-      function formatMoney(cents) {
-        return 'Rs.\u00a0' + (cents / 100).toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-      }
-
-      function updatePrice(v) {
-        if (!v || !priceCurrentEl) return;
-        if (v.compare_at_price > v.price) {
-          priceCurrentEl.textContent = formatMoney(v.price);
-          if (priceCompareEl) { priceCompareEl.textContent = formatMoney(v.compare_at_price); priceCompareEl.hidden = false; }
-          if (priceBadgeEl) {
-            var pct = Math.round((v.compare_at_price - v.price) * 100 / v.compare_at_price);
-            priceBadgeEl.textContent = '-' + pct + '%';
-            priceBadgeEl.hidden = false;
-          }
-        } else {
-          priceCurrentEl.textContent = formatMoney(v.price);
-          if (priceCompareEl) priceCompareEl.hidden = true;
-          if (priceBadgeEl)   priceBadgeEl.hidden   = true;
-        }
-      }
-
-      function updateInputs(v) {
-        if (!v) return;
-        if (variantIdInput) variantIdInput.value = v.id;
-      }
-
-      card.querySelectorAll('[data-option-btn]').forEach(function (btn) {
-        btn.addEventListener('click', function () {
-          var pos = parseInt(btn.dataset.optionPosition, 10) - 1;
-          selOpts[pos] = btn.dataset.optionValue;
-          btn.closest('[data-option-group]').querySelectorAll('[data-option-btn]').forEach(function (b) {
-            b.classList.toggle('is-selected', b.dataset.optionValue === selOpts[pos]);
-          });
-          var v = getVariant();
-          updatePrice(v);
-          updateInputs(v);
-        });
-      });
-
-      if (qtyInput) {
-        card.querySelector('[data-qty-minus]').addEventListener('click', function () {
-          var val = Math.max(1, parseInt(qtyInput.value, 10) - 1);
-          qtyInput.value = val;
-          if (qtyValueInput) qtyValueInput.value = val;
-        });
-        card.querySelector('[data-qty-plus]').addEventListener('click', function () {
-          var val = Math.min(99, parseInt(qtyInput.value, 10) + 1);
-          qtyInput.value = val;
-          if (qtyValueInput) qtyValueInput.value = val;
-        });
-      }
-    });
-
     /* ── Filter dropdown toggle ── */
     var filterToggle = document.querySelector('[data-filter-toggle]');
     var filterMenu   = document.querySelector('[data-filter-menu]');

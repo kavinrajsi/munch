@@ -64,14 +64,21 @@
 
       // Quantity controls within drawer
       this.$drawer.on('click', '[data-qty-minus]', function() {
-        var $input = $(this).siblings('[data-qty-input]');
+        var $qty = $(this).closest('.cart-drawer__item-quantity');
+        var $input = $qty.find('[data-qty-input]');
         var val = parseInt($input.val(), 10);
-        if (val > 1) $input.val(val - 1).trigger('change');
+        if (val > 1) {
+          $input.val(val - 1).trigger('change');
+          $qty.find('[data-qty-input-display]').text(val - 1);
+        }
       });
 
       this.$drawer.on('click', '[data-qty-plus]', function() {
-        var $input = $(this).siblings('[data-qty-input]');
-        $input.val(parseInt($input.val(), 10) + 1).trigger('change');
+        var $qty = $(this).closest('.cart-drawer__item-quantity');
+        var $input = $qty.find('[data-qty-input]');
+        var newVal = parseInt($input.val(), 10) + 1;
+        $input.val(newVal).trigger('change');
+        $qty.find('[data-qty-input-display]').text(newVal);
       });
 
       this.$drawer.on('change', '[data-qty-input]', function() {
@@ -102,36 +109,39 @@
 
     updateItem: function(line, quantity) {
       var self = this;
-      $.ajax({
-        type: 'POST',
-        url: '/cart/change.js',
-        data: { line: line, quantity: quantity },
-        dataType: 'json',
-        success: function(cart) {
-          self.refreshCart(cart);
-        }
+      var root = window.Shopify.routes.root || '/';
+      fetch(root + 'cart/change.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ line: line, quantity: quantity })
+      })
+      .then(function(res) { return res.json(); })
+      .then(function(cart) {
+        self.refreshCart(cart);
       });
     },
 
     addItem: function(variantId, quantity) {
       var self = this;
+      var root = window.Shopify.routes.root || '/';
       quantity = quantity || 1;
-      $.ajax({
-        type: 'POST',
-        url: '/cart/add.js',
-        data: { id: variantId, quantity: quantity },
-        dataType: 'json',
-        success: function() {
-          $.getJSON('/cart.js', function(cart) {
+      fetch(root + 'cart/add.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ items: [{ id: variantId, quantity: quantity }] })
+      })
+      .then(function(res) { return res.json(); })
+      .then(function() {
+        fetch(root + 'cart.js')
+          .then(function(res) { return res.json(); })
+          .then(function(cart) {
             self.refreshCart(cart);
             self.open();
           });
-        }
       });
     },
 
     refreshCart: function(cart) {
-      // Read settings from data attributes
       var showImage = this.$drawer.data('show-image') !== false;
       var showVariant = this.$drawer.data('show-variant') !== false;
       var emptyText = this.$drawer.data('empty-text') || 'Your cart is empty';
@@ -155,8 +165,8 @@
       if (cart.item_count === 0) {
         $items.html(
           '<div class="cart-drawer__empty">' +
-          '<p>' + emptyText + '</p>' +
-          '<a href="' + emptyBtnLink + '" class="cart-drawer__checkout">' + emptyBtnText + '</a>' +
+            '<p>' + emptyText + '</p>' +
+            '<a href="' + emptyBtnLink + '" class="cart-drawer__checkout-btn">' + emptyBtnText + '</a>' +
           '</div>'
         );
         this.$drawer.find('.cart-drawer__footer').hide();
@@ -168,25 +178,28 @@
       cart.items.forEach(function(item, index) {
         var variantTitle = item.variant_title && item.variant_title !== 'Default Title' ? item.variant_title : '';
         html += '<div class="cart-drawer__item" data-cart-item data-line="' + (index + 1) + '">';
-        if (showImage) {
+        if (showImage && item.image) {
           html += '<a href="' + item.url + '" class="cart-drawer__item-image">';
-          if (item.image) {
-            html += '<img src="' + item.image.replace(/(\.[^.]+)$/, '_144x$1') + '" alt="' + item.title + '" width="72" height="90" loading="lazy">';
-          }
+          html += '<img src="' + item.image.replace(/(\.[^.]+)$/, '_190x$1') + '" alt="' + item.title + '" width="95" height="95" loading="lazy">';
           html += '</a>';
         }
         html += '<div class="cart-drawer__item-info">';
+        html += '<div class="cart-drawer__item-details">';
         html += '<a href="' + item.url + '" class="cart-drawer__item-title">' + item.product_title + '</a>';
         if (showVariant && variantTitle) {
-          html += '<p class="cart-drawer__item-variant">' + variantTitle + '</p>';
+          html += '<p class="cart-drawer__item-variant">Weight : <span>' + variantTitle + '</span></p>';
         }
         html += '<p class="cart-drawer__item-price">' + formatMoney(item.final_line_price) + '</p>';
+        html += '</div>';
+        html += '<div class="cart-drawer__item-actions">';
         html += '<div class="cart-drawer__item-quantity">';
         html += '<button type="button" data-qty-minus>−</button>';
+        html += '<span class="cart-drawer__qty-value" data-qty-input-display>' + item.quantity + '</span>';
         html += '<input type="number" value="' + item.quantity + '" min="1" data-qty-input>';
         html += '<button type="button" data-qty-plus>+</button>';
         html += '</div>';
         html += '<button class="cart-drawer__item-remove" data-remove-item type="button">Remove</button>';
+        html += '</div>';
         html += '</div></div>';
       });
       $items.html(html);
@@ -702,17 +715,18 @@
 
       // Update ATC button variant id
       var variantId = $btn.data('variant-id');
-      var variantAvailable = $btn.data('variant-available');
+      var variantAvailable = String($btn.data('variant-available')) === 'true';
       var $atc = $controls.find('[data-fcc-add-to-cart]');
 
       if ($atc.length) {
+        $atc.attr('data-variant-id', variantId);
         $atc.data('variant-id', variantId);
       }
 
       // Update price
       var variantPrice = $btn.data('variant-price');
       if (variantPrice) {
-        $controls.closest('.feat-collection-carousel__item').find('.feat-collection-carousel__price').text(variantPrice);
+        $controls.closest('.feat-collection-carousel__item').find('.feat-collection-carousel__price').html(variantPrice);
       }
 
       // Handle sold out variant
@@ -746,29 +760,64 @@
       e.stopPropagation();
       var $btn = $(this);
       var $controls = $btn.closest('[data-fcc-controls]');
-      var variantId = $btn.data('variant-id');
+      var $item = $btn.closest('.feat-collection-carousel__item');
+      var variantId = parseInt($btn.attr('data-variant-id'), 10);
       var qty = parseInt($controls.find('[data-fcc-qty-input]').val(), 10) || 1;
+      var activeVariant = $controls.find('.fcc-variants__btn--active');
+
+      var productName = $item.find('.feat-collection-carousel__title').text().trim();
+      var variantTitle = activeVariant.length ? activeVariant.text().trim() : 'Default';
+      var price = $item.find('.feat-collection-carousel__price').text().trim();
+
+      console.log('🛒 Adding product to cart...', {
+        product: productName,
+        variantId: variantId,
+        variant: variantTitle,
+        quantity: qty,
+        price: price
+      });
+
+      var root = window.Shopify.routes.root || '/';
 
       $btn.prop('disabled', true).text('Adding...');
 
-      $.ajax({
-        type: 'POST',
-        url: '/cart/add.js',
-        data: { id: variantId, quantity: qty },
-        dataType: 'json',
-        success: function() {
-          $btn.text('Added!');
-          $.getJSON('/cart.js', function(cart) {
+      fetch(root + 'cart/add.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ items: [{ id: variantId, quantity: qty }] })
+      })
+      .then(function(res) {
+        if (!res.ok) throw new Error(res.status);
+        return res.json();
+      })
+      .then(function(item) {
+        console.log('✅ Added product to cart', {
+          product: productName,
+          variant: variantTitle,
+          quantity: qty,
+          lineItem: item
+        });
+
+        $btn.text('Added!');
+        fetch(root + 'cart.js')
+          .then(function(res) { return res.json(); })
+          .then(function(cart) {
+            console.log('🔢 Cart count updated:', cart.item_count, 'items, Total:', (cart.total_price / 100).toFixed(2));
             CartDrawer.refreshCart(cart);
             CartDrawer.open();
+            console.log('📦 Mini cart shown');
           });
-          setTimeout(function() {
-            $btn.prop('disabled', false).text('Add to cart');
-          }, 1500);
-        },
-        error: function() {
+        setTimeout(function() {
           $btn.prop('disabled', false).text('Add to cart');
-        }
+        }, 1500);
+      })
+      .catch(function(err) {
+        console.error('❌ Failed to add to cart', {
+          product: productName,
+          variantId: variantId,
+          error: err.message
+        });
+        $btn.prop('disabled', false).text('Add to cart');
       });
     });
   }
@@ -783,26 +832,36 @@
       var $btn = $form.find('[data-add-to-cart]');
       var originalText = $btn.text();
 
+      var root = window.Shopify.routes.root || '/';
+
       $btn.prop('disabled', true).text('Adding...');
 
-      $.ajax({
-        type: 'POST',
-        url: '/cart/add.js',
-        data: $form.serialize(),
-        dataType: 'json',
-        success: function() {
-          $btn.text('Added!');
-          $.getJSON('/cart.js', function(cart) {
+      var formData = {};
+      $form.serializeArray().forEach(function(field) { formData[field.name] = field.value; });
+
+      fetch(root + 'cart/add.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ items: [{ id: parseInt(formData.id, 10), quantity: parseInt(formData.quantity, 10) || 1 }] })
+      })
+      .then(function(res) {
+        if (!res.ok) throw new Error(res.status);
+        return res.json();
+      })
+      .then(function() {
+        $btn.text('Added!');
+        fetch(root + 'cart.js')
+          .then(function(res) { return res.json(); })
+          .then(function(cart) {
             CartDrawer.refreshCart(cart);
             CartDrawer.open();
           });
-          setTimeout(function() {
-            $btn.prop('disabled', false).text(originalText);
-          }, 1500);
-        },
-        error: function() {
+        setTimeout(function() {
           $btn.prop('disabled', false).text(originalText);
-        }
+        }, 1500);
+      })
+      .catch(function() {
+        $btn.prop('disabled', false).text(originalText);
       });
     });
   }

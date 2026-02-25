@@ -1,0 +1,78 @@
+{%- comment -%}
+  Renders a featured collection carousel product card.
+  Usage: {% render 'fcc-product-card', product: product, show_vendor: false, show_price: true %}
+{%- endcomment -%}
+
+<div class="feat-collection-carousel__item">
+  <a href="{{ product.url }}" class="feat-collection-carousel__link">
+    <div class="feat-collection-carousel__image-wrapper">
+      {%- if product.featured_image != blank -%}
+        {{ product.featured_image
+          | image_url: width: 1100
+          | image_tag:
+              widths: '165, 360, 535, 750, 940, 1100',
+              sizes: '313px',
+              loading: 'lazy',
+              fetchpriority: 'low',
+              class: 'm:w-full m:h-full',
+              alt: product.title
+        }}
+      {%- else -%}
+        {{ 'product-1' | placeholder_svg_tag: 'feat-collection-carousel__placeholder' }}
+      {%- endif -%}
+    </div>
+    <div class="feat-collection-carousel__content">
+      {%- if show_vendor -%}
+        <p class="feat-collection-carousel__vendor">{{ product.vendor }}</p>
+      {%- endif -%}
+      <h3 class="feat-collection-carousel__title">{{ product.title }}</h3>
+      {%- if show_price -%}
+        <p class="feat-collection-carousel__price">{{ product.first_available_variant.price | money }}</p>
+      {%- endif -%}
+    </div>
+  </a>
+  <div class="fcc-controls" data-fcc-controls>
+    <div class="fcc-variants-qty">
+      {%- if product.variants.size > 1 -%}
+        <div class="fcc-variants">
+          {%- for variant in product.variants -%}
+            <button
+              type="button"
+              class="fcc-variants__btn{% if variant.id == product.first_available_variant.id %} fcc-variants__btn--active{% endif %}"
+              data-fcc-variant-btn
+              data-variant-id="{{ variant.id }}"
+              data-variant-price="{{ variant.price | money }}"
+              data-variant-available="{{ variant.available }}"
+              {% unless variant.available %}disabled{% endunless %}
+            >
+              {{ variant.title }}
+            </button>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+
+      <div class="fcc-qty-cart">
+        <div class="fcc-qty">
+          <button type="button" class="fcc-qty__btn" data-fcc-qty-minus>-</button>
+          <input type="number" class="fcc-qty__input" value="1" min="1" data-fcc-qty-input readonly>
+          <button type="button" class="fcc-qty__btn" data-fcc-qty-plus>+</button>
+        </div>
+      </div>
+    </div>
+
+    {%- if product.available -%}
+      <button
+        class="fcc-atc"
+        type="button"
+        data-variant-id="{{ product.first_available_variant.id }}"
+        data-fcc-add-to-cart
+      >
+        Add to cart
+      </button>
+    {%- else -%}
+      <button class="fcc-atc fcc-atc--sold-out" type="button" disabled>
+        Sold Out
+      </button>
+    {%- endif -%}
+  </div>
+</div>
