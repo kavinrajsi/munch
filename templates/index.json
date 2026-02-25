@@ -310,29 +310,6 @@
         "paragraph_2": "<p>Our online store allows you to enjoy the same delicious treats from the comfort of your home. From traditional sweets to crispy savouries, order online and have fresh sweets delivered to your doorstep across India.</p>"
       }
     },
-    "main_store_locator_ee4zwx": {
-      "type": "main-store-locator",
-      "blocks": {
-        "location_rd68ar": {
-          "type": "location",
-          "settings": {
-            "name": "Main Store",
-            "address": "",
-            "phone": "",
-            "hours": "Mon-Sat: 9am - 8pm",
-            "directions_url": ""
-          }
-        }
-      },
-      "block_order": [
-        "location_rd68ar"
-      ],
-      "name": "Store Locator",
-      "settings": {
-        "title": "Our Stores",
-        "map_embed": ""
-      }
-    },
     "testimonials_xGAihr": {
       "type": "testimonials",
       "blocks": {
@@ -465,6 +442,52 @@
         "slides_to_show": 3,
         "show_dots": true
       }
+    },
+    "store_locations_TTPC3x": {
+      "type": "store-locations",
+      "blocks": {
+        "location_jNYUdq": {
+          "type": "location",
+          "settings": {
+            "name": "Aminjikarai",
+            "address": "No. 52, Priyan Plaza, Nelson Manickam Road, Railway Colony, Aminjikarai, Chennai, Tamil Nadu - 600 029.",
+            "phone": "044-4359 1021, 8056164927",
+            "hours": "8am - 11pm",
+            "directions_url": ""
+          }
+        },
+        "location_zEFj4B": {
+          "type": "location",
+          "settings": {
+            "name": "Anna Nagar East",
+            "address": "C40, 2nd Ave, Anna Nagar, AF Block, Anna Nagar, Chennai, Tamil Nadu - 600 040.",
+            "phone": "74186 44435, 044-2853 4905",
+            "hours": "8am - 11pm",
+            "directions_url": ""
+          }
+        },
+        "location_wiGAck": {
+          "type": "location",
+          "settings": {
+            "name": "Arumbakkam",
+            "address": "17/6, Razzak Garden Main Road, near NSK Signal, Chennai, Tamil Nadu - 600 106.",
+            "phone": "044-4359 2744, 7358576128",
+            "hours": "8am - 11pm",
+            "directions_url": ""
+          }
+        }
+      },
+      "block_order": [
+        "location_jNYUdq",
+        "location_zEFj4B",
+        "location_wiGAck"
+      ],
+      "name": "Store Locations",
+      "settings": {
+        "title": "Visit us",
+        "padding_top": 56,
+        "padding_bottom": 56
+      }
     }
   },
   "order": [
@@ -474,7 +497,7 @@
     "icon_with_text_UktifF",
     "featured_collection_carousel_Kcce3V",
     "home_about_XNnJ7y",
-    "main_store_locator_ee4zwx",
+    "store_locations_TTPC3x",
     "testimonials_xGAihr"
   ]
 }
