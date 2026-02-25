@@ -1,5 +1,5 @@
 .credit-bar {
-  background-color: var(--credit-bar-bg, #C61D23);
+  background-color: var(--credit-bar-bg, #c61d23);
   color: var(--credit-bar-text, #fff);
   padding: var(--credit-bar-pt-mobile, 12px) 0 var(--credit-bar-pb-mobile, 12px);
 
@@ -16,6 +16,7 @@
 
 .credit-bar__copyright,
 .credit-bar__credit {
+  font-family: "Aller", sans-serif;
   font-weight: var(--credit-bar-font-weight, 400);
   font-size: var(--credit-bar-font-size, 12px);
   line-height: var(--credit-bar-line-height, 15px);
@@ -37,7 +38,7 @@
   right: var(--scroll-top-right, 20px);
   width: var(--scroll-top-size, 40px);
   height: var(--scroll-top-size, 40px);
-  background-color: var(--scroll-top-bg, #C61D23);
+  background-color: var(--scroll-top-bg, #c61d23);
   color: var(--scroll-top-color, #fff);
   border: none;
   border-radius: 50%;
@@ -47,7 +48,9 @@
   justify-content: center;
   opacity: 0;
   visibility: hidden;
-  transition: opacity 0.3s ease, visibility 0.3s ease;
+  transition:
+    opacity 0.3s ease,
+    visibility 0.3s ease;
   z-index: 99;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 

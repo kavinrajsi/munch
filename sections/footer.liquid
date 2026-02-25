@@ -155,98 +155,119 @@
 
     <!-- Bottom Section -->
     <div class="footer__bottom">
-      <!-- Brand Trust -->
-      {%- assign trust_block = section.blocks | where: 'type', 'brand_trust' | first -%}
-      {%- if trust_block -%}
-        <div class="footer__brand-trust" {{ trust_block.shopify_attributes }}>
-          {%- if trust_block.settings.title != blank -%}
-            <h2>{{ trust_block.settings.title }}</h2>
-          {%- endif -%}
+      <span class="footer__bottom-border" aria-hidden="true">
+        <svg
+          preserveAspectRatio="none"
+          width="100%"
+          height="1"
+          viewBox="0 0 1120 1"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <rect width="1120" height="1" fill="url(#footer-bottom-border)"/>
+          <defs>
+            <linearGradient id="footer-bottom-border" x1="0" y1="0.5" x2="1120" y2="0.5" gradientUnits="userSpaceOnUse">
+              <stop stop-color="{{ section.settings.divider_color }}" stop-opacity="0"/>
+              <stop offset="0.5" stop-color="{{ section.settings.divider_color }}"/>
+              <stop offset="1" stop-color="{{ section.settings.divider_color }}" stop-opacity="0"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </span>
+      <div class="footer__bottom-content">
+        <!-- Brand Trust -->
+        {%- assign trust_block = section.blocks | where: 'type', 'brand_trust' | first -%}
+        {%- if trust_block -%}
+          <div class="footer__brand-trust" {{ trust_block.shopify_attributes }}>
+            {%- if trust_block.settings.title != blank -%}
+              <h2>{{ trust_block.settings.title }}</h2>
+            {%- endif -%}
 
-          <div class="footer__brand-trust-icons">
-            {%- if trust_block.settings.visa_svg != blank -%}
-              <span title="Visa">{{ trust_block.settings.visa_svg }}</span>
-            {%- endif -%}
-            {%- if trust_block.settings.mastercard_svg != blank -%}
-              <span title="Mastercard">{{ trust_block.settings.mastercard_svg }}</span>
-            {%- endif -%}
-            {%- if trust_block.settings.rupay_svg != blank -%}
-              <span title="RuPay">{{ trust_block.settings.rupay_svg }}</span>
-            {%- endif -%}
-            {%- if trust_block.settings.upi_svg != blank -%}
-              <span title="UPI">{{ trust_block.settings.upi_svg }}</span>
-            {%- endif -%}
-            {%- if trust_block.settings.maestro_svg != blank -%}
-              <span title="Maestro">{{ trust_block.settings.maestro_svg }}</span>
-            {%- endif -%}
+            <div class="footer__brand-trust-icons">
+              {%- if trust_block.settings.visa_svg != blank -%}
+                <span title="Visa">{{ trust_block.settings.visa_svg }}</span>
+              {%- endif -%}
+              {%- if trust_block.settings.mastercard_svg != blank -%}
+                <span title="Mastercard">{{ trust_block.settings.mastercard_svg }}</span>
+              {%- endif -%}
+              {%- if trust_block.settings.rupay_svg != blank -%}
+                <span title="RuPay">{{ trust_block.settings.rupay_svg }}</span>
+              {%- endif -%}
+              {%- if trust_block.settings.upi_svg != blank -%}
+                <span title="UPI">{{ trust_block.settings.upi_svg }}</span>
+              {%- endif -%}
+              {%- if trust_block.settings.maestro_svg != blank -%}
+                <span title="Maestro">{{ trust_block.settings.maestro_svg }}</span>
+              {%- endif -%}
+            </div>
           </div>
-        </div>
-      {%- endif -%}
+        {%- endif -%}
 
-      <!-- Social Icons -->
-      {%- assign social_block = section.blocks | where: 'type', 'social_icons' | first -%}
-      {%- if social_block -%}
-        <div class="footer__social" {{ social_block.shopify_attributes }}>
-          {%- if social_block.settings.title != blank -%}
-            <h2>{{ social_block.settings.title }}</h2>
-          {%- endif -%}
+        <!-- Social Icons -->
+        {%- assign social_block = section.blocks | where: 'type', 'social_icons' | first -%}
+        {%- if social_block -%}
+          <div class="footer__social" {{ social_block.shopify_attributes }}>
+            {%- if social_block.settings.title != blank -%}
+              <h2>{{ social_block.settings.title }}</h2>
+            {%- endif -%}
 
-          <ul class="footer__social-list">
-            {%- if social_block.settings.instagram_svg != blank and social_block.settings.instagram_url != blank -%}
-              <li>
-                <a
-                  href="{{ social_block.settings.instagram_url }}"
-                  target="_blank"
-                  rel="noopener"
-                  aria-label="Instagram"
-                  class="footer__social-link"
-                >
-                  {{ social_block.settings.instagram_svg }}
-                </a>
-              </li>
-            {%- endif -%}
-            {%- if social_block.settings.facebook_svg != blank and social_block.settings.facebook_url != blank -%}
-              <li>
-                <a
-                  href="{{ social_block.settings.facebook_url }}"
-                  target="_blank"
-                  rel="noopener"
-                  aria-label="Facebook"
-                  class="footer__social-link"
-                >
-                  {{ social_block.settings.facebook_svg }}
-                </a>
-              </li>
-            {%- endif -%}
-            {%- if social_block.settings.youtube_svg != blank and social_block.settings.youtube_url != blank -%}
-              <li>
-                <a
-                  href="{{ social_block.settings.youtube_url }}"
-                  target="_blank"
-                  rel="noopener"
-                  aria-label="YouTube"
-                  class="footer__social-link"
-                >
-                  {{ social_block.settings.youtube_svg }}
-                </a>
-              </li>
-            {%- endif -%}
-            {%- if social_block.settings.pinterest_svg != blank and social_block.settings.pinterest_url != blank -%}
-              <li>
-                <a
-                  href="{{ social_block.settings.pinterest_url }}"
-                  target="_blank"
-                  rel="noopener"
-                  aria-label="Pinterest"
-                  class="footer__social-link"
-                >
-                  {{ social_block.settings.pinterest_svg }}
-                </a>
-              </li>
-            {%- endif -%}
-          </ul>
-        </div>
-      {%- endif -%}
+            <ul class="footer__social-list">
+              {%- if social_block.settings.instagram_svg != blank and social_block.settings.instagram_url != blank -%}
+                <li>
+                  <a
+                    href="{{ social_block.settings.instagram_url }}"
+                    target="_blank"
+                    rel="noopener"
+                    aria-label="Instagram"
+                    class="footer__social-link"
+                  >
+                    {{ social_block.settings.instagram_svg }}
+                  </a>
+                </li>
+              {%- endif -%}
+              {%- if social_block.settings.facebook_svg != blank and social_block.settings.facebook_url != blank -%}
+                <li>
+                  <a
+                    href="{{ social_block.settings.facebook_url }}"
+                    target="_blank"
+                    rel="noopener"
+                    aria-label="Facebook"
+                    class="footer__social-link"
+                  >
+                    {{ social_block.settings.facebook_svg }}
+                  </a>
+                </li>
+              {%- endif -%}
+              {%- if social_block.settings.youtube_svg != blank and social_block.settings.youtube_url != blank -%}
+                <li>
+                  <a
+                    href="{{ social_block.settings.youtube_url }}"
+                    target="_blank"
+                    rel="noopener"
+                    aria-label="YouTube"
+                    class="footer__social-link"
+                  >
+                    {{ social_block.settings.youtube_svg }}
+                  </a>
+                </li>
+              {%- endif -%}
+              {%- if social_block.settings.pinterest_svg != blank and social_block.settings.pinterest_url != blank -%}
+                <li>
+                  <a
+                    href="{{ social_block.settings.pinterest_url }}"
+                    target="_blank"
+                    rel="noopener"
+                    aria-label="Pinterest"
+                    class="footer__social-link"
+                  >
+                    {{ social_block.settings.pinterest_svg }}
+                  </a>
+                </li>
+              {%- endif -%}
+            </ul>
+          </div>
+        {%- endif -%}
+      </div>
     </div>
   </div>
 </footer>
