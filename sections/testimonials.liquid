@@ -14,14 +14,19 @@
     {%- endif -%}
 
     <div
-      class="testimonials__track"
+      class="testimonials__track splide"
       data-testimonial-slider
-      data-slides-to-show="{{ section.settings.slides_to_show }}"
       data-show-dots="{{ section.settings.show_dots }}"
     >
-      {%- for block in section.blocks -%}
-        {% render 'testimonial-card', block: block %}
-      {%- endfor -%}
+      <div class="splide__track">
+        <div class="splide__list">
+          {%- for block in section.blocks -%}
+            <div class="splide__slide">
+              {% render 'testimonial-card', block: block %}
+            </div>
+          {%- endfor -%}
+        </div>
+      </div>
     </div>
   </div>
 </div>

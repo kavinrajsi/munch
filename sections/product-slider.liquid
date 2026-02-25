@@ -7,24 +7,32 @@
       {%- endif -%}
     </div>
 
-    <div class="product-slider__track" data-product-slider>
-      {%- liquid
-        if section.settings.source == 'collection' and section.settings.collection != blank
-          assign products_list = section.settings.collection.products
-        endif
-      -%}
+    <div class="product-slider__track splide" data-product-slider>
+      <div class="splide__track">
+        <div class="splide__list">
+          {%- liquid
+            if section.settings.source == 'collection' and section.settings.collection != blank
+              assign products_list = section.settings.collection.products
+            endif
+          -%}
 
-      {%- if section.settings.source == 'collection' and section.settings.collection != blank -%}
-        {%- for product in products_list limit: section.settings.products_to_show -%}
-          {% render 'product-card', product: product, collection: section.settings.collection %}
-        {%- endfor -%}
-      {%- else -%}
-        {%- for block in section.blocks -%}
-          {%- if block.settings.product != blank -%}
-            {% render 'product-card', product: block.settings.product %}
+          {%- if section.settings.source == 'collection' and section.settings.collection != blank -%}
+            {%- for product in products_list limit: section.settings.products_to_show -%}
+              <div class="splide__slide">
+                {% render 'product-card', product: product, collection: section.settings.collection %}
+              </div>
+            {%- endfor -%}
+          {%- else -%}
+            {%- for block in section.blocks -%}
+              {%- if block.settings.product != blank -%}
+                <div class="splide__slide">
+                  {% render 'product-card', product: block.settings.product %}
+                </div>
+              {%- endif -%}
+            {%- endfor -%}
           {%- endif -%}
-        {%- endfor -%}
-      {%- endif -%}
+        </div>
+      </div>
     </div>
   </div>
 </div>

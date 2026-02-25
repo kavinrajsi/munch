@@ -25,10 +25,12 @@
     </div>
   {%- endif -%}
 
-  <div class="feat-collection-carousel__track" data-feat-collection-carousel>
+  <div class="feat-collection-carousel__track splide" data-feat-collection-carousel>
+    <div class="splide__track">
+      <div class="splide__list">
     {%- if section.settings.collection != blank -%}
       {%- for product in section.settings.collection.products limit: section.settings.products_to_show -%}
-        <div class="feat-collection-carousel__item">
+        <div class="feat-collection-carousel__item splide__slide">
           <a href="{{ product.url }}" class="feat-collection-carousel__link">
             <div class="feat-collection-carousel__image-wrapper">
               {%- if product.featured_image != blank -%}
@@ -104,7 +106,7 @@
       {%- endfor -%}
     {%- else -%}
       {%- for i in (1..4) -%}
-        <div class="feat-collection-carousel__item feat-collection-carousel__item--placeholder">
+        <div class="feat-collection-carousel__item feat-collection-carousel__item--placeholder splide__slide">
           <div class="feat-collection-carousel__image-wrapper">
             {{ 'product-1' | placeholder_svg_tag: 'feat-collection-carousel__placeholder' }}
           </div>
@@ -115,6 +117,8 @@
         </div>
       {%- endfor -%}
     {%- endif -%}
+      </div>
+    </div>
   </div>
 
   {%- if section.settings.show_view_all and section.settings.collection != blank -%}

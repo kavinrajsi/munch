@@ -14,111 +14,13 @@
   margin-bottom: 32px;
 }
 
-// Slider track
+// Splide track
 .testimonials__track {
   position: relative;
-  padding-bottom: 60px;
-
-  .slick-slide {
-    margin: 0 8px;
-
-    > div {
-      height: 100%;
-    }
-  }
-
-  .slick-list {
-    margin: 0 -8px;
-    overflow: visible;
-
-    @media (min-width: 768px) {
-      overflow: hidden;
-    }
-  }
-
-  .slick-track {
-    display: flex;
-
-    .slick-slide {
-      height: auto;
-
-      > div {
-        height: 100%;
-      }
-
-      .testimonial-card {
-        height: 100%;
-      }
-    }
-  }
 }
 
-// Custom arrows
-.testimonials-arrow {
-  display: none;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  background: #F5F3F4;
-  border: 1px solid #F5F3F4;
-  border-radius: 20px;
-  cursor: pointer;
-  padding: 0;
-  position: absolute;
-  bottom: 0;
-  top: auto;
-  transform: none;
-  z-index: 2;
-
-  @media (min-width: 768px) {
-    display: flex;
-  }
-
-  &--prev {
-    right: 48px;
-    left: auto;
-  }
-
-  &--next {
-    right: 0;
-    transform: scaleX(-1);
-  }
-
-  svg {
-    width: 19px;
-    height: 13px;
-  }
-}
-
-// Custom dots
-.testimonials__track .slick-dots {
-  position: absolute;
-  bottom: 8px;
-  left: 0;
-  right: 0;
-  display: flex;
-  justify-content: center;
-  gap: 8px;
-  list-style: none;
-  padding: 0;
-  margin: 0;
-
-  li button {
-    width: 8px;
-    height: 8px;
-    padding: 0;
-    border: 1px solid #D3D3D3;
-    border-radius: 50%;
-    background: #D3D3D3;
-    font-size: 0;
-    cursor: pointer;
-  }
-
-  li.slick-active button {
-    background: #C61D23;
-    border-color: #C61D23;
-  }
+.testimonials__track .splide__slide {
+  height: auto;
 }
 
 // Testimonial card

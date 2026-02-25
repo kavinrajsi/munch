@@ -28,10 +28,11 @@
   color: #C61D23;
 }
 
+.feat-collection-carousel__track {
+  position: relative;
+}
+
 .feat-collection-carousel__image-wrapper {
-  // width: 265px;
-  // height: 265px;
-  // background: #D9D9D9;
   border-radius: 20px;
   overflow: hidden;
   margin-bottom: 16px;
@@ -70,9 +71,15 @@
   margin: 0;
 }
 
+.feat-collection-carousel__vendor {
+  font-family: 'Aller', sans-serif;
+  font-size: 12px;
+  color: #666;
+  margin: 0;
+}
+
 .feat-collection-carousel__item {
-  // max-width: 266px;
-  img{
+  img {
     width: 100%;
     height: auto;
   }
@@ -216,88 +223,8 @@
   }
 }
 
-.feat-collection-carousel__track {
-  position: relative;
-  padding-bottom: 60px;
-
-  .slick-slide {
-    margin: 0 10px;
-  }
-
-  .slick-list {
-    margin: 0 -10px;
-    overflow: visible;
-
-    @media (min-width: 768px) {
-      overflow: hidden;
-    }
-  }
-}
-
-// Custom arrows
-.fcc-arrow {
-  display: none;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  background: #F5F3F4;
-  border: 1px solid #F5F3F4;
-  border-radius: 20px;
-  cursor: pointer;
-  padding: 0;
-  position: absolute;
-  bottom: 0;
-  top: auto;
-  transform: none;
-  z-index: 2;
-
-  @media (min-width: 768px) {
-    display: flex;
-  }
-
-  &--prev {
-    right: 48px;
-    left: auto;
-  }
-
-  &--next {
-    right: 0;
-    transform: scaleX(-1);
-  }
-
-  svg {
-    width: 19px;
-    height: 13px;
-  }
-}
-
-// Custom dots
-.feat-collection-carousel__track .slick-dots {
-  position: absolute;
-  bottom: 8px;
-  left: 0;
-  right: 0;
+.feat-collection-carousel__footer {
   display: flex;
   justify-content: center;
-  gap: 8px;
-  list-style: none;
-  padding: 0;
-  margin: 0;
-
-  li button {
-    width: 8px;
-    height: 8px;
-    padding: 0;
-    border: 1px solid #D3D3D3;
-    border-radius: 50%;
-    background: #D3D3D3;
-    font-size: 0;
-    cursor: pointer;
-  }
-
-  li.slick-active button {
-    background: #C61D23;
-    border-color: #C61D23;
-  }
+  margin-top: 32px;
 }
