@@ -3,7 +3,9 @@
   <div class="contact-page__hero">
     <img
       src="{{ section.settings.hero_image | image_url: width: 1440 }}"
-      alt="{{ section.settings.hero_image.alt | default: 'Contact Us' | escape }}"
+      srcset="{{ section.settings.hero_image | image_url: width: 750 }} 750w, {{ section.settings.hero_image | image_url: width: 1100 }} 1100w, {{ section.settings.hero_image | image_url: width: 1440 }} 1440w"
+      sizes="100vw"
+      alt="{{ section.settings.hero_image.alt | default: 'templates.contact.title' | t | escape }}"
       class="contact-page__hero-img"
       loading="eager"
       width="1440"
@@ -16,7 +18,7 @@
   <div class="container">
     {%- comment -%} Section Heading {%- endcomment -%}
     {%- render 'section-heading',
-      title: 'Contact Us',
+      title: 'templates.contact.title' | t,
       heading_tag: 'h1',
       show_left_line: true,
       show_left_icon: true,
@@ -32,7 +34,7 @@
         <div class="contact-page__info-inner">
           {%- comment -%} Address {%- endcomment -%}
           <div class="contact-page__info-block">
-            <p class="contact-page__info-label">Address</p>
+            <p class="contact-page__info-label">{{ 'templates.contact.address_label' | t }}</p>
             <div class="contact-page__info-text">{{ section.settings.address }}</div>
           </div>
 
@@ -56,7 +58,7 @@
                 </svg>
               </span>
               <div class="contact-page__info-detail">
-                <span class="contact-page__info-label">Email</span>
+                <span class="contact-page__info-label">{{ 'templates.contact.email_label' | t }}</span>
                 <a href="mailto:{{ section.settings.email }}" class="contact-page__info-value">{{ section.settings.email }}</a>
               </div>
             </div>
@@ -68,7 +70,7 @@
                 </svg>
               </span>
               <div class="contact-page__info-detail">
-                <span class="contact-page__info-label">Contact</span>
+                <span class="contact-page__info-label">{{ 'templates.contact.phone_label' | t }}</span>
                 <a href="tel:{{ section.settings.phone }}" class="contact-page__info-value">{{ section.settings.phone }}</a>
               </div>
             </div>
@@ -76,7 +78,7 @@
 
           {%- comment -%} Social Links {%- endcomment -%}
           <div class="contact-page__info-block">
-            <p class="contact-page__info-label">Social links</p>
+            <p class="contact-page__info-label">{{ 'templates.contact.social_links_label' | t }}</p>
             <div class="contact-page__social-links">
               {%- if section.settings.instagram_url != blank -%}
                 <a href="{{ section.settings.instagram_url }}" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="contact-page__social-icon">
@@ -111,7 +113,7 @@
 
         {% form 'contact', class: 'contact-page__form' %}
           {%- if form.posted_successfully? -%}
-            <p class="contact-page__success">Thank you for your message! We'll get back to you soon.</p>
+            <p class="contact-page__success">{{ 'templates.contact.form.success' | t }}</p>
           {%- endif -%}
 
           {%- if form.errors -%}
@@ -122,14 +124,26 @@
 
           <div class="contact-page__form-fields">
             <div class="contact-page__form-row">
-              <input type="text" name="contact[name]" placeholder="Full Name*" value="{{ form.name }}" required class="contact-page__input">
-              <input type="email" name="contact[email]" placeholder="Email Address*" value="{{ form.email }}" required class="contact-page__input">
+              <div class="contact-page__field">
+                <label for="ContactName" class="visually-hidden">{{ 'templates.contact.form.full_name' | t }}</label>
+                <input type="text" id="ContactName" name="contact[name]" placeholder="{{ 'templates.contact.form.full_name' | t }}*" value="{{ form.name }}" required class="contact-page__input">
+              </div>
+              <div class="contact-page__field">
+                <label for="ContactEmail" class="visually-hidden">{{ 'templates.contact.form.email_address' | t }}</label>
+                <input type="email" id="ContactEmail" name="contact[email]" placeholder="{{ 'templates.contact.form.email_address' | t }}*" value="{{ form.email }}" required class="contact-page__input">
+              </div>
             </div>
-            <input type="tel" name="contact[phone]" placeholder="Phone Number*" value="{{ form.phone }}" required class="contact-page__input">
-            <textarea name="contact[body]" placeholder="Message" required class="contact-page__textarea">{{ form.body }}</textarea>
+            <div class="contact-page__field">
+              <label for="ContactPhone" class="visually-hidden">{{ 'templates.contact.form.phone' | t }}</label>
+              <input type="tel" id="ContactPhone" name="contact[phone]" placeholder="{{ 'templates.contact.form.phone' | t }}*" value="{{ form.phone }}" required class="contact-page__input">
+            </div>
+            <div class="contact-page__field">
+              <label for="ContactBody" class="visually-hidden">{{ 'templates.contact.form.message' | t }}</label>
+              <textarea id="ContactBody" name="contact[body]" placeholder="{{ 'templates.contact.form.message' | t }}" required class="contact-page__textarea">{{ form.body }}</textarea>
+            </div>
           </div>
 
-          <button type="submit" class="contact-page__submit-btn">Submit</button>
+          <button type="submit" class="contact-page__submit-btn">{{ 'templates.contact.form.submit' | t }}</button>
         {% endform %}
       </div>
     </div>

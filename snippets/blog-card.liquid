@@ -1,7 +1,11 @@
-{%- comment -%}
-  Renders a blog article card.
-  Usage: {% render 'blog-card', article: article %}
-{%- endcomment -%}
+{% doc %}
+  Renders a blog article card with image, title, and date.
+
+  @param {Article} article - The article object to display
+
+  @example
+  {% render 'blog-card', article: article %}
+{% enddoc %}
 
 <div class="blog-card">
   {%- if article.image -%}

@@ -40,7 +40,7 @@
             </a>
             {%- if link.links.size > 0 -%}
               <div class="header__dropdown">
-                <a href="{{ link.url }}" class="header__dropdown-link header__dropdown-link--primary">Shop All</a>
+                <a href="{{ link.url }}" class="header__dropdown-link header__dropdown-link--primary">{{ 'sections.header.shop_all' | t }}</a>
                 {%- for child_link in link.links -%}
                   <a href="{{ child_link.url }}" class="header__dropdown-link">{{ child_link.title }}</a>
                 {%- endfor -%}

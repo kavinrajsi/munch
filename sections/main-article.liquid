@@ -5,6 +5,8 @@
       <div class="article-page__hero">
         <img
           src="{{ article.image | image_url: width: 1200 }}"
+          srcset="{{ article.image | image_url: width: 600 }} 600w, {{ article.image | image_url: width: 900 }} 900w, {{ article.image | image_url: width: 1200 }} 1200w"
+          sizes="(min-width: 750px) 930px, calc(100vw - 32px)"
           alt="{{ article.image.alt | default: article.title | escape }}"
           class="article-page__hero-img"
           width="1120"
@@ -38,7 +40,7 @@
     {%- if blog.comments_enabled? -%}
       <div class="article-page__comments">
         <h3 class="article-page__comments-title">
-          Comments
+          {{ 'templates.blog.comments.title' | t }}
           {%- if article.comments_count > 0 -%}
             ({{ article.comments_count }})
           {%- endif -%}
@@ -57,14 +59,14 @@
         {%- endpaginate -%}
 
         <div class="article-page__comment-form">
-          <h4 class="article-page__comment-form-title">Leave a comment</h4>
+          <h4 class="article-page__comment-form-title">{{ 'templates.blog.comments.leave_comment' | t }}</h4>
 
           {% form 'new_comment', article %}
             {%- if form.posted_successfully? -%}
               {%- if blog.moderated? -%}
-                <p class="article-page__success">Your comment was posted successfully. We will publish it shortly.</p>
+                <p class="article-page__success">{{ 'templates.blog.comments.success_moderated' | t }}</p>
               {%- else -%}
-                <p class="article-page__success">Your comment was posted successfully.</p>
+                <p class="article-page__success">{{ 'templates.blog.comments.success' | t }}</p>
               {%- endif -%}
             {%- endif -%}
 
@@ -75,11 +77,20 @@
             {%- endif -%}
 
             <div class="article-page__form-row">
-              <input type="text" id="CommentAuthor" name="comment[author]" placeholder="Name*" value="{{ form.author }}" required class="article-page__input">
-              <input type="email" id="CommentEmail" name="comment[email]" placeholder="Email*" value="{{ form.email }}" required class="article-page__input">
+              <div class="article-page__field">
+                <label for="CommentAuthor" class="visually-hidden">{{ 'templates.blog.comments.name' | t }}</label>
+                <input type="text" id="CommentAuthor" name="comment[author]" placeholder="{{ 'templates.blog.comments.name_placeholder' | t }}" value="{{ form.author }}" required class="article-page__input">
+              </div>
+              <div class="article-page__field">
+                <label for="CommentEmail" class="visually-hidden">{{ 'templates.blog.comments.email' | t }}</label>
+                <input type="email" id="CommentEmail" name="comment[email]" placeholder="{{ 'templates.blog.comments.email_placeholder' | t }}" value="{{ form.email }}" required class="article-page__input">
+              </div>
             </div>
-            <textarea id="CommentBody" name="comment[body]" placeholder="Message" required class="article-page__textarea">{{ form.body }}</textarea>
-            <button type="submit" class="article-page__submit-btn">Post Comment</button>
+            <div class="article-page__field">
+              <label for="CommentBody" class="visually-hidden">{{ 'templates.blog.comments.body' | t }}</label>
+              <textarea id="CommentBody" name="comment[body]" placeholder="{{ 'templates.blog.comments.message_placeholder' | t }}" required class="article-page__textarea">{{ form.body }}</textarea>
+            </div>
+            <button type="submit" class="article-page__submit-btn">{{ 'templates.blog.comments.submit' | t }}</button>
           {% endform %}
         </div>
       </div>
@@ -88,12 +99,12 @@
     {%- comment -%} Navigation {%- endcomment -%}
     <div class="article-page__nav">
       {%- if blog.previous_article -%}
-        <a href="{{ blog.previous_article }}" class="article-page__nav-link">← Previous</a>
+        <a href="{{ blog.previous_article }}" class="article-page__nav-link">&larr; {{ 'templates.blog.previous' | t }}</a>
       {%- else -%}
         <span></span>
       {%- endif -%}
       {%- if blog.next_article -%}
-        <a href="{{ blog.next_article }}" class="article-page__nav-link">Next →</a>
+        <a href="{{ blog.next_article }}" class="article-page__nav-link">{{ 'templates.blog.next' | t }} &rarr;</a>
       {%- endif -%}
     </div>
   </div>

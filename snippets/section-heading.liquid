@@ -1,66 +1,26 @@
+{% doc %}
+  Renders a section heading with decorative lines and icons.
+
+  @param {String} title - The heading text
+  @param {String} [heading_tag] - HTML tag (default: h5)
+  @param {Boolean} [show_left_line] - Show left gradient line
+  @param {Boolean} [show_right_line] - Show right gradient line
+  @param {Boolean} [show_left_icon] - Show left decorative icon
+  @param {Boolean} [show_right_icon] - Show right decorative icon
+  @param {Number} [margin_bottom_desktop] - Bottom margin on desktop in px (default: 40)
+  @param {Number} [margin_bottom_mobile] - Bottom margin on mobile in px (default: 25)
+
+  @example
+  {% render 'section-heading', title: 'Our Products', heading_tag: 'h2', show_left_line: true, show_left_icon: true, show_right_icon: true, show_right_line: true %}
+{% enddoc %}
+
 {%- liquid
   assign heading_tag = heading_tag | default: 'h5'
   assign margin_bottom_desktop = margin_bottom_desktop | default: 40
   assign margin_bottom_mobile = margin_bottom_mobile | default: 25
 -%}
 
-<style>
-  .section-heading {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    width: 100%;
-    padding-bottom: {{ margin_bottom_mobile }}px;
-  }
-
-  @media (min-width: 768px) {
-    .section-heading {
-      padding-bottom: {{ margin_bottom_desktop }}px;
-    }
-  }
-
-  .section-heading__line--left,
-  .section-heading__line--right {
-    flex: 1;
-    height: 2px;
-    display: block;
-  }
-
-  .section-heading__line--left {
-    background: linear-gradient(to right, transparent, #C61D23);
-  }
-
-  .section-heading__line--right {
-    background: linear-gradient(to right, #C61D23, transparent);
-  }
-
-  .section-heading__icon {
-    display: flex;
-    align-items: center;
-    color: #C61D23;
-  }
-
-  .section-heading__icon--left svg {
-    transform: rotate(90deg);
-  }
-
-  .section-heading__icon--right svg {
-    transform: rotate(-90deg);
-  }
-
-  .section-heading__title {
-    font-family: 'allerbold', sans-serif;
-    font-size: 28px;
-    line-height: 32px;
-    color: #C61D23;
-    text-align: center;
-    margin: 0;
-    white-space: nowrap;
-  }
-</style>
-
-<div class="section-heading">
+<div class="section-heading" style="--section-heading-mb-mobile: {{ margin_bottom_mobile }}px; --section-heading-mb-desktop: {{ margin_bottom_desktop }}px;">
   {%- if show_left_line -%}
     <span class="section-heading__line--left"></span>
   {%- endif -%}

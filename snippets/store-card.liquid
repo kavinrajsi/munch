@@ -1,7 +1,11 @@
-{%- comment -%}
-  Renders a store location card.
-  Usage: {% render 'store-card', block: block %}
-{%- endcomment -%}
+{% doc %}
+  Renders a store location card with image, name, address, phone, hours, and directions link.
+
+  @param {Block} block - The block object with settings (image, name, address, phone, hours, directions_url)
+
+  @example
+  {% render 'store-card', block: block %}
+{% enddoc %}
 
 <div class="store-card" {{ block.shopify_attributes }}>
   <div class="store-card__image-wrapper">
@@ -64,7 +68,7 @@
 
     {%- if block.settings.directions_url != blank -%}
       <a href="{{ block.settings.directions_url }}" class="store-card__btn" target="_blank" rel="noopener noreferrer">
-        Get Direction
+        {{ 'sections.store_locator.get_direction' | t }}
       </a>
     {%- endif -%}
   </div>

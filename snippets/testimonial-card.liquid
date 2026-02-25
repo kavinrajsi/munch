@@ -1,7 +1,11 @@
-{%- comment -%}
-  Renders a testimonial card.
-  Usage: {% render 'testimonial-card', block: block %}
-{%- endcomment -%}
+{% doc %}
+  Renders a testimonial card with rating stars, text, avatar, and author name.
+
+  @param {Block} block - The block object with settings (rating, text, avatar, author)
+
+  @example
+  {% render 'testimonial-card', block: block %}
+{% enddoc %}
 
 <div class="testimonial-card" {{ block.shopify_attributes }}>
   <div class="testimonial-card__body">

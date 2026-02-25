@@ -69,13 +69,18 @@
   "cart": {
     "general": {
       "title": "Your Cart",
+      "shopping_cart": "Shopping Cart",
+      "your_shopping_cart": "Your Shopping cart",
       "empty": "Your cart is empty",
       "continue_shopping": "Continue Shopping",
       "subtotal": "Subtotal",
       "taxes_and_shipping": "Taxes and shipping calculated at checkout",
+      "tax_included_shipping": "Tax included and shipping calculated at checkout",
       "checkout": "Checkout",
+      "check_out": "Check Out",
       "update": "Update",
       "remove": "Remove",
+      "weight": "Weight:",
       "note": "Order Notes",
       "note_placeholder": "Special instructions for your order..."
     },
@@ -188,13 +193,20 @@
     },
     "contact": {
       "title": "Contact Us",
+      "address_label": "Address",
+      "email_label": "Email",
+      "phone_label": "Contact",
+      "social_links_label": "Social links",
       "form": {
         "name": "Name",
+        "full_name": "Full Name",
         "email": "Email",
+        "email_address": "Email Address",
         "phone": "Phone Number",
         "message": "Message",
-        "submit": "Send Message",
-        "success": "Thanks for contacting us. We'll get back to you as soon as possible.",
+        "submit": "Submit",
+        "send_message": "Send Message",
+        "success": "Thank you for your message! We'll get back to you soon.",
         "error": "Something went wrong. Please try again."
       }
     },
@@ -206,15 +218,22 @@
       "read_more": "Read More",
       "no_articles": "No articles found.",
       "tags": "Tags",
+      "previous": "Previous",
+      "next": "Next",
       "comments": {
         "title": "Comments",
         "count": "{{ count }} comments",
         "none": "No comments yet.",
+        "leave_comment": "Leave a comment",
         "name": "Name",
+        "name_placeholder": "Name*",
         "email": "Email",
+        "email_placeholder": "Email*",
         "body": "Comment",
+        "message_placeholder": "Message",
         "submit": "Post Comment",
         "success": "Your comment was posted successfully!",
+        "success_moderated": "Your comment was posted successfully. We will publish it shortly.",
         "moderated": "Your comment is awaiting moderation."
       }
     }
@@ -225,7 +244,8 @@
       "cart": "Cart",
       "search": "Search",
       "account": "Account",
-      "close": "Close"
+      "close": "Close",
+      "shop_all": "Shop All"
     },
     "footer": {
       "newsletter_title": "Stay in touch",
@@ -246,7 +266,8 @@
     },
     "store_locator": {
       "title": "Our Stores",
-      "directions": "Get Directions"
+      "directions": "Get Directions",
+      "get_direction": "Get Direction"
     }
   },
   "accessibility": {

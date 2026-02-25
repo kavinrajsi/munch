@@ -3,15 +3,15 @@
     {%- comment -%} Breadcrumbs {%- endcomment -%}
     <nav class="cart-page__breadcrumbs" aria-label="Breadcrumb">
       <ol>
-        <li><a href="{{ routes.root_url }}">Home</a></li>
+        <li><a href="{{ routes.root_url }}">{{ 'general.breadcrumbs.home' | t }}</a></li>
         <li aria-hidden="true">&gt;</li>
-        <li aria-current="page">Your Shopping cart</li>
+        <li aria-current="page">{{ 'cart.general.your_shopping_cart' | t }}</li>
       </ol>
     </nav>
 
     {%- comment -%} Section Heading {%- endcomment -%}
     {%- render 'section-heading',
-      title: 'Shopping Cart',
+      title: 'cart.general.shopping_cart' | t,
       heading_tag: 'h1',
       show_left_line: true,
       show_left_icon: true,
@@ -28,10 +28,10 @@
           <table class="cart-page__table">
             <thead>
               <tr>
-                <th class="cart-page__th cart-page__th--product">Product</th>
-                <th class="cart-page__th cart-page__th--price">Price</th>
-                <th class="cart-page__th cart-page__th--qty">Quantity</th>
-                <th class="cart-page__th cart-page__th--total">Total</th>
+                <th class="cart-page__th cart-page__th--product">{{ 'cart.items.product' | t }}</th>
+                <th class="cart-page__th cart-page__th--price">{{ 'cart.items.price' | t }}</th>
+                <th class="cart-page__th cart-page__th--qty">{{ 'cart.items.quantity' | t }}</th>
+                <th class="cart-page__th cart-page__th--total">{{ 'cart.items.total' | t }}</th>
               </tr>
             </thead>
             <tbody>
@@ -43,6 +43,8 @@
                       {%- if item.image -%}
                         <img
                           src="{{ item.image | image_url: width: 200 }}"
+                          srcset="{{ item.image | image_url: width: 100 }} 100w, {{ item.image | image_url: width: 200 }} 200w"
+                          sizes="95px"
                           alt="{{ item.title | escape }}"
                           width="95"
                           height="100"
@@ -54,22 +56,22 @@
                       <a href="{{ item.url }}" class="cart-page__product-title">{{ item.product.title }}</a>
                       {%- if item.variant.title != 'Default Title' -%}
                         <p class="cart-page__product-variant">
-                          Weight: <span>{{ item.variant.title }}</span>
+                          {{ 'cart.general.weight' | t }} <span>{{ item.variant.title }}</span>
                         </p>
                       {%- endif -%}
-                      <button type="button" class="cart-page__remove" data-remove-item>Remove</button>
+                      <button type="button" class="cart-page__remove" data-remove-item>{{ 'cart.general.remove' | t }}</button>
                     </div>
                   </td>
 
                   {%- comment -%} Price {%- endcomment -%}
-                  <td class="cart-page__cell cart-page__cell--price" data-label="Price">
+                  <td class="cart-page__cell cart-page__cell--price" data-label="{{ 'cart.items.price' | t }}">
                     {{ item.original_price | money }}
                   </td>
 
                   {%- comment -%} Quantity {%- endcomment -%}
-                  <td class="cart-page__cell cart-page__cell--qty" data-label="Quantity">
+                  <td class="cart-page__cell cart-page__cell--qty" data-label="{{ 'cart.items.quantity' | t }}">
                     <div class="cart-page__qty">
-                      <button type="button" class="cart-page__qty-btn" data-qty-minus aria-label="Decrease quantity">−</button>
+                      <button type="button" class="cart-page__qty-btn" data-qty-minus aria-label="{{ 'products.product.quantity.decrease' | t }}">−</button>
                       <input
                         type="number"
                         class="cart-page__qty-input"
@@ -77,14 +79,14 @@
                         value="{{ item.quantity }}"
                         min="0"
                         data-qty-input
-                        aria-label="Quantity"
+                        aria-label="{{ 'products.product.quantity.label' | t }}"
                       >
-                      <button type="button" class="cart-page__qty-btn" data-qty-plus aria-label="Increase quantity">+</button>
+                      <button type="button" class="cart-page__qty-btn" data-qty-plus aria-label="{{ 'products.product.quantity.increase' | t }}">+</button>
                     </div>
                   </td>
 
                   {%- comment -%} Total {%- endcomment -%}
-                  <td class="cart-page__cell cart-page__cell--total" data-label="Total">
+                  <td class="cart-page__cell cart-page__cell--total" data-label="{{ 'cart.items.total' | t }}">
                     {{ item.final_line_price | money }}
                   </td>
                 </tr>
@@ -101,6 +103,8 @@
                 {%- if item.image -%}
                   <img
                     src="{{ item.image | image_url: width: 200 }}"
+                    srcset="{{ item.image | image_url: width: 100 }} 100w, {{ item.image | image_url: width: 200 }} 200w"
+                    sizes="95px"
                     alt="{{ item.title | escape }}"
                     width="95"
                     height="100"
@@ -112,13 +116,13 @@
                 <a href="{{ item.url }}" class="cart-page__product-title">{{ item.product.title }}</a>
                 {%- if item.variant.title != 'Default Title' -%}
                   <p class="cart-page__product-variant">
-                    Weight: <span>{{ item.variant.title }}</span>
+                    {{ 'cart.general.weight' | t }} <span>{{ item.variant.title }}</span>
                   </p>
                 {%- endif -%}
                 <p class="cart-page__mobile-price">{{ item.original_price | money }}</p>
                 <div class="cart-page__mobile-bottom">
                   <div class="cart-page__qty">
-                    <button type="button" class="cart-page__qty-btn" data-qty-minus aria-label="Decrease quantity">−</button>
+                    <button type="button" class="cart-page__qty-btn" data-qty-minus aria-label="{{ 'products.product.quantity.decrease' | t }}">−</button>
                     <input
                       type="number"
                       class="cart-page__qty-input"
@@ -126,11 +130,11 @@
                       value="{{ item.quantity }}"
                       min="0"
                       data-qty-input
-                      aria-label="Quantity"
+                      aria-label="{{ 'products.product.quantity.label' | t }}"
                     >
-                    <button type="button" class="cart-page__qty-btn" data-qty-plus aria-label="Increase quantity">+</button>
+                    <button type="button" class="cart-page__qty-btn" data-qty-plus aria-label="{{ 'products.product.quantity.increase' | t }}">+</button>
                   </div>
-                  <button type="button" class="cart-page__remove" data-remove-item>Remove</button>
+                  <button type="button" class="cart-page__remove" data-remove-item>{{ 'cart.general.remove' | t }}</button>
                 </div>
               </div>
             </div>
@@ -149,19 +153,19 @@
           <div class="cart-page__summary">
             <div class="cart-page__subtotal">
               <div class="cart-page__subtotal-label">
-                <span>Subtotal</span>
-                <span class="cart-page__tax-note">Tax included and shipping calculated at checkout</span>
+                <span>{{ 'cart.general.subtotal' | t }}</span>
+                <span class="cart-page__tax-note">{{ 'cart.general.tax_included_shipping' | t }}</span>
               </div>
               <span class="cart-page__subtotal-amount">{{ cart.total_price | money }}</span>
             </div>
-            <button type="submit" name="checkout" class="cart-page__checkout-btn">Check Out</button>
+            <button type="submit" name="checkout" class="cart-page__checkout-btn">{{ 'cart.general.check_out' | t }}</button>
           </div>
         </div>
       </form>
     {%- else -%}
       <div class="cart-page__empty">
-        <p>Your cart is empty</p>
-        <a href="{{ routes.all_products_collection_url }}" class="cart-page__checkout-btn">Continue Shopping</a>
+        <p>{{ 'cart.general.empty' | t }}</p>
+        <a href="{{ routes.all_products_collection_url }}" class="cart-page__checkout-btn">{{ 'cart.general.continue_shopping' | t }}</a>
       </div>
     {%- endif -%}
   </div>
