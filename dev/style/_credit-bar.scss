@@ -12,6 +12,11 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-direction: column;
+  gap: 8px;
+  @media (min-width: 768px) {
+    flex-direction: row;
+  }
 }
 
 .credit-bar__copyright,
@@ -20,7 +25,6 @@
   font-weight: var(--credit-bar-font-weight, 400);
   font-size: var(--credit-bar-font-size, 12px);
   line-height: var(--credit-bar-line-height, 15px);
-  margin: 0;
 }
 
 .credit-bar__credit {

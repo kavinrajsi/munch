@@ -190,12 +190,19 @@
   .footer__brand-trust-icons {
     display: inline-flex;
     align-items: center;
-    span {
-      display: inline-block;
-    }
+    gap: 16px;
     svg {
       height: 28px;
-      width: auto;
+    }
+
+    &:nth-child(1) svg,
+    &:nth-child(2) svg {
+      width: 34px;
+    }
+
+    &:nth-child(3) svg,
+    &:nth-child(4) svg {
+      width: 80px;
     }
   }
 
@@ -203,19 +210,12 @@
     display: inline-flex;
     align-items: center;
     gap: 16px;
-    li {
-      list-style: none;
-    }
     a {
       display: inline-flex;
-      color: var(--footer-link-color, #161a1d);
-      transition: color 0.2s ease;
-      &:hover {
-        color: var(--footer-title-color, #a5161a);
-      }
       svg {
         width: 24px;
-        height: 24px;
+        width: auto;
+        height: 20px;
       }
     }
   }
