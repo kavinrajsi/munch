@@ -1990,15 +1990,49 @@ a.icon-with-text__title:hover {
 
 .testimonials__header {
   text-align: center;
-  margin-bottom: 32px;
+  margin-bottom: 40px;
 }
 
 .testimonials__track {
   position: relative;
 }
 
+.testimonials__track .splide__list {
+  align-items: stretch;
+}
+
 .testimonials__track .splide__slide {
   height: auto;
+}
+
+.testimonials__track.splide {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.testimonials__track .splide__track {
+  order: 1;
+  width: 100%;
+}
+
+.testimonials__track .splide__pagination {
+  order: 2;
+  flex: 1;
+  margin: 32px 0 0;
+}
+
+.testimonials__track .splide__arrows {
+  order: 3;
+  position: static;
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  margin-top: 32px;
+}
+
+.testimonials__track .splide__arrow {
+  position: static;
+  transform: none;
 }
 
 .testimonial-card {
@@ -2012,8 +2046,6 @@ a.icon-with-text__title:hover {
 }
 
 .testimonial-card__body {
-  border-bottom: 1px solid #D3D3D3;
-  padding-bottom: 24px;
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -2039,9 +2071,12 @@ a.icon-with-text__title:hover {
 }
 
 .testimonial-card__footer {
+  padding-top: 24px;
+  border-top: 1px solid #D3D3D3;
   display: flex;
   align-items: center;
   gap: 16px;
+  margin-top: auto;
 }
 
 .testimonial-card__avatar {

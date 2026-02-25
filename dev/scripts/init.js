@@ -941,17 +941,33 @@
 
     // Testimonial slider – Splide
     document.querySelectorAll('[data-testimonial-slider]').forEach(function(el) {
-      new Splide(el, {
+      var splide = new Splide(el, {
         type: 'slide',
-        perPage: 4,
-        gap: '16px',
+        perPage: 3,
+        gap: '20px',
         pagination: true,
         arrows: true,
         breakpoints: {
-          1024: { perPage: 3 },
+          1024: { perPage: 2 },
           750: { perPage: 1, padding: { right: '17%' }, pagination: false }
         }
-      }).mount();
+      });
+
+      splide.on('mounted resized', function() {
+        var slides = el.querySelectorAll('.splide__slide');
+        var maxHeight = 0;
+        slides.forEach(function(slide) {
+          slide.style.height = 'auto';
+          if (slide.offsetHeight > maxHeight) {
+            maxHeight = slide.offsetHeight;
+          }
+        });
+        slides.forEach(function(slide) {
+          slide.style.height = maxHeight + 'px';
+        });
+      });
+
+      splide.mount();
     });
   }
 
