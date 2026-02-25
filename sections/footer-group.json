@@ -38,10 +38,10 @@
         "contact": {
           "type": "contact",
           "settings": {
-            "title": "Contact Us",
-            "address": "",
-            "phone": "",
-            "email": ""
+            "title": "Corporate office",
+            "address": "<p>Nithya Amirtham Indian Food Pvt Ltd<br/>Old No 41 New No 2/52A, Karuneegar Street, Nerkundram, Tamil Nadu,<br/>Chennai-600107</p>",
+            "phone": "8754401444",
+            "email": "feedback@nithyaamirtham.com"
           }
         },
         "social_icons": {
