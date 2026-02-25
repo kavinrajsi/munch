@@ -9,7 +9,7 @@
   -%}
 
   {%- if first_block != blank -%}
-    <div class="collection-spotlight__featured" {{ first_block.shopify_attributes }}>
+    <div class="collection-spotlight__featured" data-aos="fade-right" {{ first_block.shopify_attributes }}>
       <a href="{{ first_url }}" class="collection-spotlight__link" aria-label="{{ first_title | escape }}">
         <div class="collection-spotlight__image-wrapper">
           {%- if first_image != blank -%}
@@ -48,7 +48,7 @@
             assign title = collection.title
             assign url = collection.url | default: '#'
           -%}
-          <div class="collection-spotlight__item" {{ block.shopify_attributes }}>
+          <div class="collection-spotlight__item" data-aos="fade-up" data-aos-delay="{{ forloop.index0 | times: 100 }}" {{ block.shopify_attributes }}>
             <a href="{{ url }}" class="collection-spotlight__link" aria-label="{{ title | escape }}">
               <div class="collection-spotlight__image-wrapper">
                 {%- if image != blank -%}

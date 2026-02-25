@@ -1,5 +1,5 @@
 <div class="product-hotspots" {{ section.shopify_attributes }}>
-  <div class="product-hotspots__image-wrapper">
+  <div class="product-hotspots__image-wrapper" data-aos="fade-in">
     {%- if section.settings.image != blank -%}
       <img
         src="{{ section.settings.image | image_url: width: 1200 }}"

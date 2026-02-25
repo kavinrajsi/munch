@@ -19,7 +19,7 @@
 
   <div class="product-highlight__inner">
     <div class="product-highlight__layout product-highlight__layout--{{ section.settings.image_position }}">
-      <div class="product-highlight__media">
+      <div class="product-highlight__media" data-aos="fade-right">
         {%- if section.settings.product != blank -%}
           {%- assign hp = section.settings.product -%}
           {%- if hp.featured_image != blank -%}
@@ -44,7 +44,7 @@
         {%- endif -%}
       </div>
 
-      <div class="product-highlight__content">
+      <div class="product-highlight__content" data-aos="fade-left" data-aos-delay="200">
         {%- if section.settings.eyebrow != blank -%}
           <p class="product-highlight__eyebrow">{{ section.settings.eyebrow }}</p>
         {%- endif -%}

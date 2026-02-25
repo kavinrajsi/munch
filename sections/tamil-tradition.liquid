@@ -1,7 +1,7 @@
 <div class="tamil-tradition section-padding" {{ section.shopify_attributes }}>
   <div class="container">
     <div class="tamil-tradition__inner{% if section.settings.image_position == 'right' %}" style="direction:rtl;{% endif %}">
-      <div class="tamil-tradition__media" style="direction:ltr;">
+      <div class="tamil-tradition__media" data-aos="fade-right" style="direction:ltr;">
         {%- if section.settings.image -%}
           <img
             src="{{ section.settings.image | image_url: width: 800 }}"
@@ -15,7 +15,7 @@
         {%- endif -%}
       </div>
 
-      <div class="tamil-tradition__content" style="direction:ltr;">
+      <div class="tamil-tradition__content" data-aos="fade-left" data-aos-delay="200" style="direction:ltr;">
         {%- if section.settings.subtitle != blank -%}
           <p class="tamil-tradition__subtitle">{{ section.settings.subtitle }}</p>
         {%- endif -%}

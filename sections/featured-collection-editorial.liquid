@@ -16,7 +16,7 @@
     {%- assign secondary_limit = section.settings.products_to_show | minus: 1 -%}
 
     <div class="feat-coll-editorial__grid">
-      <div class="feat-coll-editorial__featured">
+      <div class="feat-coll-editorial__featured" data-aos="fade-right">
         {%- if featured != blank -%}
           <a href="{{ featured.url }}" class="feat-coll-editorial__link">
             <div class="feat-coll-editorial__image-wrapper">
@@ -50,7 +50,7 @@
 
       <div class="feat-coll-editorial__secondary">
         {%- for product in all_products limit: secondary_limit offset: 1 -%}
-          <a href="{{ product.url }}" class="feat-coll-editorial__secondary-item">
+          <a href="{{ product.url }}" class="feat-coll-editorial__secondary-item" data-aos="fade-up" data-aos-delay="{{ forloop.index0 | times: 100 }}">
             <div class="feat-coll-editorial__secondary-image">
               {%- if product.featured_image != blank -%}
                 {{ product.featured_image

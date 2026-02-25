@@ -11,7 +11,7 @@
       assign url = collection.url | default: '#'
     -%}
 
-    <div class="collection-grid__item" {{ block.shopify_attributes }}>
+    <div class="collection-grid__item" data-aos="fade-up" data-aos-delay="{{ forloop.index0 | times: 100 }}" {{ block.shopify_attributes }}>
       <a href="{{ url }}" class="collection-grid__link" aria-label="{{ title | escape }}">
         <div class="collection-grid__image-wrapper">
           {%- if image != blank -%}

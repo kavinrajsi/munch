@@ -34,7 +34,7 @@
     {%- endif -%}
     <div class="icon-with-text__grid">
       {%- for block in section.blocks -%}
-        <div class="icon-with-text__item" style="--iwt-item-bg: {{ block.settings.item_bg_color }};" {{ block.shopify_attributes }}>
+        <div class="icon-with-text__item" style="--iwt-item-bg: {{ block.settings.item_bg_color }};" data-aos="fade-up" data-aos-delay="{{ forloop.index0 | times: 100 }}" {{ block.shopify_attributes }}>
           {%- if block.settings.image != blank -%}
             <img
               class="icon-with-text__image"

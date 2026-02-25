@@ -7,7 +7,7 @@
       assign url = collection.url | default: '#'
     -%}
 
-    <div class="collection-text-list__item" {{ block.shopify_attributes }}>
+    <div class="collection-text-list__item" data-aos="fade-up" data-aos-delay="{{ forloop.index0 | times: 100 }}" {{ block.shopify_attributes }}>
       <a href="{{ url }}" class="collection-text-list__link">
         {%- if image != blank -%}
           <span class="collection-text-list__thumbnail">

@@ -12,7 +12,9 @@
     <div class="blog-list__grid">
       {%- if section.settings.blog != blank -%}
         {%- for article in section.settings.blog.articles limit: section.settings.articles_to_show -%}
-          {% render 'blog-card', article: article %}
+          <div data-aos="fade-up" data-aos-delay="{{ forloop.index0 | times: 100 }}">
+            {% render 'blog-card', article: article %}
+          </div>
         {%- endfor -%}
       {%- else -%}
         {%- for i in (1..3) -%}

@@ -19,7 +19,7 @@
   {%- comment -%} Section 1: Story {%- endcomment -%}
   <div class="about-page__section about-page__story">
     <div class="about-page__container">
-      <div class="about-page__story-text">
+      <div class="about-page__story-text" data-aos="fade-right">
         {%- if section.settings.story_heading != blank -%}
           <h2 class="about-page__heading">{{ section.settings.story_heading }}</h2>
         {%- endif -%}
@@ -32,7 +32,7 @@
           {%- endif -%}
         </div>
       </div>
-      <div class="about-page__story-images">
+      <div class="about-page__story-images" data-aos="fade-left" data-aos-delay="200">
         {%- if section.settings.story_image_main != blank -%}
           <div class="about-page__story-main-img">
             {{ section.settings.story_image_main
@@ -71,7 +71,7 @@
   {%- comment -%} Section 2: Tradition {%- endcomment -%}
   <div class="about-page__section about-page__tradition">
     <div class="about-page__tradition-inner">
-      <div class="about-page__tradition-image">
+      <div class="about-page__tradition-image" data-aos="fade-right">
         {%- if section.settings.tradition_image != blank -%}
           {{ section.settings.tradition_image
             | image_url: width: 750
@@ -83,7 +83,7 @@
           }}
         {%- endif -%}
       </div>
-      <div class="about-page__tradition-text">
+      <div class="about-page__tradition-text" data-aos="fade-left" data-aos-delay="200">
         {%- if section.settings.tradition_heading != blank -%}
           <h2 class="about-page__heading">{{ section.settings.tradition_heading }}</h2>
         {%- endif -%}
@@ -102,7 +102,7 @@
   {%- comment -%} Section 3: Vision & Mission {%- endcomment -%}
   <div class="about-page__vision-mission">
     <div class="about-page__vm-inner">
-      <div class="about-page__vm-item">
+      <div class="about-page__vm-item" data-aos="fade-up">
         <div class="about-page__vm-icon">
           {%- if section.settings.vision_icon != blank -%}
             {{ section.settings.vision_icon }}
@@ -117,7 +117,7 @@
           {%- endif -%}
         </div>
       </div>
-      <div class="about-page__vm-item">
+      <div class="about-page__vm-item" data-aos="fade-up" data-aos-delay="200">
         <div class="about-page__vm-icon">
           {%- if section.settings.mission_icon != blank -%}
             {{ section.settings.mission_icon }}
@@ -138,7 +138,7 @@
   {%- comment -%} Section 4: Celebration {%- endcomment -%}
   <div class="about-page__section about-page__celebration">
     <div class="about-page__container">
-      <div class="about-page__celebration-text">
+      <div class="about-page__celebration-text" data-aos="fade-right">
         {%- if section.settings.celebration_heading != blank -%}
           <h2 class="about-page__heading">{{ section.settings.celebration_heading }}</h2>
         {%- endif -%}
@@ -151,7 +151,7 @@
           {%- endif -%}
         </div>
       </div>
-      <div class="about-page__celebration-image">
+      <div class="about-page__celebration-image" data-aos="fade-left" data-aos-delay="200">
         {%- if section.settings.celebration_image != blank -%}
           {{ section.settings.celebration_image
             | image_url: width: 600

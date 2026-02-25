@@ -2,7 +2,7 @@
   {%- if section.settings.product != blank -%}
     {%- assign fp = section.settings.product -%}
     <div class="featured-product__layout featured-product__layout--{{ section.settings.image_position }}">
-      <div class="featured-product__media">
+      <div class="featured-product__media" data-aos="fade-right">
         {%- if fp.featured_image != blank -%}
           <img
             src="{{ fp.featured_image | image_url: width: 832, height: 1032, crop: 'center' }}"
@@ -22,7 +22,7 @@
         {%- endif -%}
       </div>
 
-      <div class="featured-product__info">
+      <div class="featured-product__info" data-aos="fade-left" data-aos-delay="200">
         {%- if section.settings.show_vendor -%}
           <p class="featured-product__vendor">{{ fp.vendor }}</p>
         {%- endif -%}

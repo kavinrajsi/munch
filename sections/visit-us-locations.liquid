@@ -16,7 +16,9 @@
     {%- if section.blocks.size > 0 -%}
       <div class="store-locations__grid">
         {%- for block in section.blocks -%}
-          {%- render 'store-card', block: block -%}
+          <div data-aos="fade-up" data-aos-delay="{{ forloop.index0 | times: 100 }}">
+            {%- render 'store-card', block: block -%}
+          </div>
         {%- endfor -%}
       </div>
     {%- endif -%}

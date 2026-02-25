@@ -44,7 +44,7 @@
           endif
         -%}
 
-        <div class="collection-card" data-product-card data-first-variant-selected="{{ section.settings.first_variant_selected }}">
+        <div class="collection-card" data-aos="fade-up" data-aos-delay="{{ forloop.index0 | times: 100 }}" data-product-card data-first-variant-selected="{{ section.settings.first_variant_selected }}">
           <script type="application/json" data-product-json>
             {
               "variants": [

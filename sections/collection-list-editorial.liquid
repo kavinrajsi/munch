@@ -7,7 +7,7 @@
       assign url = collection.url | default: '#'
     -%}
 
-    <div class="collection-editorial__item collection-editorial__item--{{ forloop.index }}" {{ block.shopify_attributes }}>
+    <div class="collection-editorial__item collection-editorial__item--{{ forloop.index }}" data-aos="fade-up" data-aos-delay="{{ forloop.index0 | times: 100 }}" {{ block.shopify_attributes }}>
       <a href="{{ url }}" class="collection-editorial__link" aria-label="{{ title | escape }}">
         <div class="collection-editorial__image-wrapper">
           {%- if image != blank -%}

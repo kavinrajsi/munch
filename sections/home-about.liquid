@@ -1,6 +1,6 @@
 <div class="home-about" {{ section.shopify_attributes }}>
   <div class="home-about__inner">
-    <div class="home-about__text">
+    <div class="home-about__text" data-aos="fade-up">
       {%- if section.settings.heading != blank -%}
         <h2 class="home-about__heading">{{ section.settings.heading }}</h2>
       {%- endif -%}
@@ -19,7 +19,7 @@
       <div class="home-about__features">
         <div class="home-about__features-grid">
           {%- for block in section.blocks -%}
-            <div class="home-about__feature" {{ block.shopify_attributes }}>
+            <div class="home-about__feature" data-aos="fade-up" data-aos-delay="{{ forloop.index0 | times: 100 }}" {{ block.shopify_attributes }}>
               {%- if block.settings.icon != blank -%}
                 <div class="home-about__feature-icon">
                   {{ block.settings.icon }}

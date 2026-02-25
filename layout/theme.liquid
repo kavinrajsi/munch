@@ -214,6 +214,7 @@
 
   {{ 'base.css' | asset_url | stylesheet_tag }}
   {{ 'splide-core.min.css' | asset_url | stylesheet_tag }}
+  {{ 'aos.css' | asset_url | stylesheet_tag }}
 
   <script src="{{ 'jquery.js' | asset_url }}" defer></script>
   <script src="{{ 'splide.min.js' | asset_url }}" defer></script>
@@ -252,6 +253,14 @@
       active: '{{ cart.currency.iso_code }}',
       rate: '{{ cart.currency.rate }}'
     };
+  </script>
+
+  <script src="{{ 'aos.js' | asset_url }}"></script>
+  <script>
+    AOS.init({
+      duration: 800,
+      once: true
+    });
   </script>
 </body>
 </html>
