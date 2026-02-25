@@ -909,6 +909,15 @@
       }
     });
 
+    // Custom arrow SVG for all Splide sliders
+    var splideArrowSvg = '<svg width="19" height="13" viewBox="0 0 19 13" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M0 6.10761C0 5.92765 0.0714874 5.75507 0.198736 5.62782C0.325985 5.50057 0.498571 5.42908 0.678528 5.42908H16.6823L12.4116 1.15978C12.3485 1.0967 12.2985 1.0218 12.2644 0.939375C12.2302 0.856948 12.2126 0.768603 12.2126 0.679385C12.2126 0.590167 12.2302 0.501823 12.2644 0.419396C12.2985 0.336969 12.3485 0.262074 12.4116 0.198987C12.4747 0.1359 12.5496 0.0858575 12.632 0.0517152C12.7145 0.0175729 12.8028 0 12.892 0C12.9813 0 13.0696 0.0175729 13.152 0.0517152C13.2345 0.0858575 13.3093 0.1359 13.3724 0.198987L18.8007 5.62721C18.8638 5.69024 18.914 5.76512 18.9482 5.84755C18.9824 5.92999 19 6.01836 19 6.10761C19 6.19686 18.9824 6.28523 18.9482 6.36767C18.914 6.4501 18.8638 6.52498 18.8007 6.58801L13.3724 12.0162C13.3093 12.0793 13.2345 12.1294 13.152 12.1635C13.0696 12.1976 12.9813 12.2152 12.892 12.2152C12.8028 12.2152 12.7145 12.1976 12.632 12.1635C12.5496 12.1294 12.4747 12.0793 12.4116 12.0162C12.3485 11.9531 12.2985 11.8783 12.2644 11.7958C12.2302 11.7134 12.2126 11.6251 12.2126 11.5358C12.2126 11.4466 12.2302 11.3583 12.2644 11.2758C12.2985 11.1934 12.3485 11.1185 12.4116 11.0554L16.6823 6.78614H0.678528C0.498571 6.78614 0.325985 6.71465 0.198736 6.5874C0.0714874 6.46015 0 6.28757 0 6.10761Z" fill="#161A1D"/></svg>';
+
+    function replaceSplideArrows(container) {
+      container.querySelectorAll('.splide__arrow').forEach(function(btn) {
+        btn.innerHTML = splideArrowSvg;
+      });
+    }
+
     // Featured collection carousel – Splide
     document.querySelectorAll('[data-feat-collection-carousel]').forEach(function(el) {
       new Splide(el, {
@@ -922,6 +931,7 @@
           750: { perPage: 1, padding: { right: '17%' }, pagination: false }
         }
       }).mount();
+      replaceSplideArrows(el);
     });
 
     // Product sliders – Splide
@@ -937,6 +947,7 @@
           750: { perPage: 1, padding: { right: '17%' }, pagination: false }
         }
       }).mount();
+      replaceSplideArrows(el);
     });
 
     // Testimonial slider – Splide
@@ -968,6 +979,7 @@
       });
 
       splide.mount();
+      replaceSplideArrows(el);
     });
   }
 

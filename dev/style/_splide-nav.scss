@@ -38,13 +38,12 @@
   }
 
   svg {
-    width: 16px;
-    height: 16px;
-    fill: #161A1D;
+    width: 19px;
+    height: 13px;
   }
 
   &[disabled] {
-    opacity: 0;
+    opacity: 0.4;
     pointer-events: none;
   }
 }
