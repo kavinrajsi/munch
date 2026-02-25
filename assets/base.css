@@ -1970,6 +1970,7 @@ a.icon-with-text__title:hover {
 .testimonials {
   padding-top: 40px;
   padding-bottom: 40px;
+  background-color: #FFF7F3;
 }
 @media (min-width: 750px) {
   .testimonials {
@@ -2155,6 +2156,10 @@ a.icon-with-text__title:hover {
   font-size: 16px;
   line-height: 20px;
   color: #0B090A;
+}
+
+.store-locations {
+  background-color: #FFF7F3;
 }
 
 .store-locations__grid {
@@ -4982,7 +4987,13 @@ a.store-card__info-text:hover {
 .section-heading__line--right {
   flex: 1;
   height: 2px;
-  display: block;
+  display: none;
+}
+@media (min-width: 750px) {
+  .section-heading__line--left,
+  .section-heading__line--right {
+    display: block;
+  }
 }
 
 .section-heading__line--left {
@@ -5009,12 +5020,18 @@ a.store-card__info-text:hover {
 
 .section-heading__title {
   font-family: "allerbold", sans-serif;
-  font-size: 28px;
-  line-height: 32px;
+  font-size: 24px;
+  line-height: normal;
   color: var(--color-primary, #C61D23);
   text-align: center;
   margin: 0;
   white-space: nowrap;
+}
+@media (min-width: 750px) {
+  .section-heading__title {
+    font-size: 28px;
+    line-height: 32px;
+  }
 }
 
 a {

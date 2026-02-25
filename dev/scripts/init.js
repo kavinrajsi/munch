@@ -914,7 +914,7 @@
         prevArrow: '<button type="button" class="fcc-arrow fcc-arrow--prev">' + arrowSvg + '</button>',
         nextArrow: '<button type="button" class="fcc-arrow fcc-arrow--next">' + arrowSvg + '</button>',
         responsive: [
-          { breakpoint: 1024, settings: { slidesToShow: 4 } },
+          { breakpoint: 1024, settings: { slidesToShow: 3 } },
           { breakpoint: 768, settings: { slidesToShow: 1.2, arrows: false } }
         ]
       });
@@ -943,7 +943,7 @@
       var arrowSvg = '<svg xmlns="http://www.w3.org/2000/svg" width="19" height="13" fill="none" viewBox="0 0 19 13"><path fill="#161A1D" fill-rule="evenodd" d="M19 6.108a.679.679 0 0 0-.678-.679H2.317l4.27-4.27a.68.68 0 1 0-.96-.96L.199 5.627a.679.679 0 0 0 0 .961l5.429 5.428a.678.678 0 1 0 .96-.96l-4.27-4.27h16.004A.679.679 0 0 0 19 6.108Z" clip-rule="evenodd"/></svg>';
 
       $slider.slick({
-        slidesToShow: slidesToShow,
+        slidesToShow: 4,
         slidesToScroll: 1,
         arrows: true,
         dots: showDots,
@@ -951,7 +951,7 @@
         prevArrow: '<button type="button" class="testimonials-arrow testimonials-arrow--prev">' + arrowSvg + '</button>',
         nextArrow: '<button type="button" class="testimonials-arrow testimonials-arrow--next">' + arrowSvg + '</button>',
         responsive: [
-          { breakpoint: 1024, settings: { slidesToShow: Math.min(slidesToShow, 3) } },
+          { breakpoint: 1024, settings: { slidesToShow: 3 } },
           { breakpoint: 768, settings: { slidesToShow: 1.2, arrows: false } }
         ]
       });
