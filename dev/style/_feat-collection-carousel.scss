@@ -32,6 +32,37 @@
   position: relative;
 }
 
+// Navigation: dots centered, arrows grouped on the right (below track)
+.feat-collection-carousel__track.splide {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.feat-collection-carousel__track .splide__track {
+  order: 1;
+  width: 100%;
+}
+
+.feat-collection-carousel__track .splide__pagination {
+  order: 2;
+  flex: 1;
+  margin: 32px 0 0;
+}
+
+.feat-collection-carousel__track .splide__arrows {
+  order: 3;
+  position: static;
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  margin-top: 32px;
+}
+
+.feat-collection-carousel__track .splide__arrow {
+  position: static;
+  transform: none;
+}
+
 .feat-collection-carousel__image-wrapper {
   border-radius: 20px;
   overflow: hidden;
@@ -96,6 +127,7 @@
   align-items: center;
   gap: 8px;
   margin-bottom: 12px;
+    justify-content: space-between;
 }
 
 // Variant pills
@@ -191,7 +223,7 @@
 .fcc-atc {
   display: block;
   width: 100%;
-  max-width: 265px;
+  // max-width: 265px;
   padding: 10px 16px;
   font-family: 'Aller', sans-serif;
   font-weight: 700;

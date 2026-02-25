@@ -1794,6 +1794,36 @@ a.icon-with-text__title:hover {
   position: relative;
 }
 
+.feat-collection-carousel__track.splide {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.feat-collection-carousel__track .splide__track {
+  order: 1;
+  width: 100%;
+}
+
+.feat-collection-carousel__track .splide__pagination {
+  order: 2;
+  flex: 1;
+  margin: 32px 0 0;
+}
+
+.feat-collection-carousel__track .splide__arrows {
+  order: 3;
+  position: static;
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  margin-top: 32px;
+}
+
+.feat-collection-carousel__track .splide__arrow {
+  position: static;
+  transform: none;
+}
+
 .feat-collection-carousel__image-wrapper {
   border-radius: 20px;
   overflow: hidden;
@@ -1854,6 +1884,7 @@ a.icon-with-text__title:hover {
   align-items: center;
   gap: 8px;
   margin-bottom: 12px;
+  justify-content: space-between;
 }
 
 .fcc-variants {
@@ -1940,7 +1971,6 @@ a.icon-with-text__title:hover {
 .fcc-atc {
   display: block;
   width: 100%;
-  max-width: 265px;
   padding: 10px 16px;
   font-family: "Aller", sans-serif;
   font-weight: 700;
@@ -1982,8 +2012,8 @@ a.icon-with-text__title:hover {
 }
 @media (min-width: 750px) {
   .testimonials {
-    padding-top: 56px;
-    padding-bottom: 56px;
+    padding-top: 40px;
+    padding-bottom: 40px;
   }
 }
 
@@ -2160,7 +2190,6 @@ a.icon-with-text__title:hover {
   font-size: 20px;
   line-height: 24px;
   color: #C61D23;
-  margin: 0;
 }
 
 .store-card__details {
@@ -2175,7 +2204,6 @@ a.icon-with-text__title:hover {
   font-size: 14px;
   line-height: 18px;
   color: #0B090A;
-  margin: 0;
 }
 
 .store-card__info {
@@ -5028,6 +5056,36 @@ a.store-card__info-text:hover {
 
 .product-slider__track {
   position: relative;
+}
+
+.product-slider__track.splide {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.product-slider__track .splide__track {
+  order: 1;
+  width: 100%;
+}
+
+.product-slider__track .splide__pagination {
+  order: 2;
+  flex: 1;
+  margin: 32px 0 0;
+}
+
+.product-slider__track .splide__arrows {
+  order: 3;
+  position: static;
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  margin-top: 32px;
+}
+
+.product-slider__track .splide__arrow {
+  position: static;
+  transform: none;
 }
 
 .section-padding {
