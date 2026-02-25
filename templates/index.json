@@ -419,7 +419,7 @@
       ],
       "name": "Testimonials",
       "settings": {
-        "title": "What Our Customers Say",
+        "title": "Customers Reviews",
         "slides_to_show": 3,
         "show_dots": true
       }
