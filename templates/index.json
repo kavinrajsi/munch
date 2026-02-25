@@ -171,7 +171,7 @@
           "settings": {
             "image": "shopify://shop_images/ghee-sweets.png",
             "title": "Ghee Sweets",
-            "link": "",
+            "link": "shopify://collections/gheesweets",
             "item_bg_color": "rgba(0,0,0,0)"
           }
         },
@@ -180,7 +180,7 @@
           "settings": {
             "image": "shopify://shop_images/home-made-sweets.png",
             "title": "Home Made Sweets",
-            "link": "",
+            "link": "shopify://collections/home-made-sweets",
             "item_bg_color": "rgba(0,0,0,0)"
           }
         },
@@ -189,7 +189,7 @@
           "settings": {
             "image": "shopify://shop_images/traditional-savories.png",
             "title": "Traditional Savories",
-            "link": "",
+            "link": "shopify://collections/home-made-savouries",
             "item_bg_color": "rgba(0,0,0,0)"
           }
         }
