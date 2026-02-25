@@ -229,7 +229,7 @@
         "title": "Shop by Category",
         "items_per_row_desktop": 3,
         "items_per_row_tablet": 3,
-        "items_per_row_mobile": 3,
+        "items_per_row_mobile": 1,
         "image_width_desktop": 368,
         "image_height_desktop": 368,
         "image_width_mobile": 80,
