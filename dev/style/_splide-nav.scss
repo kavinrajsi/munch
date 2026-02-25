@@ -66,12 +66,19 @@
 }
 
 .splide .splide__arrows {
+  width: 100%;
+  justify-content: flex-end;
   order: 3;
   position: static;
   display: flex;
   gap: 16px;
   align-items: center;
   margin-top: 32px;
+  margin-right: 10px;
+  @media(min-width: 768px){
+    width: auto;
+    margin-right: 0;
+  }
 }
 
 .splide .splide__arrow {
