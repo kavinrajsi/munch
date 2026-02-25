@@ -1,0 +1,845 @@
+// ============================================
+// Shared: section-padding, buttons, forms
+// ============================================
+
+.section-padding {
+  padding: 40px 0;
+
+  @media (min-width: 768px) {
+    padding: 64px 0;
+  }
+}
+
+// Buttons
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Aller", sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 20px;
+  padding: 12px 32px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.2s ease, opacity 0.2s ease;
+}
+
+.btn--primary {
+  background-color: var(--color-primary, #c61d23);
+  color: #fff;
+
+  &:hover {
+    background-color: #a5161a;
+  }
+}
+
+.btn--ghost {
+  background-color: transparent;
+  border: 1px solid var(--color-primary, #c61d23);
+  color: var(--color-primary, #c61d23);
+
+  &:hover {
+    background-color: var(--color-primary, #c61d23);
+    color: #fff;
+  }
+}
+
+.btn--full {
+  width: 100%;
+}
+
+.btn--small {
+  font-size: 14px;
+  line-height: 18px;
+  padding: 8px 20px;
+}
+
+// Form elements
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 16px;
+
+  label {
+    font-family: "Aller", sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 18px;
+    color: #2a2a29;
+  }
+
+  input,
+  select,
+  textarea {
+    width: 100%;
+    background-color: #f5f3f4;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    padding: 12px 16px;
+    font-family: "Aller", sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 18px;
+    color: #2a2a29;
+    transition: border-color 0.2s ease;
+
+    &:focus {
+      border-color: var(--color-primary, #c61d23);
+    }
+
+    &::placeholder {
+      color: #999;
+    }
+  }
+
+  select {
+    cursor: pointer;
+    background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L5 5L9 1' stroke='%232A2A29' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 16px center;
+    padding-right: 40px;
+  }
+
+  input[type="checkbox"] {
+    width: auto;
+    margin-right: 8px;
+  }
+}
+
+.form-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+
+  @media (min-width: 576px) {
+    flex-direction: row;
+    gap: 16px;
+
+    .form-group {
+      flex: 1;
+    }
+  }
+}
+
+// Rich text content
+.rte {
+  font-family: "Aller", sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 22px;
+  color: #2a2a29;
+
+  @media (min-width: 768px) {
+    font-size: 16px;
+    line-height: 26px;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: "Aller", sans-serif;
+    font-weight: 700;
+    margin: 24px 0 12px;
+    color: #0b090a;
+  }
+
+  h1 { font-size: 28px; line-height: 34px; }
+  h2 { font-size: 24px; line-height: 30px; }
+  h3 { font-size: 20px; line-height: 26px; }
+
+  p {
+    margin: 0 0 16px;
+  }
+
+  ul, ol {
+    margin: 0 0 16px;
+    padding-left: 24px;
+    list-style: disc;
+  }
+
+  ol {
+    list-style: decimal;
+  }
+
+  li {
+    margin-bottom: 8px;
+  }
+
+  a {
+    color: var(--color-primary, #c61d23);
+    text-decoration: underline;
+
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0;
+
+    th, td {
+      padding: 8px 12px;
+      border: 1px solid #e0e0e0;
+      text-align: left;
+    }
+
+    th {
+      background-color: #f5f3f4;
+      font-weight: 700;
+    }
+  }
+}
+
+.text-center {
+  text-align: center;
+}
+
+// ============================================
+// Policy Page
+// ============================================
+.policy-page {
+  max-width: 800px;
+  margin: 0 auto;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+.policy-page__title {
+  font-family: "Aller", sans-serif;
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 34px;
+  color: #0b090a;
+  margin-bottom: 32px;
+  text-align: center;
+
+  @media (min-width: 768px) {
+    font-size: 36px;
+    line-height: 44px;
+    margin-bottom: 48px;
+  }
+}
+
+// ============================================
+// Customer Form (Login, Register, Reset Password)
+// ============================================
+.customer-form {
+  .container {
+    max-width: 480px;
+  }
+}
+
+.customer-form__title {
+  font-family: "Aller", sans-serif;
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 34px;
+  color: #0b090a;
+  margin-bottom: 32px;
+  text-align: center;
+
+  @media (min-width: 768px) {
+    font-size: 32px;
+    line-height: 40px;
+  }
+}
+
+.customer-form__errors {
+  background-color: #fff5f5;
+  border: 1px solid #c61d23;
+  border-radius: 4px;
+  padding: 12px 16px;
+  margin-bottom: 24px;
+  font-family: "Aller", sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+  color: #c61d23;
+}
+
+.customer-form__subtext {
+  margin-bottom: 16px;
+  color: #666;
+  font-family: "Aller", sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.customer-form__footer {
+  text-align: center;
+  margin-top: 24px;
+  font-family: "Aller", sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+
+  a {
+    color: var(--color-primary, #c61d23);
+    text-decoration: underline;
+
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+}
+
+// ============================================
+// 404 Page
+// ============================================
+.main-404-section {
+  h1 {
+    font-family: "Aller", sans-serif;
+    font-weight: 700;
+    font-size: 48px;
+    line-height: 56px;
+    color: #0b090a;
+    margin-bottom: 0;
+
+    @media (min-width: 768px) {
+      font-size: 64px;
+      line-height: 72px;
+    }
+  }
+
+  p {
+    font-family: "Aller", sans-serif;
+    font-size: 16px;
+    line-height: 24px;
+  }
+}
+
+// ============================================
+// Gift Card
+// ============================================
+.gift-card {
+  max-width: 480px;
+  margin: 40px auto;
+  padding: 40px 20px;
+  text-align: center;
+  font-family: "Aller", sans-serif;
+}
+
+.gift-card__image {
+  max-width: 300px;
+  margin: 0 auto 24px;
+
+  img {
+    width: 100%;
+    border-radius: 8px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.12);
+  }
+}
+
+.gift-card__heading {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: #0b090a;
+}
+
+.gift-card__amount {
+  font-size: 36px;
+  font-weight: 700;
+  color: var(--color-primary, #c61d23);
+  margin-bottom: 24px;
+}
+
+.gift-card__code {
+  display: inline-block;
+  padding: 12px 24px;
+  background: #f5f3f4;
+  border: 2px dashed #e0e0e0;
+  border-radius: 8px;
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  font-family: monospace;
+  margin-bottom: 24px;
+  user-select: all;
+}
+
+.gift-card__shop-link {
+  display: inline-block;
+  margin-top: 16px;
+}
+
+.gift-card__qr {
+  margin: 24px auto 0;
+}
+
+.gift-card__balance {
+  font-size: 14px;
+  color: #666;
+  margin-top: 8px;
+}
+
+// ============================================
+// Customer Account
+// ============================================
+.customer-account__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 40px;
+
+  h1 {
+    font-family: "Aller", sans-serif;
+    font-weight: 700;
+    font-size: 28px;
+    line-height: 34px;
+    color: #0b090a;
+
+    @media (min-width: 768px) {
+      font-size: 32px;
+      line-height: 40px;
+    }
+  }
+}
+
+.customer-account__orders {
+  margin-bottom: 48px;
+
+  h3 {
+    font-family: "Aller", sans-serif;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 26px;
+    color: #0b090a;
+    margin-bottom: 20px;
+  }
+
+  p {
+    font-family: "Aller", sans-serif;
+    font-size: 14px;
+    line-height: 20px;
+    color: #666;
+  }
+}
+
+.customer-account__order-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: "Aller", sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+
+  thead {
+    th {
+      text-align: left;
+      font-weight: 700;
+      padding: 12px 16px;
+      background-color: #f5f3f4;
+      border-bottom: 2px solid #e0e0e0;
+      white-space: nowrap;
+    }
+  }
+
+  tbody {
+    td {
+      padding: 12px 16px;
+      border-bottom: 1px solid #e0e0e0;
+      vertical-align: middle;
+
+      a {
+        color: var(--color-primary, #c61d23);
+        text-decoration: underline;
+
+        &:hover {
+          opacity: 0.8;
+        }
+      }
+    }
+  }
+
+  // Responsive: stack on mobile
+  @media (max-width: 767px) {
+    thead {
+      display: none;
+    }
+
+    tbody tr {
+      display: block;
+      padding: 16px 0;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    tbody td {
+      display: flex;
+      justify-content: space-between;
+      padding: 4px 0;
+      border-bottom: none;
+
+      &::before {
+        content: attr(data-label);
+        font-weight: 700;
+        margin-right: 16px;
+      }
+    }
+  }
+}
+
+.customer-account__details {
+  h3 {
+    font-family: "Aller", sans-serif;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 26px;
+    color: #0b090a;
+    margin-bottom: 16px;
+  }
+
+  p {
+    font-family: "Aller", sans-serif;
+    font-size: 14px;
+    line-height: 22px;
+    color: #2a2a29;
+    margin-bottom: 4px;
+  }
+}
+
+// ============================================
+// Customer Order Detail
+// ============================================
+.customer-order__header {
+  margin-bottom: 32px;
+
+  h1 {
+    font-family: "Aller", sans-serif;
+    font-weight: 700;
+    font-size: 28px;
+    line-height: 34px;
+    color: #0b090a;
+    margin-bottom: 8px;
+
+    @media (min-width: 768px) {
+      font-size: 32px;
+      line-height: 40px;
+    }
+  }
+
+  p {
+    font-family: "Aller", sans-serif;
+    font-size: 14px;
+    line-height: 20px;
+    color: #666;
+  }
+}
+
+.customer-order__cancelled {
+  background-color: #fff5f5;
+  border: 1px solid #c61d23;
+  border-radius: 4px;
+  padding: 12px 16px;
+  margin-bottom: 24px;
+  font-family: "Aller", sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+  color: #c61d23;
+}
+
+.customer-order__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: "Aller", sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+  margin-bottom: 32px;
+
+  thead th {
+    text-align: left;
+    font-weight: 700;
+    padding: 12px 16px;
+    background-color: #f5f3f4;
+    border-bottom: 2px solid #e0e0e0;
+    white-space: nowrap;
+  }
+
+  tbody td {
+    padding: 12px 16px;
+    border-bottom: 1px solid #e0e0e0;
+    vertical-align: middle;
+
+    a {
+      color: var(--color-primary, #c61d23);
+      text-decoration: underline;
+
+      &:hover {
+        opacity: 0.8;
+      }
+    }
+  }
+
+  @media (max-width: 767px) {
+    thead {
+      display: none;
+    }
+
+    tbody tr {
+      display: block;
+      padding: 16px 0;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    tbody td {
+      display: flex;
+      justify-content: space-between;
+      padding: 4px 0;
+      border-bottom: none;
+
+      &::before {
+        content: attr(data-label);
+        font-weight: 700;
+        margin-right: 16px;
+      }
+    }
+  }
+}
+
+.customer-order__item-image {
+  display: inline-block;
+  width: 48px;
+  height: 48px;
+  margin-right: 12px;
+  vertical-align: middle;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 4px;
+  }
+}
+
+.customer-order__totals {
+  max-width: 400px;
+  margin-left: auto;
+  margin-bottom: 32px;
+}
+
+.customer-order__totals-row {
+  display: flex;
+  justify-content: space-between;
+  font-family: "Aller", sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+  padding: 8px 0;
+  border-bottom: 1px solid #f0f0f0;
+
+  &:last-child {
+    font-weight: 700;
+    font-size: 16px;
+    border-bottom: none;
+    padding-top: 12px;
+    border-top: 2px solid #e0e0e0;
+  }
+}
+
+.customer-order__addresses {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+
+  @media (min-width: 576px) {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  h3 {
+    font-family: "Aller", sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 20px;
+    color: #0b090a;
+    margin-bottom: 12px;
+  }
+
+  p {
+    font-family: "Aller", sans-serif;
+    font-size: 14px;
+    line-height: 22px;
+    color: #2a2a29;
+    margin-bottom: 4px;
+  }
+}
+
+// ============================================
+// Customer Addresses
+// ============================================
+.customer-addresses__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 32px;
+
+  h1 {
+    font-family: "Aller", sans-serif;
+    font-weight: 700;
+    font-size: 28px;
+    line-height: 34px;
+    color: #0b090a;
+
+    @media (min-width: 768px) {
+      font-size: 32px;
+      line-height: 40px;
+    }
+  }
+}
+
+.customer-addresses__form {
+  background-color: #f5f3f4;
+  border-radius: 8px;
+  padding: 24px;
+  margin-bottom: 32px;
+
+  @media (min-width: 768px) {
+    padding: 32px;
+  }
+
+  &.is-hidden {
+    display: none;
+  }
+
+  h3 {
+    font-family: "Aller", sans-serif;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 26px;
+    color: #0b090a;
+    margin-bottom: 24px;
+  }
+}
+
+.customer-addresses__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+
+  @media (min-width: 576px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (min-width: 992px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.customer-addresses__card {
+  background-color: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 20px;
+  position: relative;
+
+  &--default {
+    border-color: var(--color-primary, #c61d23);
+  }
+}
+
+.customer-addresses__default-badge {
+  display: inline-block;
+  font-family: "Aller", sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 16px;
+  color: #fff;
+  background-color: var(--color-primary, #c61d23);
+  padding: 2px 10px;
+  border-radius: 4px;
+  margin-bottom: 12px;
+}
+
+.customer-addresses__card-body {
+  font-family: "Aller", sans-serif;
+  font-size: 14px;
+  line-height: 22px;
+  color: #2a2a29;
+  margin-bottom: 16px;
+}
+
+.customer-addresses__card-actions {
+  display: flex;
+  gap: 16px;
+  font-family: "Aller", sans-serif;
+  font-size: 14px;
+
+  a {
+    color: var(--color-primary, #c61d23);
+    text-decoration: underline;
+
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+
+  .delete {
+    color: #c61d23;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    text-decoration: underline;
+
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+}
+
+.customer-addresses__form-actions {
+  display: flex;
+  gap: 8px;
+}
+
+// ============================================
+// Extra utility classes from inline styles
+// ============================================
+.customer-account__link {
+  color: var(--color-primary, #c61d23);
+  font-family: "Aller", sans-serif;
+  font-size: 14px;
+  margin-top: 8px;
+  display: inline-block;
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+.customer-order__fulfillment-info {
+  font-family: "Aller", sans-serif;
+  font-size: 12px;
+  color: #666;
+  margin-top: 4px;
+
+  a {
+    color: var(--color-primary, #c61d23);
+  }
+}
+
+.customer-order__back {
+  margin-top: 24px;
+}
+
+.gift-card__expired {
+  color: #c62828;
+  margin-top: 12px;
+  font-family: "Aller", sans-serif;
+  font-size: 14px;
+}
+
+.gift-card__wallet-link {
+  display: inline-block;
+  margin-top: 16px;
+}
+
+.gift-card__print-note {
+  font-family: "Aller", sans-serif;
+  font-size: 12px;
+  color: #666;
+  margin-top: 24px;
+}

@@ -43,7 +43,7 @@
       {%- if customer.default_address -%}
         <p>{{ customer.default_address | format_address }}</p>
       {%- endif -%}
-      <a href="{{ routes.account_addresses_url }}" style="color:var(--color-primary);font-size:14px;margin-top:8px;display:inline-block;">
+      <a href="{{ routes.account_addresses_url }}" class="customer-account__link">
         {{ 'customer.account.addresses' | t }} →
       </a>
     </div>

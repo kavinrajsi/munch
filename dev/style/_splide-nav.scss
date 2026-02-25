@@ -1,0 +1,75 @@
+// ============================================================
+// Splide Navigation — Shared dots & arrows for all Splide sliders
+// Matches the hero-slider nav style
+// ============================================================
+
+// Hide arrows when not enough slides to scroll
+.splide:not(.is-overflow) .splide__arrow {
+  display: none;
+}
+
+// Arrows
+.splide__arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: #F5F3F4;
+  border: 1px solid #F5F3F4;
+  border-radius: 50%;
+  cursor: pointer;
+  padding: 0;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+
+  &--prev {
+    left: 16px;
+
+    svg {
+      transform: scaleX(-1);
+    }
+  }
+
+  &--next {
+    right: 16px;
+  }
+
+  svg {
+    width: 16px;
+    height: 16px;
+    fill: #161A1D;
+  }
+
+  &[disabled] {
+    opacity: 0;
+    pointer-events: none;
+  }
+}
+
+// Pagination dots
+.splide__pagination {
+  gap: 8px;
+  padding: 0;
+  margin: 16px 0 0;
+}
+
+.splide__pagination__page {
+  display: block;
+  width: 8px;
+  height: 8px;
+  padding: 0;
+  border: 1px solid #D3D3D3;
+  border-radius: 50%;
+  background: #D3D3D3;
+  font-size: 0;
+  cursor: pointer;
+  transition: background-color 0.2s, border-color 0.2s;
+
+  &.is-active {
+    background: #C61D23;
+    border-color: #C61D23;
+  }
+}

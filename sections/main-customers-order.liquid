@@ -34,7 +34,7 @@
               {%- endif -%}
               <a href="{{ line_item.product.url }}">{{ line_item.title }}</a>
               {%- if line_item.fulfillment -%}
-                <div style="font-size:12px;color:var(--color-secondary);margin-top:4px;">
+                <div class="customer-order__fulfillment-info">
                   {{ 'customer.order.fulfilled_at' | t: date: line_item.fulfillment.created_at | date: '%B %d, %Y' }}
                   {%- if line_item.fulfillment.tracking_url -%}
                     — <a href="{{ line_item.fulfillment.tracking_url }}">{{ 'customer.order.track_shipment' | t }}</a>
@@ -93,7 +93,7 @@
       </div>
     </div>
 
-    <div style="margin-top:24px;">
+    <div class="customer-order__back">
       <a href="{{ routes.account_url }}" class="btn btn--ghost">← {{ 'customer.account.return' | t }}</a>
     </div>
   </div>

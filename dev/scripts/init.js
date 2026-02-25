@@ -863,42 +863,50 @@
   // Slick Sliders Init
   // ============================================================
   function initSliders() {
-    // Hero slider
-    $('[data-hero-slider]').each(function() {
-      var $slider = $(this);
-      var $section = $slider.closest('.hero-slider-section');
-      var autoplay = $section.find('[data-hero-slider]').length > 0;
-      var slidesDesktop = parseInt($slider.data('slides-desktop'), 10) || 1;
-      var slidesMobile = parseInt($slider.data('slides-mobile'), 10) || 1;
-      var useFade = slidesDesktop === 1 && slidesMobile === 1;
-      var slideCount = $slider.children().length;
+    // Hero slider – Splide
+    document.querySelectorAll('[data-hero-slider]').forEach(function(el) {
+      var slidesDesktop = parseInt(el.dataset.slidesDesktop, 10) || 1;
+      var slidesMobile = parseInt(el.dataset.slidesMobile, 10) || 1;
+      var autoplay = el.dataset.autoplay === 'true';
+      var autoplaySpeed = (parseInt(el.dataset.autoplaySpeed, 10) || 5) * 1000;
+      var slideCount = el.querySelectorAll('.splide__slide').length;
       var isSingle = slideCount <= 1;
+      var useFade = slidesDesktop === 1 && slidesMobile === 1;
+
       var arrowSvg = '<svg xmlns="http://www.w3.org/2000/svg" width="19" height="13" fill="none" viewBox="0 0 19 13"><path fill="#161A1D" fill-rule="evenodd" d="M19 6.108a.679.679 0 0 0-.678-.679H2.317l4.27-4.27a.68.68 0 1 0-.96-.96L.199 5.627a.679.679 0 0 0 0 .961l5.429 5.428a.678.678 0 1 0 .96-.96l-4.27-4.27h16.004A.679.679 0 0 0 19 6.108Z" clip-rule="evenodd"/></svg>';
 
-      $slider.slick({
-        autoplay: !isSingle,
-        autoplaySpeed: 5000,
-        dots: !isSingle,
-        arrows: !isSingle,
-        prevArrow: '<button type="button" class="hero-slider__arrow hero-slider__arrow--prev">' + arrowSvg + '</button>',
-        nextArrow: '<button type="button" class="hero-slider__arrow hero-slider__arrow--next">' + arrowSvg + '</button>',
-        fade: useFade,
-        slidesToShow: slidesDesktop,
-        slidesToScroll: 1,
-        cssEase: 'ease-in-out',
-        speed: 600,
-        infinite: true,
+      var splide = new Splide(el, {
+        type: useFade ? 'fade' : 'slide',
+        rewind: true,
+        perPage: slidesDesktop,
+        autoplay: autoplay && !isSingle,
+        interval: autoplaySpeed,
         pauseOnHover: true,
-        adaptiveHeight: false,
-        responsive: [
-          {
-            breakpoint: 768,
-            settings: {
-              slidesToShow: slidesMobile
-            }
+        speed: 600,
+        easing: 'ease-in-out',
+        pagination: !isSingle,
+        arrows: !isSingle,
+        arrowPath: '',
+        breakpoints: {
+          767: {
+            perPage: slidesMobile
           }
-        ]
-      });
+        }
+      }).mount();
+
+      // Replace default Splide arrow markup with custom arrows
+      if (!isSingle) {
+        var prevBtn = el.querySelector('.splide__arrow--prev');
+        var nextBtn = el.querySelector('.splide__arrow--next');
+        if (prevBtn) {
+          prevBtn.className = 'hero-slider__arrow hero-slider__arrow--prev splide__arrow splide__arrow--prev';
+          prevBtn.innerHTML = arrowSvg;
+        }
+        if (nextBtn) {
+          nextBtn.className = 'hero-slider__arrow hero-slider__arrow--next splide__arrow splide__arrow--next';
+          nextBtn.innerHTML = arrowSvg;
+        }
+      }
     });
 
     // Featured collection carousel – Splide
@@ -907,11 +915,11 @@
         type: 'slide',
         perPage: 4,
         gap: '16px',
-        pagination: false,
-        arrows: false,
+        pagination: true,
+        arrows: true,
         breakpoints: {
           1024: { perPage: 3 },
-          750: { perPage: 1, padding: { right: '17%' }, arrows: false }
+          750: { perPage: 1, padding: { right: '17%' }, pagination: false }
         }
       }).mount();
     });
@@ -922,11 +930,11 @@
         type: 'slide',
         perPage: 4,
         gap: '16px',
-        pagination: false,
-        arrows: false,
+        pagination: true,
+        arrows: true,
         breakpoints: {
           1024: { perPage: 3 },
-          750: { perPage: 1, padding: { right: '17%' }, arrows: false }
+          750: { perPage: 1, padding: { right: '17%' }, pagination: false }
         }
       }).mount();
     });
@@ -937,11 +945,11 @@
         type: 'slide',
         perPage: 4,
         gap: '16px',
-        pagination: false,
-        arrows: false,
+        pagination: true,
+        arrows: true,
         breakpoints: {
           1024: { perPage: 3 },
-          750: { perPage: 1, padding: { right: '17%' }, arrows: false }
+          750: { perPage: 1, padding: { right: '17%' }, pagination: false }
         }
       }).mount();
     });

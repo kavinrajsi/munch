@@ -7,9 +7,15 @@
 
 .hero-slider {
   position: relative;
+
+  // Ensure Splide track and list fill the slider
+  .splide__track,
+  .splide__list {
+    height: 100%;
+  }
 }
 
-.hero-slider .slick-slide,
+.hero-slider .splide__slide,
 .hero-slider .hero-slider__slide,
 .hero-slider .hero-slider__image,
 .hero-slider .hero-slider__image picture {
@@ -17,7 +23,7 @@
 }
 
 @media (min-width: 768px) {
-  .hero-slider .slick-slide,
+  .hero-slider .splide__slide,
   .hero-slider .hero-slider__slide,
   .hero-slider .hero-slider__image,
   .hero-slider .hero-slider__image picture {
@@ -40,6 +46,7 @@
   top: 50%;
   transform: translateY(-50%);
   z-index: 2;
+  opacity: 1;
 
   &--prev {
     left: var(--hero-arrow-gap, 16px);
@@ -54,9 +61,14 @@
     width: var(--hero-arrow-svg-width, 19px);
     height: var(--hero-arrow-svg-height, 13px);
   }
+
+  &:disabled {
+    opacity: 0.5;
+  }
 }
 
-.hero-slider .slick-dots {
+// Splide pagination (dots)
+.hero-slider .splide__pagination {
   display: flex;
   justify-content: center;
   gap: 8px;
@@ -69,7 +81,11 @@
   bottom: var(--hero-dots-bottom, 20px);
   z-index: 2;
 
-  li button {
+  li {
+    line-height: 0;
+  }
+
+  .splide__pagination__page {
     width: var(--hero-dot-width, 8px);
     height: var(--hero-dot-height, 8px);
     padding: 0;
@@ -78,29 +94,31 @@
     background: var(--hero-dot-bg, #D3D3D3);
     font-size: 0;
     cursor: pointer;
-  }
+    transition: background 0.2s ease, border-color 0.2s ease;
+    opacity: 1;
 
-  li.slick-active button {
-    background: var(--hero-dot-active-bg, #C61D23);
-    border-color: var(--hero-dot-active-border-color, #C61D23);
+    &.is-active {
+      background: var(--hero-dot-active-bg, #C61D23);
+      border-color: var(--hero-dot-active-border-color, #C61D23);
+    }
   }
 }
 
 // Dots visibility
-.hero-slider--hide-dots-mobile .slick-dots {
+.hero-slider--hide-dots-mobile .splide__pagination {
   display: none;
 }
 
-.hero-slider--hide-dots-desktop .slick-dots {
+.hero-slider--hide-dots-desktop .splide__pagination {
   display: flex;
 }
 
 @media (min-width: 768px) {
-  .hero-slider--hide-dots-desktop .slick-dots {
+  .hero-slider--hide-dots-desktop .splide__pagination {
     display: none;
   }
 
-  .hero-slider--hide-dots-mobile .slick-dots {
+  .hero-slider--hide-dots-mobile .splide__pagination {
     display: flex;
   }
 }

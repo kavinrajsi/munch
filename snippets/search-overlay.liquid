@@ -1,6 +1,6 @@
 {%- liquid
   assign predictive_enabled = settings.search_enable_predictive | default: true
-  assign placeholder = settings.search_placeholder | default: 'Search'
+  assign placeholder = settings.search_placeholder | default: 'Search products'
   assign min_chars = settings.search_min_chars | default: 2
 
   assign show_products = settings.search_show_products | default: true
@@ -20,12 +20,12 @@
   assign popular_label = settings.search_popular_label | default: 'Popular Searches:'
   assign popular_terms = settings.search_popular_terms | default: ''
 
-  assign panel_bg = settings.search_panel_bg | default: '#F5F0E8'
+  assign panel_bg = settings.search_panel_bg | default: '#FFFFFF'
   assign input_bg = settings.search_input_bg | default: '#FFFFFF'
-  assign text_color = settings.search_text_color | default: '#333333'
-  assign border_color = settings.search_border_color | default: '#d9d3c7'
-  assign input_radius = settings.search_input_radius | default: 4
-  assign results_radius = settings.search_results_radius | default: 4
+  assign text_color = settings.search_text_color | default: '#660808'
+  assign border_color = settings.search_border_color | default: '#D3D3D3'
+  assign input_radius = settings.search_input_radius | default: 6
+  assign results_radius = settings.search_results_radius | default: 6
   assign thumb_radius = settings.search_thumb_radius | default: 4
   assign title_case = settings.search_title_case | default: 'none'
 
