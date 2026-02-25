@@ -146,6 +146,7 @@
       "name": "Icon with Text",
       "settings": {
         "container_type": "container",
+        "title": "Shop by Category",
         "items_per_row_desktop": 6,
         "items_per_row_tablet": 4,
         "items_per_row_mobile": 3,
@@ -169,7 +170,7 @@
       "settings": {
         "container_type": "container",
         "heading": "Customer Favorites",
-        "collection": "savory",
+        "collection": "chips",
         "products_to_show": 8,
         "slides_to_show": 3,
         "show_dots": true,
@@ -179,7 +180,7 @@
         "padding_bottom_mobile": 56,
         "title_gap_desktop": 40,
         "title_gap_mobile": 30,
-        "bg_color": "#FFFFFF",
+        "bg_color": "#ffffff",
         "show_vendor": false,
         "show_price": true,
         "show_view_all": false,
@@ -225,6 +226,7 @@
       "name": "Exclusive Collections",
       "settings": {
         "container_type": "container",
+        "title": "Shop by Category",
         "items_per_row_desktop": 3,
         "items_per_row_tablet": 3,
         "items_per_row_mobile": 3,
