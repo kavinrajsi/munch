@@ -1744,6 +1744,36 @@ a.icon-with-text__title:hover {
   pointer-events: none;
 }
 
+.splide {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.splide .splide__track {
+  order: 1;
+  width: 100%;
+}
+
+.splide .splide__pagination {
+  order: 2;
+  flex: 1;
+  margin: 32px 0 0;
+}
+
+.splide .splide__arrows {
+  order: 3;
+  position: static;
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  margin-top: 32px;
+}
+
+.splide .splide__arrow {
+  position: static;
+  transform: none;
+}
+
 .splide__pagination {
   gap: 8px;
   padding: 0;
@@ -1801,36 +1831,6 @@ a.icon-with-text__title:hover {
 
 .feat-collection-carousel__track {
   position: relative;
-}
-
-.feat-collection-carousel__track.splide {
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.feat-collection-carousel__track .splide__track {
-  order: 1;
-  width: 100%;
-}
-
-.feat-collection-carousel__track .splide__pagination {
-  order: 2;
-  flex: 1;
-  margin: 32px 0 0;
-}
-
-.feat-collection-carousel__track .splide__arrows {
-  order: 3;
-  position: static;
-  display: flex;
-  gap: 16px;
-  align-items: center;
-  margin-top: 32px;
-}
-
-.feat-collection-carousel__track .splide__arrow {
-  position: static;
-  transform: none;
 }
 
 .feat-collection-carousel__image-wrapper {
@@ -2041,36 +2041,6 @@ a.icon-with-text__title:hover {
 
 .testimonials__track .splide__slide {
   height: auto;
-}
-
-.testimonials__track.splide {
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.testimonials__track .splide__track {
-  order: 1;
-  width: 100%;
-}
-
-.testimonials__track .splide__pagination {
-  order: 2;
-  flex: 1;
-  margin: 32px 0 0;
-}
-
-.testimonials__track .splide__arrows {
-  order: 3;
-  position: static;
-  display: flex;
-  gap: 16px;
-  align-items: center;
-  margin-top: 32px;
-}
-
-.testimonials__track .splide__arrow {
-  position: static;
-  transform: none;
 }
 
 .splide__slide {
@@ -5065,36 +5035,6 @@ a.store-card__info-text:hover {
 
 .product-slider__track {
   position: relative;
-}
-
-.product-slider__track.splide {
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.product-slider__track .splide__track {
-  order: 1;
-  width: 100%;
-}
-
-.product-slider__track .splide__pagination {
-  order: 2;
-  flex: 1;
-  margin: 32px 0 0;
-}
-
-.product-slider__track .splide__arrows {
-  order: 3;
-  position: static;
-  display: flex;
-  gap: 16px;
-  align-items: center;
-  margin-top: 32px;
-}
-
-.product-slider__track .splide__arrow {
-  position: static;
-  transform: none;
 }
 
 .promo-banner {
