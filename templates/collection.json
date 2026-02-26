@@ -11,14 +11,26 @@
   "sections": {
     "main": {
       "type": "main-collection",
-      "settings": {}
+      "settings": {
+        "banner_image": "shopify://shop_images/collection-banner.jpg",
+        "show_description": true,
+        "show_sort": true,
+        "show_filters": false,
+        "products_per_page": 16,
+        "grid_gap": 20
+      }
     },
     "exclusive": {
       "type": "exclusive-collections",
       "settings": {
-        "title": "Exclusive Collections"
+        "title": "Exclusive Collections",
+        "padding_top": 40,
+        "padding_bottom": 40
       }
     }
   },
-  "order": ["main", "exclusive"]
+  "order": [
+    "main",
+    "exclusive"
+  ]
 }
