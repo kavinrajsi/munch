@@ -17,21 +17,21 @@
         "menu_yVHXnE": {
           "type": "menu",
           "settings": {
-            "title": "Quick Links",
-            "menu": "main-menu"
+            "title": "Products",
+            "menu": "products"
           }
         },
         "menu_1": {
           "type": "menu",
           "settings": {
             "title": "Quick Links",
-            "menu": "footer"
+            "menu": "main-menu"
           }
         },
         "menu_2": {
           "type": "menu",
           "settings": {
-            "title": "Information",
+            "title": "Policies",
             "menu": "footer"
           }
         },

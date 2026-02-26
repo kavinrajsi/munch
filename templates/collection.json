@@ -19,9 +19,18 @@
         "products_per_page": 16,
         "grid_gap": 20
       }
+    },
+    "exclusive": {
+      "type": "exclusive-collections",
+      "settings": {
+        "title": "Exclusive Collections",
+        "padding_top": 40,
+        "padding_bottom": 40
+      }
     }
   },
   "order": [
-    "main"
+    "main",
+    "exclusive"
   ]
 }
