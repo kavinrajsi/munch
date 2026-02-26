@@ -1,0 +1,15 @@
+<div data-rv-card>
+  {%- render 'fcc-product-card',
+    product: product,
+    show_vendor: false,
+    show_price: true
+  -%}
+</div>
+
+{% schema %}
+{
+  "name": "Recently Visited Card",
+  "tag": "div",
+  "class": "rv-card-section"
+}
+{% endschema %}

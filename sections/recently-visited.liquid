@@ -1,95 +1,240 @@
-<div class="product-slider section-padding" id="RecentlyVisited" data-recently-visited style="display:none;" {{ section.shopify_attributes }}>
+<div
+  class="feat-collection-carousel"
+  id="RecentlyVisited"
+  style="
+    --fcc-bg: {{ section.settings.bg_color }};
+    --fcc-pt-desktop: {{ section.settings.padding_top_desktop }}px;
+    --fcc-pb-desktop: {{ section.settings.padding_bottom_desktop }}px;
+    --fcc-pt-mobile: {{ section.settings.padding_top_mobile }}px;
+    --fcc-pb-mobile: {{ section.settings.padding_bottom_mobile }}px;
+    --fcc-title-gap-desktop: {{ section.settings.title_gap_desktop }}px;
+    --fcc-title-gap-mobile: {{ section.settings.title_gap_mobile }}px;
+    display: none;
+  "
+  data-recently-visited
+  {{ section.shopify_attributes }}
+>
   <div class="container">
-    <div class="product-slider__header">
-      <h2 class="product-slider__title">{{ section.settings.title }}</h2>
-    </div>
+    {%- if section.settings.heading != blank -%}
+      <div>
+        {%- render 'section-heading',
+          title: section.settings.heading,
+          heading_tag: 'h2',
+          show_left_line: true,
+          show_left_icon: true,
+          show_right_icon: true,
+          show_right_line: true
+        -%}
+      </div>
+    {%- endif -%}
 
-    <div class="product-slider__track" data-recently-visited-products></div>
+    <div class="feat-collection-carousel__track splide" data-recently-visited-carousel>
+      <div class="splide__track">
+        <div class="splide__list" data-recently-visited-slides>
+          {%- comment -%} Slides injected by JS {%- endcomment -%}
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
+  (function() {
+    var STORAGE_KEY = 'recently_visited';
+    var MAX_STORED = 20;
+    var LIMIT = {{ section.settings.products_to_show }};
+    var currentHandle = '{{ product.handle }}';
+    var isProductPage = '{{ request.page_type }}' === 'product';
+
+    /* ── Store current product ── */
+    if (isProductPage && currentHandle) {
+      try {
+        var visited = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+        visited = visited.filter(function(h) { return h !== currentHandle; });
+        visited.unshift(currentHandle);
+        if (visited.length > MAX_STORED) visited = visited.slice(0, MAX_STORED);
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(visited));
+      } catch(e) {}
+    }
+
+    /* ── Render recently visited ── */
     var container = document.querySelector('[data-recently-visited]');
     if (!container) return;
 
-    var productsContainer = container.querySelector('[data-recently-visited-products]');
-    var currentProductId = '{{ product.id }}';
+    var slidesList = container.querySelector('[data-recently-visited-slides]');
+    var carouselEl = container.querySelector('[data-recently-visited-carousel]');
 
     try {
-      var visited = JSON.parse(localStorage.getItem('recently_visited') || '[]');
-      visited = visited.filter(function(item) { return item.id != currentProductId; });
+      var handles = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+      handles = handles.filter(function(h) { return h !== currentHandle; });
+      if (handles.length === 0) return;
 
-      if (visited.length === 0) return;
+      handles = handles.slice(0, LIMIT);
 
-      container.style.display = 'block';
+      var fetched = 0;
+      var total = handles.length;
+      var fragments = {};
 
-      visited.slice(0, {{ section.settings.products_to_show }}).forEach(function(item) {
-        var card = document.createElement('div');
-        card.className = 'product-card';
-        card.innerHTML = '<div class="product-card__media"><a href="' + item.url + '">' +
-          (item.image ? '<img src="' + item.image + '" alt="' + item.title + '" loading="lazy">' : '') +
-          '</a></div>' +
-          '<div class="product-card__info">' +
-          '<h3 class="product-card__title"><a href="' + item.url + '">' + item.title + '</a></h3>' +
-          '<div class="product-card__price"><span>' + item.price + '</span></div>' +
-          '</div>';
-        productsContainer.appendChild(card);
+      handles.forEach(function(handle, index) {
+        fetch('/products/' + handle + '?section_id=recently-visited-card')
+          .then(function(r) { return r.text(); })
+          .then(function(html) {
+            var tmp = document.createElement('div');
+            tmp.innerHTML = html;
+            var card = tmp.querySelector('[data-rv-card]');
+            if (card) {
+              fragments[index] = card.innerHTML;
+            }
+          })
+          .catch(function() {})
+          .finally(function() {
+            fetched++;
+            if (fetched === total) renderSlides();
+          });
       });
 
-      if (typeof jQuery !== 'undefined' && jQuery.fn.slick) {
-        jQuery(productsContainer).slick({
-          slidesToShow: 4,
-          slidesToScroll: 1,
-          arrows: true,
-          dots: false,
-          responsive: [
-            { breakpoint: 1024, settings: { slidesToShow: 3 } },
-            { breakpoint: 768, settings: { slidesToShow: 2 } }
-          ]
-        });
+      function renderSlides() {
+        var hasSlides = false;
+        for (var i = 0; i < total; i++) {
+          if (fragments[i]) {
+            var slide = document.createElement('div');
+            slide.className = 'splide__slide';
+            slide.setAttribute('data-aos', 'fade-up');
+            slide.setAttribute('data-aos-delay', (i * 100).toString());
+            slide.innerHTML = fragments[i];
+            slidesList.appendChild(slide);
+            hasSlides = true;
+          }
+        }
+
+        if (!hasSlides) return;
+
+        container.style.display = '';
+
+        if (typeof Splide !== 'undefined') {
+          var splide = new Splide(carouselEl, {
+            type: 'slide',
+            perPage: 4,
+            gap: '16px',
+            pagination: true,
+            arrows: true,
+            breakpoints: {
+              1024: { perPage: 3 },
+              750: { perPage: 1, padding: { right: '17%' }, pagination: false }
+            }
+          }).mount();
+
+          /* Replace arrows with theme SVG */
+          var arrowSvg = '<svg width="19" height="13" viewBox="0 0 19 13" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M18 6.5H1M1 6.5L7 1M1 6.5L7 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+          carouselEl.querySelectorAll('.splide__arrow').forEach(function(btn) {
+            btn.innerHTML = arrowSvg;
+          });
+        }
+
+        if (typeof AOS !== 'undefined') AOS.refresh();
       }
     } catch(e) {}
-
-    // Store current product
-    if (currentProductId && '{{ request.page_type }}' === 'product') {
-      try {
-        var visited = JSON.parse(localStorage.getItem('recently_visited') || '[]');
-        visited = visited.filter(function(item) { return item.id != currentProductId; });
-        visited.unshift({
-          id: currentProductId,
-          title: {{ product.title | json }},
-          url: '{{ product.url }}',
-          image: '{{ product.featured_image | image_url: width: 480 }}',
-          price: '{{ product.price | money }}'
-        });
-        visited = visited.slice(0, 20);
-        localStorage.setItem('recently_visited', JSON.stringify(visited));
-      } catch(e) {}
-    }
-  });
+  })();
 </script>
 
 {% schema %}
 {
-  "name": "Recently Visited",
+  "name": "Recently Viewed",
   "tag": "section",
   "class": "recently-visited-section",
   "settings": [
     {
       "type": "text",
-      "id": "title",
-      "label": "Title",
+      "id": "heading",
+      "label": "Heading",
       "default": "Recently Viewed"
     },
     {
       "type": "range",
       "id": "products_to_show",
-      "label": "Products to Show",
+      "label": "Products to show",
       "min": 2,
       "max": 12,
       "step": 1,
       "default": 8
+    },
+    {
+      "type": "header",
+      "content": "Section Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top_desktop",
+      "label": "Padding top — desktop",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "default": 56,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_desktop",
+      "label": "Padding bottom — desktop",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "default": 56,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "label": "Padding top — mobile",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "default": 56,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "label": "Padding bottom — mobile",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "default": 56,
+      "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "Title Spacing"
+    },
+    {
+      "type": "range",
+      "id": "title_gap_desktop",
+      "label": "Space after title — desktop",
+      "min": 0,
+      "max": 80,
+      "step": 2,
+      "default": 40,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "title_gap_mobile",
+      "label": "Space after title — mobile",
+      "min": 0,
+      "max": 80,
+      "step": 2,
+      "default": 30,
+      "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background color",
+      "default": "#FFFFFF"
     }
   ]
 }

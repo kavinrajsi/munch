@@ -1002,6 +1002,22 @@
       replaceSplideArrows(el);
     });
 
+    // Related products carousel – Splide
+    document.querySelectorAll('[data-related-products-carousel]').forEach(function(el) {
+      new Splide(el, {
+        type: 'slide',
+        perPage: 4,
+        gap: '16px',
+        pagination: true,
+        arrows: true,
+        breakpoints: {
+          1024: { perPage: 3 },
+          750: { perPage: 1, padding: { right: '17%' }, pagination: false }
+        }
+      }).mount();
+      replaceSplideArrows(el);
+    });
+
     // Product sliders – Splide
     document.querySelectorAll('[data-product-slider]').forEach(function(el) {
       new Splide(el, {
