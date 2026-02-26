@@ -119,11 +119,21 @@
         "show_vendor": false,
         "show_price": true
       }
+    },
+    "reviews": {
+      "type": "testimonials",
+      "blocks": {
+        "rev_1": { "type": "testimonial", "settings": { "text": "The sweets are absolutely divine! Reminds me of my grandmother's kitchen. Every bite takes me back to childhood memories.", "author": "Priya R.", "location": "Chennai", "rating": 5 } },
+        "rev_2": { "type": "testimonial", "settings": { "text": "Best online sweet shop. Fresh, authentic, and delivered on time. The packaging was beautiful too!", "author": "Karthik M.", "location": "Bangalore", "rating": 5 } },
+        "rev_3": { "type": "testimonial", "settings": { "text": "Ordered for Diwali and everyone loved the gift boxes! Will definitely order again for every festival.", "author": "Anitha S.", "location": "Mumbai", "rating": 5 } },
+        "rev_4": { "type": "testimonial", "settings": { "text": "Their Kaju Katli is the best I've ever tasted. Pure ghee sweets with no artificial flavours. Outstanding quality!", "author": "Meena D.", "location": "Delhi", "rating": 5 } }
+      },
+      "block_order": ["rev_1", "rev_2", "rev_3", "rev_4"],
+      "settings": {
+        "title": "What Our Customers Say",
+        "show_dots": true
+      }
     }
   },
-  "order": [
-    "main",
-    "features-banner",
-    "related"
-  ]
+  "order": ["main", "features-banner", "related", "reviews"]
 }
