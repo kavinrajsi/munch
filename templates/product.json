@@ -26,9 +26,15 @@
     "related": {
       "type": "related-products",
       "settings": {
-        "title": "Complete the Meal"
+        "heading": "Complete the Meal"
+      }
+    },
+    "recently-viewed": {
+      "type": "recently-visited",
+      "settings": {
+        "heading": "Recently Viewed"
       }
     }
   },
-  "order": ["main", "features-banner", "related"]
+  "order": ["main", "features-banner", "related", "recently-viewed"]
 }
