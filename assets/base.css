@@ -346,7 +346,6 @@ button {
   right: 4px;
   min-width: 16px;
   height: 16px;
-  padding: 0 4px;
   border-radius: 50%;
   background-color: var(--color-primary, #C61D23);
   color: #fff;
@@ -2877,7 +2876,7 @@ a.store-card__info-text:hover {
 
 .collection__grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(1, 1fr);
   -moz-column-gap: 20px;
        column-gap: 20px;
   row-gap: 40px;

@@ -1,5 +1,17 @@
-{%- comment -%} Banner {%- endcomment -%}
-{%- if section.settings.banner_image != blank -%}
+{%- comment -%} Banner: use collection image, fall back to section setting {%- endcomment -%}
+{%- if collection.image != blank -%}
+  <div class="collection-banner">
+    {{ collection.image
+      | image_url: width: 1920
+      | image_tag:
+          widths: '750, 1100, 1440, 1920',
+          sizes: '100vw',
+          loading: 'eager',
+          class: '',
+          alt: collection.title
+    }}
+  </div>
+{%- elsif section.settings.banner_image != blank -%}
   <div class="collection-banner">
     {{ section.settings.banner_image
       | image_url: width: 1920

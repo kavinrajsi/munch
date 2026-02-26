@@ -28,13 +28,7 @@
       "settings": {
         "heading": "Complete the Meal"
       }
-    },
-    "recently-viewed": {
-      "type": "recently-visited",
-      "settings": {
-        "heading": "Recently Viewed"
-      }
     }
   },
-  "order": ["main", "features-banner", "related", "recently-viewed"]
+  "order": ["main", "features-banner", "related"]
 }
