@@ -256,6 +256,7 @@
         "location_MQGMNQ": {
           "type": "location",
           "settings": {
+            "image": "shopify://shop_images/aminjikarai.jpg",
             "name": "Aminjikarai",
             "address": "No. 52, Priyan Plaza, Nelson Manickam Road, Railway Colony, Aminjikarai, Chennai, Tamil Nadu - 600 029.",
             "phone": "044-4359 1021, 8056164927",
@@ -266,6 +267,7 @@
         "location_Pg4her": {
           "type": "location",
           "settings": {
+            "image": "shopify://shop_images/anna-nagar-east.jpg",
             "name": "Anna Nagar East",
             "address": "C40, 2nd Ave, Anna Nagar, AF Block, Anna Nagar, Chennai, Tamil Nadu - 600 040.",
             "phone": "74186 44435, 044-2853 4905",
@@ -276,6 +278,7 @@
         "location_bDiYqW": {
           "type": "location",
           "settings": {
+            "image": "shopify://shop_images/arumbakkam.jpg",
             "name": "Arumbakkam",
             "address": "17/6, Razzak Garden Main Road, near NSK Signal, Chennai, Tamil Nadu - 600 106.",
             "phone": "044-4359 2744, 7358576128",
