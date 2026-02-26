@@ -131,10 +131,6 @@ button {
 }
 .announcement-bar__item--link {
   cursor: pointer;
-  text-underline-offset: 2px;
-}
-.announcement-bar__item--link:hover {
-  text-decoration-thickness: 2px;
 }
 .announcement-bar__close {
   display: flex;
@@ -769,8 +765,6 @@ button {
 .search-overlay__popular-link {
   font-family: "Aller", sans-serif;
   color: #660808;
-  text-decoration: underline;
-  text-underline-offset: 3px;
   white-space: nowrap;
   transition: opacity 0.2s;
 }
@@ -908,8 +902,6 @@ button {
   font-size: 14px;
   font-weight: 500;
   color: #660808;
-  text-decoration: underline;
-  text-underline-offset: 3px;
   border-top: 1px solid #D3D3D3;
   transition: background 0.15s;
 }
@@ -1152,9 +1144,7 @@ button {
   font-size: 14px;
   line-height: normal;
   color: #9f9f9f;
-  text-decoration: underline;
-  text-underline-offset: 2px;
-  transition: color 0.2s;
+  transition: all 0.2s;
 }
 .cart-drawer__item-remove:hover {
   color: #0b090a;

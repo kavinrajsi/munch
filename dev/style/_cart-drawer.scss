@@ -257,9 +257,7 @@
   font-size: 14px;
   line-height: normal;
   color: #9f9f9f;
-  text-decoration: underline;
-  text-underline-offset: 2px;
-  transition: color 0.2s;
+  transition: all 0.2s;
 
   &:hover {
     color: #0b090a;
