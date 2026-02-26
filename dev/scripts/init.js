@@ -156,7 +156,6 @@
       } else {
         $('[data-cart-count-badge]').hide();
       }
-
       // Update subtotal
       $('[data-cart-subtotal]').text(formatMoney(cart.total_price));
 

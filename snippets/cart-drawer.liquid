@@ -1,8 +1,6 @@
 {%- liquid
   assign show_image = settings.cart_show_product_image | default: true
   assign show_variant = settings.cart_show_variant | default: true
-  assign empty_text = settings.cart_empty_text | default: 'Your cart is empty'
-  assign empty_btn_text = settings.cart_empty_btn_text | default: 'Continue Shopping'
   assign empty_btn_link = settings.cart_empty_btn_link | default: '/collections/all'
 -%}
 
@@ -12,8 +10,6 @@
   data-cart-drawer
   data-show-image="{{ show_image }}"
   data-show-variant="{{ show_variant }}"
-  data-empty-text="{{ empty_text | escape }}"
-  data-empty-btn-text="{{ empty_btn_text | escape }}"
   data-empty-btn-link="{{ empty_btn_link }}"
 >
   <div class="cart-drawer__overlay" data-cart-drawer-close></div>
