@@ -3175,6 +3175,74 @@ a.store-card__info-text:hover {
   padding-bottom: 40px;
 }
 
+.collections-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  -moz-column-gap: 20px;
+       column-gap: 20px;
+  row-gap: 40px;
+}
+@media (min-width: 750px) {
+  .collections-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.collections-grid__item {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: inherit;
+}
+.collections-grid__item:hover .collections-grid__image img {
+  transform: scale(1.05);
+}
+
+.collections-grid__image {
+  aspect-ratio: 1/1;
+  border-radius: 20px;
+  overflow: hidden;
+  margin-bottom: 16px;
+  background: #F5F3F4;
+}
+.collections-grid__image img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  transition: transform 0.3s ease;
+}
+.collections-grid__image svg {
+  width: 100%;
+  height: 100%;
+}
+
+.collections-grid__placeholder {
+  width: 100%;
+  height: 100%;
+}
+
+.collections-grid__info {
+  text-align: center;
+}
+
+.collections-grid__title {
+  font-family: "Aller", sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 22px;
+  color: #0B090A;
+  margin: 0 0 4px;
+}
+
+.collections-grid__count {
+  font-family: "Aller", sans-serif;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 18px;
+  color: #999;
+}
+
 .exclusive-collections {
   background: #FFFFFF;
 }

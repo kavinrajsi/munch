@@ -1,0 +1,202 @@
+<div class="collection section-padding" {{ section.shopify_attributes }}>
+  <div class="container">
+
+    {%- comment -%} Decorated heading {%- endcomment -%}
+    {% render 'section-heading',
+      title: section.settings.title,
+      heading_tag: 'h1',
+      show_left_line: true,
+      show_left_icon: true,
+      show_right_icon: true,
+      show_right_line: true,
+      margin_bottom_desktop: 24,
+      margin_bottom_mobile: 16
+    %}
+
+    {%- comment -%} Toolbar: breadcrumbs + sort {%- endcomment -%}
+    <div class="collection__toolbar">
+      <nav class="collection__breadcrumbs" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <svg viewBox="0 0 6 10" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+          <polyline points="1 1 5 5 1 9"/>
+        </svg>
+        <span>{{ section.settings.title }}</span>
+      </nav>
+
+      {%- if section.settings.show_sort -%}
+        <div class="collection__controls">
+          <div class="collection__sort-dropdown">
+            <button type="button" class="collection__control-btn" data-collections-sort-toggle aria-expanded="false">
+              Sort
+              <svg viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                <polyline points="1 1 5 5 9 1"/>
+              </svg>
+            </button>
+            <div class="collection__sort-menu" data-collections-sort-menu>
+              <button type="button" data-sort-value="alphabetical" class="is-active">A – Z</button>
+              <button type="button" data-sort-value="alphabetical-reverse">Z – A</button>
+              <button type="button" data-sort-value="products-high">Most Products</button>
+              <button type="button" data-sort-value="products-low">Fewest Products</button>
+            </div>
+          </div>
+        </div>
+      {%- endif -%}
+    </div>
+
+    {%- comment -%} Collections Grid {%- endcomment -%}
+    {%- if collections.size > 0 -%}
+      <div class="collections-grid" data-collections-grid>
+        {%- for collection in collections -%}
+          {%- if collection.handle == 'all' and section.settings.hide_all_collection -%}
+            {%- continue -%}
+          {%- endif -%}
+          {%- if collection.products_count == 0 and section.settings.hide_empty -%}
+            {%- continue -%}
+          {%- endif -%}
+
+          <a
+            href="{{ collection.url }}"
+            class="collections-grid__item"
+            data-aos="fade-up"
+            data-aos-delay="{{ forloop.index0 | times: 100 | at_most: 300 }}"
+            data-products-count="{{ collection.products_count }}"
+            data-title="{{ collection.title | downcase }}"
+          >
+            <div class="collections-grid__image">
+              {%- if collection.image != blank -%}
+                {{ collection.image
+                  | image_url: width: 800
+                  | image_tag:
+                      widths: '300, 400, 600, 800',
+                      sizes: '(min-width: 750px) 25vw, 50vw',
+                      loading: 'lazy',
+                      class: '',
+                      alt: collection.title
+                }}
+              {%- elsif collection.products.first and collection.products.first.featured_image != blank -%}
+                {{ collection.products.first.featured_image
+                  | image_url: width: 800
+                  | image_tag:
+                      widths: '300, 400, 600, 800',
+                      sizes: '(min-width: 750px) 25vw, 50vw',
+                      loading: 'lazy',
+                      class: '',
+                      alt: collection.title
+                }}
+              {%- else -%}
+                {{ 'collection-1' | placeholder_svg_tag: 'collections-grid__placeholder' }}
+              {%- endif -%}
+            </div>
+            <div class="collections-grid__info">
+              <h3 class="collections-grid__title">{{ collection.title }}</h3>
+              {%- if section.settings.show_count -%}
+                <span class="collections-grid__count">{{ collection.products_count }} {{ collection.products_count | pluralize: 'product', 'products' }}</span>
+              {%- endif -%}
+            </div>
+          </a>
+        {%- endfor -%}
+      </div>
+    {%- else -%}
+      <div class="collection__empty">
+        <p>No collections found.</p>
+        <a href="{{ routes.root_url }}" class="btn btn--primary">Continue Shopping</a>
+      </div>
+    {%- endif -%}
+
+  </div>
+</div>
+
+<script>
+  (function () {
+    /* ── Sort dropdown toggle ── */
+    var sortToggle = document.querySelector('[data-collections-sort-toggle]');
+    var sortMenu = document.querySelector('[data-collections-sort-menu]');
+    var grid = document.querySelector('[data-collections-grid]');
+
+    if (sortToggle && sortMenu) {
+      sortToggle.addEventListener('click', function () {
+        var open = sortMenu.classList.toggle('is-open');
+        sortToggle.setAttribute('aria-expanded', open);
+      });
+
+      sortMenu.querySelectorAll('[data-sort-value]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          sortMenu.querySelectorAll('[data-sort-value]').forEach(function (b) {
+            b.classList.remove('is-active');
+          });
+          btn.classList.add('is-active');
+          sortMenu.classList.remove('is-open');
+          sortToggle.setAttribute('aria-expanded', 'false');
+
+          if (!grid) return;
+          var items = Array.from(grid.children);
+          var sortVal = btn.dataset.sortValue;
+
+          items.sort(function (a, b) {
+            if (sortVal === 'alphabetical') {
+              return a.dataset.title.localeCompare(b.dataset.title);
+            } else if (sortVal === 'alphabetical-reverse') {
+              return b.dataset.title.localeCompare(a.dataset.title);
+            } else if (sortVal === 'products-high') {
+              return parseInt(b.dataset.productsCount, 10) - parseInt(a.dataset.productsCount, 10);
+            } else if (sortVal === 'products-low') {
+              return parseInt(a.dataset.productsCount, 10) - parseInt(b.dataset.productsCount, 10);
+            }
+            return 0;
+          });
+
+          items.forEach(function (item) {
+            grid.appendChild(item);
+          });
+        });
+      });
+
+      document.addEventListener('click', function (e) {
+        if (!sortToggle.contains(e.target) && !sortMenu.contains(e.target)) {
+          sortMenu.classList.remove('is-open');
+          sortToggle.setAttribute('aria-expanded', 'false');
+        }
+      });
+    }
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Collection List Page",
+  "tag": "section",
+  "class": "main-list-collections-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "All Collections"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_count",
+      "label": "Show product count",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_sort",
+      "label": "Show sort",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_empty",
+      "label": "Hide empty collections",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_all_collection",
+      "label": "Hide 'All' collection",
+      "default": true
+    }
+  ]
+}
+{% endschema %}
