@@ -1007,16 +1007,39 @@
       var url = section.getAttribute('data-url');
       if (!url) return;
 
+      console.log('📦 Related Products — fetching', { url: url });
+
       fetch(url)
-        .then(function(res) { return res.text(); })
+        .then(function(res) {
+          console.log('📦 Related Products — response status', { status: res.status, ok: res.ok });
+          return res.text();
+        })
         .then(function(html) {
           var parser = new DOMParser();
           var doc = parser.parseFromString(html, 'text/html');
           var freshContainer = doc.querySelector('[data-related-products-container]');
-          if (!freshContainer) return;
+
+          if (!freshContainer) {
+            console.warn('📦 Related Products — no [data-related-products-container] found in response');
+            return;
+          }
+
+          var productCards = freshContainer.querySelectorAll('.feat-collection-carousel__item');
+          console.log('📦 Related Products — products received', {
+            count: productCards.length,
+            products: Array.from(productCards).map(function(card) {
+              var title = card.querySelector('.feat-collection-carousel__title');
+              var price = card.querySelector('.feat-collection-carousel__price');
+              return {
+                title: title ? title.textContent.trim() : 'N/A',
+                price: price ? price.textContent.trim() : 'N/A'
+              };
+            })
+          });
 
           var container = section.querySelector('[data-related-products-container]');
           container.innerHTML = freshContainer.innerHTML;
+          console.log('📦 Related Products — HTML injected into DOM');
 
           // Init Splide on the newly injected carousel
           container.querySelectorAll('[data-related-products-carousel]').forEach(function(el) {
@@ -1032,15 +1055,76 @@
               }
             }).mount();
             replaceSplideArrows(el);
+            console.log('📦 Related Products — Splide carousel initialized');
           });
 
           // Init AOS for new elements
-          if (typeof AOS !== 'undefined') AOS.refresh();
+          if (typeof AOS !== 'undefined') {
+            AOS.refresh();
+            console.log('📦 Related Products — AOS refreshed');
+          }
 
           // Init add-to-cart for new cards
-          if (typeof initFccAddToCart === 'function') initFccAddToCart();
+          if (typeof initFccAddToCart === 'function') {
+            initFccAddToCart();
+            console.log('📦 Related Products — add-to-cart handlers initialized');
+          }
+        })
+        .catch(function(err) {
+          console.error('📦 Related Products — fetch failed', err);
         });
     });
+
+    // Recently Visited – debug logging
+    (function() {
+      var recentSection = document.querySelector('.recently-visited-section, [data-recently-visited]');
+      if (recentSection) {
+        console.log('👁️ Recently Visited — section found in DOM', {
+          element: recentSection,
+          innerHTML_length: recentSection.innerHTML.length
+        });
+      } else {
+        console.log('👁️ Recently Visited — no section found in DOM');
+      }
+
+      // Log current product for tracking
+      var productJson = document.querySelector('[data-product-json]');
+      if (productJson) {
+        try {
+          var productData = JSON.parse(productJson.textContent);
+          console.log('👁️ Recently Visited — current product data', {
+            id: productData.id,
+            title: productData.title,
+            handle: productData.handle,
+            url: productData.url,
+            featured_image: productData.featured_image,
+            price: productData.price,
+            variants_count: productData.variants ? productData.variants.length : 0
+          });
+
+          // Check localStorage for recently visited
+          var storageKey = 'recently-visited';
+          var stored = localStorage.getItem(storageKey);
+          if (stored) {
+            try {
+              var recentProducts = JSON.parse(stored);
+              console.log('👁️ Recently Visited — stored products', {
+                count: recentProducts.length,
+                products: recentProducts
+              });
+            } catch(e) {
+              console.log('👁️ Recently Visited — stored data (raw)', stored);
+            }
+          } else {
+            console.log('👁️ Recently Visited — no products in localStorage');
+          }
+        } catch(e) {
+          console.warn('👁️ Recently Visited — could not parse product JSON', e);
+        }
+      } else {
+        console.log('👁️ Recently Visited — not on a product page (no [data-product-json])');
+      }
+    })();
 
     // Product sliders – Splide
     document.querySelectorAll('[data-product-slider]').forEach(function(el) {
