@@ -1,5 +1,3 @@
-{%- assign recommendations_url = routes.product_recommendations_url | append: '?section_id=' | append: section.id | append: '&product_id=' | append: product.id | append: '&limit=' | append: section.settings.products_to_show -%}
-
 <div
   class="feat-collection-carousel"
   style="
@@ -11,6 +9,8 @@
     --fcc-title-gap-desktop: {{ section.settings.title_gap_desktop }}px;
     --fcc-title-gap-mobile: {{ section.settings.title_gap_mobile }}px;
   "
+  data-related-products-section
+  data-url="{{ routes.product_recommendations_url }}?section_id={{ section.id }}&product_id={{ product.id }}&limit={{ section.settings.products_to_show }}"
   {{ section.shopify_attributes }}
 >
   <div class="container">
@@ -27,23 +27,25 @@
       </div>
     {%- endif -%}
 
-    {%- if recommendations.performed and recommendations.products_count > 0 -%}
-      <div class="feat-collection-carousel__track splide" data-related-products-carousel>
-        <div class="splide__track">
-          <div class="splide__list">
-            {%- for product in recommendations.products -%}
-              <div class="splide__slide" data-aos="fade-up" data-aos-delay="{{ forloop.index0 | times: 100 }}">
-                {%- render 'fcc-product-card',
-                  product: product,
-                  show_vendor: section.settings.show_vendor,
-                  show_price: section.settings.show_price
-                -%}
-              </div>
-            {%- endfor -%}
+    <div data-related-products-container>
+      {%- if recommendations.performed and recommendations.products_count > 0 -%}
+        <div class="feat-collection-carousel__track splide" data-related-products-carousel>
+          <div class="splide__track">
+            <div class="splide__list">
+              {%- for product in recommendations.products -%}
+                <div class="splide__slide" data-aos="fade-up" data-aos-delay="{{ forloop.index0 | times: 100 }}">
+                  {%- render 'fcc-product-card',
+                    product: product,
+                    show_vendor: section.settings.show_vendor,
+                    show_price: section.settings.show_price
+                  -%}
+                </div>
+              {%- endfor -%}
+            </div>
           </div>
         </div>
-      </div>
-    {%- endif -%}
+      {%- endif -%}
+    </div>
   </div>
 </div>
 

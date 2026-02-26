@@ -1002,20 +1002,44 @@
       replaceSplideArrows(el);
     });
 
-    // Related products carousel – Splide
-    document.querySelectorAll('[data-related-products-carousel]').forEach(function(el) {
-      new Splide(el, {
-        type: 'slide',
-        perPage: 4,
-        gap: '16px',
-        pagination: true,
-        arrows: true,
-        breakpoints: {
-          1024: { perPage: 3 },
-          750: { perPage: 1, padding: { right: '17%' }, pagination: false }
-        }
-      }).mount();
-      replaceSplideArrows(el);
+    // Related products – fetch via AJAX then init Splide
+    document.querySelectorAll('[data-related-products-section]').forEach(function(section) {
+      var url = section.getAttribute('data-url');
+      if (!url) return;
+
+      fetch(url)
+        .then(function(res) { return res.text(); })
+        .then(function(html) {
+          var parser = new DOMParser();
+          var doc = parser.parseFromString(html, 'text/html');
+          var freshContainer = doc.querySelector('[data-related-products-container]');
+          if (!freshContainer) return;
+
+          var container = section.querySelector('[data-related-products-container]');
+          container.innerHTML = freshContainer.innerHTML;
+
+          // Init Splide on the newly injected carousel
+          container.querySelectorAll('[data-related-products-carousel]').forEach(function(el) {
+            new Splide(el, {
+              type: 'slide',
+              perPage: 4,
+              gap: '16px',
+              pagination: true,
+              arrows: true,
+              breakpoints: {
+                1024: { perPage: 3 },
+                750: { perPage: 1, padding: { right: '17%' }, pagination: false }
+              }
+            }).mount();
+            replaceSplideArrows(el);
+          });
+
+          // Init AOS for new elements
+          if (typeof AOS !== 'undefined') AOS.refresh();
+
+          // Init add-to-cart for new cards
+          if (typeof initFccAddToCart === 'function') initFccAddToCart();
+        });
     });
 
     // Product sliders – Splide

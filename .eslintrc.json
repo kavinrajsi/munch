@@ -8,9 +8,7 @@
   },
   "globals": {
     "Shopify": "readonly",
-    "theme": "readonly",
-    "PhotoSwipe": "readonly",
-    "PhotoSwipeLightbox": "readonly"
+    "theme": "readonly"
   },
   "rules": {
     "quotes": ["warn", "single"],
