@@ -34,7 +34,7 @@
       ],
       "settings": {
         "slider_height_desktop": 500,
-        "slider_height_mobile": 300,
+        "slider_height_mobile": 600,
         "slides_desktop": 1,
         "slides_mobile": 1,
         "autoplay": true,
