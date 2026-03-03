@@ -31,14 +31,14 @@
       {%- endif -%}
     </div>
   </a>
-  <div class="fcc-controls" data-fcc-controls>
-    <div class="fcc-variants-qty">
+  <div class="feat-collection-carousel__controls" data-fcc-controls>
+    <div class="feat-collection-carousel__variants-qty">
       {%- if product.variants.size > 1 -%}
-        <div class="fcc-variants">
+        <div class="feat-collection-carousel__variants">
           {%- for variant in product.variants -%}
             <button
               type="button"
-              class="fcc-variants__btn{% if variant.id == product.first_available_variant.id %} fcc-variants__btn--active{% endif %}"
+              class="feat-collection-carousel__variant-btn{% if variant.id == product.first_available_variant.id %} feat-collection-carousel__variant-btn--active{% endif %}"
               data-fcc-variant-btn
               data-variant-id="{{ variant.id }}"
               data-variant-price="{{ variant.price | money }}"
@@ -51,18 +51,18 @@
         </div>
       {%- endif -%}
 
-      <div class="fcc-qty-cart">
-        <div class="fcc-qty">
-          <button type="button" class="fcc-qty__btn" data-fcc-qty-minus>-</button>
-          <input type="number" class="fcc-qty__input" value="1" min="1" data-fcc-qty-input readonly>
-          <button type="button" class="fcc-qty__btn" data-fcc-qty-plus>+</button>
+      <div class="feat-collection-carousel__qty-cart">
+        <div class="feat-collection-carousel__qty">
+          <button type="button" class="feat-collection-carousel__qty-btn" data-fcc-qty-minus>-</button>
+          <input type="number" class="feat-collection-carousel__qty-input" value="1" min="1" data-fcc-qty-input readonly>
+          <button type="button" class="feat-collection-carousel__qty-btn" data-fcc-qty-plus>+</button>
         </div>
       </div>
     </div>
 
     {%- if product.available -%}
       <button
-        class="fcc-atc"
+        class="feat-collection-carousel__atc"
         type="button"
         data-variant-id="{{ product.first_available_variant.id }}"
         data-fcc-add-to-cart
@@ -70,7 +70,7 @@
         Add to cart
       </button>
     {%- else -%}
-      <button class="fcc-atc fcc-atc--sold-out" type="button" disabled>
+      <button class="feat-collection-carousel__atc feat-collection-carousel__atc--sold-out" type="button" disabled>
         Sold Out
       </button>
     {%- endif -%}

@@ -1,6 +1,13 @@
 // ── Exclusive Collections Section ──
 .exclusive-collections {
   background: #FFFFFF;
+  padding-top: var(--ec-pt-mobile, 20px);
+  padding-bottom: var(--ec-pb-mobile, 20px);
+
+  @media (min-width: 992px) {
+    padding-top: var(--ec-pt-desktop, 40px);
+    padding-bottom: var(--ec-pb-desktop, 40px);
+  }
 }
 
 .exclusive-collections__grid {

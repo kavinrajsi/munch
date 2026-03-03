@@ -15,8 +15,8 @@
   justify-content: center;
   width: 40px;
   height: 40px;
-  background: #F5F3F4;
-  border: 1px solid #F5F3F4;
+  background: #f5f3f4;
+  border: 1px solid #f5f3f4;
   border-radius: 50%;
   cursor: pointer;
   padding: 0;
@@ -73,9 +73,11 @@
   display: flex;
   gap: 16px;
   align-items: center;
-  margin-top: 32px;
-  margin-right: 10px;
-  @media(min-width: 768px){
+  margin-top: 10px;
+  margin-right: 0;
+  @media (min-width: 768px) {
+    margin-top: 32px;
+    margin-right: 10px;
     width: auto;
     margin-right: 0;
   }
@@ -98,15 +100,17 @@
   width: 8px;
   height: 8px;
   padding: 0;
-  border: 1px solid #D3D3D3;
+  border: 1px solid #d3d3d3;
   border-radius: 50%;
-  background: #D3D3D3;
+  background: #d3d3d3;
   font-size: 0;
   cursor: pointer;
-  transition: background-color 0.2s, border-color 0.2s;
+  transition:
+    background-color 0.2s,
+    border-color 0.2s;
 
   &.is-active {
-    background: #C61D23;
-    border-color: #C61D23;
+    background: #c61d23;
+    border-color: #c61d23;
   }
 }

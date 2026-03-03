@@ -718,8 +718,8 @@
       var $controls = $btn.closest('[data-fcc-controls]');
 
       // Toggle active state
-      $btn.siblings().removeClass('fcc-variants__btn--active');
-      $btn.addClass('fcc-variants__btn--active');
+      $btn.siblings().removeClass('feat-collection-carousel__variant-btn--active');
+      $btn.addClass('feat-collection-carousel__variant-btn--active');
 
       // Update ATC button variant id
       var variantId = $btn.data('variant-id');
@@ -738,11 +738,11 @@
       }
 
       // Handle sold out variant
-      var $atcWrapper = $controls.find('.fcc-atc');
+      var $atcWrapper = $controls.find('.feat-collection-carousel__atc');
       if (!variantAvailable) {
-        $atcWrapper.prop('disabled', true).text('Sold Out').addClass('fcc-atc--sold-out');
+        $atcWrapper.prop('disabled', true).text('Sold Out').addClass('feat-collection-carousel__atc--sold-out');
       } else {
-        $atcWrapper.prop('disabled', false).text('Add to cart').removeClass('fcc-atc--sold-out');
+        $atcWrapper.prop('disabled', false).text('Add to cart').removeClass('feat-collection-carousel__atc--sold-out');
       }
     });
 
@@ -771,7 +771,7 @@
       var $item = $btn.closest('.feat-collection-carousel__item');
       var variantId = parseInt($btn.attr('data-variant-id'), 10);
       var qty = parseInt($controls.find('[data-fcc-qty-input]').val(), 10) || 1;
-      var activeVariant = $controls.find('.fcc-variants__btn--active');
+      var activeVariant = $controls.find('.feat-collection-carousel__variant-btn--active');
 
       var productName = $item.find('.feat-collection-carousel__title').text().trim();
       var variantTitle = activeVariant.length ? activeVariant.text().trim() : 'Default';

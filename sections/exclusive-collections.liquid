@@ -1,8 +1,10 @@
 <div
   class="exclusive-collections"
   style="
-    padding-top: {{ section.settings.padding_top }}px;
-    padding-bottom: {{ section.settings.padding_bottom }}px;
+    --ec-pt-desktop: {{ section.settings.padding_top }}px;
+    --ec-pb-desktop: {{ section.settings.padding_bottom }}px;
+    --ec-pt-mobile: {{ section.settings.padding_top_mobile }}px;
+    --ec-pb-mobile: {{ section.settings.padding_bottom_mobile }}px;
   "
   {{ section.shopify_attributes }}
 >
@@ -78,7 +80,7 @@
     {
       "type": "range",
       "id": "padding_top",
-      "label": "Padding top",
+      "label": "Padding top — desktop",
       "min": 0,
       "max": 100,
       "step": 4,
@@ -88,11 +90,31 @@
     {
       "type": "range",
       "id": "padding_bottom",
-      "label": "Padding bottom",
+      "label": "Padding bottom — desktop",
       "min": 0,
       "max": 100,
       "step": 4,
       "default": 40,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "label": "Padding top — mobile",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "default": 20,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "label": "Padding bottom — mobile",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "default": 20,
       "unit": "px"
     }
   ],

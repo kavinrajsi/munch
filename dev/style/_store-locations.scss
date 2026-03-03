@@ -1,5 +1,12 @@
 .store-locations {
   background-color: #FFF7F3;
+  padding-top: var(--sl-pt-mobile, 20px);
+  padding-bottom: var(--sl-pb-mobile, 20px);
+
+  @media (min-width: 992px) {
+    padding-top: var(--sl-pt-desktop, 56px);
+    padding-bottom: var(--sl-pb-desktop, 56px);
+  }
 }
 
 .store-locations__grid {

@@ -1,11 +1,11 @@
 .testimonials {
-  padding-top: 40px;
-  padding-bottom: 40px;
+  padding-top: var(--tm-pt-mobile, 20px);
+  padding-bottom: var(--tm-pb-mobile, 20px);
   background-color: #fff7f3;
 
-  @media (min-width: 750px) {
-    padding-top: 40px;
-    padding-bottom: 40px;
+  @media (min-width: 992px) {
+    padding-top: var(--tm-pt-desktop, 56px);
+    padding-bottom: var(--tm-pb-desktop, 56px);
   }
 }
 
