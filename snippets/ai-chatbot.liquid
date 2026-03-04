@@ -1,4 +1,4 @@
-{% if settings.chatbot_enabled and settings.chatbot_api_key != blank %}
+{% if settings.chatbot_enabled %}
   {%- capture system_prompt_base -%}
 You are a helpful assistant for {{ shop.name }}.
 Store description: {{ shop.description | strip_html | strip_newlines }}
