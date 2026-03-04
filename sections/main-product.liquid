@@ -1,3 +1,166 @@
+{%- style -%}
+  .main-product__pickup-summary {
+    margin-bottom: 24px;
+  }
+  .main-product__pickup-summary a {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Aller', sans-serif;
+    font-size: 14px;
+    line-height: 18px;
+    color: #0B090A;
+    text-decoration: none;
+    padding: 10px 0;
+  }
+  .main-product__pickup-summary a:hover {
+    color: #C61D23;
+  }
+  .main-product__pickup-summary a:hover svg {
+    stroke: #C61D23;
+  }
+
+  .main-product__pickup-stores {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .main-product__pickup-store {
+    padding: 12px 0;
+    border-bottom: 1px solid #F5F3F4;
+  }
+  .main-product__pickup-store:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .main-product__pickup-store-name {
+    font-family: 'Aleo', serif;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 18px;
+    color: #0B090A;
+    margin-bottom: 6px;
+  }
+
+  .main-product__pickup-store-detail {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'Aller', sans-serif;
+    font-size: 13px;
+    line-height: 18px;
+    color: #6F6F6F;
+    margin-bottom: 4px;
+  }
+  .main-product__pickup-store-detail svg {
+    flex-shrink: 0;
+  }
+  .main-product__pickup-store-detail a {
+    color: #6F6F6F;
+    text-decoration: none;
+  }
+  .main-product__pickup-store-detail a:hover {
+    color: #C61D23;
+  }
+
+  .main-product__pickup-store-directions {
+    display: inline-block;
+    font-family: 'Aller', sans-serif;
+    font-size: 13px;
+    color: #C61D23;
+    text-decoration: none;
+    margin-top: 4px;
+  }
+  .main-product__pickup-store-directions:hover {
+    text-decoration: underline;
+  }
+{%- endstyle -%}
+
+{%- style -%}
+  .bis-alert {
+    margin-top: 16px;
+    padding: 20px;
+    background: var(--color-background-alt, #f9f9f9);
+    border: 1px solid var(--color-borders, #e5e5e5);
+    border-radius: 6px;
+  }
+  .bis-alert.is-hidden {
+    display: none;
+  }
+  .bis-alert__heading {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--color-headings, #161a1d);
+    margin: 0 0 12px;
+  }
+  .bis-alert__row {
+    display: flex;
+    gap: 8px;
+  }
+  .bis-alert__input {
+    flex: 1;
+    padding: 10px 14px;
+    border: 1px solid var(--color-borders, #ccc);
+    border-radius: 4px;
+    font-size: 0.9rem;
+    font-family: inherit;
+    outline: none;
+    box-sizing: border-box;
+    min-width: 0;
+    transition: border-color 0.2s;
+  }
+  .bis-alert__input:focus {
+    border-color: var(--color-headings, #333);
+  }
+  .bis-alert__submit {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    background: var(--btn-primary-bg, #161a1d);
+    color: var(--btn-primary-text, #fff);
+    white-space: nowrap;
+    transition: opacity 0.2s;
+  }
+  .bis-alert__submit:hover {
+    opacity: 0.85;
+  }
+  .bis-alert__error {
+    color: #d00;
+    font-size: 0.8rem;
+    margin: 8px 0 0;
+    display: none;
+  }
+  .bis-alert__error.is-visible {
+    display: block;
+  }
+  .bis-alert__success {
+    display: none;
+  }
+  .bis-alert__success.is-visible {
+    display: block;
+  }
+  .bis-alert__success p {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--color-headings, #161a1d);
+    margin: 0;
+  }
+  .bis-alert__form-wrap.is-hidden {
+    display: none;
+  }
+  @media (max-width: 480px) {
+    .bis-alert__row {
+      flex-direction: column;
+    }
+  }
+{%- endstyle -%}
+
 <div class="main-product" {{ section.shopify_attributes }}>
   <div class="{{ section.settings.container_type }}">
 
@@ -223,6 +386,74 @@
           </div>
         {%- endform -%}
 
+        {%- comment -%} In-Store Pickup Summary {%- endcomment -%}
+        {%- liquid
+          assign pickup_stores_meta = product.metafields.custom.pickup_stores | default: ''
+          assign pickup_store_names = pickup_stores_meta | split: ',' | compact
+          assign pickup_count = 0
+          for block in section.blocks
+            if block.type == 'pickup_store'
+              assign trimmed_name = block.settings.store_name | strip
+              for meta_name in pickup_store_names
+                assign trimmed_meta = meta_name | strip
+                if trimmed_meta == trimmed_name
+                  assign pickup_count = pickup_count | plus: 1
+                  break
+                endif
+              endfor
+            endif
+          endfor
+        -%}
+        {%- if pickup_count > 0 -%}
+          <div class="main-product__pickup-summary">
+            <a href="#pickup-accordion" data-pickup-summary-link>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                <path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-8 2a2 2 0 1 0 0 4 2 2 0 0 0 0-4z"/>
+              </svg>
+              <span>Pick up available at {{ pickup_count }} {{ pickup_count | pluralize: 'store', 'stores' }}</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <polyline points="6 9 12 15 18 9"/>
+              </svg>
+            </a>
+          </div>
+        {%- endif -%}
+
+        {%- comment -%} Back-in-Stock Alert {%- endcomment -%}
+        {%- if settings.bis_enabled -%}
+          <div
+            class="bis-alert{% if product.available %} is-hidden{% endif %}"
+            data-bis-alert
+            data-bis-mode="{{ settings.bis_mode }}"
+            data-bis-klaviyo-key="{{ settings.bis_klaviyo_key }}"
+            data-bis-webhook-url="{{ settings.bis_webhook_url }}"
+            data-product-handle="{{ product.handle }}"
+            data-product-title="{{ product.title | escape }}"
+            data-variant-id="{{ product.selected_or_first_available_variant.id }}"
+          >
+            <p class="bis-alert__heading">{{ settings.bis_heading | default: 'Get notified when this is back in stock' }}</p>
+            <div class="bis-alert__form-wrap" data-bis-form-wrap>
+              <div class="bis-alert__row">
+                <input
+                  type="email"
+                  class="bis-alert__input"
+                  placeholder="{{ settings.bis_placeholder | default: 'Your email' }}"
+                  required
+                  autocomplete="email"
+                  aria-label="Email for back-in-stock notification"
+                  data-bis-email
+                >
+                <button type="button" class="bis-alert__submit" data-bis-submit>
+                  {{ settings.bis_button_text | default: 'Notify Me' }}
+                </button>
+              </div>
+              <p class="bis-alert__error" data-bis-error></p>
+            </div>
+            <div class="bis-alert__success" data-bis-success>
+              <p>{{ settings.bis_success_text | default: 'We\'ll email you when this product is back in stock.' }}</p>
+            </div>
+          </div>
+        {%- endif -%}
+
         {%- comment -%} Accordion Blocks {%- endcomment -%}
         {%- for block in section.blocks -%}
           {%- if block.type == 'accordion' -%}
@@ -254,6 +485,61 @@
             {%- endif -%}
           {%- endif -%}
         {%- endfor -%}
+
+        {%- comment -%} In-Store Pickup Accordion {%- endcomment -%}
+        {%- if pickup_count > 0 -%}
+          <div class="main-product__accordion" id="pickup-accordion">
+            <button class="main-product__accordion-trigger" type="button" data-accordion-trigger>
+              In-Store Pickup
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="main-product__accordion-content" data-accordion-content>
+              <div class="main-product__pickup-stores">
+                {%- for block in section.blocks -%}
+                  {%- if block.type == 'pickup_store' -%}
+                    {%- liquid
+                      assign trimmed_name = block.settings.store_name | strip
+                      assign store_matches = false
+                      for meta_name in pickup_store_names
+                        assign trimmed_meta = meta_name | strip
+                        if trimmed_meta == trimmed_name
+                          assign store_matches = true
+                          break
+                        endif
+                      endfor
+                    -%}
+                    {%- if store_matches -%}
+                      <div class="main-product__pickup-store" {{ block.shopify_attributes }}>
+                        <div class="main-product__pickup-store-name">{{ block.settings.store_name }}</div>
+                        {%- if block.settings.store_hours != blank -%}
+                          <div class="main-product__pickup-store-detail">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                              <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+                            </svg>
+                            {{ block.settings.store_hours }}
+                          </div>
+                        {%- endif -%}
+                        {%- if block.settings.store_phone != blank -%}
+                          <div class="main-product__pickup-store-detail">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+                            </svg>
+                            <a href="tel:{{ block.settings.store_phone | remove: ' ' }}">{{ block.settings.store_phone }}</a>
+                          </div>
+                        {%- endif -%}
+                        {%- if block.settings.store_directions_url != blank -%}
+                          <a href="{{ block.settings.store_directions_url }}" target="_blank" rel="noopener" class="main-product__pickup-store-directions">
+                            Get Directions →
+                          </a>
+                        {%- endif -%}
+                      </div>
+                    {%- endif -%}
+                  {%- endif -%}
+                {%- endfor -%}
+              </div>
+            </div>
+          </div>
+        {%- endif -%}
 
         {%- if section.settings.show_shipping_info and section.settings.shipping_info_text != blank -%}
           <div class="main-product__accordion">
@@ -347,6 +633,8 @@
     var variantIdInput = document.querySelector('[data-variant-id]');
     var qtyInput       = document.querySelector('[data-qty-input]');
     var priceEl        = document.querySelector('[data-product-price]');
+    var atcBtn         = document.querySelector('[data-add-to-cart]');
+    var bisAlert       = document.querySelector('[data-bis-alert]');
 
     function getVariant() {
       return variants.find(function (v) {
@@ -401,8 +689,25 @@
         var v = getVariant();
         updatePrice(v);
         updateVariantId(v);
+        updateAvailability(v);
       });
     });
+
+    function updateAvailability(v) {
+      if (!atcBtn) return;
+      if (v && v.available) {
+        atcBtn.disabled = false;
+        atcBtn.textContent = 'Add to cart';
+        if (bisAlert) bisAlert.classList.add('is-hidden');
+      } else {
+        atcBtn.disabled = true;
+        atcBtn.textContent = 'Sold out';
+        if (bisAlert) {
+          bisAlert.classList.remove('is-hidden');
+          bisAlert.dataset.variantId = v ? v.id : '';
+        }
+      }
+    }
 
     // Quantity buttons
     if (qtyInput) {
@@ -422,6 +727,23 @@
         if (content) content.classList.toggle('is-open');
       });
     });
+
+    // Pickup summary → scroll to accordion
+    var pickupLink = document.querySelector('[data-pickup-summary-link]');
+    if (pickupLink) {
+      pickupLink.addEventListener('click', function(e) {
+        e.preventDefault();
+        var accordion = document.getElementById('pickup-accordion');
+        if (!accordion) return;
+        var trigger = accordion.querySelector('[data-accordion-trigger]');
+        var content = accordion.querySelector('[data-accordion-content]');
+        if (trigger && content && !content.classList.contains('is-open')) {
+          trigger.classList.add('is-open');
+          content.classList.add('is-open');
+        }
+        accordion.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      });
+    }
 
     // Video modal
     var videoModal = document.querySelector('[data-video-modal]');
@@ -497,6 +819,88 @@
         });
       });
     });
+    // Back-in-stock alert
+    if (bisAlert) {
+      var bisSubmit = bisAlert.querySelector('[data-bis-submit]');
+      var bisEmail = bisAlert.querySelector('[data-bis-email]');
+      var bisError = bisAlert.querySelector('[data-bis-error]');
+      var bisFormWrap = bisAlert.querySelector('[data-bis-form-wrap]');
+      var bisSuccess = bisAlert.querySelector('[data-bis-success]');
+      var bisMode = bisAlert.dataset.bisMode;
+
+      function bisShowError(msg) {
+        if (bisError) { bisError.textContent = msg; bisError.classList.add('is-visible'); }
+      }
+      function bisClearError() {
+        if (bisError) bisError.classList.remove('is-visible');
+      }
+
+      if (bisSubmit) {
+        bisSubmit.addEventListener('click', function () {
+          bisClearError();
+          var email = bisEmail ? bisEmail.value.trim() : '';
+          if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            bisShowError('Please enter a valid email address.');
+            return;
+          }
+
+          var varId = bisAlert.dataset.variantId;
+
+          if (bisMode === 'builtin') {
+            var formData = new FormData();
+            formData.append('form_type', 'customer');
+            formData.append('customer[email]', email);
+            formData.append('customer[tags]', 'back-in-stock, bis-' + bisAlert.dataset.productHandle);
+            fetch('/account', { method: 'POST', body: formData })
+              .then(function () { bisOnSuccess(); })
+              .catch(function () { bisShowError('Something went wrong. Please try again.'); });
+
+          } else if (bisMode === 'klaviyo') {
+            var klaviyoKey = bisAlert.dataset.bisKlaviyoKey;
+            if (!klaviyoKey) { bisShowError('Klaviyo is not configured.'); return; }
+            fetch('https://a.klaviyo.com/api/v2/list/' + klaviyoKey + '/subscribe', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ profiles: [{ email: email }] })
+            }).then(function () { bisOnSuccess(); })
+              .catch(function () {
+                fetch('https://a.klaviyo.com/client/back-in-stock-subscriptions/?company_id=' + klaviyoKey, {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json', 'revision': '2024-10-15' },
+                  body: JSON.stringify({
+                    data: {
+                      type: 'back-in-stock-subscription',
+                      attributes: { channels: ['EMAIL'], profile: { data: { type: 'profile', attributes: { email: email } } } },
+                      relationships: { variant: { data: { type: 'catalog-variant', id: '$shopify:::$default:::' + varId } } }
+                    }
+                  })
+                }).then(function () { bisOnSuccess(); })
+                  .catch(function () { bisShowError('Something went wrong. Please try again.'); });
+              });
+
+          } else if (bisMode === 'webhook') {
+            var webhookUrl = bisAlert.dataset.bisWebhookUrl;
+            if (!webhookUrl) { bisShowError('Webhook is not configured.'); return; }
+            fetch(webhookUrl, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                email: email,
+                variant_id: varId,
+                product_handle: bisAlert.dataset.productHandle,
+                product_title: bisAlert.dataset.productTitle
+              })
+            }).then(function () { bisOnSuccess(); })
+              .catch(function () { bisShowError('Something went wrong. Please try again.'); });
+          }
+        });
+      }
+
+      function bisOnSuccess() {
+        if (bisFormWrap) bisFormWrap.classList.add('is-hidden');
+        if (bisSuccess) bisSuccess.classList.add('is-visible');
+      }
+    }
   })();
 </script>
 
@@ -650,6 +1054,39 @@
           "id": "metafield_key",
           "label": "Metafield Key",
           "info": "From custom namespace"
+        }
+      ]
+    },
+    {
+      "type": "pickup_store",
+      "name": "Pickup Store",
+      "settings": [
+        {
+          "type": "text",
+          "id": "store_name",
+          "label": "Store name",
+          "default": "Aminjikarai"
+        },
+        {
+          "type": "text",
+          "id": "store_address",
+          "label": "Address"
+        },
+        {
+          "type": "text",
+          "id": "store_phone",
+          "label": "Phone"
+        },
+        {
+          "type": "text",
+          "id": "store_hours",
+          "label": "Operating hours",
+          "default": "10:00 AM – 9:00 PM"
+        },
+        {
+          "type": "url",
+          "id": "store_directions_url",
+          "label": "Directions URL"
         }
       ]
     }
