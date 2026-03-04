@@ -496,44 +496,10 @@
       ],
       "name": "Testimonials",
       "settings": {
+        "container_type": "container",
         "title": "Customers Reviews",
         "slides_to_show": 3,
         "show_dots": true,
-        "padding_top_desktop": 56,
-        "padding_bottom_desktop": 56,
-        "padding_top_mobile": 20,
-        "padding_bottom_mobile": 20
-      }
-    },
-    "countdown_banner_gwLAVR": {
-      "type": "countdown-banner",
-      "name": "Countdown Banner",
-      "settings": {
-        "label": "🔥 Sale ends in",
-        "end_date": "2026-12-31",
-        "end_time": "18:00",
-        "expiry_action": "hide",
-        "expired_message": "This offer has ended.",
-        "link_text": "Shop Now",
-        "link_url": "shopify://collections/all",
-        "bg_color": "#C61D23",
-        "text_color": "#FFFFFF"
-      }
-    },
-    "countdown_timer_FndKBX": {
-      "type": "countdown-timer",
-      "name": "Countdown Timer",
-      "settings": {
-        "title": "Limited Time Offer",
-        "description": "",
-        "end_date": "2026-12-31",
-        "end_time": "18:00",
-        "expiry_action": "hide",
-        "expired_message": "This offer has ended.",
-        "button_text": "Shop Now",
-        "button_link": "shopify://collections/all",
-        "bg_color": "#ffffff",
-        "color_scheme": "",
         "padding_top_desktop": 56,
         "padding_bottom_desktop": 56,
         "padding_top_mobile": 20,
@@ -550,8 +516,6 @@
     "about_strip_JkKynW",
     "featured_collection_carousel_kbJ7rW",
     "visit_us_locations_hzNWNb",
-    "testimonials_xGAihr",
-    "countdown_banner_gwLAVR",
-    "countdown_timer_FndKBX"
+    "testimonials_xGAihr"
   ]
 }
