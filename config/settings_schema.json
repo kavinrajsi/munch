@@ -1667,5 +1667,34 @@
         "label": "Pinterest"
       }
     ]
+  },
+  {
+    "name": "Judge.me Reviews",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "judgeme_enabled",
+        "label": "Enable Judge.me Reviews",
+        "default": false,
+        "info": "Install the Judge.me app first, then enable this to show review badges and widgets."
+      }
+    ]
+  },
+  {
+    "name": "AI Chatbot",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "chatbot_enabled",
+        "label": "Enable AI Chatbot",
+        "default": false
+      },
+      {
+        "type": "text",
+        "id": "chatbot_api_key",
+        "label": "Anthropic API Key",
+        "info": "Enter your Claude API key (starts with sk-ant-api03-...)"
+      }
+    ]
   }
 ]

@@ -190,6 +190,14 @@
           {%- endif -%}
         {%- endfor -%}
 
+        {%- if settings.judgeme_enabled -%}
+          <div class="main-product__reviews-badge">
+            <div class="jdgm-widget jdgm-preview-badge" data-id="{{ product.id }}">
+              {{ product.metafields.judgeme.badge }}
+            </div>
+          </div>
+        {%- endif -%}
+
         {%- if section.settings.show_share -%}
           <div class="main-product__share">
             <span>Share:</span>
@@ -205,6 +213,14 @@
     </div>
   </div>
 </div>
+
+{%- if settings.judgeme_enabled -%}
+  <div class="container" style="margin-top: 40px; margin-bottom: 40px;">
+    <div class="jdgm-widget jdgm-review-widget" data-id="{{ product.id }}">
+      {{ product.metafields.judgeme.widget }}
+    </div>
+  </div>
+{%- endif -%}
 
 <script type="application/json" data-product-json>
   {{ product | json }}

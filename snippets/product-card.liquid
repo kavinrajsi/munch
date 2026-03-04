@@ -111,6 +111,12 @@
       <a href="{{ card_product_url }}">{{ product.title }}</a>
     </h3>
 
+    {%- if settings.judgeme_enabled -%}
+      <div class="jdgm-widget jdgm-preview-badge" data-id="{{ product.id }}" style="margin: 4px 0;">
+        {{ product.metafields.judgeme.badge }}
+      </div>
+    {%- endif -%}
+
     <div class="product-card__price">
       {%- if product.compare_at_price > product.price -%}
         <span class="product-card__price-sale">{{ product.price | money }}</span>

@@ -1,0 +1,700 @@
+{%- if settings.chatbot_enabled and settings.chatbot_api_key != blank -%}
+{% raw %}
+<style>
+  :root {
+    --saffron: #c61d23; --gold: #c61d23; --cream: #FDF6EC;
+    --deep-brown: #2D1A0E; --warm-brown: #5C3317;
+    --light-sand: #F7EDD8; --accent-red: #C0392B;
+  }
+
+  /* Widget */
+  #na-chat-widget { position:fixed; bottom:76px; right:24px; z-index:9999; font-family:"DM Sans",sans-serif; }
+
+  #na-chat-toggle {
+    width:62px; height:62px; border-radius:50%;
+    background:#c61d23;
+    border:none; cursor:pointer;
+    box-shadow:0 4px 20px rgba(198,29,35,.4),0 2px 8px rgba(0,0,0,.15);
+    display:flex; align-items:center; justify-content:center;
+    transition:transform .3s cubic-bezier(.34,1.56,.64,1),box-shadow .3s;
+    position:relative;
+  }
+  #na-chat-toggle::before { content:""; }
+  #na-chat-toggle:hover { transform:scale(1.08); box-shadow:0 6px 28px rgba(198,29,35,.5); }
+  #na-chat-toggle svg { transition:opacity .2s,transform .3s; }
+  #na-chat-toggle .icon-chat { opacity:1; transform:scale(1) rotate(0deg); }
+  #na-chat-toggle .icon-close { opacity:0; transform:scale(.5) rotate(-90deg); position:absolute; }
+  #na-chat-widget.open #na-chat-toggle .icon-chat { opacity:0; transform:scale(.5) rotate(90deg); }
+  #na-chat-widget.open #na-chat-toggle .icon-close { opacity:1; transform:scale(1) rotate(0deg); }
+  #na-chat-toggle::after { content:""; }
+  @keyframes pulse-ring { 0%{transform:scale(.9);opacity:1} 100%{transform:scale(1.4);opacity:0} }
+  .na-badge { position:absolute; top:-2px; right:-2px; width:18px; height:18px; background:var(--accent-red); border-radius:50%; border:2px solid white; font-size:10px; color:white; display:flex; align-items:center; justify-content:center; font-weight:700; animation:bounce-in .5s cubic-bezier(.34,1.56,.64,1); }
+  @keyframes bounce-in { 0%{transform:scale(0)} 100%{transform:scale(1)} }
+
+  #na-chat-window {
+    position:absolute; bottom:78px; right:0; width:390px; max-height:620px;
+    background:#fff; border-radius:20px;
+    box-shadow:0 24px 80px rgba(45,26,14,.18),0 8px 32px rgba(45,26,14,.12),0 0 0 1px rgba(200,147,26,.15);
+    display:flex; flex-direction:column; overflow:hidden;
+    transform-origin:bottom right; transform:scale(.85) translateY(10px);
+    opacity:0; pointer-events:none;
+    transition:transform .35s cubic-bezier(.34,1.4,.64,1),opacity .25s ease;
+  }
+  #na-chat-widget.open #na-chat-window { transform:scale(1) translateY(0); opacity:1; pointer-events:all; }
+
+  .na-header { background:#c61d23; padding:16px 20px; display:flex; align-items:center; gap:12px; position:relative; }
+  .na-header::before { content:""; position:absolute; top:-20px; right:-20px; width:100px; height:100px; background:radial-gradient(circle,rgba(255,255,255,.1),transparent 70%); border-radius:50%; pointer-events:none; }
+  .na-header-avatar { width:44px; height:44px; border-radius:50%; background:#ffffff; display:flex; align-items:center; justify-content:center; font-family:"Playfair Display",serif; font-size:18px; color:white; font-weight:700; flex-shrink:0; box-shadow:0 2px 8px rgba(0,0,0,.2); position:relative; }
+  .na-status-dot { position:absolute; bottom:1px; right:1px; width:10px; height:10px; background:#2ECC71; border-radius:50%; border:2px solid var(--warm-brown); }
+  .na-header-info { flex:1; }
+  .na-header-name { font-family:"DM Sans",sans-serif; font-size:15px; color:#fff; font-weight:600; line-height:1.2; }
+  .na-header-sub { font-size:11px; color:rgba(255,255,255,.6); margin-top:1px; }
+
+  .na-messages { flex:1; overflow-y:auto; padding:16px; display:flex; flex-direction:column; gap:12px; background:linear-gradient(180deg,#fdf8f2,#fff); max-height:420px; min-height:280px; }
+  .na-messages::-webkit-scrollbar { width:4px; }
+  .na-messages::-webkit-scrollbar-thumb { background:rgba(200,147,26,.3); border-radius:2px; }
+
+  .na-msg { display:flex; gap:8px; animation:msg-in .3s cubic-bezier(.34,1.3,.64,1); }
+  @keyframes msg-in { from{opacity:0;transform:translateY(8px) scale(.96)} to{opacity:1;transform:translateY(0) scale(1)} }
+  .na-msg.user { flex-direction:row-reverse; }
+  .na-msg-avatar { width:28px; height:28px; border-radius:50%; background:linear-gradient(145deg,#c61d23,#c61d23); display:flex; align-items:center; justify-content:center; font-size:12px; color:white; flex-shrink:0; align-self:flex-end; font-family:"Playfair Display",serif; font-weight:700; }
+  .na-msg-bubble { max-width:75%; padding:10px 14px; border-radius:16px; font-size:13.5px; line-height:1.5; color:var(--deep-brown); }
+  .na-msg.bot .na-msg-bubble { background:var(--light-sand); border-bottom-left-radius:4px; border:1px solid rgba(200,147,26,.15); }
+  .na-msg.user .na-msg-bubble { background:linear-gradient(135deg,#c61d23,#c61d23); color:white; border-bottom-right-radius:4px; }
+
+  .na-product-card { background:white; border:1px solid rgba(200,147,26,.2); border-radius:12px; overflow:hidden; margin-top:8px; display:flex; gap:10px; padding:10px; transition:box-shadow .2s; }
+  .na-product-card:hover { box-shadow:0 4px 16px rgba(200,147,26,.15); }
+  .na-product-img { width:52px; height:52px; border-radius:8px; object-fit:cover; flex-shrink:0; background:var(--light-sand); }
+  .na-product-info { flex:1; min-width:0; }
+  .na-product-name { font-size:12px; font-weight:600; color:var(--deep-brown); overflow:hidden; text-overflow:ellipsis; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; }
+  .na-product-price { font-size:12px; color:var(--saffron); font-weight:700; margin-top:2px; }
+  .na-product-link { font-size:11px; color:var(--gold); text-decoration:none; display:inline-flex; align-items:center; gap:3px; margin-top:4px; }
+
+  .na-typing { display:flex; align-items:center; gap:4px; padding:10px 14px; background:var(--light-sand); border-radius:16px; border-bottom-left-radius:4px; width:fit-content; border:1px solid rgba(200,147,26,.15); }
+  .na-typing span { width:6px; height:6px; background:var(--saffron); border-radius:50%; animation:typing-bounce 1.2s ease-in-out infinite; opacity:.6; }
+  .na-typing span:nth-child(2){animation-delay:.2s} .na-typing span:nth-child(3){animation-delay:.4s}
+  @keyframes typing-bounce { 0%,60%,100%{transform:translateY(0);opacity:.4} 30%{transform:translateY(-5px);opacity:1} }
+
+  .na-quick-replies { display:flex; flex-wrap:wrap; gap:6px; margin-top:8px; }
+  .na-quick-btn { padding:5px 11px; border-radius:20px; border:1.5px solid rgba(200,147,26,.4); background:white; font-size:12px; color:var(--warm-brown); cursor:pointer; transition:all .2s; font-family:"DM Sans",sans-serif; white-space:nowrap; }
+  .na-quick-btn:hover { background:var(--light-sand); border-color:var(--saffron); color:var(--saffron); }
+
+  .na-input-area { padding:12px 16px; border-top:1px solid rgba(200,147,26,.12); background:#fff; display:flex; gap:8px; align-items:flex-end; }
+  .na-input-wrap { flex:1; background:#f9f3eb; border-radius:20px; border:1.5px solid rgba(200,147,26,.2); display:flex; align-items:center; padding:8px 14px; transition:border-color .2s; }
+  .na-input-wrap:focus-within { border-color:var(--saffron); background:#fdf8f2; }
+  #na-input { flex:1; border:none; background:transparent; font-size:13.5px; font-family:"DM Sans",sans-serif; color:var(--deep-brown); outline:none; resize:none; max-height:80px; min-height:22px; line-height:1.5; overflow-y:auto; }
+  #na-input::placeholder { color:#b09070; }
+  #na-send-btn { width:40px; height:40px; border-radius:50%; background:linear-gradient(135deg,#c61d23,#c61d23); border:none; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:transform .2s,box-shadow .2s; flex-shrink:0; box-shadow:0 2px 10px rgba(232,115,10,.3); }
+  #na-send-btn:hover { transform:scale(1.08); }
+  #na-send-btn:disabled { opacity:.5; cursor:not-allowed; transform:none; }
+
+  .na-footer { padding:6px 16px 10px; text-align:center; font-size:10.5px; color:#b09070; background:#fff; }
+  .na-footer a { color:var(--gold); text-decoration:none; }
+
+  .na-error { color:var(--accent-red) !important; font-style:italic; }
+
+  @media(max-width:480px){ #na-chat-widget { bottom:68px; right:16px; }
+    #na-chat-window { width:calc(100vw - 20px); right:-8px; } }
+</style>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+
+<div id="na-chat-widget">
+  <button id="na-chat-toggle" onclick="naToggleChat()" aria-label="Open chat">
+    <svg class="icon-chat" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="10" rx="2"></rect><circle cx="12" cy="5" r="2"></circle><line x1="12" y1="7" x2="12" y2="11"></line><circle cx="8" cy="16" r="1"></circle><circle cx="16" cy="16" r="1"></circle></svg>
+    <svg class="icon-close" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    <span class="na-badge" id="na-badge">1</span>
+  </button>
+
+  <div id="na-chat-window">
+    <div class="na-header">
+      <div class="na-header-avatar"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="38" viewBox="0 0 30 48" fill="none"><g clip-path="url(#nai-lg)"><path fill="#c61d23" d="M14.45 0c1.013 2.375 2.646 7.949-.633 14.299-.989 1.916-2.245 3.727-3.461 5.479C6.8 24.9 3.15 30.162 5.508 38.58 1.075 32.47 0 27.439 0 23.998 0 12.889 10.91 2.939 14.45 0Z"/><path fill="#c61d23" d="M29.707 23.999c0-10.51-9.759-19.979-13.812-23.46.948 2.717 1.878 7.511-.406 12.928.126.275.256.551.401.83.989 1.915 2.245 3.727 3.461 5.478C22.906 24.9 26.555 30.16 24.2 38.578c4.435-6.11 5.51-11.142 5.51-14.582"/><path fill="#c61d23" d="M21.425 25.136c-.665 1.05-1.373 2.07-2.076 3.086-1.216 1.752-2.473 3.563-3.461 5.48-3.277 6.35-1.646 11.922-.633 14.298a55.748 55.748 0 0 0 6.723-6.642c3.011-7.098 1.827-11.936-.553-16.222Z"/><path fill="#c61d23" d="M13.82 33.701c-.99-1.916-2.246-3.727-3.462-5.479-.703-1.016-1.411-2.036-2.076-3.086-2.38 4.286-3.564 9.122-.556 16.219a56.035 56.035 0 0 0 6.086 6.103c-.947-2.716-1.878-7.51.406-12.927a17.293 17.293 0 0 0-.401-.83"/></g><defs><clipPath id="nai-lg"><path fill="#fff" d="M0 0h30v48H0z"/></clipPath></defs></svg><div class="na-status-dot"></div></div>
+      <div class="na-header-info">
+        <div class="na-header-name">Nithya Amirtham Assistant</div>
+
+      </div>
+      <button id="na-close-btn" onclick="naToggleChat()" aria-label="Close chat" style="background:none;border:none;cursor:pointer;padding:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;border-radius:50%;transition:background .2s;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:block;pointer-events:none;"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    </div>
+
+
+    <div class="na-messages" id="na-messages"></div>
+
+    <div class="na-input-area" id="na-input-area">
+      <div class="na-input-wrap">
+        <textarea id="na-input" placeholder="Ask about our sweets & snacks..." rows="1" onkeydown="naHandleKey(event)" oninput="naAutoResize(this)"></textarea>
+      </div>
+      <button id="na-send-btn" onclick="naSend()" aria-label="Send">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+      </button>
+    </div>
+    <div class="na-footer">Powered by <a href="#">Claude AI</a> · Nithya Amirtham © 2026</div>
+  </div>
+</div>
+
+<script>
+const PRODUCTS = [
+  {title:"Namma Gramam Box",handle:"namma-gramam-box",price:"₹666",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/nithyaamirtham-namma-gramam-box.webp?v=1767774804",desc:"Celebrate Pongal with our soulful Namma Gramam tin that packs the rich taste of our tradition. This special tin contains Ragi Laddu, Sattur Karupati Mithai, Tirunelveli Halwa, Karupati Mysurpa, Nellai",status:"unlisted"},
+  {title:"Namma Gramam Tin",handle:"namma-gramam-tin",price:"₹761",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/nithyaamirtham-namma-gramam-tin.webp?v=1767789868",desc:"Celebrate Pongal with our soulful Namma Gramam tin that packs the rich taste of our tradition. This special tin contains Ragi Laddu, Sattur Karupati Mithai, Tirunelveli Halwa, Karupati Mysurpa, Nellai",status:"unlisted"},
+  {title:"Pistachio Thal Kunafa",handle:"thal-baklava",price:"₹418 (250 gm) / ₹836 (500 gm)",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/nithyaamirtham-thal-baklava.webp?v=1766137923",desc:"Thin, crisp layers of pastry filled with finely chopped nuts and soaked in fragrant syrup. This classic baklava delivers a perfectly balanced sweetness in every bite.",status:"active"},
+  {title:"Chocolate Pyramid Baklava",handle:"chocolate-pyramid-baklava",price:"₹358 (250 gm) / ₹716 (500 gm)",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/nithyaamirtham-chocolate-pyramid-baklava.webp?v=1766137923",desc:"Rich, layered and indulgent, this pyramid-shaped baklava blends flaky pastry with smooth chocolate and crunchy nuts. A decadent treat that brings a modern twist to a timeless classic.",status:"active"},
+  {title:"Pistachio Burma",handle:"pistachio-burma",price:"₹430 (250 gm) / ₹860 (500 gm)",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/nithyaamirtham-pistachio-burma.webp?v=1766137923",desc:"Delicately rolled and generously filled with premium pistachios, this burma baklava is crisp, nutty and aromatic. A traditional favourite that melts in your mouth.",status:"active"},
+  {title:"Turkish Pistachio Baklava",handle:"turkish-pistachio-baklava",price:"₹380 (250 gm) / ₹760 (500 gm)",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/nithyaamirtham-turkish-pistachio-baklava.webp?v=1766137923",desc:"Made with buttery layers of filo and rich Turkish pistachios, this baklava is soaked in light syrup for a refined sweetness. An authentic taste of Turkish tradition, crafted to perfection.",status:"active"},
+  {title:"Royal Dryfruit Nuts Tin (400g)",handle:"royal-dryfruit-nuts-tin-400g",price:"₹999",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/royal-dryfruits-nuts-tin-4-new.png?v=1760350006",desc:"Fig Cashew Almond Raisins",status:"unlisted"},
+  {title:"Royal Dryfruit Nuts Tin (200g)",handle:"royal-dryfruit-nuts-tin-200g",price:"₹499",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/royal-dryfruits-nuts-tin-4-new.png?v=1760350006",desc:"Fig Cashew Almond Raisins",status:"unlisted"},
+  {title:"Sweets & Savouries Pack - Kaju (750g)",handle:"sweets-savouries-pack-kaju-750g",price:"₹1099",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/sweets-and-savouries-pack-kaju.webp?v=1759993790",desc:"Assorted Premium Kaju Sweets 500g Madras Mixture 250g",status:"unlisted"},
+  {title:"Sweets & Savouries Pack - Ghee (750g)",handle:"sweets-savouries-pack-ghee-750g",price:"₹699",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/sweets-and-savouries-pack-ghee.webp?v=1759993855",desc:"Assorted Premium Ghee Sweets 500g Madras Mixture 250g",status:"unlisted"},
+  {title:"Kondatam Box Ghee (Medium)",handle:"kondatam-box-ghee-medium",price:"₹349",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/kondatam-box-ghee-medium.webp?v=1760262372",desc:"Assorted Premium Ghee Sweets - 250g Madras Mixture - 100g",status:"unlisted"},
+  {title:"Kondatam Box Ghee (Large)",handle:"kondatam-box-ghee-large",price:"₹699",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/kondatam-box-ghee-large.webp?v=1759994631",desc:"Assorted Premium Ghee Sweets - 500g Madras Mixture - 250g",status:"unlisted"},
+  {title:"Corporate Gift Pack",handle:"corporate-gift-pack-1",price:"₹499",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/corporate-gift-pack-1.webp?v=1759995299",desc:"Gulab Jamun Tin - 1 Soan Papdi - 200 g Madras Mixture - 250 g",status:"unlisted"},
+  {title:"Kondatam Box Kaju (Medium)",handle:"kondatam-box-kaju-medium",price:"₹599",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/kondatam-box-kaju-medium.webp?v=1759994550",desc:"Assorted Premium Kaju Sweets - 250g Madras Mixture - 100g",status:"unlisted"},
+  {title:"Corporate Gift Pack",handle:"corporate-gift-pack",price:"₹499",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/corporate-gift-pack-2.webp?v=1759995260",desc:"Rasgulla Tin - 1 Soan Papdi - 200g Madras Mixture - 250g",status:"unlisted"},
+  {title:"Kondatam Box Kaju (Large)",handle:"kondatam-box-kaju-large",price:"₹1099",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/kondatam-box-kaju-large.webp?v=1759994394",desc:"Assorted Premium Kaju Sweets - 500g Madras Mixture - 250g",status:"unlisted"},
+  {title:"Shubha Tin",handle:"shubha-tin",price:"₹2499",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/shubha-tin.webp?v=1759994289",desc:"Baklava Tin 500g Salted Almond 100g Pepper Cashew 100g Salted Cashew 100g Butter Murukku 200g Almond Cookies 100g",status:"unlisted"},
+  {title:"Return Gift Tin",handle:"return-gift-tin",price:"₹258",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/return-gift-tin.webp?v=1759995021",desc:"Choice of Laddu Mysore Pak &amp; Savoury - 70 gms",status:"unlisted"},
+  {title:"Diwali Tin",handle:"diwali-tin",price:"₹649",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/diwali-tin.webp?v=1759994207",desc:"Madras Mixture 150g Butter Murukku 150g Nithyam Special Thattai 100g Ghee Adhirasam 2pcs Dryfruit Laddu 2pcs Ghee Mysurpa 2pcs Kadalai Urundai 100g Thenkuzhal Murukku 100g Ribbon Pakoda 100g",status:"unlisted"},
+  {title:"Small Box",handle:"small-box",price:"₹55",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/small-box.webp?v=1759994944",desc:"Sweet - 1 pc Savoury - 25 gms",status:"unlisted"},
+  {title:"Namma Grahmam Heritage - Pack",handle:"grahmam-heritage-pack",price:"₹599",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/grahmam-heritage-pack-2.webp?v=1759994099",desc:"Karupatti Mysurpa Karupatti Katli Multigrain Almond Laddu Karupatti Halwa 500g Nellai Mixture 200g",status:"unlisted"},
+  {title:"Medium Box",handle:"medium-box",price:"₹75",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/medium-box-laddu.webp?v=1759994882",desc:"Sweet - 1 pc Savoury - 50 gms",status:"unlisted"},
+  {title:"Namma Grahmam Heritage - Tin",handle:"grahmam-heritage-tin",price:"₹699",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/grahmam-heritage-pack-1.webp?v=1759993971",desc:"Karupatti Mysurpa Karupatti Katli Multigrain Almond Laddu Karupatti Halwa 450g Nellai Mixture 250g",status:"unlisted"},
+  {title:"Sweets & Savouries Pack - Ghee - 350g",handle:"sweets-savouries-pack-ghee-350g",price:"₹349",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/sweets-and-savouries-pack-ghee.webp?v=1759993855",desc:"Assorted Premium Ghee Sweets 250g Madras Mixture 100g",status:"unlisted"},
+  {title:"Sweets & Savouries Pack - Kaju - 350g",handle:"sweets-savouries-pack-kaju-350g",price:"₹599",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/sweets-and-savouries-pack-kaju.webp?v=1759993790",desc:"Assorted Premium Kaju Sweets 250g Madras Mixture 100g",status:"unlisted"},
+  {title:"Royal Ghee Mithai (Small)",handle:"royal-ghee-mithai-small",price:"₹199",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/royal-ghee-mithai-small.webp?v=1759993645",desc:"Assorted Ghee Sweets 250g",status:"unlisted"},
+  {title:"Royal Ghee Mithai (Medium)",handle:"royal-ghee-mithai-medium",price:"₹399",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/royal-ghee-mithai-medium.webp?v=1759993557",desc:"Assorted Ghee Sweets 500g",status:"unlisted"},
+  {title:"Royal Ghee Mithai (Large)",handle:"royal-ghee-mithai-large",price:"₹790",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/royal-ghee-mithai-large.webp?v=1759993459",desc:"Assorted Ghee Sweets 1kg",status:"unlisted"},
+  {title:"Royal Kaju Mithai (Small)",handle:"royal-kaju-mithai-small",price:"₹399",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/royal-kaju-mithai-small.webp?v=1759993359",desc:"Assorted Kaju Sweets 250g",status:"unlisted"},
+  {title:"Giveaway Bag",handle:"giveaway-bag",price:"₹70",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/giveaway-bag.webp?v=1759994719",desc:"Sweet - 1 pc Savoury - 50 gms",status:"unlisted"},
+  {title:"Royal Kaju Mithai (Medium)",handle:"royal-kaju-mithai-medium",price:"₹749",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/royal-kaju-mithai-medium.webp?v=1759993276",desc:"Assorted Kaju Sweets 500g",status:"unlisted"},
+  {title:"Royal Kaju Mithai (Large)",handle:"royal-kaju-mithai-large",price:"₹1449",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/royal-kaju-mithai-large.webp?v=1759993043",desc:"Assorted Kaju Sweets 1kg",status:"unlisted"},
+  {title:"Golden Kaju Sensation",handle:"golden-kaju-sensation",price:"₹1999",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/golden-kaju-sensation.webp?v=1759992808",desc:"Kaju Katli Dryfruit Cake Fig n Nuts Kaju Gajak Rose Almond Laddu Kaju Kamal",status:"unlisted"},
+  {title:"Turkish Gold Sensation",handle:"turkish-gold-sensation",price:"₹1999",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/turkish-gold-sensation.webp?v=1759992722",desc:"Osh e Bull Bull Turkish Pistachio Almond Tart Mix Dryfruit Tart Cashew Square Basma Nut Mix",status:"unlisted"},
+  {title:"Turkish Glow Tin",handle:"turkish-glow-tin",price:"₹949",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/nithyaamirtham-turkish-glow-tin.webp?v=1766203107",desc:"Assorted Baklava Sweets 500g",status:"active"},
+  {title:"Royal Dryfruit Nuts Box - 200g",handle:"royal-dryfruit-nuts-box-200g",price:"₹449",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/royal-dryfruits-nuts-box-4cp.webp?v=1759992343",desc:"Fig Cashew Almond Raisins",status:"unlisted"},
+  {title:"Royal Dryfruit Nuts Box - 400g",handle:"royal-dryfruit-nuts-box-400g",price:"₹799",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/royal-dryfruits-nuts-box-4cp.webp?v=1759992343",desc:"Fig Cashew Almond Raisins",status:"unlisted"},
+  {title:"Royal Dryfruit Nuts Box - 300g",handle:"royal-dryfruit-nuts-box-300g",price:"₹749",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/royal-dryfruits-nuts-box-6cp.webp?v=1759992019",desc:"Dates Fig Salted Pista Cashew Almond Raisins",status:"unlisted"},
+  {title:"Royal Dryfruit Nuts Box - 600g",handle:"royal-dryfruit-nuts-box-600g",price:"₹1349",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/royal-dryfruits-nuts-box-6cp.webp?v=1759992019",desc:"Dates Fig Salted Pista Cashew Almond Raisins",status:"unlisted"},
+  {title:"Royal Dryfruit Nuts Tin - 300g",handle:"royal-dryfruit-nuts-tin-300g",price:"₹785",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/royal-dryfruits-nuts-tin-6cp.webp?v=1759991776",desc:"Dates Fig Salted Pista Cashew Almond Raisins",status:"unlisted"},
+  {title:"Royal Dryfruit Nuts Tin - 600g",handle:"royal-dryfruit-nuts-tin-600g",price:"₹1450",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/royal-dryfruits-nuts-tin-6cp.webp?v=1759991776",desc:"Dates Fig Salted Pista Cashew Almond Raisins",status:"unlisted"},
+  {title:"Royal Dryfruits Hamper (Medium)",handle:"royal-dryfruits-hamper-medium",price:"₹1599",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/royal-dryfruits-hamper-medium.webp?v=1759991649",desc:"Cashew Salted Pista Almond Fig Raisins Dates",status:"unlisted"},
+  {title:"Royal Dryfruits Hamper (Large)",handle:"royal-dryfruits-hamper-large",price:"₹1999",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/royal-dryfruits-hamper-large.webp?v=1759991532",desc:"Cashew, Almond, Raisins Fig, Dates, Pepper Cashew Salted Almond, Salted Pista Salted Cashew",status:"unlisted"},
+  {title:"Nithya Box",handle:"nithya-box",price:"₹1249",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/nithya-box.webp?v=1759991435",desc:"Kaju Katli Rose Almond Laddu Dryfruit Cake Fig N Nuts - 400g Almond 100g Salted Pista 100g Kismiss 100g Cashew 100g",status:"unlisted"},
+  {title:"Mithai Surprise (Medium)",handle:"mithai-surprise-medium",price:"₹1800",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/mithai-surprise-small.webp?v=1759991268",desc:"Assorted Baklava 400g Blueberry Katli &amp; Kaju Katli 250g Madras Mixture 100g Pepper Cashew 50g Salted Almond 50g Salted Cashew 50g",status:"unlisted"},
+  {title:"Mithai Surprise (Large)",handle:"mithai-surprise-large",price:"₹2299",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/mithai-surprise-large.webp?v=1759991164",desc:"Premium Mithai - Ghee 500g Blueberry Katli &amp; Kaju Katli 250g Dryfruit Nuts 200g Madras Mixture 100g Butter Murukku 100g Pepper Cashew 50g Salted Almond 50g Salted Cashew 50g",status:"unlisted"},
+  {title:"Golden Platter",handle:"golden-platter",price:"₹2100",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/golden-platter.webp?v=1759991048",desc:"Salted Pista Dates Raisins Cashew Almond Fig Pepper Cashew",status:"unlisted"},
+  {title:"Golden Kaju Plate - Medium",handle:"golden-kaju-plate-medium",price:"₹1499",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/golden-kaju-plate-medium.webp?v=1759990967",desc:"Fig n Nuts Kaju Katli Rose Almond Laddu Kaju Gajak Kaju Kamal",status:"unlisted"},
+  {title:"Golden Kaju Plate - Large",handle:"golden-kaju-plate-large",price:"₹2599",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/golden-kaju-plate-large.webp?v=1759990862",desc:"Dryfruit Cake Rose Almond Laddu Kaju Kamal Fig n Nuts Kaju Gajak Kaju Katli",status:"unlisted"},
+  {title:"Golden Baklava Plate - Medium",handle:"golden-baklava-plate-medium",price:"₹1699",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/golden-baklava-plate-medium.webp?v=1759990756",desc:"Pistachio Burma Almond Tart Mix Dryfruit Tart Osh E Bul Bul Turkish Pistachio Cashew Square Basma Nut Mix",status:"unlisted"},
+  {title:"Golden Baklava Plate - Large",handle:"golden-baklava-plate-large",price:"₹2499",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/golden-baklava-plate-large.webp?v=1759990634",desc:"Almond Tart Mix Dryfruit Tart Basma Nut Mix Pistachio Burma Osh E Bul Bul Cashew Square Turkish Pistachio",status:"unlisted"},
+  {title:"Snow Basket",handle:"snow-basket",price:"₹1999",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/snow-basket.webp?v=1759990457",desc:"Dryfruit Nut Box 4cp200g Assorted Ghee Sweets 500g Madras Mixtue 200g Butter Murukku 200g Almond Cookies Box - Small (90g) 1 box",status:"unlisted"},
+  {title:"Yellow Dream Basket",handle:"yellow-dream-basket",price:"₹2499",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/yellow-dream-basket_95a17994-f939-4861-b3cd-57c1f9f77fe7.webp?v=1759990378",desc:"Baklava Tin 500g Ghee Mysurpa 250g Dryfruti Laddu 250g Butter Murukku 200g Almond Cookies Box - Small (90g) 1 box",status:"unlisted"},
+  {title:"Festive Gold Basket",handle:"festive-gold-basket",price:"₹2499",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/festive-gold-basket.webp?v=1759990172",desc:"Assorted Kaju Sweets 500g Assorted Baklava 250g Kaju Katli 200g Madras Mixtue 200g Almond Cookies Box - Small (90g) 1 box",status:"unlisted"},
+  {title:"Barbie Basket",handle:"barbie-basket",price:"₹3999",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/barbie-basket.webp?v=1759990018",desc:"Assorted Baklava 800g Blueberry Katli 500g Rose Almond Laddu 250g Dryfruit Nut Box 6cp300g Almond Cookies Large (200g) 1 box Madras Mixture (Wedding Gift Tin) 200g",status:"unlisted"},
+  {title:"Red Delight Basket",handle:"red-delight-basket",price:"₹3499",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/red-delight-basket_76784099-1379-4f3b-84c2-8fabcb04c555.webp?v=1759989256",desc:"Dry Fruit Nut Box 200g Assorted Kaju Sweets 500g Ghee Mysurpa 250g Almond Cookies Large (200g) 1 Box Madras Mixture 200g Baklava Tin 500g",status:"unlisted"},
+  {title:"Blue Heaven Basket",handle:"blue-heaven-basket",price:"₹2499",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/blue-heaven-basket.webp?v=1759986935",desc:"Dryfruit Nut Tin 6cp 300g Premium Mithai - Ghee 500g Blue Berry Katli 200g Butter Murukku2 00g Madras Mixture 200g Almond Cookies Large (200g)1 box",status:"unlisted"},
+  {title:"Amla Pickle",handle:"amla-pickle",price:"₹86",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/amla-pickle.webp?v=1758286086",desc:"",status:"active"},
+  {title:"Dry Fruits Nuts Box (300gms)",handle:"dry-fruits-nuts-box-300gms",price:"₹730",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/NithyaAmirtham_1729_68d1b540-7433-4a2f-9a56-b646aa658f6c.jpg?v=1729332719",desc:"Salted Pista, Raisins, Almond, Cashewnut, Dates, Fig Note: Orders take a minimum of 24 hours for delivery, even within Chennai.",status:"draft"},
+  {title:"Dry Fruits Nuts Box (600gms)",handle:"dry-fruits-nuts-box-600gms",price:"₹1345",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/NithyaAmirtham_1729.jpg?v=1729332596",desc:"Salted Pista, Raisins, Almond, Cashewnut, Dates, Fig Note: Orders take a minimum of 24 hours for delivery, even within Chennai.",status:"draft"},
+  {title:"Dry Fruits Nuts Box (200gms)",handle:"dry-fruits-nuts-box-200gms",price:"₹450",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/NithyaAmirtham_1724_1c184c16-1bf1-4387-806f-573ad09cc0c9.jpg?v=1729332523",desc:"Fig, Raisins, Almond, Cashewnut Note: Orders take a minimum of 24 hours for delivery, even within Chennai.",status:"draft"},
+  {title:"Dry Fruits Nuts Box (400gms)",handle:"dry-fruits-nuts-box-400gms",price:"₹810",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/NithyaAmirtham_1724.jpg?v=1729332460",desc:"Fig, Raisins, Almond, Cashewnut Note: Orders take a minimum of 24 hours for delivery, even within Chennai.",status:"draft"},
+  {title:"Dry Fruits Nuts Tin (200g)",handle:"dry-fruits-nuts-tin-200g",price:"₹505",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/NithyaAmirtham_1727_b7cbdd05-ca86-4490-8c3d-48ebdc4e3a2a.jpg?v=1729332307",desc:"Fig, Raisins, Almond, Cashew Note: Orders take a minimum of 24 hours for delivery, even within Chennai.",status:"draft"},
+  {title:"Dry Fruits Nuts Tin (400g)",handle:"dry-fruits-nuts-tin-400g",price:"₹1010",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/NithyaAmirtham_1727.jpg?v=1729332250",desc:"Fig, Raisins, Almond, Cashew Note: Orders take a minimum of 24 hours for delivery, even within Chennai.",status:"draft"},
+  {title:"Dry Fruits Nuts Tin (300g)",handle:"dry-fruits-nuts-tin-300g",price:"₹785",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/NithyaAmirtham_1732_764e6597-70a9-4418-9974-c69aeb3edbfb.jpg?v=1729332085",desc:"Salted Pista, Raisins, Almond, Cashew, Dates, Fig Note: Orders take a minimum of 24 hours for delivery, even within Chennai.",status:"draft"},
+  {title:"Dry Fruits Nuts Tin (600g)",handle:"dry-fruits-nuts-tin-600g",price:"₹1450",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/NithyaAmirtham_1732.jpg?v=1729331985",desc:"Salted Pista, Raisins, Almond, Cashew, Dates, Fig Note: Orders take a minimum of 24 hours for delivery, even within Chennai.",status:"draft"},
+  {title:"Premium Mithai Special Baklava Tin (Small)",handle:"premium-mithai-small",price:"₹735",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/NithyaAmirtham_1731_61dd3cc8-2868-45d3-8c82-7c5e6ebd0408.jpg?v=1729331682",desc:"Assorted Baklava (400gms) Note: Orders take a minimum of 24 hours for delivery, even within Chennai.",status:"draft"},
+  {title:"Premium Mithai -Special Baklava Tin (Large)",handle:"premium-mithai-large",price:"₹1155",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/NithyaAmirtham_1731.jpg?v=1729331584",desc:"Assorted Baklava (600gms) Note: Orders take a minimum of 24 hours for delivery, even within Chennai.",status:"draft"},
+  {title:"Ghee Sweets & Savouries Combo (Small)",handle:"ghee-sweets-savouries-combo-small",price:"₹315",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/NithyaAmirtham_1714_5b3700d7-9695-4d43-a78b-6c753b1dccdf.jpg?v=1729327542",desc:"Ghee Sweets (250gms), Madras Mixture (100gms) Note: Orders take a minimum of 24 hours for delivery, even within Chennai.",status:"draft"},
+  {title:"Ghee Sweets & Savouries Combo (Medium)",handle:"ghee-sweets-savouries-combo-medium",price:"₹630",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/NithyaAmirtham_1714.jpg?v=1729327484",desc:"Ghee Sweets (500gms), Madras Mixture (200gms) Note: Orders take a minimum of 24 hours for delivery, even within Chennai.",status:"draft"},
+  {title:"Kaju Sweets & Savouries Combo (Small)",handle:"kaju-sweets-savouries-combo-small",price:"₹580",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/NithyaAmirtham_1715_2367ccc3-2fde-4a33-9ea0-ad961dece535.jpg?v=1729327407",desc:"Kaju Sweets (250gms), Madras Mixture (100gms) Note: Orders take a minimum of 24 hours for delivery, even within Chennai.",status:"draft"},
+  {title:"Kaju Sweets & Savouries Combo (Medium)",handle:"kaju-sweets-savouries-combo-medium",price:"₹1050",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/NithyaAmirtham_1715.jpg?v=1729327359",desc:"Kaju Sweets (500gms), Madras Mixture (200gms) Note: Orders take a minimum of 24 hours for delivery, even within Chennai.",status:"draft"},
+  {title:"Premium Ghee Mithai (Small)",handle:"premium-ghee-mithai-small",price:"₹265",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/NithyaAmirtham_1711.jpg?v=1729327240",desc:"Assorted Ghee Sweets (250gms) Note: Orders take a minimum of 24 hours for delivery, even within Chennai.",status:"draft"},
+  {title:"Premium Ghee Mithai (Medium)",handle:"premium-ghee-mithai-medium",price:"₹525",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/NithyaAmirtham_1721.jpg?v=1729327159",desc:"Assorted Ghee Sweets (450gms) Note: Orders take a minimum of 24 hours for delivery, even within Chennai.",status:"draft"},
+  {title:"Premium Ghee Mithai (Large)",handle:"premium-ghee-mithai-large",price:"₹790",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/NithyaAmirtham_1736.jpg?v=1729327084",desc:"Assorted Ghee Sweets (1kg) Note: Orders take a minimum of 24 hours for delivery, even within Chennai.",status:"draft"},
+  {title:"Premium Kaju Mithai (Small)",handle:"premium-kaju-mithai-small",price:"₹420",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/NithyaAmirtham_1705.jpg?v=1729327030",desc:"Assorted Dry Fruit Sweets (250gms) Note: Orders take a minimum of 24 hours for delivery, even within Chennai.",status:"draft"},
+  {title:"Premium Kaju Mithai (Medium)",handle:"premium-kaju-mithai-medium",price:"₹790",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/NithyaAmirtham_1709.jpg?v=1729326976",desc:"Assorted Dry Fruit Sweets (450gms) Note: Orders take a minimum of 24 hours for delivery, even within Chennai.",status:"draft"},
+  {title:"Premium Kaju Mithai (Large)",handle:"premium-kaju-mithai-large",price:"₹1260",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/NithyaAmirtham_1735.jpg?v=1729326908",desc:"Assorted Dry Fruit Sweets (900gms) Note: Orders take a minimum of 24 hours for delivery, even within Chennai.",status:"draft"},
+  {title:"Blast Box (Small)",handle:"blast-box-small",price:"₹2100",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/NithyaAmirtham_1593.jpg?v=1729326708",desc:"Fried Nuts (150gms), Premium Ghee Mithai (500gms), Premium Kaju Mithai (250gms), Madras Mixture (200gms) Note: Orders take a minimum of 24 hours for delivery, even within Chennai.",status:"draft"},
+  {title:"Blast Box (Large)",handle:"blast-box-large",price:"₹2625",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/NithyaAmirtham_1614_1.jpg?v=1729326581",desc:"Assorted Nuts (200gms), Fried Nuts (150gms), Premium Ghee Mithai (500gms), Premium Kaju Mithai (250gms), Madras Mixture (200gms), Butter Murukku (150gms) Note: Orders take a minimum of 24 hours for de",status:"draft"},
+  {title:"Golden Nuts Plate",handle:"golden-nuts-plate",price:"₹2100",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/NithyaAmirtham_1747.jpg?v=1729326408",desc:"Assorted Nuts (800gms) Note: Orders take a minimum of 24 hours for delivery, even within Chennai.",status:"draft"},
+  {title:"Signature Box",handle:"signature-box",price:"₹1155",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/NithyaAmirtham_1689.jpg?v=1729027234",desc:"Dry Fruits Sweets (450gms) &amp; Assorted Nuts (400gms) Note: Orders take a minimum of 24 hours for delivery, even within Chennai.",status:"draft"},
+  {title:"Vinayagar Chaturthi Combo Box",handle:"vinayagar-chaturthi-combo-box",price:"₹549",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/nithya-amirtham-sweet-krishna-ganesh-chaturthi_2025-product.webp?v=1755760985",desc:"Ghee Laddu – 2 pcs Thattai – 100 g Aval – 100 g Achu Vellam – 2 pcs Kaju Modhak – 4 pcs Butter Murukku – 100 g Ideal for gifting, pooja offerings, and temple prasadam",status:"active"},
+  {title:"Krishna Jayanthi Special Combo Box",handle:"krishna-jayanthi-combo-box",price:"₹699",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/nithya-amirtham-sweet-krishna-jayanthi-combo-box-product.webp?v=1754481882",desc:"Ghee Laddu - 2 pcs Ghee Adhirasam - 2 pcs Aval Pattai – 50 gm Kadalai Urundai - 100 gm Butter Murukku – 100 gm Kaara Seedai – 250 gm Thattai - 100 gm Inipu Seedai – 100 gm Thenkuzhal Murukku – 100 gm ",status:"active"},
+  {title:"Narthangai Pickle",handle:"narthangai-pickle",price:"₹91",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/narthangaipickle.jpg?v=1721380834",desc:"Tangy and aromatic pickle made from narthangai (citron) slices, preserved in a spicy blend of mustard seeds, fenugreek, and tamarind, offering a unique and flavourful condiment.",status:"active"},
+  {title:"Ma Inji Pickle",handle:"ma-inji-pickle",price:"₹91",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/maainjipickle.jpg?v=1721380348",desc:"Spicy and tangy pickle made from tender pieces of raw mango and ginger, seasoned with a rich blend of spices and mustard oil for a bold, flavourful punch.",status:"active"},
+  {title:"Lemon Pickle",handle:"lemon-pickle",price:"₹91",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/AMLA-PICKLEBFF_5_6dd74ae5-d0ec-4123-a92f-706b0dfec910.jpg?v=1719592472",desc:"Bright and tangy pickle made from lem on wedges, preserved in a blend of spices and mustard oil, providing a sharp, flavourful condiment with a citrusy kick.",status:"active"},
+  {title:"Gongura Pickle",handle:"gongura-pickle",price:"₹91",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/goungrapickle.jpg?v=1721379986",desc:"Tangy and spicy pickle made from gongura leaves, mixed with a blend of aromatic spices and tamarind, offering a bold and distinctive flavour profile.",status:"active"},
+  {title:"Brinjal Pickle",handle:"brinjal-pickle",price:"₹86",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/brinjalpickle.jpg?v=1721379949",desc:"Tangy and spicy pickle made from tender bri nj a l pieces, infused with a blend of aromatic spices and mustard oil, offering a bold and flavourful condiment.",status:"active"},
+  {title:"Sweet Somas",handle:"sweet-somas",price:"₹135 (250 gm) / ₹270 (500 gm)",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/sweet-somas.webp?v=1758016078",desc:"Crispy, golden pa str ies filled with a swe e t mix ture of grated coconut, sugar, and cardamom, offering a deliciously crisp exterior and a flavourful , swe e t filling.",status:"active"},
+  {title:"Rava Laddu",handle:"rava-laadu",price:"₹322 (500 gm) / ₹161 (250 gm)",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/rava-laadu.webp?v=1758015592",desc:"Sweet, spherical treats made from semolina, ghee, and sugar, enhanced with cardamom and nuts for a rich, smooth texture and delightful flavour .",status:"active"},
+  {title:"Jack Fruit Halwa",handle:"jack-fruit-halwa",price:"₹181 (250 gm) / ₹362 (500 gm)",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/jack-fruit-halwa.webp?v=1758011196",desc:"Flavourful , creamy sweet made from ripe j ac k fruit and ghee, offering a rich, smooth texture and a delightful tropical sweetness.",status:"active"},
+  {title:"Bombay Halwa",handle:"bombay-halwa",price:"₹171 (250 gm) / ₹342 (500 gm)",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/bombay-halwa.webp?v=1758004645",desc:"A luscious, ghee-rich sweet made from semolina and flavoured with cardamom, garnished with nuts, providing a smooth, melt-in-your-mouth texture and aromatic sweetness.",status:"active"},
+  {title:"Moti Pak",handle:"moti-pak",price:"₹186 (250 gm) / ₹372 (500 gm)",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/moti-pak.webp?v=1758014833",desc:"Rich, ghee-based sweet featuring small, aromatic pearls of condensed mil k and cardamom, offering a smooth, buttery texture and a melt-in-your-mouth experience.",status:"active"},
+  {title:"Malt Cream Barfi",handle:"malt-cream-barfi",price:"₹186 (250 gm) / ₹372 (500 gm)",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/malt-cream-barfi.webp?v=1758014277",desc:"Smooth, creamy squares infused with the rich flavor of ma l t , deli ver ing a delectable combination of traditional swe e t ness and ma l t ed richness in e ver y bite.",status:"active"},
+  {title:"Chocolate Soan Papdi",handle:"chocolate-soan-papdi",price:"₹176 (250 gm) / ₹352 (500 gm)",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/chocolate-soan-papdi.webp?v=1758010691",desc:"Flaky, melt-in-your-mouth sweet made with layers of crisp, airy texture and infused with rich cho co late, blending traditional sweetness with a cocoa twist.",status:"active"},
+  {title:"Choco Cream Barfi",handle:"choco-cream-barfi",price:"₹186 (250 gm) / ₹372 (500 gm)",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/choco-cream-barfi.webp?v=1758010505",desc:"Rich, creamy squares infused with cho co late and traditional milk flavours , providing a smooth, decadent treat with a delightful cocoa twist.",status:"active"},
+  {title:"Basma Mix Nuts",handle:"basma-mix-nuts",price:"₹393 (250 gm) / ₹786 (500 gm)",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/nithyaamirtham-basma-mix-nuts.webp?v=1766138184",desc:"Flaky baklava layers filled with a rich mix of roasted nuts and sweetened with honey, offering a delightful combination of nutty crunch and sweet indulgence.",status:"active"},
+  {title:"Mix Dry Fruit Tart",handle:"mix-dry-fruit-tart",price:"₹353 (250 gm) / ₹706 (500 gm)",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/nithyaamirtham-mix-dry-fruit-tart.webp?v=1766138728",desc:"Buttery tart crust filled with a blend of assorted dried fruits and nuts, offering a rich, chewy texture and a sweet, nutty flavour.",status:"active"},
+  {title:"Cashewnut Midye",handle:"cashewnut-midye",price:"₹358 (250 gm) / ₹716 (500 gm)",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/nithyaamirtham-cashewnut-midye.webp?v=1766138634",desc:"Crisp, shell-shaped pastries filled with a smooth cashew mixture and lightly sweetened, offering a delightful blend of nutty flavour and delicate texture.",status:"active"},
+  {title:"Cashew Finger",handle:"cashew-finger",price:"₹358 (250 gm) / ₹716 (500 gm)",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/nithyaamirtham-cashew-fingers.webp?v=1766194904",desc:"Elegant, slender pastries made with a rich cashew filling and a light, flaky crust, offering a delightful combination of nutty sweetness and crisp texture.",status:"active"},
+  {title:"Cashew Square",handle:"cashew-square",price:"₹358 (250 gm) / ₹716 (500 gm)",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/nithyaamirtham-cashew-square.webp?v=1766138303",desc:"Flaky, layered pastry filled with a rich cashew mixture and sweetened with honey, offering a luxurious blend of nutty and sweet flavours.",status:"active"},
+  {title:"Almond Tart",handle:"almond-tart",price:"₹358 (250 gm) / ₹716 (500 gm)",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/nithyaamirtham-almond-tart.webp?v=1766138091",desc:"Crisp, buttery tart filled with a rich almond paste and topped with slivers of toasted almonds, offering a delightful blend of nutty and sweet flavours.",status:"active"},
+  {title:"Strawberry Kaju Katli",handle:"strawberry-kaju-katli",price:"₹289 (250 gm) / ₹577 (500 gm)",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/strawberry-kaju-katli.webp?v=1758015952",desc:"Luscious cashew sweets flavoured with a hint of str a wberry, providing a vibrant, fruity twist to the traditional, melt-in-your-mouth treat.",status:"active"},
+  {title:"Kaju Gajak",handle:"kaju-gajak",price:"₹359 (250 gm) / ₹718 (500 gm)",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/kaju-gajak.webp?v=1758012308",desc:"Sweet, crisp bars made from roasted cashews and jaggery, delivering a satisfying combination of nutty richness and traditional sweetness.",status:"active"},
+  {title:"Kaju Chocolate Sandwich",handle:"kaju-chocolate-sandwich",price:"₹359 (250 gm) / ₹718 (500 gm)",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/kaju-chocolate-sandwich.webp?v=1758011745",desc:"Delightful sandwiches made with creamy chocolate and finely ground cashews, offering a rich, nutty, and chocolatey flavour combination.",status:"active"},
+  {title:"Kaju Bites",handle:"kaju-bites",price:"₹387 (250 gm) / ₹773 (500 gm)",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/kaju-bites.webp?v=1758011694",desc:"Rich, bite-sized treats made from finely ground cashews and sweetened with a hint of sugar, delivering a smooth, nutty flavour in every piece.",status:"active"},
+  {title:"Choco Nut Bar",handle:"choco-nut-bar",price:"₹275 (250 gm) / ₹550 (500 gm)",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/choco-nut-bar.webp?v=1758010617",desc:"A delectable treat featuring a blend of crunchy nuts and smooth cho co late, delivering a perfect balance of rich and nutty flavours in every bite.",status:"active"},
+  {title:"Cashew Choco Laddu",handle:"cashew-choco-laddu",price:"₹387 (250 gm) / ₹773 (500 gm)",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/cashew-choco-laddu.webp?v=1758005942",desc:"Rich, sweet balls made from ground cas h e w s and cocoa, offering a delightful blend of nutty and chocolatey flavours in e ac h bite.",status:"active"},
+  {title:"Black Ellu Urundai 100 gram",handle:"black-ellu-urundai",price:"₹55",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/blackelluurundai.jpg?v=1721379145",desc:"Sweet, chewy balls made from bl a c k sesame seeds and jaggery, providing a rich, nutty flavour with a traditional touch.",status:"active"},
+  {title:"White Ellu Urundai",handle:"white-ellu-urundai",price:"₹55",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/NithyaAmirthamWhiteElluUrundai.webp?v=1735205987",desc:"Swe e t , chewy balls made from whi te sesame see d s and jaggery, offering a nutty flavour and a traditional, wholesome treat.",status:"active"},
+  {title:"Pori Urundai 10 piece",handle:"pori-urundai",price:"₹35",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/poriurundai.jpg?v=1721380897",desc:"Swe e t , crunchy balls made from puffed rice, jaggery, and a hint of coconut, offering a deliciously light and traditional snack.",status:"active"},
+  {title:"Achu Murukku Sweet - 8 Piece",handle:"achu-murukku-traditional-sweet-snack",price:"₹80",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/ACHUMURUKKUSWEETS.jpg?v=1721375646",desc:"Enjoy crispy, handcrafted Achu Murukku from Nithya Amirtham . A traditional South Indian sweet snack, perfect for any occasion. Order your 8-piece pack today!",status:"active"},
+  {title:"Ellu Murukku",handle:"ellu-murukku",price:"₹120 (250 gm) / ₹240 (500 gm)",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/ellumurukku.jpg?v=1721379860",desc:"Crisp, twisted sn ac k made from rice flour and sesame seeds, infused with spices for a savoury treat with a nutty, aromatic touch.",status:"active"},
+  {title:"Dal Mixture",handle:"dal-mixture",price:"₹130 (250 gm) / ₹260 (500 gm)",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/DALMIXTURE.jpg?v=1721379828",desc:"A savoury blend of crispy fried pulses and spices, delivering a flavo u rful and varied texture experience.",status:"active"},
+  {title:"Beetroot Murukku",handle:"beetroot-murukku",price:"₹125 (250 gm) / ₹250 (500 gm)",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/betrootmurukku.jpg?v=1721379128",desc:"Crispy, twisted sn ac k incorporating bee t root for a vibrant colour and subtle sweetness, seasoned with spices for a flav o u rful and unique treat.",status:"active"},
+  {title:"Aval Mixture",handle:"aval-mixture",price:"₹120 (250 gm) / ₹240 (500 gm)",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/avalmixture.jpg?v=1721375812",desc:"A crunchy blend of roasted flattened rice, nuts, and spices, offering a light, savoury sn ac k with a touch of traditional flavour .",status:"active"},
+  {title:"Andhra Murukku",handle:"andhra-murukku",price:"₹120 (250 gm) / ₹240 (500 gm)",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/andramurukku.jpg?v=1721379179",desc:"Crispy, twisted sn ac k made from rice flour and spices, featuring a spicy, savoury flavour with a satisfying texture.",status:"active"},
+  {title:"Corn Mixture",handle:"corn-mixture",price:"₹130 (250 gm) / ₹260 (500 gm)",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/corn_mixture.jpg?v=1721379786",desc:"A savoury blend of crispy cor n kernels and spiced sn ac ks, offering a delightful medley of flavours and textures in every bite.",status:"active"},
+  {title:"Verkadalai Pakoda",handle:"verkadalai-pakoda",price:"₹115 (250 gm) / ₹230 (500 gm)",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/verkadalaipakoda.jpg?v=1721381161",desc:"Crispy, golden fritters made from gram flour and roasted peanuts, seasoned with spices for a sav oury and satisfying snack.",status:"active"},
+  {title:"Valakai Chips",handle:"valakai-chips",price:"₹125 (250 gm) / ₹250 (500 gm)",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/valakaichips.jpg?v=1721381390",desc:"Crispy slices of raw banana, seasoned with spices, offering a unique, sav oury flavour and a satisfying, light texture.",status:"active"},
+  {title:"Ribbon Pakoda",handle:"ribbon-pakoda",price:"₹110 (250 gm) / ₹220 (500 gm)",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/ribbonpakoda.jpg?v=1721381296",desc:"Crisp, rib b o n -shaped snacks made from rice flour and spices, delivering a sav oury , textured treat with a hint of traditional flavour .",status:"active"},
+  {title:"Pudina Muruku",handle:"pudina-muruku",price:"₹135 (250 gm) / ₹270 (500 gm)",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/pudinamurukku.jpg?v=1721381022",desc:"Sav o u ry twists infused with refreshing mint leaves and spices, providing a fragrant and flavo u rful snack that's both crisp and satisfying.",status:"active"},
+  {title:"Potato Masala Chips",handle:"potato-masala-chips",price:"₹120 (250 gm) / ₹240 (500 gm)",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/potatomasalachips.jpg?v=1721380942",desc:"Thin, crispy pot at o slices seasoned with a blend of aro ma tic spices, offering a zesty and flavorful snacking experience.",status:"active"},
+  {title:"Onion Murukku",handle:"onion-murukku",price:"₹130 (250 gm) / ₹260 (500 gm)",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/onionmurukku.jpg?v=1721380625",desc:"Savory, spiral-shaped treats infused with crispy fried onions and spices, offering a flavo u rful and aromatic snacking experience.",status:"active"},
+  {title:"Nendhiram Chips",handle:"nendhiram-chips",price:"₹135 (250 gm) / ₹270 (500 gm)",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/nendriramchips.jpg?v=1721380719",desc:"Crispy, golden banana chips made from the Nendran variety, offering a deliciously sweet and savoury crunch with every bite.",status:"active"},
+  {title:"Navadhaniyam",handle:"navadhaniyam",price:"₹110 (250 gm) / ₹220 (500 gm)",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/navathaniyam.jpg?v=1721380765",desc:"A traditional blend of nine different grains and seeds, combined for a nutritious and wholesome mix , rich in flavour and health benefits.",status:"active"},
+  {title:"Nellai Sev",handle:"nellai-sev",price:"₹110 (250 gm) / ₹220 (500 gm)",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/nellaisev.jpg?v=1721380662",desc:"Crispy, savoury strands made from pea flour and spices, providing a light, crunchy snack with authentic South Indian flavour .",status:"active"},
+  {title:"Milagu Vadai",handle:"milagu-vadai",price:"₹140 (250 gm) / ₹280 (500 gm)",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/milaguvadai.jpg?v=1721389991",desc:"Crisp, savoury fritters made from black gram flour and peppercorns, delivering a bold and spicy flavour with every bite.",status:"active"},
+  {title:"Mullu Thenkuzhal",handle:"mullu-thenkuzhal",price:"₹125 (250 gm) / ₹250 (500 gm)",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/mulluthenkuzhal.jpg?v=1721380816",desc:"Crunchy, spiced rice flour spirals with a delightful texture, infused with cumin and asafoetida , perfect for a savoury and flavourful snack.",status:"active"},
+  {title:"Raagi Thattai",handle:"raagi-thattai",price:"₹125 (250 gm) / ₹250 (500 gm)",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/raagithattai.jpg?v=1721381256",desc:"Nutritious, crispy flatbreads made from finger mil let flour, infused with spices and sesame seeds, offering a wholesome and sav oury snack experience.",status:"active"},
+  {title:"Seedai",handle:"seedai",price:"₹140 (250 gm) / ₹280 (500 gm)",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/seedai.jpg?v=1721381197",desc:"Tiny, crispy rice flour balls seasoned with a hint of coconut and cumin, providing a delightful crunch and a burst of traditional flavours .",status:"active"},
+  {title:"Thengai Paal Murukku",handle:"thengai-paal-murukku",price:"₹130 (250 gm) / ₹260 (500 gm)",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/thengaipaalmuruku.jpg?v=1721381368",desc:"Delicate, crunchy spirals made from rice flour and coconut mil k, offering a unique blend of swe e t ness and sav o u riness in every bite.",status:"active"},
+  {title:"Chettinadu Pepper Thattai",handle:"chettinadu-pepper-thattai",price:"₹125 (250 gm) / ₹250 (500 gm)",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/chettinadupepperthattai.jpg?v=1721379550",desc:"Crispy, spiced rice cr ac kers infused with aromatic pepper and traditional Chet ti nadu flavours . Perfect for a savoury sn ac k or tea-time treat.",status:"active"},
+  {title:"Badam  Katli",handle:"badam-katli",price:"₹284 (250 gm) / ₹567 (500 gm)",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/badam-katli.webp?v=1758003344",desc:"Treat yourself to some yummy Badam Katli . I t's smooth, nutty, and oh-so-delicious! One bite and you'll be craving more of its rich , melt-in-your-mouth flav o u r .",status:"active"},
+  {title:"Kaju Pista Roll",handle:"kaju-pista-roll",price:"₹336 (250 gm) / ₹671 (500 gm)",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/kaju-pista-roll.webp?v=1758012770",desc:"Having to choose between kaju and pista can drive you nuts. So, enjoy both flavours in our Kaju Pista Roll.",status:"active"},
+  {title:"Kaju Katli",handle:"kaju-katli",price:"₹289 (250 gm) / ₹577 (500 gm)",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/kaju-katli.webp?v=1758012729",desc:"The one sweet that will never go out of favour. The universal favourite, from the day it was created to the end of time. No matter how much Kaju Katli you take home, it will never be enough.",status:"active"},
+  {title:"Motichoor Laddu",handle:"motichoor-laddu",price:"₹176 (250gm) / ₹352 (500gm)",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/motichoor-laddu.webp?v=1758014897",desc:"The king and queen of Indian sweets, this irresistible dessert can be found on all special occasions, from inaugurations to anniversaries to weddings and big festivals. Any time you want to feel speci",status:"active"},
+  {title:"Carrot Mysurpa",handle:"carrot-mysurpa",price:"₹189 (250 gm) / ₹377 (500 gm)",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/carrot-mysurpa.webp?v=1758004934",desc:"A unique twist on the most decadent South Indian dessert. Our Carrot Mys urpa is made to delight even the most discerning palate.",status:"active"},
+  {title:"Karupatti Mysurpa",handle:"karupatti-mysurpa",price:"₹189 (250 gm) / ₹377 (500gm)",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/nithyaamirtham-namma-gramam-mysurpa.webp?v=1768194554",desc:"For those who have a sweet tooth, but only for jaggery, we’ve created a version of the Mysurpa that even you can enjoy. Sink your teeth into our Karupatti Mysurpa and find your bliss.",status:"active"},
+  {title:"Baby Milk Cake",handle:"baby-milk-cake",price:"₹171 (250 gm) / ₹342 (500 gm)",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/baby-milk-cake.webp?v=1758002421",desc:"Soft and sweet with a hint of cardamom , our Baby Milk Cake is made to perfection and is the perfect ending to an y meal.",status:"active"},
+  {title:"Chandrakala",handle:"chandrakala",price:"₹161 (250 gm) / ₹322 (500 gm)",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/chandrakala.webp?v=1758010392",desc:"A crispy shell, stuffed with kova , fried and soaked in cardamom and saffron scented sugar syrup. No w every day can be Diwali with our delectable Chandrakala sweets .",status:"active"},
+  {title:"Cashew Pakoda",handle:"cashew-pakoda",price:"₹223 (250 gm) / ₹445 (500 gm)",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/CASHEW-PAKODABFF_15.jpg?v=1719213281",desc:"Few things ca n bring your family together like a rainy day, a cup of tea and some delicious Ca s hew Pakoda from Nithya Amritham .",status:"active"},
+  {title:"Masala Verkadalai Fry",handle:"masala-verkadalai-fry",price:"₹115 (250 gm) / ₹230 (500 gm)",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/MASALA-VERKADALAI-FRYBFF_14_a83504a9-2657-4a5f-bfc2-3bb1c5df05e8.jpg?v=1719555143",desc:"Spicy, crunchy and absolutely tasty . Our Masala Verkadalai Fry is the perfect snack to carry with you wheneve r you ar e on the go.",status:"active"},
+  {title:"Oma Podi",handle:"oma-podi",price:"₹110 (250 gm) / ₹220 (500 gm)",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/OMA-PODI.jpg?v=1719213902",desc:"An integral ingredient in all Indian snacks, Oma podi can be added to any meal or snack to increase its yumminess or enjoyed just plain .",status:"active"},
+  {title:"Karupatti Katli",handle:"adhirasam-ghee-copy",price:"₹415 (250 gm) / ₹830 (500 gm)",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/karupatti-katli.webp?v=1758013034",desc:"Kar u p atti Katli is an adventure of flavour! With the warmth of palm jaggery and the unique flavours of cardamom along with a hint of nuttiness , it's a flavour fiesta that'll have you coming back f",status:"active"},
+  {title:"Jack Fruit Mysurpa",handle:"jack-fruit-mysurpa",price:"₹181 (250 gm) / ₹362 (500 gm)",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/jack-fruit-mysurpa.webp?v=1758011371",desc:"If you are a fan of jack fruit and mysurpa , we can only imagine your delight when you discover that we have combined your favourite fruit and dessert . Enjoy both flavours in our Jack Fruit Mysurpa .",status:"active"},
+  {title:"Boondi Laddu",handle:"boondi-laddu",price:"₹161 (250 gm) / ₹322 (500 gm)",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/boondi-laddu.webp?v=1758004845",desc:"This melt-in-the-mouth traditional sweet has fans all over the world. Make every festival complete by serving your guests our irresistible Boondi Laddu",status:"active"},
+  {title:"Kaara Sev",handle:"kaara-sev-1",price:"₹110 (250 gm) / ₹220 (500 gm)",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/KAARA-SEVBFF_28.jpg?v=1719213658",desc:"An irresistible combination of besan atta and spices , fried to golden perfection. Serve up our Kaara Sev as part of the snack platter on any special ocassion .",status:"active"},
+  {title:"Kai Murukku",handle:"kai-murukku-1",price:"₹130 (250 gm) / ₹260 (500 gm)",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/MINI-KAI-MURUKKUBFF_31_64d97ed6-fe7a-47cb-9f03-ed24fadd3441.jpg?v=1719555187",desc:"Who can forget going to the mitai kadai to get everyone’s favourite Kai Murukku? Bring back the nostalgia with this ever-green snack from Nithya Amritham .",status:"active"},
+  {title:"Dry Fruit Cake",handle:"dry-fruit-cake",price:"₹311 (250 gm) / ₹621 (500 gm)",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/dry-fruit-cake.webp?v=1758010904",desc:"Close your eyes and imagine you are taking a bite of this delicious D ry F ruit C ake. Trust us when we say it is so much bette r in real life.",status:"active"},
+  {title:"Kaju Biscuit",handle:"kaju-biscuit",price:"₹311 (250gm) / ₹621 (500 gm)",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/kaju-biscuit.webp?v=1758011610",desc:"For those who like to carry a reminder of their favourite Kaju flavour wherever they go, keep a few of these Kaju Biscuits close , always.",status:"active"},
+  {title:"Pista Laddu",handle:"pista-laddu",price:"₹387 (250 gm) / ₹773 (500 gm)",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/pista-laddu.webp?v=1758015318",desc:"Pista Laddu is the odd one out in the world of sweets. The creamy, nutty texture of pistachios, along with sweet and savoury flavours, are the things that make it unique and will have you coming back ",status:"active"},
+  {title:"Rose Almond Laddu",handle:"rose-almond-laddu",price:"₹387 (250 gm) / ₹773 (500 gm)",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/rose-almond-laddu.webp?v=1758015846",desc:"Looking for something whimsical in the dessert section? Our Rose Almond Laddu , with its unique intertwining of flavours , will satisfy your desires and your tastebuds.",status:"active"},
+  {title:"Dry Fruit Laddu",handle:"dry-fruit-laddu",price:"₹212 (250 gm) / ₹423 (500 gm)",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/dry-fruit-laddu.webp?v=1758001691",desc:"All of u s would like to satisfy our sweet tooth with something healthy, and we have just the dessert for that . Dig into a box of our Dry Fruit Laddu to indulge your sweet cravings free from any guil",status:"active"},
+  {title:"Milk Halwa",handle:"milk-halwa",price:"₹176 (250 gm) / ₹352 (500 gm)",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/MILK-HALWABFF_59.jpg?v=1719478119",desc:"Paal Kova mixed with r ava , sugar and ghee, our Milk Halwa has the perfect flavour and texture to tantalise everyone’s palate.",status:"active"},
+  {title:"Karupatti Halwa",handle:"karupatti-halwa",price:"₹209 (250 gm) / ₹417 (500 gm)",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/KARUPATTI-HALWABFF_60.jpg?v=1719478084",desc:"Made with authentic palm jaggery, rice flour and pure ghee, our Ka rupatti H alwa dessert brings joy to the soul .",status:"active"},
+  {title:"Badam Halwa",handle:"badam-halwa",price:"₹353 (250 gm) / ₹705 (500  gm)",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/BADAM-HALWABFF_58.jpg?v=1719478160",desc:"Sugar, ghee, a hint of cardamom and a whole lot of almonds, this must be what happiness tastes like. Make every day joyful with our Badam Halwa",status:"active"},
+  {title:"Wheat Halwa",handle:"tirunelveli-halwa",price:"₹181 (250 gm) / ₹362 (500 gm)",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/nithyaamirtham-namma-gramam-halwa.webp?v=1768194554",desc:"A tradition that began in the 1800s, this delicious sweet has captured the hearts of people all over the world. Come taste the finest Tirunelveli Halwa at Nithya Amritham.",status:"active"},
+  {title:"Adhirasam Ghee",handle:"adhirasam-ghee",price:"₹161 (250 gm) / ₹322 (500 gm)",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/adhirasam-ghee.webp?v=1758170428",desc:"The perfect sweet to satisfy those midnight cravings. Our Ghee Adhirasam is just right for those who love a hint of coco nut in their desserts.",status:"active"},
+  {title:"Maa Laddu",handle:"maa-laddu",price:"₹161 (250 gm) / ₹322 (500 gm)",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/MAA-LADDUBFF_57.jpg?v=1719481768",desc:"A sweet for the health-conscious among you. Our Maa Laddu is the perfect choice if you are lo o king for a simple yet delicious sweet to keep as prasad.",status:"active"},
+  {title:"Raagi Laddu",handle:"raagi-laddu",price:"₹161 (250 gm) / ₹322 (500 gm)",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/nithyaamirtham-namma-gramam-ragi-laddu.webp?v=1768194554",desc:"Enjoy this sweet treat every day. Not only is Ragi Laddu a sweet treat, it is also known to have several health benefits.",status:"active"},
+  {title:"Butter Murukku",handle:"butter-murukku",price:"₹115 (250 gm) / ₹230 (500 gm)",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/BUTTER-MURUKKUBFF_27_23de16b1-5611-45da-bfa4-97eba1891624.jpg?v=1719552830",desc:"The perfect snack for anytime of the day. Our But te r Murukku is made with carefully chosen ingredients to ensure full enjoyment.",status:"active"},
+  {title:"Dry Fruit Mixture",handle:"dry-fruit-mixture",price:"₹178 (250 gm) / ₹355 (500 gm)",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/DRY-FRUIT-MIXTUREBFF_25.jpg?v=1719213578",desc:"A wonderful combination of savoury snacks and dry fruits combined. Our Dry Fruit Mixture is best enjoyed with friends and family .",status:"active"},
+  {title:"Madras Mixture",handle:"madras-mixture",price:"₹120 (250 gm) / ₹240 (500 gm)",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/madras-mixture.webp?v=1758013146",desc:"Healthy ingredients like cashew and groundnuts mixed in with spicy, salty omapodi and boondi along with our savouries to create the ever - delicious Madras Mixture Snack.",status:"active"},
+  {title:"Milagu Sev",handle:"milagu-sev",price:"₹120 (250 gm) / ₹240 (500 gm)",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/MILAGU-SEVBFF_19.jpg?v=1719478889",desc:"For all the fans of peppery snack s , here is a timeless classic: Our Milagu Sev. Sit back and savour its spicy goodness anytime anywhere.",status:"active"},
+  {title:"Pepper Cashewnut",handle:"pepper-cashewnut-50-grms",price:"₹180 (100 gm)",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/pepper-cashewnut-50-grms.webp?v=1758015274",desc:"When you want to snack on something healthy but need a little flavour to spice it up, just reach for a pack of our Pepper Cashew .",status:"active"},
+  {title:"Nellai Mixture",handle:"nellai-mixture",price:"₹120 (250 gm) / ₹240 (500 gm)",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/nithyaamirtham-namma-gramam-mixture.webp?v=1768194554",desc:"Remember when mom used to ration out mixture and we would eat it one groundnut, one cashew and one sev at a time to make it last. Now you can eat our Nellai Mixture to your heart’s content.",status:"active"},
+  {title:"Pavakai Chips",handle:"pavakai-chips",price:"₹120 (250 gm) / ₹240 (500 gm)",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/pavakai-chips.webp?v=1758015127",desc:"Not your typical tasty chips. Our Pavakai C hips are specially made for the rare few who enjoy a hint of the flavour t hat is typical of bitter gourd.",status:"active"},
+  {title:"Vendakai Chips",handle:"vendakai-chips",price:"₹120 (250 gm) / ₹240 (500 gm)",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/VENDKAI-CHIPSBFF_16.jpg?v=1719214071",desc:"The most loved vegetable of all in a crispy savoury avatar. Get all the Vendakai Chips you want at Nithya Amritham .",status:"active"},
+  {title:"Nithyam Special Thattai",handle:"nithyam-special-thattai",price:"₹125 (250 gm) / ₹250 (500 gm)",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/nithyam-special-thattai.webp?v=1758014968",desc:"The perfect snack to satisfy your midnight cravings. Always keep a pack of Nithyam Special Thattai handy at home.",status:"active"},
+  {title:"Chettinadu Kaara Thattai",handle:"chettinadu-kaara-thattai",price:"₹125 (250 gm) / ₹250 (500 gm)",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/CHETTINADU-KAARA-THATTAIBFF_22.jpg?v=1719213348",desc:"When you have guests who like a little fire in their snacks, bring out our Chettinad Kaara Thattai and watch their eyes light up with joy as they savour the spicy flavour.",status:"active"},
+  {title:"Mini Garlic Murukku",handle:"mini-garlic-murukku",price:"₹130 (250 gm) / ₹260 (500 gm)",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/MINI-GARLIC-MURUKKU.jpg?v=1719213803",desc:"Want something different as a teatime snack? Try our Mini Garlic Murukku. Its melt-in-your-mouth goodness and kick of garlic will have you coming back for more.",status:"active"},
+  {title:"Garlic Pickle",handle:"garlic-pickle",price:"₹119",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/AMLA-PICKLEBFF_5_41a805fe-4392-46b9-b362-fcd6f6bec008.jpg?v=1719481494",desc:"Our garlic pickle boasts bold, pungent flavours with a kick of tanginess, complemented by aromatic spices. Made to entice the senses with each savoury bite.",status:"active"},
+  {title:"Idli Podi",handle:"idli-podi-200-gm",price:"₹91 (150 gm)",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/IDLI-PODIBFF_13.jpg?v=1719592563",desc:"Idli podi bursts with an irresistible medley of flavours. Its roasted lentils offer a nutty richness, complemented by the fiery kick of dried red chillies. This along with a subtle nuttiness and tang ",status:"active"},
+  {title:"Kaara Kozhambu Rice Mix",handle:"kaara-kulambu-rice-mix",price:"₹91",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/KAARA-KUZHALAMBU-RICE-MIXBFF_7.jpg?v=1719592645",desc:"Our Kara kulambu rice mix brings you the tangy acidity of tamarind along with the depth of flavour that comes with aromatic spices such as mustard seeds, fenugreek, and curry leaves making it a truly ",status:"active"},
+  {title:"Mango Pickle",handle:"mango-pickle",price:"₹91 (200gm)",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/MANGO-PICKLEBFF_2.jpg?v=1719478274",desc:"Our mango pickle combines the sweet and tangy essence of ripe mangoes with a robust blend of aromatic spices and vinegar, resulting in a mouthwatering combination of sweet, sour, spicy, and savoury fl",status:"active"},
+  {title:"Andhra Paruppu Podi",handle:"andhra-paruppu-podi",price:"₹91 (120 gm)",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/ANDRA-PARUPU-PODIBFF_12.jpg?v=1719478263",desc:"Spice up your meals with our Andhra Paruppu Podi! A fiery blend of lentils and aromatic spices, guaranteed to add that extra yumminess to your dishes!",status:"active"},
+  {title:"Puliyodharai Rice Mix",handle:"puliyodharai-rice-mix",price:"₹91",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/PULIYOTHARAI-RICE-MIXBFF_10.jpg?v=1719478305",desc:"North South East or West, everyone falls in love with Puliyodharai sadam. Cook up this crowd favourite in a jiffy with our Puliyodharai Rice Mix.",status:"active"},
+  {title:"Tomato Thokku Rice Mix",handle:"tomato-thokku-rice-mix",price:"₹91",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/TOMATO-RICE-MIXBFF_11.jpg?v=1719478477",desc:"Enjoy the tangy, lip-smacking flavours of our Tomato Thokku rice mix. So easy to use and so delicious, simply mix it with rice and watch it all disappear.",status:"active"},
+  {title:"Vatha Kozhambu Rice Mix",handle:"vatha-kuzhambu-rice-mix",price:"₹91",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/VATHA-KUZHAMBU-RICE-MIXBFF_9.jpg?v=1719478528",desc:"The original irresistible flavour of Tamil Nadu, because one serving of our Vatha Kuzhambu and rice will never be enough. Serve it up any time you want with our Vatha Kuzhambu Rice Mix.",status:"active"},
+  {title:"Osh E Bulbul",handle:"osh-e-bulbul",price:"₹393 (250 gm) / ₹786 (500 gm)",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/nithyaamirtham-osh-e-bulbul.webp?v=1766138806",desc:"A delicious crunchy pastry, rich with dry fruits and a sweet syrup, giving it that perfect balance of flavour and texture. If that sounds amazing order Osh e bulbul baklava right now.",status:"active"},
+  {title:"Mini Jangiri",handle:"mini-jangiri",price:"₹161 (250 gm) / ₹322 (500 gm)",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/mini-jangiri.webp?v=1758014399",desc:"A delightfully soft, sweet syrupy treat. Don’t miss out on the delicious flavours of M in i J angiri .",status:"active"},
+  {title:"Mini Badusha",handle:"mini-badusha",price:"₹161 (250 gm) / ₹322 (500 gm)",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/mini-badusha.webp?v=1758014347",desc:"A sweet that will put a smile on your face anytime , anywhere . Enjoy the rich flavours of Maida, Ghee and Cashew in our Mini Badusha .",status:"active"},
+  {title:"Kaara Boondi",handle:"kaara",price:"₹110 (250 gm) / ₹220 (500 gm)",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/KAARA-BOONDIBFF_17.jpg?v=1719213640",desc:"The most versatile snack and ingredient rolled into one. Add Kaara Boondi to salads, curd vada, raita and any other dish that needs a little spicy crunch or just enjoy it plain.",status:"active"},
+  {title:"Dal Thattai",handle:"dal-thattai",price:"₹120 (250 gm) / ₹240 (500 gm)",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/DAL-THATTAIBFF_32.jpg?v=1719213560",desc:"If you are in the mood for something simpler, get your hands on our super yummy Dal Thattai . We promise you won’t be able to stop at one.",status:"active"},
+  {title:"Thenkuzhal Murukku",handle:"then",price:"₹125 (250 gm) / ₹250 (500 gm)",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/THENKUZALBFF_29.jpg?v=1719214397",desc:"Why wait for the festive season to have your favourite snack? Order Thenkuzhal Murukku from Nithya Amritham and make every day a celebration.",status:"active"},
+  {title:"Banaras Soan Papdi",handle:"banares-soan-papdi",price:"₹189 (250 gm) / ₹377 (500 gm)",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/banares-soan-papdi.webp?v=1758003917",desc:"One of the Indian desserts that you simply can’t get enough of. Get a taste of our Banaras Soan Papadi that will take your tastebuds to sweet dish heaven.",status:"active"},
+  {title:"Ghee Mysurpa",handle:"ghee-mysurpa",price:"₹176 (250 gm) / ₹352 (500 gm)",image:"https://cdn.shopify.com/s/files/1/0599/5128/4379/files/ghee-mysurpa.webp?v=1758011137",desc:"The classic, the evergreen, the melt-in-your-mouth delicious delight – Ghee Mysurpa needs no introduction. One bite will have you weak in your knees.",status:"active"}
+];
+
+const SYSTEM_PROMPT = `You are a warm, helpful shopping assistant for Nithya Amirtham — a beloved traditional Indian sweets and snacks brand from Chennai.
+
+FULL PRODUCT CATALOG (189 products):
+- Namma Gramam Box: ₹666 | Celebrate Pongal with our soulful Namma Gramam tin that packs the rich taste of our tradition. This special tin contains Ragi Laddu, Sattur Karupati M | shelf:3 Days [handle:namma-gramam-box]
+- Namma Gramam Tin: ₹761 | Celebrate Pongal with our soulful Namma Gramam tin that packs the rich taste of our tradition. This special tin contains Ragi Laddu, Sattur Karupati M [handle:namma-gramam-tin]
+- Pistachio Thal Kunafa: ₹418 (250 gm) / ₹836 (500 gm) | Thin, crisp layers of pastry filled with finely chopped nuts and soaked in fragrant syrup. This classic baklava delivers a perfectly balanced sweetnes [handle:thal-baklava]
+- Chocolate Pyramid Baklava: ₹358 (250 gm) / ₹716 (500 gm) | Rich, layered and indulgent, this pyramid-shaped baklava blends flaky pastry with smooth chocolate and crunchy nuts. A decadent treat that brings a mo [handle:chocolate-pyramid-baklava]
+- Pistachio Burma: ₹430 (250 gm) / ₹860 (500 gm) | Delicately rolled and generously filled with premium pistachios, this burma baklava is crisp, nutty and aromatic. A traditional favourite that melts i [handle:pistachio-burma]
+- Turkish Pistachio Baklava: ₹380 (250 gm) / ₹760 (500 gm) | Made with buttery layers of filo and rich Turkish pistachios, this baklava is soaked in light syrup for a refined sweetness. An authentic taste of Tur [handle:turkish-pistachio-baklava]
+- Royal Dryfruit Nuts Tin (400g): ₹999 | Fig Cashew Almond Raisins | dietary:vegan; vegetarian | allergen:nuts [handle:royal-dryfruit-nuts-tin-400g]
+- Royal Dryfruit Nuts Tin (200g): ₹499 | Fig Cashew Almond Raisins | dietary:vegan; vegetarian | allergen:nuts [handle:royal-dryfruit-nuts-tin-200g]
+- Sweets & Savouries Pack - Kaju (750g): ₹1099 | Assorted Premium Kaju Sweets 500g Madras Mixture 250g | allergen:nuts [handle:sweets-savouries-pack-kaju-750g]
+- Sweets & Savouries Pack - Ghee (750g): ₹699 | Assorted Premium Ghee Sweets 500g Madras Mixture 250g | allergen:milk [handle:sweets-savouries-pack-ghee-750g]
+- Kondatam Box Ghee (Medium): ₹349 | Assorted Premium Ghee Sweets - 250g Madras Mixture - 100g [handle:kondatam-box-ghee-medium]
+- Kondatam Box Ghee (Large): ₹699 | Assorted Premium Ghee Sweets - 500g Madras Mixture - 250g | allergen:nuts; wheat; milk; peanuts [handle:kondatam-box-ghee-large]
+- Corporate Gift Pack: ₹499 | Gulab Jamun Tin - 1 Soan Papdi - 200 g Madras Mixture - 250 g [handle:corporate-gift-pack-1]
+- Kondatam Box Kaju (Medium): ₹599 | Assorted Premium Kaju Sweets - 250g Madras Mixture - 100g [handle:kondatam-box-kaju-medium]
+- Corporate Gift Pack: ₹499 | Rasgulla Tin - 1 Soan Papdi - 200g Madras Mixture - 250g [handle:corporate-gift-pack]
+- Kondatam Box Kaju (Large): ₹1099 | Assorted Premium Kaju Sweets - 500g Madras Mixture - 250g [handle:kondatam-box-kaju-large]
+- Shubha Tin: ₹2499 | Baklava Tin 500g Salted Almond 100g Pepper Cashew 100g Salted Cashew 100g Butter Murukku 200g Almond Cookies 100g | allergen:nuts [handle:shubha-tin]
+- Return Gift Tin: ₹258 | Choice of Laddu Mysore Pak &amp; Savoury - 70 gms [handle:return-gift-tin]
+- Diwali Tin: ₹649 | Madras Mixture 150g Butter Murukku 150g Nithyam Special Thattai 100g Ghee Adhirasam 2pcs Dryfruit Laddu 2pcs Ghee Mysurpa 2pcs Kadalai Urundai 100g Th | allergen:wheat; nuts; soybeans; milk [handle:diwali-tin]
+- Small Box: ₹55 | Sweet - 1 pc Savoury - 25 gms [handle:small-box]
+- Namma Grahmam Heritage - Pack: ₹599 | Karupatti Mysurpa Karupatti Katli Multigrain Almond Laddu Karupatti Halwa 500g Nellai Mixture 200g | allergen:nuts [handle:grahmam-heritage-pack]
+- Medium Box: ₹75 | Sweet - 1 pc Savoury - 50 gms [handle:medium-box]
+- Namma Grahmam Heritage - Tin: ₹699 | Karupatti Mysurpa Karupatti Katli Multigrain Almond Laddu Karupatti Halwa 450g Nellai Mixture 250g [handle:grahmam-heritage-tin]
+- Sweets & Savouries Pack - Ghee - 350g: ₹349 | Assorted Premium Ghee Sweets 250g Madras Mixture 100g | allergen:nuts; peanuts; milk; wheat [handle:sweets-savouries-pack-ghee-350g]
+- Sweets & Savouries Pack - Kaju - 350g: ₹599 | Assorted Premium Kaju Sweets 250g Madras Mixture 100g | allergen:nuts [handle:sweets-savouries-pack-kaju-350g]
+- Royal Ghee Mithai (Small): ₹199 | Assorted Ghee Sweets 250g [handle:royal-ghee-mithai-small]
+- Royal Ghee Mithai (Medium): ₹399 | Assorted Ghee Sweets 500g [handle:royal-ghee-mithai-medium]
+- Royal Ghee Mithai (Large): ₹790 | Assorted Ghee Sweets 1kg [handle:royal-ghee-mithai-large]
+- Royal Kaju Mithai (Small): ₹399 | Assorted Kaju Sweets 250g | allergen:nuts [handle:royal-kaju-mithai-small]
+- Giveaway Bag: ₹70 | Sweet - 1 pc Savoury - 50 gms [handle:giveaway-bag]
+- Royal Kaju Mithai (Medium): ₹749 | Assorted Kaju Sweets 500g [handle:royal-kaju-mithai-medium]
+- Royal Kaju Mithai (Large): ₹1449 | Assorted Kaju Sweets 1kg | allergen:nuts [handle:royal-kaju-mithai-large]
+- Golden Kaju Sensation: ₹1999 | Kaju Katli Dryfruit Cake Fig n Nuts Kaju Gajak Rose Almond Laddu Kaju Kamal | allergen:nuts [handle:golden-kaju-sensation]
+- Turkish Gold Sensation: ₹1999 | Osh e Bull Bull Turkish Pistachio Almond Tart Mix Dryfruit Tart Cashew Square Basma Nut Mix [handle:turkish-gold-sensation]
+- Turkish Glow Tin: ₹949 | Assorted Baklava Sweets 500g [handle:turkish-glow-tin]
+- Royal Dryfruit Nuts Box - 200g: ₹449 | Fig Cashew Almond Raisins | dietary:vegan; vegetarian | allergen:nuts [handle:royal-dryfruit-nuts-box-200g]
+- Royal Dryfruit Nuts Box - 400g: ₹799 | Fig Cashew Almond Raisins | dietary:vegan; vegetarian | allergen:nuts [handle:royal-dryfruit-nuts-box-400g]
+- Royal Dryfruit Nuts Box - 300g: ₹749 | Dates Fig Salted Pista Cashew Almond Raisins [handle:royal-dryfruit-nuts-box-300g]
+- Royal Dryfruit Nuts Box - 600g: ₹1349 | Dates Fig Salted Pista Cashew Almond Raisins [handle:royal-dryfruit-nuts-box-600g]
+- Royal Dryfruit Nuts Tin - 300g: ₹785 | Dates Fig Salted Pista Cashew Almond Raisins | dietary:vegetarian; vegan | allergen:nuts [handle:royal-dryfruit-nuts-tin-300g]
+- Royal Dryfruit Nuts Tin - 600g: ₹1450 | Dates Fig Salted Pista Cashew Almond Raisins | dietary:vegan; vegetarian | allergen:nuts [handle:royal-dryfruit-nuts-tin-600g]
+- Royal Dryfruits Hamper (Medium): ₹1599 | Cashew Salted Pista Almond Fig Raisins Dates | dietary:vegetarian; vegan | allergen:nuts [handle:royal-dryfruits-hamper-medium]
+- Royal Dryfruits Hamper (Large): ₹1999 | Cashew, Almond, Raisins Fig, Dates, Pepper Cashew Salted Almond, Salted Pista Salted Cashew | dietary:vegetarian | allergen:nuts [handle:royal-dryfruits-hamper-large]
+- Nithya Box: ₹1249 | Kaju Katli Rose Almond Laddu Dryfruit Cake Fig N Nuts - 400g Almond 100g Salted Pista 100g Kismiss 100g Cashew 100g [handle:nithya-box]
+- Mithai Surprise (Medium): ₹1800 | Assorted Baklava 400g Blueberry Katli &amp; Kaju Katli 250g Madras Mixture 100g Pepper Cashew 50g Salted Almond 50g Salted Cashew 50g [handle:mithai-surprise-medium]
+- Mithai Surprise (Large): ₹2299 | Premium Mithai - Ghee 500g Blueberry Katli &amp; Kaju Katli 250g Dryfruit Nuts 200g Madras Mixture 100g Butter Murukku 100g Pepper Cashew 50g Salted A [handle:mithai-surprise-large]
+- Golden Platter: ₹2100 | Salted Pista Dates Raisins Cashew Almond Fig Pepper Cashew [handle:golden-platter]
+- Golden Kaju Plate - Medium: ₹1499 | Fig n Nuts Kaju Katli Rose Almond Laddu Kaju Gajak Kaju Kamal [handle:golden-kaju-plate-medium]
+- Golden Kaju Plate - Large: ₹2599 | Dryfruit Cake Rose Almond Laddu Kaju Kamal Fig n Nuts Kaju Gajak Kaju Katli [handle:golden-kaju-plate-large]
+- Golden Baklava Plate - Medium: ₹1699 | Pistachio Burma Almond Tart Mix Dryfruit Tart Osh E Bul Bul Turkish Pistachio Cashew Square Basma Nut Mix [handle:golden-baklava-plate-medium]
+- Golden Baklava Plate - Large: ₹2499 | Almond Tart Mix Dryfruit Tart Basma Nut Mix Pistachio Burma Osh E Bul Bul Cashew Square Turkish Pistachio [handle:golden-baklava-plate-large]
+- Snow Basket: ₹1999 | Dryfruit Nut Box 4cp200g Assorted Ghee Sweets 500g Madras Mixtue 200g Butter Murukku 200g Almond Cookies Box - Small (90g) 1 box | allergen:milk; nuts; wheat [handle:snow-basket]
+- Yellow Dream Basket: ₹2499 | Baklava Tin 500g Ghee Mysurpa 250g Dryfruti Laddu 250g Butter Murukku 200g Almond Cookies Box - Small (90g) 1 box [handle:yellow-dream-basket]
+- Festive Gold Basket: ₹2499 | Assorted Kaju Sweets 500g Assorted Baklava 250g Kaju Katli 200g Madras Mixtue 200g Almond Cookies Box - Small (90g) 1 box [handle:festive-gold-basket]
+- Barbie Basket: ₹3999 | Assorted Baklava 800g Blueberry Katli 500g Rose Almond Laddu 250g Dryfruit Nut Box 6cp300g Almond Cookies Large (200g) 1 box Madras Mixture (Wedding G | allergen:nuts; milk; wheat [handle:barbie-basket]
+- Red Delight Basket: ₹3499 | Dry Fruit Nut Box 200g Assorted Kaju Sweets 500g Ghee Mysurpa 250g Almond Cookies Large (200g) 1 Box Madras Mixture 200g Baklava Tin 500g [handle:red-delight-basket]
+- Blue Heaven Basket: ₹2499 | Dryfruit Nut Tin 6cp 300g Premium Mithai - Ghee 500g Blue Berry Katli 200g Butter Murukku2 00g Madras Mixture 200g Almond Cookies Large (200g)1 box [handle:blue-heaven-basket]
+- Amla Pickle: ₹86 |  [handle:amla-pickle]
+- Dry Fruits Nuts Box (300gms): ₹730 | Salted Pista, Raisins, Almond, Cashewnut, Dates, Fig Note: Orders take a minimum of 24 hours for delivery, even within Chennai. [handle:dry-fruits-nuts-box-300gms]
+- Dry Fruits Nuts Box (600gms): ₹1345 | Salted Pista, Raisins, Almond, Cashewnut, Dates, Fig Note: Orders take a minimum of 24 hours for delivery, even within Chennai. [handle:dry-fruits-nuts-box-600gms]
+- Dry Fruits Nuts Box (200gms): ₹450 | Fig, Raisins, Almond, Cashewnut Note: Orders take a minimum of 24 hours for delivery, even within Chennai. [handle:dry-fruits-nuts-box-200gms]
+- Dry Fruits Nuts Box (400gms): ₹810 | Fig, Raisins, Almond, Cashewnut Note: Orders take a minimum of 24 hours for delivery, even within Chennai. [handle:dry-fruits-nuts-box-400gms]
+- Dry Fruits Nuts Tin (200g): ₹505 | Fig, Raisins, Almond, Cashew Note: Orders take a minimum of 24 hours for delivery, even within Chennai. [handle:dry-fruits-nuts-tin-200g]
+- Dry Fruits Nuts Tin (400g): ₹1010 | Fig, Raisins, Almond, Cashew Note: Orders take a minimum of 24 hours for delivery, even within Chennai. [handle:dry-fruits-nuts-tin-400g]
+- Dry Fruits Nuts Tin (300g): ₹785 | Salted Pista, Raisins, Almond, Cashew, Dates, Fig Note: Orders take a minimum of 24 hours for delivery, even within Chennai. [handle:dry-fruits-nuts-tin-300g]
+- Dry Fruits Nuts Tin (600g): ₹1450 | Salted Pista, Raisins, Almond, Cashew, Dates, Fig Note: Orders take a minimum of 24 hours for delivery, even within Chennai. [handle:dry-fruits-nuts-tin-600g]
+- Premium Mithai Special Baklava Tin (Small): ₹735 | Assorted Baklava (400gms) Note: Orders take a minimum of 24 hours for delivery, even within Chennai. [handle:premium-mithai-small]
+- Premium Mithai -Special Baklava Tin (Large): ₹1155 | Assorted Baklava (600gms) Note: Orders take a minimum of 24 hours for delivery, even within Chennai. [handle:premium-mithai-large]
+- Ghee Sweets & Savouries Combo (Small): ₹315 | Ghee Sweets (250gms), Madras Mixture (100gms) Note: Orders take a minimum of 24 hours for delivery, even within Chennai. [handle:ghee-sweets-savouries-combo-small]
+- Ghee Sweets & Savouries Combo (Medium): ₹630 | Ghee Sweets (500gms), Madras Mixture (200gms) Note: Orders take a minimum of 24 hours for delivery, even within Chennai. [handle:ghee-sweets-savouries-combo-medium]
+- Kaju Sweets & Savouries Combo (Small): ₹580 | Kaju Sweets (250gms), Madras Mixture (100gms) Note: Orders take a minimum of 24 hours for delivery, even within Chennai. [handle:kaju-sweets-savouries-combo-small]
+- Kaju Sweets & Savouries Combo (Medium): ₹1050 | Kaju Sweets (500gms), Madras Mixture (200gms) Note: Orders take a minimum of 24 hours for delivery, even within Chennai. [handle:kaju-sweets-savouries-combo-medium]
+- Premium Ghee Mithai (Small): ₹265 | Assorted Ghee Sweets (250gms) Note: Orders take a minimum of 24 hours for delivery, even within Chennai. [handle:premium-ghee-mithai-small]
+- Premium Ghee Mithai (Medium): ₹525 | Assorted Ghee Sweets (450gms) Note: Orders take a minimum of 24 hours for delivery, even within Chennai. [handle:premium-ghee-mithai-medium]
+- Premium Ghee Mithai (Large): ₹790 | Assorted Ghee Sweets (1kg) Note: Orders take a minimum of 24 hours for delivery, even within Chennai. [handle:premium-ghee-mithai-large]
+- Premium Kaju Mithai (Small): ₹420 | Assorted Dry Fruit Sweets (250gms) Note: Orders take a minimum of 24 hours for delivery, even within Chennai. [handle:premium-kaju-mithai-small]
+- Premium Kaju Mithai (Medium): ₹790 | Assorted Dry Fruit Sweets (450gms) Note: Orders take a minimum of 24 hours for delivery, even within Chennai. [handle:premium-kaju-mithai-medium]
+- Premium Kaju Mithai (Large): ₹1260 | Assorted Dry Fruit Sweets (900gms) Note: Orders take a minimum of 24 hours for delivery, even within Chennai. [handle:premium-kaju-mithai-large]
+- Blast Box (Small): ₹2100 | Fried Nuts (150gms), Premium Ghee Mithai (500gms), Premium Kaju Mithai (250gms), Madras Mixture (200gms) Note: Orders take a minimum of 24 hours for d [handle:blast-box-small]
+- Blast Box (Large): ₹2625 | Assorted Nuts (200gms), Fried Nuts (150gms), Premium Ghee Mithai (500gms), Premium Kaju Mithai (250gms), Madras Mixture (200gms), Butter Murukku (150g [handle:blast-box-large]
+- Golden Nuts Plate: ₹2100 | Assorted Nuts (800gms) Note: Orders take a minimum of 24 hours for delivery, even within Chennai. [handle:golden-nuts-plate]
+- Signature Box: ₹1155 | Dry Fruits Sweets (450gms) &amp; Assorted Nuts (400gms) Note: Orders take a minimum of 24 hours for delivery, even within Chennai. [handle:signature-box]
+- Vinayagar Chaturthi Combo Box: ₹549 | Ghee Laddu – 2 pcs Thattai – 100 g Aval – 100 g Achu Vellam – 2 pcs Kaju Modhak – 4 pcs Butter Murukku – 100 g Ideal for gifting, pooja offerings, and [handle:vinayagar-chaturthi-combo-box]
+- Krishna Jayanthi Special Combo Box: ₹699 | Ghee Laddu - 2 pcs Ghee Adhirasam - 2 pcs Aval Pattai – 50 gm Kadalai Urundai - 100 gm Butter Murukku – 100 gm Kaara Seedai – 250 gm Thattai - 100 gm  [handle:krishna-jayanthi-combo-box]
+- Narthangai Pickle: ₹91 | Tangy and aromatic pickle made from narthangai (citron) slices, preserved in a spicy blend of mustard seeds, fenugreek, and tamarind, offering a uniqu [handle:narthangai-pickle]
+- Ma Inji Pickle: ₹91 | Spicy and tangy pickle made from tender pieces of raw mango and ginger, seasoned with a rich blend of spices and mustard oil for a bold, flavourful pu [handle:ma-inji-pickle]
+- Lemon Pickle: ₹91 | Bright and tangy pickle made from lem on wedges, preserved in a blend of spices and mustard oil, providing a sharp, flavourful condiment with a citrus [handle:lemon-pickle]
+- Gongura Pickle: ₹91 | Tangy and spicy pickle made from gongura leaves, mixed with a blend of aromatic spices and tamarind, offering a bold and distinctive flavour profile. [handle:gongura-pickle]
+- Brinjal Pickle: ₹86 | Tangy and spicy pickle made from tender bri nj a l pieces, infused with a blend of aromatic spices and mustard oil, offering a bold and flavourful con [handle:brinjal-pickle]
+- Sweet Somas: ₹135 (250 gm) / ₹270 (500 gm) | Crispy, golden pa str ies filled with a swe e t mix ture of grated coconut, sugar, and cardamom, offering a deliciously crisp exterior and a flavourfu [handle:sweet-somas]
+- Rava Laddu: ₹322 (500 gm) / ₹161 (250 gm) | Sweet, spherical treats made from semolina, ghee, and sugar, enhanced with cardamom and nuts for a rich, smooth texture and delightful flavour . [handle:rava-laadu]
+- Jack Fruit Halwa: ₹181 (250 gm) / ₹362 (500 gm) | Flavourful , creamy sweet made from ripe j ac k fruit and ghee, offering a rich, smooth texture and a delightful tropical sweetness. [handle:jack-fruit-halwa]
+- Bombay Halwa: ₹171 (250 gm) / ₹342 (500 gm) | A luscious, ghee-rich sweet made from semolina and flavoured with cardamom, garnished with nuts, providing a smooth, melt-in-your-mouth texture and ar [handle:bombay-halwa]
+- Moti Pak: ₹186 (250 gm) / ₹372 (500 gm) | Rich, ghee-based sweet featuring small, aromatic pearls of condensed mil k and cardamom, offering a smooth, buttery texture and a melt-in-your-mouth e [handle:moti-pak]
+- Malt Cream Barfi: ₹186 (250 gm) / ₹372 (500 gm) | Smooth, creamy squares infused with the rich flavor of ma l t , deli ver ing a delectable combination of traditional swe e t ness and ma l t ed richne [handle:malt-cream-barfi]
+- Chocolate Soan Papdi: ₹176 (250 gm) / ₹352 (500 gm) | Flaky, melt-in-your-mouth sweet made with layers of crisp, airy texture and infused with rich cho co late, blending traditional sweetness with a cocoa [handle:chocolate-soan-papdi]
+- Choco Cream Barfi: ₹186 (250 gm) / ₹372 (500 gm) | Rich, creamy squares infused with cho co late and traditional milk flavours , providing a smooth, decadent treat with a delightful cocoa twist. [handle:choco-cream-barfi]
+- Basma Mix Nuts: ₹393 (250 gm) / ₹786 (500 gm) | Flaky baklava layers filled with a rich mix of roasted nuts and sweetened with honey, offering a delightful combination of nutty crunch and sweet indu [handle:basma-mix-nuts]
+- Mix Dry Fruit Tart: ₹353 (250 gm) / ₹706 (500 gm) | Buttery tart crust filled with a blend of assorted dried fruits and nuts, offering a rich, chewy texture and a sweet, nutty flavour. [handle:mix-dry-fruit-tart]
+- Cashewnut Midye: ₹358 (250 gm) / ₹716 (500 gm) | Crisp, shell-shaped pastries filled with a smooth cashew mixture and lightly sweetened, offering a delightful blend of nutty flavour and delicate text [handle:cashewnut-midye]
+- Cashew Finger: ₹358 (250 gm) / ₹716 (500 gm) | Elegant, slender pastries made with a rich cashew filling and a light, flaky crust, offering a delightful combination of nutty sweetness and crisp tex [handle:cashew-finger]
+- Cashew Square: ₹358 (250 gm) / ₹716 (500 gm) | Flaky, layered pastry filled with a rich cashew mixture and sweetened with honey, offering a luxurious blend of nutty and sweet flavours. [handle:cashew-square]
+- Almond Tart: ₹358 (250 gm) / ₹716 (500 gm) | Crisp, buttery tart filled with a rich almond paste and topped with slivers of toasted almonds, offering a delightful blend of nutty and sweet flavour [handle:almond-tart]
+- Strawberry Kaju Katli: ₹289 (250 gm) / ₹577 (500 gm) | Luscious cashew sweets flavoured with a hint of str a wberry, providing a vibrant, fruity twist to the traditional, melt-in-your-mouth treat. [handle:strawberry-kaju-katli]
+- Kaju Gajak: ₹359 (250 gm) / ₹718 (500 gm) | Sweet, crisp bars made from roasted cashews and jaggery, delivering a satisfying combination of nutty richness and traditional sweetness. [handle:kaju-gajak]
+- Kaju Chocolate Sandwich: ₹359 (250 gm) / ₹718 (500 gm) | Delightful sandwiches made with creamy chocolate and finely ground cashews, offering a rich, nutty, and chocolatey flavour combination. [handle:kaju-chocolate-sandwich]
+- Kaju Bites: ₹387 (250 gm) / ₹773 (500 gm) | Rich, bite-sized treats made from finely ground cashews and sweetened with a hint of sugar, delivering a smooth, nutty flavour in every piece. [handle:kaju-bites]
+- Choco Nut Bar: ₹275 (250 gm) / ₹550 (500 gm) | A delectable treat featuring a blend of crunchy nuts and smooth cho co late, delivering a perfect balance of rich and nutty flavours in every bite. [handle:choco-nut-bar]
+- Cashew Choco Laddu: ₹387 (250 gm) / ₹773 (500 gm) | Rich, sweet balls made from ground cas h e w s and cocoa, offering a delightful blend of nutty and chocolatey flavours in e ac h bite. [handle:cashew-choco-laddu]
+- Black Ellu Urundai 100 gram: ₹55 | Sweet, chewy balls made from bl a c k sesame seeds and jaggery, providing a rich, nutty flavour with a traditional touch. [handle:black-ellu-urundai]
+- White Ellu Urundai: ₹55 | Swe e t , chewy balls made from whi te sesame see d s and jaggery, offering a nutty flavour and a traditional, wholesome treat. [handle:white-ellu-urundai]
+- Pori Urundai 10 piece: ₹35 | Swe e t , crunchy balls made from puffed rice, jaggery, and a hint of coconut, offering a deliciously light and traditional snack. [handle:pori-urundai]
+- Achu Murukku Sweet - 8 Piece: ₹80 | Enjoy crispy, handcrafted Achu Murukku from Nithya Amirtham . A traditional South Indian sweet snack, perfect for any occasion. Order your 8-piece pac [handle:achu-murukku-traditional-sweet-snack]
+- Ellu Murukku: ₹120 (250 gm) / ₹240 (500 gm) | Crisp, twisted sn ac k made from rice flour and sesame seeds, infused with spices for a savoury treat with a nutty, aromatic touch. [handle:ellu-murukku]
+- Dal Mixture: ₹130 (250 gm) / ₹260 (500 gm) | A savoury blend of crispy fried pulses and spices, delivering a flavo u rful and varied texture experience. [handle:dal-mixture]
+- Beetroot Murukku: ₹125 (250 gm) / ₹250 (500 gm) | Crispy, twisted sn ac k incorporating bee t root for a vibrant colour and subtle sweetness, seasoned with spices for a flav o u rful and unique treat. [handle:beetroot-murukku]
+- Aval Mixture: ₹120 (250 gm) / ₹240 (500 gm) | A crunchy blend of roasted flattened rice, nuts, and spices, offering a light, savoury sn ac k with a touch of traditional flavour . [handle:aval-mixture]
+- Andhra Murukku: ₹120 (250 gm) / ₹240 (500 gm) | Crispy, twisted sn ac k made from rice flour and spices, featuring a spicy, savoury flavour with a satisfying texture. [handle:andhra-murukku]
+- Corn Mixture: ₹130 (250 gm) / ₹260 (500 gm) | A savoury blend of crispy cor n kernels and spiced sn ac ks, offering a delightful medley of flavours and textures in every bite. [handle:corn-mixture]
+- Verkadalai Pakoda: ₹115 (250 gm) / ₹230 (500 gm) | Crispy, golden fritters made from gram flour and roasted peanuts, seasoned with spices for a sav oury and satisfying snack. [handle:verkadalai-pakoda]
+- Valakai Chips: ₹125 (250 gm) / ₹250 (500 gm) | Crispy slices of raw banana, seasoned with spices, offering a unique, sav oury flavour and a satisfying, light texture. [handle:valakai-chips]
+- Ribbon Pakoda: ₹110 (250 gm) / ₹220 (500 gm) | Crisp, rib b o n -shaped snacks made from rice flour and spices, delivering a sav oury , textured treat with a hint of traditional flavour . [handle:ribbon-pakoda]
+- Pudina Muruku: ₹135 (250 gm) / ₹270 (500 gm) | Sav o u ry twists infused with refreshing mint leaves and spices, providing a fragrant and flavo u rful snack that's both crisp and satisfying. [handle:pudina-muruku]
+- Potato Masala Chips: ₹120 (250 gm) / ₹240 (500 gm) | Thin, crispy pot at o slices seasoned with a blend of aro ma tic spices, offering a zesty and flavorful snacking experience. [handle:potato-masala-chips]
+- Onion Murukku: ₹130 (250 gm) / ₹260 (500 gm) | Savory, spiral-shaped treats infused with crispy fried onions and spices, offering a flavo u rful and aromatic snacking experience. [handle:onion-murukku]
+- Nendhiram Chips: ₹135 (250 gm) / ₹270 (500 gm) | Crispy, golden banana chips made from the Nendran variety, offering a deliciously sweet and savoury crunch with every bite. [handle:nendhiram-chips]
+- Navadhaniyam: ₹110 (250 gm) / ₹220 (500 gm) | A traditional blend of nine different grains and seeds, combined for a nutritious and wholesome mix , rich in flavour and health benefits. [handle:navadhaniyam]
+- Nellai Sev: ₹110 (250 gm) / ₹220 (500 gm) | Crispy, savoury strands made from pea flour and spices, providing a light, crunchy snack with authentic South Indian flavour . [handle:nellai-sev]
+- Milagu Vadai: ₹140 (250 gm) / ₹280 (500 gm) | Crisp, savoury fritters made from black gram flour and peppercorns, delivering a bold and spicy flavour with every bite. [handle:milagu-vadai]
+- Mullu Thenkuzhal: ₹125 (250 gm) / ₹250 (500 gm) | Crunchy, spiced rice flour spirals with a delightful texture, infused with cumin and asafoetida , perfect for a savoury and flavourful snack. [handle:mullu-thenkuzhal]
+- Raagi Thattai: ₹125 (250 gm) / ₹250 (500 gm) | Nutritious, crispy flatbreads made from finger mil let flour, infused with spices and sesame seeds, offering a wholesome and sav oury snack experience [handle:raagi-thattai]
+- Seedai: ₹140 (250 gm) / ₹280 (500 gm) | Tiny, crispy rice flour balls seasoned with a hint of coconut and cumin, providing a delightful crunch and a burst of traditional flavours . [handle:seedai]
+- Thengai Paal Murukku: ₹130 (250 gm) / ₹260 (500 gm) | Delicate, crunchy spirals made from rice flour and coconut mil k, offering a unique blend of swe e t ness and sav o u riness in every bite. [handle:thengai-paal-murukku]
+- Chettinadu Pepper Thattai: ₹125 (250 gm) / ₹250 (500 gm) | Crispy, spiced rice cr ac kers infused with aromatic pepper and traditional Chet ti nadu flavours . Perfect for a savoury sn ac k or tea-time treat. [handle:chettinadu-pepper-thattai]
+- Badam  Katli: ₹284 (250 gm) / ₹567 (500 gm) | Treat yourself to some yummy Badam Katli . I t's smooth, nutty, and oh-so-delicious! One bite and you'll be craving more of its rich , melt-in-your-mo [handle:badam-katli]
+- Kaju Pista Roll: ₹336 (250 gm) / ₹671 (500 gm) | Having to choose between kaju and pista can drive you nuts. So, enjoy both flavours in our Kaju Pista Roll. [handle:kaju-pista-roll]
+- Kaju Katli: ₹289 (250 gm) / ₹577 (500 gm) | The one sweet that will never go out of favour. The universal favourite, from the day it was created to the end of time. No matter how much Kaju Katli [handle:kaju-katli]
+- Motichoor Laddu: ₹176 (250gm) / ₹352 (500gm) | The king and queen of Indian sweets, this irresistible dessert can be found on all special occasions, from inaugurations to anniversaries to weddings  [handle:motichoor-laddu]
+- Carrot Mysurpa: ₹189 (250 gm) / ₹377 (500 gm) | A unique twist on the most decadent South Indian dessert. Our Carrot Mys urpa is made to delight even the most discerning palate. [handle:carrot-mysurpa]
+- Karupatti Mysurpa: ₹189 (250 gm) / ₹377 (500gm) | For those who have a sweet tooth, but only for jaggery, we’ve created a version of the Mysurpa that even you can enjoy. Sink your teeth into our Karup [handle:karupatti-mysurpa]
+- Baby Milk Cake: ₹171 (250 gm) / ₹342 (500 gm) | Soft and sweet with a hint of cardamom , our Baby Milk Cake is made to perfection and is the perfect ending to an y meal. [handle:baby-milk-cake]
+- Chandrakala: ₹161 (250 gm) / ₹322 (500 gm) | A crispy shell, stuffed with kova , fried and soaked in cardamom and saffron scented sugar syrup. No w every day can be Diwali with our delectable Cha [handle:chandrakala]
+- Cashew Pakoda: ₹223 (250 gm) / ₹445 (500 gm) | Few things ca n bring your family together like a rainy day, a cup of tea and some delicious Ca s hew Pakoda from Nithya Amritham . [handle:cashew-pakoda]
+- Masala Verkadalai Fry: ₹115 (250 gm) / ₹230 (500 gm) | Spicy, crunchy and absolutely tasty . Our Masala Verkadalai Fry is the perfect snack to carry with you wheneve r you ar e on the go. [handle:masala-verkadalai-fry]
+- Oma Podi: ₹110 (250 gm) / ₹220 (500 gm) | An integral ingredient in all Indian snacks, Oma podi can be added to any meal or snack to increase its yumminess or enjoyed just plain . [handle:oma-podi]
+- Karupatti Katli: ₹415 (250 gm) / ₹830 (500 gm) | Kar u p atti Katli is an adventure of flavour! With the warmth of palm jaggery and the unique flavours of cardamom along with a hint of nuttiness , it [handle:adhirasam-ghee-copy]
+- Jack Fruit Mysurpa: ₹181 (250 gm) / ₹362 (500 gm) | If you are a fan of jack fruit and mysurpa , we can only imagine your delight when you discover that we have combined your favourite fruit and dessert [handle:jack-fruit-mysurpa]
+- Boondi Laddu: ₹161 (250 gm) / ₹322 (500 gm) | This melt-in-the-mouth traditional sweet has fans all over the world. Make every festival complete by serving your guests our irresistible Boondi Ladd [handle:boondi-laddu]
+- Kaara Sev: ₹110 (250 gm) / ₹220 (500 gm) | An irresistible combination of besan atta and spices , fried to golden perfection. Serve up our Kaara Sev as part of the snack platter on any special  [handle:kaara-sev-1]
+- Kai Murukku: ₹130 (250 gm) / ₹260 (500 gm) | Who can forget going to the mitai kadai to get everyone’s favourite Kai Murukku? Bring back the nostalgia with this ever-green snack from Nithya Amrit [handle:kai-murukku-1]
+- Dry Fruit Cake: ₹311 (250 gm) / ₹621 (500 gm) | Close your eyes and imagine you are taking a bite of this delicious D ry F ruit C ake. Trust us when we say it is so much bette r in real life. [handle:dry-fruit-cake]
+- Kaju Biscuit: ₹311 (250gm) / ₹621 (500 gm) | For those who like to carry a reminder of their favourite Kaju flavour wherever they go, keep a few of these Kaju Biscuits close , always. [handle:kaju-biscuit]
+- Pista Laddu: ₹387 (250 gm) / ₹773 (500 gm) | Pista Laddu is the odd one out in the world of sweets. The creamy, nutty texture of pistachios, along with sweet and savoury flavours, are the things  [handle:pista-laddu]
+- Rose Almond Laddu: ₹387 (250 gm) / ₹773 (500 gm) | Looking for something whimsical in the dessert section? Our Rose Almond Laddu , with its unique intertwining of flavours , will satisfy your desires a [handle:rose-almond-laddu]
+- Dry Fruit Laddu: ₹212 (250 gm) / ₹423 (500 gm) | All of u s would like to satisfy our sweet tooth with something healthy, and we have just the dessert for that . Dig into a box of our Dry Fruit Laddu [handle:dry-fruit-laddu]
+- Milk Halwa: ₹176 (250 gm) / ₹352 (500 gm) | Paal Kova mixed with r ava , sugar and ghee, our Milk Halwa has the perfect flavour and texture to tantalise everyone’s palate. [handle:milk-halwa]
+- Karupatti Halwa: ₹209 (250 gm) / ₹417 (500 gm) | Made with authentic palm jaggery, rice flour and pure ghee, our Ka rupatti H alwa dessert brings joy to the soul . [handle:karupatti-halwa]
+- Badam Halwa: ₹353 (250 gm) / ₹705 (500  gm) | Sugar, ghee, a hint of cardamom and a whole lot of almonds, this must be what happiness tastes like. Make every day joyful with our Badam Halwa [handle:badam-halwa]
+- Wheat Halwa: ₹181 (250 gm) / ₹362 (500 gm) | A tradition that began in the 1800s, this delicious sweet has captured the hearts of people all over the world. Come taste the finest Tirunelveli Halw [handle:tirunelveli-halwa]
+- Adhirasam Ghee: ₹161 (250 gm) / ₹322 (500 gm) | The perfect sweet to satisfy those midnight cravings. Our Ghee Adhirasam is just right for those who love a hint of coco nut in their desserts. [handle:adhirasam-ghee]
+- Maa Laddu: ₹161 (250 gm) / ₹322 (500 gm) | A sweet for the health-conscious among you. Our Maa Laddu is the perfect choice if you are lo o king for a simple yet delicious sweet to keep as prasa [handle:maa-laddu]
+- Raagi Laddu: ₹161 (250 gm) / ₹322 (500 gm) | Enjoy this sweet treat every day. Not only is Ragi Laddu a sweet treat, it is also known to have several health benefits. [handle:raagi-laddu]
+- Butter Murukku: ₹115 (250 gm) / ₹230 (500 gm) | The perfect snack for anytime of the day. Our But te r Murukku is made with carefully chosen ingredients to ensure full enjoyment. [handle:butter-murukku]
+- Dry Fruit Mixture: ₹178 (250 gm) / ₹355 (500 gm) | A wonderful combination of savoury snacks and dry fruits combined. Our Dry Fruit Mixture is best enjoyed with friends and family . [handle:dry-fruit-mixture]
+- Madras Mixture: ₹120 (250 gm) / ₹240 (500 gm) | Healthy ingredients like cashew and groundnuts mixed in with spicy, salty omapodi and boondi along with our savouries to create the ever - delicious M [handle:madras-mixture]
+- Milagu Sev: ₹120 (250 gm) / ₹240 (500 gm) | For all the fans of peppery snack s , here is a timeless classic: Our Milagu Sev. Sit back and savour its spicy goodness anytime anywhere. [handle:milagu-sev]
+- Pepper Cashewnut: ₹180 (100 gm) | When you want to snack on something healthy but need a little flavour to spice it up, just reach for a pack of our Pepper Cashew . [handle:pepper-cashewnut-50-grms]
+- Nellai Mixture: ₹120 (250 gm) / ₹240 (500 gm) | Remember when mom used to ration out mixture and we would eat it one groundnut, one cashew and one sev at a time to make it last. Now you can eat our  [handle:nellai-mixture]
+- Pavakai Chips: ₹120 (250 gm) / ₹240 (500 gm) | Not your typical tasty chips. Our Pavakai C hips are specially made for the rare few who enjoy a hint of the flavour t hat is typical of bitter gourd. [handle:pavakai-chips]
+- Vendakai Chips: ₹120 (250 gm) / ₹240 (500 gm) | The most loved vegetable of all in a crispy savoury avatar. Get all the Vendakai Chips you want at Nithya Amritham . [handle:vendakai-chips]
+- Nithyam Special Thattai: ₹125 (250 gm) / ₹250 (500 gm) | The perfect snack to satisfy your midnight cravings. Always keep a pack of Nithyam Special Thattai handy at home. [handle:nithyam-special-thattai]
+- Chettinadu Kaara Thattai: ₹125 (250 gm) / ₹250 (500 gm) | When you have guests who like a little fire in their snacks, bring out our Chettinad Kaara Thattai and watch their eyes light up with joy as they savo [handle:chettinadu-kaara-thattai]
+- Mini Garlic Murukku: ₹130 (250 gm) / ₹260 (500 gm) | Want something different as a teatime snack? Try our Mini Garlic Murukku. Its melt-in-your-mouth goodness and kick of garlic will have you coming back [handle:mini-garlic-murukku]
+- Garlic Pickle: ₹119 | Our garlic pickle boasts bold, pungent flavours with a kick of tanginess, complemented by aromatic spices. Made to entice the senses with each savoury [handle:garlic-pickle]
+- Idli Podi: ₹91 (150 gm) | Idli podi bursts with an irresistible medley of flavours. Its roasted lentils offer a nutty richness, complemented by the fiery kick of dried red chil [handle:idli-podi-200-gm]
+- Kaara Kozhambu Rice Mix: ₹91 | Our Kara kulambu rice mix brings you the tangy acidity of tamarind along with the depth of flavour that comes with aromatic spices such as mustard see [handle:kaara-kulambu-rice-mix]
+- Mango Pickle: ₹91 (200gm) | Our mango pickle combines the sweet and tangy essence of ripe mangoes with a robust blend of aromatic spices and vinegar, resulting in a mouthwatering [handle:mango-pickle]
+- Andhra Paruppu Podi: ₹91 (120 gm) | Spice up your meals with our Andhra Paruppu Podi! A fiery blend of lentils and aromatic spices, guaranteed to add that extra yumminess to your dishes! [handle:andhra-paruppu-podi]
+- Puliyodharai Rice Mix: ₹91 | North South East or West, everyone falls in love with Puliyodharai sadam. Cook up this crowd favourite in a jiffy with our Puliyodharai Rice Mix. [handle:puliyodharai-rice-mix]
+- Tomato Thokku Rice Mix: ₹91 | Enjoy the tangy, lip-smacking flavours of our Tomato Thokku rice mix. So easy to use and so delicious, simply mix it with rice and watch it all disapp [handle:tomato-thokku-rice-mix]
+- Vatha Kozhambu Rice Mix: ₹91 | The original irresistible flavour of Tamil Nadu, because one serving of our Vatha Kuzhambu and rice will never be enough. Serve it up any time you wan [handle:vatha-kuzhambu-rice-mix]
+- Osh E Bulbul: ₹393 (250 gm) / ₹786 (500 gm) | A delicious crunchy pastry, rich with dry fruits and a sweet syrup, giving it that perfect balance of flavour and texture. If that sounds amazing orde [handle:osh-e-bulbul]
+- Mini Jangiri: ₹161 (250 gm) / ₹322 (500 gm) | A delightfully soft, sweet syrupy treat. Don’t miss out on the delicious flavours of M in i J angiri . [handle:mini-jangiri]
+- Mini Badusha: ₹161 (250 gm) / ₹322 (500 gm) | A sweet that will put a smile on your face anytime , anywhere . Enjoy the rich flavours of Maida, Ghee and Cashew in our Mini Badusha . [handle:mini-badusha]
+- Kaara Boondi: ₹110 (250 gm) / ₹220 (500 gm) | The most versatile snack and ingredient rolled into one. Add Kaara Boondi to salads, curd vada, raita and any other dish that needs a little spicy cru [handle:kaara]
+- Dal Thattai: ₹120 (250 gm) / ₹240 (500 gm) | If you are in the mood for something simpler, get your hands on our super yummy Dal Thattai . We promise you won’t be able to stop at one. [handle:dal-thattai]
+- Thenkuzhal Murukku: ₹125 (250 gm) / ₹250 (500 gm) | Why wait for the festive season to have your favourite snack? Order Thenkuzhal Murukku from Nithya Amritham and make every day a celebration. [handle:then]
+- Banaras Soan Papdi: ₹189 (250 gm) / ₹377 (500 gm) | One of the Indian desserts that you simply can’t get enough of. Get a taste of our Banaras Soan Papadi that will take your tastebuds to sweet dish hea [handle:banares-soan-papdi]
+- Ghee Mysurpa: ₹176 (250 gm) / ₹352 (500 gm) | The classic, the evergreen, the melt-in-your-mouth delicious delight – Ghee Mysurpa needs no introduction. One bite will have you weak in your knees. [handle:ghee-mysurpa]
+
+ABOUT NITHYA AMIRTHAM:
+- Premium South Indian sweets, snacks, pickles, baklava, and gift hampers from Chennai
+- Known for handcrafted traditional recipes with fresh ingredients
+- Products: sweets (halwa, laddu, barfi, katli, mysurpa), snacks (murukku, thattai, mixture, pakoda, podi), pickles, baklava, gift boxes/tins
+- All prices in Indian Rupees (₹) — 250g and 500g sizes available for most items
+- Website: nithyaamirtham.com
+- Free shipping available; orders may need 24hr preparation for gift hampers
+- To place orders: +91 87544 01444 or +91 7418 501 444
+- For feedback & concerns: +91 7418 971 444
+- Email: feedback@nithyaamirtham.com
+
+STORE LOCATIONS:
+1. Aminjikarai — No. 52, Priyan Plaza, Nelson Manickam Road, Railway Colony, Aminjikarai, Chennai 600 029. Ph: 044-4359 1021 / 8056164927. Timing: 8am–11pm
+2. Anna Nagar East — C40, 2nd Ave, Anna Nagar, AF Block, Chennai 600 040. Ph: 74186 44435 / 044-2853 4905. Timing: 8am–11pm
+3. Arumbakkam — 17/6, Razzak Garden Main Road, Near NSK Signal, Chennai 600 106. Ph: 044-4359 2744 / 7358576128. Timing: 8am–11pm
+4. Kanchipuram — No. 70, Annai Indira Gandhi Salai, Nellukara Street, near Sri Chirtra Guptar Temple, Kanchipuram 631 502. Ph: 044-49573774 / 7358521113. Timing: 6am–11pm
+5. Kilpauk — 58, Taylors Road, Telecom Quarters, Chennai 600 010. Ph: 044-4282 1020 / 7397246628. Timing: 8am–10pm
+6. Mogappair — Plot No.B, 27, Mogappair West, Industrial Estate, Chennai 600 037. Ph: 044-26530029 / 8925355531. Timing: 8am–11pm
+7. Mylapore — 39, North Mada Street, Madhavaperumalpuram, Chennai 600 004. Ph: 044-4201 4172 / 8056167327. Timing: 6am–11pm
+8. Nerkundram — 2/52A, Karuneegar Street, Nerkundrum, Koyambedu, Chennai 600 107. Ph: 7550020038 / 044-24791101. Timing: 8am–10pm
+9. Nungambakkam — No. 11, Haddows Road, near Shastri Bhavan, Nungambakkam, Chennai 600 006. Ph: 044-47760504 / 7305057844. Timing: 6am–11pm
+10. Eternal - Veg Fine Dine — 1st Floor, above Nithya Amirtham, 11, Haddows Road, Nungambakkam, Chennai 600 034. Ph: 78458 45273. Timing: 12pm–3:30pm & 7pm–11pm
+11. Perambur — 4, Paper Mills Road, Chelliamman Colony, Chennai 600 110. Ph: 044-43556802 / 7338951114. Timing: 6am–11pm
+12. Saligramam — 33, Arunachalam Rd, Pushpa Colony, Saligramam, Chennai 600 093. Ph: 044-2372 2902 / 7418704440. Timing: 6am–11pm
+13. Thiruvallur — No. 5/4, C.V. Naidu Salai, Chennai 602 001. Ph: 044-2766 0142 / 7539962555. Timing: 6am–11pm
+14. Washermenpet — 836, Thiruvottiyur High Road, Sanjeevarayanpet, Tondiarpet, Chennai 600 021. Ph: 044-47871275 / 7845847921. Timing: 6am–11pm
+15. Thuritham - Adyar — Door no.39, Plot No.3, Mahatma Gandhi Rd, RBI Colony, Besant Nagar, Thiruvanmiyur, Chennai 600041. Ph: 8438802906. Timing: 7am–11pm
+16. Peravallur — 170, SRP Colony, Jawahar Nagar, Peravallur, Chennai 600082. Ph: 89259 43938. Timing: 7am–11pm
+17. Anna Nagar 3rd Avenue — 23, 3rd Avenue, Anna Nagar East, Chennai 600102. Ph: 89259 43939. Timing: 8am–11pm
+18. Thuritham - Alandur Metro — Arignar Anna Alandur Metro Station, Grand Southern Trunk Rd, Ramapuram, Alandur, Chennai 600016. Ph: 8925912855. Timing: 7am–11pm
+19. Padi — C.T.H Road, Padi, Chennai 600050. Ph: 8925912856. Timing: 8am–11pm
+20. Vanagaram — Ground Floor, Radhe Shyam, S.No 105/1B2A, Vanagaram-Ambattur Rd, Maduravoyal, Chennai 600095. Ph: 8925912860. Timing: 8am–11pm
+
+YOUR PERSONALITY:
+- Warm, food-loving, knowledgeable about South Indian and Middle Eastern sweets
+- Use cultural references naturally — mention festivals, occasions, gifting
+- Suggest pairings: "Best with evening chai!", "Perfect Diwali gift!"
+- For gift queries, ask: budget, occasion, and recipient preference
+- Recommend 2-3 products max at a time — don't overwhelm
+- You can use a little Tamil naturally: "Inippu!", "Super taste!", "Romba nalla irukku!"
+
+RESPONSE FORMAT:
+- Concise and conversational — 2-4 sentences usually
+- Bold product names with **double asterisks**
+- For specific product mentions from catalog, append: [PRODUCT:handle]
+- Max 3 product tags per message
+- Use food emojis tastefully 🍬🌟🫐`;
+
+let isOpen = false, conversationHistory = [], isLoading = false;
+{% endraw %}
+let apiKey = '{{ settings.chatbot_api_key }}';
+{% raw %}
+
+window.addEventListener('DOMContentLoaded', () => {
+  initChat();
+});
+
+function initChat() {
+  addBotMessage(
+    "Vanakkam! 🙏 Welcome to **Nithya Amirtham**! We have over 189 handcrafted traditional sweets, snacks, pickles, baklava, and gift hampers. What are you looking for today?",
+    ['Popular Sweets 🍬', 'Crispy Snacks 🥨', 'Gift Hampers 🎁', 'Under ₹200 💰', 'Baklava 🌟']
+  );
+}
+
+function naToggleChat() {
+  isOpen = !isOpen;
+  document.getElementById('na-chat-widget').classList.toggle('open', isOpen);
+  if (isOpen) {
+    const b = document.getElementById('na-badge');
+    if (b) b.style.display = 'none';
+    setTimeout(() => document.getElementById('na-input')?.focus(), 350);
+  }
+}
+
+function addBotMessage(text, quickReplies = []) {
+  const msgs = document.getElementById('na-messages');
+  const msgEl = document.createElement('div');
+  msgEl.className = 'na-msg bot';
+  let cleanText = text.replace(/\[PRODUCT:[^\]]+\]/g, '').trim();
+  cleanText = cleanText.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+  cleanText = cleanText.replace(/([\w.+-]+@[\w-]+\.[\w.]+)/g, '<a href="mailto:$1" style="color:#c61d23;text-decoration:underline;">$1</a>');
+  cleanText = cleanText.replace(/(\+?[\d][\d\s\-]{7,}[\d])/g, (m) => `<a href="tel:${m.replace(/\s/g,'')}" style="color:#c61d23;text-decoration:underline;">${m}</a>`);
+  const productMatches = [...text.matchAll(/\[PRODUCT:([^\]]+)\]/g)];
+  const handles = productMatches.map(m => m[1].trim());
+  let html = `<div class="na-msg-avatar"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="26" viewBox="0 0 30 48" fill="none"><g clip-path="url(#nai-sm)"><path fill="white" d="M14.45 0c1.013 2.375 2.646 7.949-.633 14.299-.989 1.916-2.245 3.727-3.461 5.479C6.8 24.9 3.15 30.162 5.508 38.58 1.075 32.47 0 27.439 0 23.998 0 12.889 10.91 2.939 14.45 0Z"/><path fill="white" d="M29.707 23.999c0-10.51-9.759-19.979-13.812-23.46.948 2.717 1.878 7.511-.406 12.928.126.275.256.551.401.83.989 1.915 2.245 3.727 3.461 5.478C22.906 24.9 26.555 30.16 24.2 38.578c4.435-6.11 5.51-11.142 5.51-14.582"/><path fill="white" d="M21.425 25.136c-.665 1.05-1.373 2.07-2.076 3.086-1.216 1.752-2.473 3.563-3.461 5.48-3.277 6.35-1.646 11.922-.633 14.298a55.748 55.748 0 0 0 6.723-6.642c3.011-7.098 1.827-11.936-.553-16.222Z"/><path fill="white" d="M13.82 33.701c-.99-1.916-2.246-3.727-3.462-5.479-.703-1.016-1.411-2.036-2.076-3.086-2.38 4.286-3.564 9.122-.556 16.219a56.035 56.035 0 0 0 6.086 6.103c-.947-2.716-1.878-7.51.406-12.927a17.293 17.293 0 0 0-.401-.83"/></g><defs><clipPath id="nai-sm"><path fill="#fff" d="M0 0h30v48H0z"/></clipPath></defs></svg></div><div><div class="na-msg-bubble">${cleanText}</div>`;
+  handles.forEach(handle => {
+    const p = PRODUCTS.find(x => x.handle === handle);
+    if (p) html += `
+      <div class="na-product-card">
+        <img class="na-product-img" src="${p.image}" alt="${p.title}" onerror="this.onerror=null;this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1MiIgaGVpZ2h0PSI1MiIgdmlld0JveD0iMCAwIDUyIDUyIj48cmVjdCB3aWR0aD0iNTIiIGhlaWdodD0iNTIiIHJ4PSI4IiBmaWxsPSIjRjdFREQ4Ii8+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTEgMikiPjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMzAiIGhlaWdodD0iNDgiIGZpbGw9Im5vbmUiIHZpZXdCb3g9IjAgMCAzMCA0OCI+PGcgY2xpcC1wYXRoPSJ1cmwoI2EpIj48cGF0aCBmaWxsPSIjQzYxRDIzIiBkPSJNMTQuNDUgMGMxLjAxMyAyLjM3NSAyLjY0NiA3Ljk0OS0uNjMzIDE0LjI5OS0uOTg5IDEuOTE2LTIuMjQ1IDMuNzI3LTMuNDYxIDUuNDc5QzYuOCAyNC45IDMuMTUgMzAuMTYyIDUuNTA4IDM4LjU4IDEuMDc1IDMyLjQ3IDAgMjcuNDM5IDAgMjMuOTk4IDAgMTIuODg5IDEwLjkxIDIuOTM5IDE0LjQ1IDBaIi8+PHBhdGggZmlsbD0iI0M2MUQyMyIgZD0iTTI5LjcwNyAyMy45OTljMC0xMC41MS05Ljc1OS0xOS45NzktMTMuODEyLTIzLjQ2Ljk0OCAyLjcxNyAxLjg3OCA3LjUxMS0uNDA2IDEyLjkyOC4xMjYuMjc1LjI1Ni41NTEuNDAxLjgzLjk4OSAxLjkxNSAyLjI0NSAzLjcyNyAzLjQ2MSA1LjQ3OEMyMi45MDYgMjQuOSAyNi41NTUgMzAuMTYgMjQuMiAzOC41NzhjNC40MzUtNi4xMSA1LjUxLTExLjE0MiA1LjUxLTE0LjU4MiIvPjxwYXRoIGZpbGw9IiNDNjFEMjMiIGQ9Ik0yMS40MjUgMjUuMTM2Yy0uNjY1IDEuMDUtMS4zNzMgMi4wNy0yLjA3NiAzLjA4Ni0xLjIxNiAxLjc1Mi0yLjQ3MyAzLjU2My0zLjQ2MSA1LjQ4LTMuMjc3IDYuMzUtMS42NDYgMTEuOTIyLS42MzMgMTQuMjk4YTU1Ljc0OCA1NS43NDggMCAwIDAgNi43MjMtNi42NDJjMy4wMTEtNy4wOTggMS44MjctMTEuOTM2LS41NTMtMTYuMjIyWiIvPjxwYXRoIGZpbGw9IiNDNjFEMjMiIGQ9Ik0xMy44MiAzMy43MDFjLS45OS0xLjkxNi0yLjI0Ni0zLjcyNy0zLjQ2Mi01LjQ3OS0uNzAzLTEuMDE2LTEuNDExLTIuMDM2LTIuMDc2LTMuMDg2LTIuMzggNC4yODYtMy41NjQgOS4xMjItLjU1NiAxNi4yMTlhNTYuMDM1IDU2LjAzNSAwIDAgMCA2LjA4NiA2LjEwM2MtLjk0Ny0yLjcxNi0xLjg3OC03LjUxLjQwNi0xMi45MjdhMTcuMjkzIDE3LjI5MyAwIDAgMC0uNDAxLS44MyIvPjwvZz48ZGVmcz48Y2xpcFBhdGggaWQ9ImEiPjxwYXRoIGZpbGw9IiNmZmYiIGQ9Ik0wIDBoMzB2NDhIMHoiLz48L2NsaXBQYXRoPjwvZGVmcz48L3N2Zz48L2c+PC9zdmc+'"/>
+        <div class="na-product-info">
+          <div class="na-product-name">${p.title}</div>
+          <div class="na-product-price">${p.price}</div>
+          <a class="na-product-link" href="https://nithyaamirtham.com/products/${p.handle}" target="_blank">View product →</a>
+        </div>
+      </div>`;
+  });
+  if (quickReplies.length) {
+    html += '<div class="na-quick-replies">';
+    quickReplies.forEach(qr => { html += `<button class="na-quick-btn" onclick="naQuickReply('${qr.replace(/'/g,"\'")}')"> ${qr}</button>`; });
+    html += '</div>';
+  }
+  html += '</div>';
+  msgEl.innerHTML = html;
+  msgs.appendChild(msgEl);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function addUserMessage(text) {
+  const msgs = document.getElementById('na-messages');
+  const msgEl = document.createElement('div');
+  msgEl.className = 'na-msg user';
+  msgEl.innerHTML = `<div class="na-msg-avatar" style="background:linear-gradient(145deg,#5C3317,#2D1A0E)"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><div class="na-msg-bubble">${text}</div>`;
+  msgs.appendChild(msgEl);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function showTyping() {
+  const msgs = document.getElementById('na-messages');
+  const el = document.createElement('div');
+  el.className = 'na-msg bot'; el.id = 'na-typing-indicator';
+  el.innerHTML = '<div class="na-msg-avatar"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="26" viewBox="0 0 30 48" fill="none"><g clip-path="url(#nai-sm)"><path fill="white" d="M14.45 0c1.013 2.375 2.646 7.949-.633 14.299-.989 1.916-2.245 3.727-3.461 5.479C6.8 24.9 3.15 30.162 5.508 38.58 1.075 32.47 0 27.439 0 23.998 0 12.889 10.91 2.939 14.45 0Z"/><path fill="white" d="M29.707 23.999c0-10.51-9.759-19.979-13.812-23.46.948 2.717 1.878 7.511-.406 12.928.126.275.256.551.401.83.989 1.915 2.245 3.727 3.461 5.478C22.906 24.9 26.555 30.16 24.2 38.578c4.435-6.11 5.51-11.142 5.51-14.582"/><path fill="white" d="M21.425 25.136c-.665 1.05-1.373 2.07-2.076 3.086-1.216 1.752-2.473 3.563-3.461 5.48-3.277 6.35-1.646 11.922-.633 14.298a55.748 55.748 0 0 0 6.723-6.642c3.011-7.098 1.827-11.936-.553-16.222Z"/><path fill="white" d="M13.82 33.701c-.99-1.916-2.246-3.727-3.462-5.479-.703-1.016-1.411-2.036-2.076-3.086-2.38 4.286-3.564 9.122-.556 16.219a56.035 56.035 0 0 0 6.086 6.103c-.947-2.716-1.878-7.51.406-12.927a17.293 17.293 0 0 0-.401-.83"/></g><defs><clipPath id="nai-sm"><path fill="#fff" d="M0 0h30v48H0z"/></clipPath></defs></svg></div><div class="na-typing"><span></span><span></span><span></span></div>';
+  msgs.appendChild(el);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+function hideTyping() { document.getElementById('na-typing-indicator')?.remove(); }
+
+function naQuickReply(text) { document.getElementById('na-input').value = text; naSend(); }
+
+async function naSend() {
+  if (isLoading) return;
+  const input = document.getElementById('na-input');
+  const text = input.value.trim();
+  if (!text) return;
+  input.value = ''; naAutoResize(input);
+  addUserMessage(text);
+  conversationHistory.push({ role: 'user', content: text });
+  isLoading = true;
+  document.getElementById('na-send-btn').disabled = true;
+  showTyping();
+  try {
+    const resp = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': apiKey,
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 700,
+        system: SYSTEM_PROMPT,
+        messages: conversationHistory
+      })
+    });
+    const data = await resp.json();
+    hideTyping();
+    if (data.error) {
+      addBotMessage(`<span class="na-error">Error: ${data.error.message || 'Something went wrong. Please try again.'}</span>`);
+    } else {
+      const reply = data.content?.[0]?.text || "Sorry, I couldn't process that. Please try again.";
+      conversationHistory.push({ role: 'assistant', content: reply });
+      addBotMessage(reply);
+    }
+  } catch(err) {
+    hideTyping();
+    addBotMessage('<span class="na-error">Connection error. Please check your internet and try again.</span>');
+  } finally {
+    isLoading = false;
+    document.getElementById('na-send-btn').disabled = false;
+    input.focus();
+  }
+}
+
+function naHandleKey(e) { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); naSend(); } }
+function naAutoResize(el) { el.style.height = 'auto'; el.style.height = Math.min(el.scrollHeight, 80) + 'px'; }
+</script>
+
+{% endraw %}
+{%- endif -%}

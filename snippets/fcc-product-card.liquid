@@ -26,6 +26,11 @@
         <p class="feat-collection-carousel__vendor">{{ product.vendor }}</p>
       {%- endif -%}
       <h3 class="feat-collection-carousel__title">{{ product.title }}</h3>
+      {%- if settings.judgeme_enabled -%}
+        <div class="jdgm-widget jdgm-preview-badge" data-id="{{ product.id }}" style="margin: 4px 0;">
+          {{ product.metafields.judgeme.badge }}
+        </div>
+      {%- endif -%}
       {%- if show_price -%}
         <p class="feat-collection-carousel__price">{{ product.first_available_variant.price | money }}</p>
       {%- endif -%}
