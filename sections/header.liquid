@@ -1,13 +1,13 @@
 <header class="header{% if section.settings.sticky %} header--sticky{% endif %}" data-header {{ section.shopify_attributes }}>
   <div class="{% if section.settings.container_type == 'container-fluid' %}container-fluid{% else %}container{% endif %}">
     <div class="header__inner">
-      {%- comment -%} Mobile menu toggle {%- endcomment -%}
-      <button class="header__icon header__menu-toggle" data-mobile-menu-toggle aria-label="{{ 'sections.header.menu' | t }}" type="button">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-      </button>
+      {%- comment -%} Left group: menu toggle + logo {%- endcomment -%}
+      <div class="header__left">
+        <button class="header__icon header__menu-toggle" data-mobile-menu-toggle aria-label="{{ 'sections.header.menu' | t }}" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
 
-      {%- comment -%} Logo {%- endcomment -%}
-      <div class="header__logo" style="--logo-width: {{ section.settings.logo_width }}px; --logo-width-mobile: {{ section.settings.logo_width_mobile }}px;">
+        <div class="header__logo" style="--logo-width: {{ section.settings.logo_width }}px; --logo-width-mobile: {{ section.settings.logo_width_mobile }}px;">
         <a href="{{ routes.root_url }}" class="header__logo-link">
           {%- if section.settings.logo_type == 'image' and section.settings.logo -%}
             <img
@@ -26,6 +26,7 @@
             <span class="header__logo-text">{{ shop.name }}</span>
           {%- endif -%}
         </a>
+      </div>
       </div>
 
       {%- comment -%} Desktop Navigation {%- endcomment -%}

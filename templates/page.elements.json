@@ -1,0 +1,101 @@
+{
+  "sections": {
+    "hero": {
+      "type": "hero",
+      "settings": {}
+    },
+    "hero-slider": {
+      "type": "hero-slider",
+      "settings": {}
+    },
+    "icon-with-text": {
+      "type": "icon-with-text",
+      "settings": {}
+    },
+    "icon-with-text-scroll": {
+      "type": "icon-with-text-scroll",
+      "settings": {}
+    },
+    "featured-collection": {
+      "type": "featured-collection-carousel",
+      "settings": {}
+    },
+    "promo-banner": {
+      "type": "promo-banner",
+      "settings": {}
+    },
+    "product-features-banner": {
+      "type": "product-features-banner",
+      "settings": {}
+    },
+    "countdown-timer": {
+      "type": "countdown-timer",
+      "settings": {}
+    },
+    "countdown-banner": {
+      "type": "countdown-banner",
+      "settings": {}
+    },
+    "before-after": {
+      "type": "before-after",
+      "settings": {}
+    },
+    "exclusive-collections": {
+      "type": "exclusive-collections",
+      "settings": {}
+    },
+    "testimonials": {
+      "type": "testimonials",
+      "settings": {}
+    },
+    "about-page": {
+      "type": "about-page",
+      "settings": {}
+    },
+    "about-strip": {
+      "type": "about-strip",
+      "settings": {}
+    },
+    "blog-post-grid": {
+      "type": "blog-post-grid",
+      "settings": {}
+    },
+    "faq": {
+      "type": "faq",
+      "settings": {}
+    },
+    "visit-us-locations": {
+      "type": "visit-us-locations",
+      "settings": {}
+    },
+    "title": {
+      "type": "title",
+      "settings": {}
+    },
+    "related-products": {
+      "type": "related-products",
+      "settings": {}
+    }
+  },
+  "order": [
+    "hero",
+    "hero-slider",
+    "icon-with-text",
+    "icon-with-text-scroll",
+    "featured-collection",
+    "promo-banner",
+    "product-features-banner",
+    "countdown-timer",
+    "countdown-banner",
+    "before-after",
+    "exclusive-collections",
+    "testimonials",
+    "about-page",
+    "about-strip",
+    "blog-post-grid",
+    "faq",
+    "visit-us-locations",
+    "title",
+    "related-products"
+  ]
+}
