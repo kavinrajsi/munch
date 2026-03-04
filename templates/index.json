@@ -69,7 +69,7 @@
             "image": "shopify://shop_images/dry-fruit-sweets.png",
             "title": "Dry Fruit Sweets",
             "link": "shopify://collections/dry-fruit-sweets",
-            "item_bg_color": "transparent"
+            "item_bg_color": "rgba(0,0,0,0)"
           }
         },
         "icon_item_mWAgJj": {
@@ -78,7 +78,7 @@
             "image": "shopify://shop_images/traditional-sweets.png",
             "title": "Traditional Sweets",
             "link": "shopify://collections/traditional-sweets",
-            "item_bg_color": "transparent"
+            "item_bg_color": "rgba(0,0,0,0)"
           }
         },
         "icon_item_yEyhY7": {
@@ -87,7 +87,7 @@
             "image": "shopify://shop_images/traditional-savouries.png",
             "title": "Traditional Savouries",
             "link": "shopify://collections/savouries",
-            "item_bg_color": "transparent"
+            "item_bg_color": "rgba(0,0,0,0)"
           }
         },
         "icon_item_nknFx8": {
@@ -96,7 +96,7 @@
             "image": "shopify://shop_images/baklava.png",
             "title": "Baklava",
             "link": "shopify://collections/baklava",
-            "item_bg_color": "transparent"
+            "item_bg_color": "rgba(0,0,0,0)"
           }
         },
         "icon_item_tXUaFc": {
@@ -105,7 +105,7 @@
             "image": "shopify://shop_images/savouries.png",
             "title": "Savouries",
             "link": "shopify://collections/savouries",
-            "item_bg_color": "transparent"
+            "item_bg_color": "rgba(0,0,0,0)"
           }
         },
         "icon_item_nKzhja": {
@@ -114,7 +114,7 @@
             "image": "shopify://shop_images/gifting-combos.png",
             "title": "Gifting Combo",
             "link": "shopify://collections",
-            "item_bg_color": "transparent"
+            "item_bg_color": "rgba(0,0,0,0)"
           }
         }
       },
@@ -140,8 +140,8 @@
         "padding_bottom_desktop": 40,
         "padding_top_mobile": 20,
         "padding_bottom_mobile": 20,
-        "text_color": "#161A1D",
-        "bg_color": "transparent"
+        "text_color": "#161a1d",
+        "bg_color": "rgba(0,0,0,0)"
       }
     },
     "featured_collection_carousel_9NjQpC": {
@@ -293,7 +293,9 @@
       "settings": {
         "title": "Visit us",
         "padding_top": 56,
-        "padding_bottom": 56
+        "padding_bottom": 56,
+        "padding_top_mobile": 20,
+        "padding_bottom_mobile": 20
       }
     },
     "testimonials_xGAihr": {
@@ -426,7 +428,28 @@
       "settings": {
         "title": "Customers Reviews",
         "slides_to_show": 3,
-        "show_dots": true
+        "show_dots": true,
+        "padding_top_desktop": 56,
+        "padding_bottom_desktop": 56,
+        "padding_top_mobile": 20,
+        "padding_bottom_mobile": 20
+      }
+    },
+    "promo_banner_KF3mq3": {
+      "type": "promo-banner",
+      "name": "Promo Banner",
+      "settings": {
+        "heading": "Sweets for Every Celebration",
+        "description": "From festive gatherings to family functions, every moment deserves something sweet. Our traditional recipes bring authentic taste to your celebrations.",
+        "button_label": "View all collections",
+        "button_link": "shopify://collections",
+        "image": "shopify://shop_images/Mask_group.jpg",
+        "pattern_image": "shopify://shop_images/prombg.png",
+        "bg_color": "#C61D23",
+        "padding_top_desktop": 40,
+        "padding_bottom_desktop": 40,
+        "padding_top_mobile": 32,
+        "padding_bottom_mobile": 32
       }
     }
   },
@@ -437,6 +460,7 @@
     "icon_with_text_UktifF",
     "featured_collection_carousel_kbJ7rW",
     "visit_us_locations_hzNWNb",
-    "testimonials_xGAihr"
+    "testimonials_xGAihr",
+    "promo_banner_KF3mq3"
   ]
 }
