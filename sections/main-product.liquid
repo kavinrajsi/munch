@@ -174,19 +174,32 @@
         {%- comment -%} Accordion Blocks {%- endcomment -%}
         {%- for block in section.blocks -%}
           {%- if block.type == 'accordion' -%}
-            <div class="main-product__accordion" {{ block.shopify_attributes }}>
-              <button class="main-product__accordion-trigger" type="button" data-accordion-trigger>
-                {{ block.settings.title }}
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-              </button>
-              <div class="main-product__accordion-content" data-accordion-content>
-                {%- if block.settings.content_source == 'metafield' and block.settings.metafield_key != blank -%}
-                  {{ product.metafields.custom[block.settings.metafield_key] | metafield_tag }}
-                {%- elsif block.settings.text != blank -%}
-                  {{ block.settings.text }}
-                {%- endif -%}
+            {%- liquid
+              assign accordion_has_content = false
+              if block.settings.content_source == 'metafield' and block.settings.metafield_key != blank
+                assign metafield_value = product.metafields.custom[block.settings.metafield_key]
+                if metafield_value != blank
+                  assign accordion_has_content = true
+                endif
+              elsif block.settings.text != blank
+                assign accordion_has_content = true
+              endif
+            -%}
+            {%- if accordion_has_content -%}
+              <div class="main-product__accordion" {{ block.shopify_attributes }}>
+                <button class="main-product__accordion-trigger" type="button" data-accordion-trigger>
+                  {{ block.settings.title }}
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+                </button>
+                <div class="main-product__accordion-content" data-accordion-content>
+                  {%- if block.settings.content_source == 'metafield' and block.settings.metafield_key != blank -%}
+                    {{ product.metafields.custom[block.settings.metafield_key] | metafield_tag }}
+                  {%- elsif block.settings.text != blank -%}
+                    {{ block.settings.text }}
+                  {%- endif -%}
+                </div>
               </div>
-            </div>
+            {%- endif -%}
           {%- endif -%}
         {%- endfor -%}
 
