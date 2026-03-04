@@ -21,6 +21,15 @@
             "metafield_key": "ingredients"
           }
         },
+        "accordion_WbfgmH": {
+          "type": "accordion",
+          "settings": {
+            "title": "Details",
+            "content_source": "text",
+            "text": "",
+            "metafield_key": ""
+          }
+        },
         "acc_2": {
           "type": "accordion",
           "settings": {
@@ -42,6 +51,7 @@
       },
       "block_order": [
         "acc_1",
+        "accordion_WbfgmH",
         "acc_2",
         "acc_3"
       ],
