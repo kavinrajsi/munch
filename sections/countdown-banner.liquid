@@ -1,0 +1,238 @@
+{%- style -%}
+  .countdown-banner {
+    background: {{ section.settings.bg_color }};
+    color: {{ section.settings.text_color }};
+    padding: 10px 0;
+    font-size: 0.875rem;
+  }
+
+  .countdown-banner__inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .countdown-banner__label {
+    font-weight: 600;
+  }
+
+  .countdown-banner__time {
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.02em;
+  }
+
+  .countdown-banner__link {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    font-weight: 600;
+    margin-left: 4px;
+  }
+  .countdown-banner__link:hover {
+    opacity: 0.8;
+  }
+
+  .countdown-banner__close {
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: inherit;
+    cursor: pointer;
+    padding: 4px;
+    opacity: 0.7;
+    line-height: 0;
+  }
+  .countdown-banner__close:hover {
+    opacity: 1;
+  }
+  .countdown-banner__close svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .countdown-banner__wrap {
+    position: relative;
+  }
+
+  .countdown-banner__expired {
+    text-align: center;
+    font-weight: 600;
+  }
+{%- endstyle -%}
+
+<div class="countdown-banner" data-countdown-banner data-section-id="{{ section.id }}" data-end-date="{{ section.settings.end_date }}" data-end-time="{{ section.settings.end_time }}" data-expiry-action="{{ section.settings.expiry_action }}" {{ section.shopify_attributes }}>
+  <div class="container countdown-banner__wrap">
+    <div class="countdown-banner__inner" data-countdown-banner-inner>
+      {%- if section.settings.label != blank -%}
+        <span class="countdown-banner__label">{{ section.settings.label }}</span>
+      {%- endif -%}
+      <span class="countdown-banner__time" data-countdown-banner-time></span>
+      {%- if section.settings.link_text != blank and section.settings.link_url != blank -%}
+        <a href="{{ section.settings.link_url }}" class="countdown-banner__link">{{ section.settings.link_text }} &rarr;</a>
+      {%- endif -%}
+    </div>
+    <div class="countdown-banner__expired" data-countdown-banner-expired style="display:none;">
+      {{ section.settings.expired_message }}
+    </div>
+    <button class="countdown-banner__close" data-countdown-banner-close type="button" aria-label="Close">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+</div>
+
+<script>
+  (function() {
+    var banner = document.querySelector('[{{ section.shopify_attributes }}]');
+    if (!banner) return;
+
+    var sectionId = banner.dataset.sectionId;
+    var storageKey = 'countdown-banner-dismissed-' + sectionId;
+
+    // Check if dismissed this session
+    if (sessionStorage.getItem(storageKey)) {
+      banner.style.display = 'none';
+      return;
+    }
+
+    // Dismiss button
+    var closeBtn = banner.querySelector('[data-countdown-banner-close]');
+    if (closeBtn) {
+      closeBtn.addEventListener('click', function() {
+        banner.style.display = 'none';
+        sessionStorage.setItem(storageKey, '1');
+      });
+    }
+
+    var endDate = banner.dataset.endDate;
+    var endTime = banner.dataset.endTime || '00:00';
+    if (!endDate) return;
+
+    var target = new Date(endDate + 'T' + endTime + ':00').getTime();
+    var timeEl = banner.querySelector('[data-countdown-banner-time]');
+    var innerEl = banner.querySelector('[data-countdown-banner-inner]');
+    var expiredEl = banner.querySelector('[data-countdown-banner-expired]');
+    var expiryAction = banner.dataset.expiryAction;
+
+    function pad(n) { return n < 10 ? '0' + n : n; }
+
+    function update() {
+      var now = Date.now();
+      var diff = target - now;
+
+      if (diff <= 0) {
+        clearInterval(timer);
+        if (expiryAction === 'hide') {
+          banner.style.display = 'none';
+        } else {
+          innerEl.style.display = 'none';
+          closeBtn.style.display = 'none';
+          expiredEl.style.display = '';
+        }
+        return;
+      }
+
+      var days = Math.floor(diff / 86400000);
+      var hours = Math.floor((diff % 86400000) / 3600000);
+      var mins = Math.floor((diff % 3600000) / 60000);
+      var secs = Math.floor((diff % 60000) / 1000);
+
+      timeEl.textContent = pad(days) + 'd ' + pad(hours) + 'h ' + pad(mins) + 'm ' + pad(secs) + 's';
+    }
+
+    update();
+    var timer = setInterval(update, 1000);
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Countdown Banner",
+  "tag": "section",
+  "class": "countdown-banner-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Label text",
+      "default": "🔥 Sale ends in"
+    },
+    {
+      "type": "header",
+      "content": "Countdown"
+    },
+    {
+      "type": "text",
+      "id": "end_date",
+      "label": "End date",
+      "info": "Format: YYYY-MM-DD (e.g. 2026-12-31)",
+      "default": "2026-12-31"
+    },
+    {
+      "type": "text",
+      "id": "end_time",
+      "label": "End time (24h)",
+      "info": "Format: HH:MM (e.g. 18:00)",
+      "default": "00:00"
+    },
+    {
+      "type": "select",
+      "id": "expiry_action",
+      "label": "When countdown ends",
+      "options": [
+        { "value": "hide", "label": "Hide banner" },
+        { "value": "show_message", "label": "Show expired message" }
+      ],
+      "default": "hide"
+    },
+    {
+      "type": "text",
+      "id": "expired_message",
+      "label": "Expired message",
+      "default": "This offer has ended."
+    },
+    {
+      "type": "header",
+      "content": "Link"
+    },
+    {
+      "type": "text",
+      "id": "link_text",
+      "label": "Link text",
+      "default": "Shop Now"
+    },
+    {
+      "type": "url",
+      "id": "link_url",
+      "label": "Link URL",
+      "default": "/collections/all"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background color",
+      "default": "#C61D23"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#FFFFFF"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Countdown Banner",
+      "category": "Promotional"
+    }
+  ]
+}
+{% endschema %}
