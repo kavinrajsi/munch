@@ -177,7 +177,7 @@
         "button_link": "shopify://collections",
         "image": "shopify://shop_images/Mask_group.png",
         "pattern_image": "shopify://shop_images/prombg.png",
-        "bg_color": "#C61D23",
+        "bg_color": "#c61d23",
         "padding_top_desktop": 40,
         "padding_bottom_desktop": 40,
         "padding_top_mobile": 32,
@@ -451,6 +451,51 @@
         "padding_top_mobile": 20,
         "padding_bottom_mobile": 20
       }
+    },
+    "about_strip_JkKynW": {
+      "type": "about-strip",
+      "blocks": {
+        "feature_qYLiwk": {
+          "type": "feature",
+          "settings": {
+            "label": "Fresh from Our Kitchen"
+          }
+        },
+        "feature_MekYj8": {
+          "type": "feature",
+          "settings": {
+            "label": "Taste of Tradition"
+          }
+        },
+        "feature_wgTgc8": {
+          "type": "feature",
+          "settings": {
+            "label": "Purely Vegetarian"
+          }
+        },
+        "feature_hJq9zU": {
+          "type": "feature",
+          "settings": {
+            "label": "Crafted with Love"
+          }
+        }
+      },
+      "block_order": [
+        "feature_qYLiwk",
+        "feature_MekYj8",
+        "feature_wgTgc8",
+        "feature_hJq9zU"
+      ],
+      "name": "About Strip",
+      "settings": {
+        "heading": "Nithya Amirtham – Chennai's Finest Sweets, Now Delivered All Across India!",
+        "description": "<p>At Nithya Amirtham, we bring you the authentic taste of India's finest sweets and snacks, now available for delivery anywhere in India. What started as a single shop in Arumbakkam, Chennai, has grown into one of the most loved and trusted sweet shops in Chennai, with multiple outlets in Chennai, Kanchipuram, and Tiruvallur.</p><p>Our online store allows you to enjoy the same delicious treats from the comfort of your home. From traditional sweets to crispy savouries, order online and have fresh sweets delivered to your doorstep across India.</p>",
+        "bg_color": "#C61D23",
+        "padding_top_desktop": 56,
+        "padding_bottom_desktop": 56,
+        "padding_top_mobile": 32,
+        "padding_bottom_mobile": 32
+      }
     }
   },
   "order": [
@@ -461,6 +506,7 @@
     "icon_with_text_UktifF",
     "featured_collection_carousel_kbJ7rW",
     "visit_us_locations_hzNWNb",
-    "testimonials_xGAihr"
+    "testimonials_xGAihr",
+    "about_strip_JkKynW"
   ]
 }
