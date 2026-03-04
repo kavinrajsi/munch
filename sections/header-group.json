@@ -60,21 +60,6 @@
         "close_icon_svg": ""
       }
     },
-    "countdown_banner_qUV8YW": {
-      "type": "countdown-banner",
-      "name": "Countdown Banner",
-      "settings": {
-        "label": "Sale Up to 50%",
-        "end_date": "2026-12-30",
-        "end_time": "00:00",
-        "expiry_action": "hide",
-        "expired_message": "This offer has ended.",
-        "link_text": "Shop now",
-        "link_url": "shopify://collections/all",
-        "bg_color": "#c61d24",
-        "text_color": "#FFFFFF"
-      }
-    },
     "header": {
       "type": "header",
       "settings": {
@@ -97,7 +82,6 @@
   },
   "order": [
     "announcement-bar",
-    "countdown_banner_qUV8YW",
     "header"
   ]
 }
