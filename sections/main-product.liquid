@@ -203,6 +203,30 @@
           {%- endif -%}
         {%- endfor -%}
 
+        {%- if section.settings.show_shipping_info and section.settings.shipping_info_text != blank -%}
+          <div class="main-product__accordion">
+            <button class="main-product__accordion-trigger" type="button" data-accordion-trigger>
+              {{ section.settings.shipping_info_title | default: 'Shipping Info' }}
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="main-product__accordion-content" data-accordion-content>
+              {{ section.settings.shipping_info_text }}
+            </div>
+          </div>
+        {%- endif -%}
+
+        {%- if section.settings.show_dispatch_details and section.settings.dispatch_details_text != blank -%}
+          <div class="main-product__accordion">
+            <button class="main-product__accordion-trigger" type="button" data-accordion-trigger>
+              {{ section.settings.dispatch_details_title | default: 'Dispatch Details' }}
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="main-product__accordion-content" data-accordion-content>
+              {{ section.settings.dispatch_details_text }}
+            </div>
+          </div>
+        {%- endif -%}
+
         {%- if settings.judgeme_enabled -%}
           <div class="main-product__reviews-badge">
             <div class="jdgm-widget jdgm-preview-badge" data-id="{{ product.id }}">
@@ -376,6 +400,50 @@
       "id": "show_share",
       "label": "Show Share Buttons",
       "default": false
+    },
+    {
+      "type": "header",
+      "content": "Shipping Info"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_shipping_info",
+      "label": "Show Shipping Info",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "shipping_info_title",
+      "label": "Shipping Info title",
+      "default": "Shipping Info"
+    },
+    {
+      "type": "richtext",
+      "id": "shipping_info_text",
+      "label": "Shipping Info text",
+      "default": "<p>Delivery Within 3-5 working Days. For more details please track the product using the tracking code sent via email or WhatsApp.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Dispatch Details"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_dispatch_details",
+      "label": "Show Dispatch Details",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "dispatch_details_title",
+      "label": "Dispatch Details title",
+      "default": "Dispatch Details"
+    },
+    {
+      "type": "richtext",
+      "id": "dispatch_details_text",
+      "label": "Dispatch Details text",
+      "default": "<p>Product will be dispatched within 2-4 working days.</p>"
     },
     {
       "type": "header",
