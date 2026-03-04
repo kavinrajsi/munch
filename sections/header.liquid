@@ -93,24 +93,114 @@
 <div class="mobile-menu" id="MobileMenu" data-mobile-menu>
   <div class="mobile-menu__overlay" data-mobile-menu-close></div>
   <div class="mobile-menu__panel">
+
+    {%- comment -%} Header with logo + close {%- endcomment -%}
     <div class="mobile-menu__header">
-      <span class="header__logo-text">{{ shop.name }}</span>
+      <div class="mobile-menu__logo">
+        <a href="{{ routes.root_url }}" class="header__logo-link">
+          {%- if section.settings.logo_type == 'image' and section.settings.logo -%}
+            <img
+              class="header__logo-img"
+              src="{{ section.settings.logo | image_url: width: 300 }}"
+              alt="{{ shop.name | escape }}"
+              width="{{ section.settings.logo.width }}"
+              height="{{ section.settings.logo.height }}"
+              loading="lazy"
+              style="max-width: var(--logo-width-mobile, 100px);"
+            >
+          {%- elsif section.settings.logo_type == 'svg' and section.settings.logo_svg != blank -%}
+            <div class="header__logo-svg" style="max-width: var(--logo-width-mobile, 100px);">
+              {{ section.settings.logo_svg }}
+            </div>
+          {%- else -%}
+            <span class="header__logo-text">{{ shop.name }}</span>
+          {%- endif -%}
+        </a>
+      </div>
       <button class="mobile-menu__close" data-mobile-menu-close aria-label="{{ 'accessibility.close' | t }}" type="button">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
       </button>
     </div>
+
+    {%- comment -%} Main navigation {%- endcomment -%}
     <nav class="mobile-menu__nav">
       {%- for link in section.settings.menu.links -%}
-        <a href="{{ link.url }}" class="mobile-menu__nav-link">{{ link.title }}</a>
         {%- if link.links.size > 0 -%}
-          <div class="mobile-menu__submenu">
-            {%- for child_link in link.links -%}
-              <a href="{{ child_link.url }}" class="mobile-menu__submenu-link">{{ child_link.title }}</a>
-            {%- endfor -%}
+          <div class="mobile-menu__nav-item mobile-menu__nav-item--has-children">
+            <button type="button" class="mobile-menu__nav-link" data-mobile-submenu-trigger>
+              {{ link.title }}
+              <svg class="mobile-menu__chevron" width="10" height="16" viewBox="0 0 10 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="2 2 8 8 2 14"/>
+              </svg>
+            </button>
+
+            {%- comment -%} Level 2 submenu {%- endcomment -%}
+            <div class="mobile-menu__submenu" data-mobile-submenu>
+              <div class="mobile-menu__submenu-header">
+                <button type="button" class="mobile-menu__back" data-mobile-back>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="15 18 9 12 15 6"/>
+                  </svg>
+                  {{ link.title }}
+                </button>
+              </div>
+              <div class="mobile-menu__submenu-body">
+                {%- for child_link in link.links -%}
+                  {%- if child_link.links.size > 0 -%}
+                    <div class="mobile-menu__nav-item mobile-menu__nav-item--has-children">
+                      <button type="button" class="mobile-menu__submenu-link" data-mobile-submenu-trigger>
+                        {{ child_link.title }}
+                        <svg class="mobile-menu__chevron" width="10" height="16" viewBox="0 0 10 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <polyline points="2 2 8 8 2 14"/>
+                        </svg>
+                      </button>
+
+                      {%- comment -%} Level 3 submenu {%- endcomment -%}
+                      <div class="mobile-menu__submenu" data-mobile-submenu>
+                        <div class="mobile-menu__submenu-header">
+                          <button type="button" class="mobile-menu__back" data-mobile-back>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                              <polyline points="15 18 9 12 15 6"/>
+                            </svg>
+                            {{ child_link.title }}
+                          </button>
+                        </div>
+                        <div class="mobile-menu__submenu-body">
+                          {%- for grandchild_link in child_link.links -%}
+                            <a href="{{ grandchild_link.url }}" class="mobile-menu__submenu-link">{{ grandchild_link.title }}</a>
+                          {%- endfor -%}
+                        </div>
+                      </div>
+                    </div>
+                  {%- else -%}
+                    <a href="{{ child_link.url }}" class="mobile-menu__submenu-link">{{ child_link.title }}</a>
+                  {%- endif -%}
+                {%- endfor -%}
+              </div>
+            </div>
+          </div>
+        {%- else -%}
+          <div class="mobile-menu__nav-item">
+            <a href="{{ link.url }}" class="mobile-menu__nav-link">{{ link.title }}</a>
           </div>
         {%- endif -%}
       {%- endfor -%}
     </nav>
+
+    {%- comment -%} Account section at bottom {%- endcomment -%}
+    {%- if shop.customer_accounts_enabled -%}
+      <div class="mobile-menu__account">
+        <h3 class="mobile-menu__account-title">My Account</h3>
+        {%- if customer -%}
+          <a href="{{ routes.account_url }}" class="mobile-menu__account-btn btn btn--primary btn--full">My Account</a>
+          <a href="{{ routes.account_logout_url }}" class="mobile-menu__account-btn btn btn--ghost btn--full">Log out</a>
+        {%- else -%}
+          <a href="{{ routes.account_login_url }}" class="mobile-menu__account-btn btn btn--primary btn--full">Log in</a>
+          <a href="{{ routes.account_register_url }}" class="mobile-menu__account-btn btn btn--ghost btn--full">Register</a>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
   </div>
 </div>
 

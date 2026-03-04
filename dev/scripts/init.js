@@ -609,7 +609,20 @@
       $(document).on('click', '[data-mobile-menu-close]', function(e) {
         e.preventDefault();
         $('[data-mobile-menu]').removeClass('is-open');
+        $('[data-mobile-submenu]').removeClass('is-open');
         $('body').css('overflow', '');
+      });
+
+      // Open submenu (works for level 2 and level 3)
+      $(document).on('click', '[data-mobile-submenu-trigger]', function(e) {
+        e.preventDefault();
+        $(this).siblings('[data-mobile-submenu]').addClass('is-open');
+      });
+
+      // Back button (closes the nearest submenu)
+      $(document).on('click', '[data-mobile-back]', function(e) {
+        e.preventDefault();
+        $(this).closest('[data-mobile-submenu]').removeClass('is-open');
       });
     }
   };

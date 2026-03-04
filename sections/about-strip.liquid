@@ -25,7 +25,11 @@
         <div class="about-strip__features" data-aos="fade-left" data-aos-delay="200">
           {%- for block in section.blocks -%}
             <div class="about-strip__feature" {{ block.shopify_attributes }}>
-              {%- if block.settings.icon != blank -%}
+              {%- if block.settings.icon_svg != blank -%}
+                <div class="about-strip__feature-icon">
+                  {{ block.settings.icon_svg }}
+                </div>
+              {%- elsif block.settings.icon != blank -%}
                 <div class="about-strip__feature-icon">
                   {{ block.settings.icon | image_url: width: 160 | image_tag: loading: 'lazy', alt: block.settings.label | escape }}
                 </div>
@@ -120,9 +124,15 @@
       "name": "Feature",
       "settings": [
         {
+          "type": "html",
+          "id": "icon_svg",
+          "label": "Icon (SVG code)",
+          "info": "Paste SVG code here. Takes priority over image if both are set."
+        },
+        {
           "type": "image_picker",
           "id": "icon",
-          "label": "Icon"
+          "label": "Icon (image fallback)"
         },
         {
           "type": "text",
