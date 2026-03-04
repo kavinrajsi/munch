@@ -1,0 +1,306 @@
+{%- if settings.age_verify_enabled -%}
+{%- style -%}
+  .age-verifier {
+    position: fixed;
+    inset: 0;
+    z-index: 70;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.7);
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+  }
+  .age-verifier.is-hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  .age-verifier__bg {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    opacity: 0.3;
+  }
+
+  .age-verifier__card {
+    position: relative;
+    background: #fff;
+    border-radius: 12px;
+    padding: 48px 40px;
+    max-width: 460px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  }
+
+  .age-verifier__heading {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0 0 12px;
+    color: var(--color-headings, #161a1d);
+  }
+
+  .age-verifier__description {
+    font-size: 0.95rem;
+    color: var(--color-text, #555);
+    margin: 0 0 32px;
+    line-height: 1.5;
+  }
+
+  .age-verifier__actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .age-verifier__btn {
+    padding: 12px 32px;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+    transition: opacity 0.2s;
+  }
+  .age-verifier__btn:hover {
+    opacity: 0.85;
+  }
+  .age-verifier__btn--yes {
+    background: var(--btn-primary-bg, #161a1d);
+    color: var(--btn-primary-text, #fff);
+  }
+  .age-verifier__btn--no {
+    background: var(--btn-secondary-bg, #f5f3f4);
+    color: var(--btn-secondary-text, #161a1d);
+  }
+
+  .age-verifier__form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .age-verifier__dob-fields {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+  }
+  .age-verifier__dob-fields input,
+  .age-verifier__dob-fields select {
+    padding: 10px 12px;
+    border: 1px solid var(--color-borders, #ddd);
+    border-radius: 6px;
+    font-size: 1rem;
+    font-family: inherit;
+    text-align: center;
+    background: #fff;
+  }
+  .age-verifier__dob-fields input {
+    width: 70px;
+  }
+  .age-verifier__dob-fields select {
+    width: 120px;
+  }
+
+  .age-verifier__error {
+    color: #d00;
+    font-size: 0.9rem;
+    display: none;
+    margin-top: 8px;
+  }
+  .age-verifier__error.is-visible {
+    display: block;
+  }
+
+  .age-verifier__rejected {
+    display: none;
+  }
+  .age-verifier__rejected.is-visible {
+    display: block;
+  }
+  .age-verifier__rejected p {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #d00;
+  }
+{%- endstyle -%}
+
+<div class="age-verifier" id="AgeVerifier" data-age-verifier
+  data-min-age="{{ settings.age_verify_min_age }}"
+  data-mode="{{ settings.age_verify_mode }}"
+  data-fail-action="{{ settings.age_verify_fail_action }}"
+  data-redirect-url="{{ settings.age_verify_redirect_url }}"
+  data-remember-days="{{ settings.age_verify_remember_days }}"
+>
+  {%- if settings.age_verify_bg_image != blank -%}
+    <div class="age-verifier__bg" style="background-image: url('{{ settings.age_verify_bg_image | image_url: width: 1920 }}');"></div>
+  {%- endif -%}
+
+  <div class="age-verifier__card">
+    <h2 class="age-verifier__heading">{{ settings.age_verify_heading }}</h2>
+    <p class="age-verifier__description">
+      {{ settings.age_verify_description | replace: '{{ age }}', settings.age_verify_min_age }}
+    </p>
+
+    {%- comment -%} Mode: Simple Confirm {%- endcomment -%}
+    {%- if settings.age_verify_mode == 'confirm' -%}
+      <div class="age-verifier__actions">
+        <button class="age-verifier__btn age-verifier__btn--yes" type="button" data-age-verify-yes>
+          I am {{ settings.age_verify_min_age }}+
+        </button>
+        <button class="age-verifier__btn age-verifier__btn--no" type="button" data-age-verify-no>
+          I am not
+        </button>
+      </div>
+
+    {%- comment -%} Mode: Date of Birth {%- endcomment -%}
+    {%- elsif settings.age_verify_mode == 'dob' -%}
+      <div class="age-verifier__form">
+        <div class="age-verifier__dob-fields">
+          <input type="number" placeholder="DD" min="1" max="31" data-age-dob-day aria-label="Day">
+          <input type="number" placeholder="MM" min="1" max="12" data-age-dob-month aria-label="Month">
+          <input type="number" placeholder="YYYY" min="1900" max="2025" data-age-dob-year aria-label="Year" style="width:90px">
+        </div>
+        <button class="age-verifier__btn age-verifier__btn--yes" type="button" data-age-verify-dob-submit>
+          Submit
+        </button>
+      </div>
+
+    {%- comment -%} Mode: Year Dropdown {%- endcomment -%}
+    {%- elsif settings.age_verify_mode == 'year' -%}
+      <div class="age-verifier__form">
+        <div class="age-verifier__dob-fields">
+          <select data-age-verify-year aria-label="Birth year">
+            <option value="">Select year...</option>
+          </select>
+        </div>
+        <button class="age-verifier__btn age-verifier__btn--yes" type="button" data-age-verify-year-submit>
+          Submit
+        </button>
+      </div>
+    {%- endif -%}
+
+    <p class="age-verifier__error" data-age-error>Please enter a valid date.</p>
+
+    <div class="age-verifier__rejected" data-age-rejected>
+      <p>{{ settings.age_verify_fail_message }}</p>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  var el = document.getElementById('AgeVerifier');
+  if (!el) return;
+
+  var minAge = parseInt(el.dataset.minAge, 10);
+  var mode = el.dataset.mode;
+  var failAction = el.dataset.failAction;
+  var redirectUrl = el.dataset.redirectUrl;
+  var rememberDays = parseInt(el.dataset.rememberDays, 10) || 30;
+  var STORAGE_KEY = 'age_verified';
+
+  function getCookie(name) {
+    var m = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+    return m ? m[2] : null;
+  }
+
+  function setCookie(name, value, days) {
+    var d = new Date();
+    d.setTime(d.getTime() + days * 86400000);
+    document.cookie = name + '=' + value + ';expires=' + d.toUTCString() + ';path=/;SameSite=Lax';
+  }
+
+  if (localStorage.getItem(STORAGE_KEY) === 'true' || getCookie(STORAGE_KEY) === '1') {
+    el.classList.add('is-hidden');
+    return;
+  }
+
+  document.body.style.overflow = 'hidden';
+
+  function pass() {
+    localStorage.setItem(STORAGE_KEY, 'true');
+    setCookie(STORAGE_KEY, '1', rememberDays);
+    el.classList.add('is-hidden');
+    document.body.style.overflow = '';
+  }
+
+  function fail() {
+    if (failAction === 'redirect' && redirectUrl) {
+      window.location.href = redirectUrl;
+    } else {
+      var rejected = el.querySelector('[data-age-rejected]');
+      var actions = el.querySelector('.age-verifier__actions') || el.querySelector('.age-verifier__form');
+      if (actions) actions.style.display = 'none';
+      if (rejected) rejected.classList.add('is-visible');
+    }
+  }
+
+  function showError(msg) {
+    var err = el.querySelector('[data-age-error]');
+    if (err) { err.textContent = msg; err.classList.add('is-visible'); }
+  }
+  function hideError() {
+    var err = el.querySelector('[data-age-error]');
+    if (err) err.classList.remove('is-visible');
+  }
+
+  function calcAge(year, month, day) {
+    var today = new Date();
+    var age = today.getFullYear() - year;
+    var m = today.getMonth() + 1 - month;
+    if (m < 0 || (m === 0 && today.getDate() < day)) age--;
+    return age;
+  }
+
+  // Simple confirm
+  var yesBtn = el.querySelector('[data-age-verify-yes]');
+  var noBtn = el.querySelector('[data-age-verify-no]');
+  if (yesBtn) yesBtn.addEventListener('click', pass);
+  if (noBtn) noBtn.addEventListener('click', fail);
+
+  // DOB
+  var dobSubmit = el.querySelector('[data-age-verify-dob-submit]');
+  if (dobSubmit) {
+    dobSubmit.addEventListener('click', function() {
+      hideError();
+      var d = parseInt(el.querySelector('[data-age-dob-day]').value, 10);
+      var m = parseInt(el.querySelector('[data-age-dob-month]').value, 10);
+      var y = parseInt(el.querySelector('[data-age-dob-year]').value, 10);
+      if (!d || !m || !y || d < 1 || d > 31 || m < 1 || m > 12 || y < 1900) {
+        showError('Please enter a valid date.');
+        return;
+      }
+      calcAge(y, m, d) >= minAge ? pass() : fail();
+    });
+  }
+
+  // Year dropdown
+  var yearSelect = el.querySelector('[data-age-verify-year]');
+  if (yearSelect) {
+    var currentYear = new Date().getFullYear();
+    for (var yr = currentYear; yr >= 1900; yr--) {
+      var opt = document.createElement('option');
+      opt.value = yr; opt.textContent = yr;
+      yearSelect.appendChild(opt);
+    }
+  }
+  var yearSubmit = el.querySelector('[data-age-verify-year-submit]');
+  if (yearSubmit) {
+    yearSubmit.addEventListener('click', function() {
+      hideError();
+      var y = parseInt(yearSelect.value, 10);
+      if (!y) { showError('Please select your birth year.'); return; }
+      (new Date().getFullYear() - y) >= minAge ? pass() : fail();
+    });
+  }
+})();
+</script>
+{%- endif -%}
