@@ -167,6 +167,23 @@
         "view_all_label": "View all"
       }
     },
+    "promo_banner_KF3mq3": {
+      "type": "promo-banner",
+      "name": "Promo Banner",
+      "settings": {
+        "heading": "Sweets for Every Celebration",
+        "description": "From festive gatherings to family functions, every moment deserves something sweet. Our traditional recipes bring authentic taste to your celebrations.",
+        "button_label": "View all collections",
+        "button_link": "shopify://collections",
+        "image": "shopify://shop_images/Mask_group.png",
+        "pattern_image": "shopify://shop_images/prombg.png",
+        "bg_color": "#C61D23",
+        "padding_top_desktop": 40,
+        "padding_bottom_desktop": 40,
+        "padding_top_mobile": 32,
+        "padding_bottom_mobile": 32
+      }
+    },
     "icon_with_text_UktifF": {
       "type": "icon-with-text",
       "blocks": {
@@ -434,33 +451,16 @@
         "padding_top_mobile": 20,
         "padding_bottom_mobile": 20
       }
-    },
-    "promo_banner_KF3mq3": {
-      "type": "promo-banner",
-      "name": "Promo Banner",
-      "settings": {
-        "heading": "Sweets for Every Celebration",
-        "description": "From festive gatherings to family functions, every moment deserves something sweet. Our traditional recipes bring authentic taste to your celebrations.",
-        "button_label": "View all collections",
-        "button_link": "shopify://collections",
-        "image": "shopify://shop_images/Mask_group.png",
-        "pattern_image": "shopify://shop_images/prombg.png",
-        "bg_color": "#C61D23",
-        "padding_top_desktop": 40,
-        "padding_bottom_desktop": 40,
-        "padding_top_mobile": 32,
-        "padding_bottom_mobile": 32
-      }
     }
   },
   "order": [
     "hero",
     "icon_with_text_scroll_QniYB3",
     "featured_collection_carousel_9NjQpC",
+    "promo_banner_KF3mq3",
     "icon_with_text_UktifF",
     "featured_collection_carousel_kbJ7rW",
     "visit_us_locations_hzNWNb",
-    "testimonials_xGAihr",
-    "promo_banner_KF3mq3"
+    "testimonials_xGAihr"
   ]
 }
