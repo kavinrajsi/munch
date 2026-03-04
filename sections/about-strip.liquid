@@ -1,0 +1,149 @@
+<div
+  class="about-strip"
+  style="
+    --as-bg: {{ section.settings.bg_color }};
+    --as-pt-desktop: {{ section.settings.padding_top_desktop }}px;
+    --as-pb-desktop: {{ section.settings.padding_bottom_desktop }}px;
+    --as-pt-mobile: {{ section.settings.padding_top_mobile }}px;
+    --as-pb-mobile: {{ section.settings.padding_bottom_mobile }}px;
+  "
+  {{ section.shopify_attributes }}
+>
+  <div class="container">
+    <div class="about-strip__inner">
+      <div class="about-strip__content" data-aos="fade-right">
+        {%- if section.settings.heading != blank -%}
+          <h2 class="about-strip__heading">{{ section.settings.heading }}</h2>
+        {%- endif -%}
+
+        {%- if section.settings.description != blank -%}
+          <div class="about-strip__description">{{ section.settings.description }}</div>
+        {%- endif -%}
+      </div>
+
+      {%- if section.blocks.size > 0 -%}
+        <div class="about-strip__features" data-aos="fade-left" data-aos-delay="200">
+          {%- for block in section.blocks -%}
+            <div class="about-strip__feature" {{ block.shopify_attributes }}>
+              {%- if block.settings.icon != blank -%}
+                <div class="about-strip__feature-icon">
+                  {{ block.settings.icon | image_url: width: 160 | image_tag: loading: 'lazy', alt: block.settings.label | escape }}
+                </div>
+              {%- endif -%}
+              {%- if block.settings.label != blank -%}
+                <p class="about-strip__feature-label">{{ block.settings.label }}</p>
+              {%- endif -%}
+            </div>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "About Strip",
+  "tag": "section",
+  "class": "about-strip-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Nithya Amirtham – Chennai's Finest Sweets, Now Delivered All Across India!"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description",
+      "default": "<p>At Nithya Amirtham, we bring you the authentic taste of India's finest sweets and snacks, now available for delivery anywhere in India. What started as a single shop in Arumbakkam, Chennai, has grown into one of the most loved and trusted sweet shops in Chennai, with multiple outlets in Chennai, Kanchipuram, and Tiruvallur.</p><p>Our online store allows you to enjoy the same delicious treats from the comfort of your home. From traditional sweets to crispy savouries, order online and have fresh sweets delivered to your doorstep across India.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background color",
+      "default": "#C61D23"
+    },
+    {
+      "type": "header",
+      "content": "Section spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top_desktop",
+      "label": "Padding top — desktop",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "default": 56,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_desktop",
+      "label": "Padding bottom — desktop",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "default": 56,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "label": "Padding top — mobile",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "default": 32,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "label": "Padding bottom — mobile",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "default": 32,
+      "unit": "px"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Feature",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Icon"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Feature"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "About Strip",
+      "category": "Storytelling",
+      "blocks": [
+        { "type": "feature", "settings": { "label": "Fresh from Our Kitchen" } },
+        { "type": "feature", "settings": { "label": "Taste of Tradition" } },
+        { "type": "feature", "settings": { "label": "Purely Vegetarian" } },
+        { "type": "feature", "settings": { "label": "Crafted with Love" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
