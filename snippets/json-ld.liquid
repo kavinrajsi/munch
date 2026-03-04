@@ -1,27 +1,76 @@
+{%- comment -%}
+  Comprehensive JSON-LD Schema Markup
+  Optimized for Google SGE, ChatGPT, Perplexity, Gemini
+{%- endcomment -%}
+
+{%- comment -%} ════════════════════════════════════════
+  HOMEPAGE: Organization + WebSite + SearchAction
+════════════════════════════════════════ {%- endcomment -%}
 {%- if request.page_type == 'index' -%}
   <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "Organization",
-      "name": {{ shop.name | json }},
-      "url": {{ shop.url | json }},
-      {%- if settings.social_facebook -%}
-        "sameAs": [
-          {{ settings.social_facebook | json }}
-          {%- if settings.social_instagram -%},{{ settings.social_instagram | json }}{%- endif -%}
-          {%- if settings.social_twitter -%},{{ settings.social_twitter | json }}{%- endif -%}
-          {%- if settings.social_youtube -%},{{ settings.social_youtube | json }}{%- endif -%}
-        ],
-      {%- endif -%}
-      "contactPoint": {
-        "@type": "ContactPoint",
-        "telephone": {{ shop.phone | json }},
-        "contactType": "customer service"
-      }
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "{{ shop.url }}/#organization",
+          "name": {{ shop.name | json }},
+          "url": {{ shop.url | json }},
+          {%- if shop.brand.logo -%}
+            "logo": {
+              "@type": "ImageObject",
+              "url": "https:{{ shop.brand.logo | image_url: width: 600 }}",
+              "width": 600
+            },
+          {%- endif -%}
+          {%- assign social_links = '' -%}
+          {%- if settings.social_facebook -%}{%- assign social_links = social_links | append: settings.social_facebook | append: ',' -%}{%- endif -%}
+          {%- if settings.social_instagram -%}{%- assign social_links = social_links | append: settings.social_instagram | append: ',' -%}{%- endif -%}
+          {%- if settings.social_twitter -%}{%- assign social_links = social_links | append: settings.social_twitter | append: ',' -%}{%- endif -%}
+          {%- if settings.social_youtube -%}{%- assign social_links = social_links | append: settings.social_youtube | append: ',' -%}{%- endif -%}
+          {%- if social_links != '' -%}
+            "sameAs": [
+              {%- assign social_array = social_links | split: ',' -%}
+              {%- for link in social_array -%}
+                {%- if link != '' -%}
+                  {{ link | json }}{%- unless forloop.last -%},{%- endunless -%}
+                {%- endif -%}
+              {%- endfor -%}
+            ],
+          {%- endif -%}
+          "contactPoint": {
+            "@type": "ContactPoint",
+            "telephone": {{ shop.phone | json }},
+            "contactType": "customer service",
+            "availableLanguage": {{ request.locale.iso_code | json }}
+          }
+        },
+        {
+          "@type": "WebSite",
+          "@id": "{{ shop.url }}/#website",
+          "name": {{ shop.name | json }},
+          "url": {{ shop.url | json }},
+          "inLanguage": {{ request.locale.iso_code | json }},
+          "publisher": {
+            "@id": "{{ shop.url }}/#organization"
+          },
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": {
+              "@type": "EntryPoint",
+              "urlTemplate": "{{ shop.url }}/search?q={search_term_string}"
+            },
+            "query-input": "required name=search_term_string"
+          }
+        }
+      ]
     }
   </script>
 {%- endif -%}
 
+{%- comment -%} ════════════════════════════════════════
+  BREADCRUMBS: All non-homepage pages
+════════════════════════════════════════ {%- endcomment -%}
 {%- unless request.page_type == 'index' -%}
   <script type="application/ld+json">
     {
@@ -82,32 +131,248 @@
   </script>
 {%- endunless -%}
 
+{%- comment -%} ════════════════════════════════════════
+  PRODUCT: Product + AggregateOffer + Review + AggregateRating + Brand + ImageObject
+════════════════════════════════════════ {%- endcomment -%}
 {%- if request.page_type == 'product' -%}
   <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "Product",
+      "@id": "{{ shop.url }}{{ product.url }}#product",
       "name": {{ product.title | json }},
       "url": "{{ shop.url }}{{ product.url }}",
-      "description": {{ product.description | strip_html | truncate: 500 | json }},
-      {%- if product.featured_image -%}
-        "image": "https:{{ product.featured_image | image_url: width: 1024 }}",
+      "description": {{ product.description | strip_html | strip_newlines | truncate: 5000 | json }},
+      "sku": {{ product.selected_or_first_available_variant.sku | json }},
+      {%- if product.metafields.custom.ingredients -%}
+        "additionalProperty": [
+          {
+            "@type": "PropertyValue",
+            "name": "Ingredients",
+            "value": {{ product.metafields.custom.ingredients | strip_html | json }}
+          }
+          {%- if product.metafields.custom.nutritional_info -%}
+          ,{
+            "@type": "PropertyValue",
+            "name": "Nutritional Information",
+            "value": {{ product.metafields.custom.nutritional_info | strip_html | json }}
+          }
+          {%- endif -%}
+        ],
       {%- endif -%}
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "{{ shop.url }}{{ product.url }}"
+      },
+      "inLanguage": {{ request.locale.iso_code | json }},
+      {%- comment -%} Images {%- endcomment -%}
+      "image": [
+        {%- for image in product.images limit: 10 -%}
+          {
+            "@type": "ImageObject",
+            "url": "https:{{ image | image_url: width: 1024 }}",
+            "width": {{ image.width }},
+            "height": {{ image.height }}
+          }{%- unless forloop.last -%},{%- endunless -%}
+        {%- endfor -%}
+      ],
       "brand": {
         "@type": "Brand",
         "name": {{ product.vendor | json }}
       },
-      "offers": {
-        "@type": "Offer",
-        "url": "{{ shop.url }}{{ product.url }}",
-        "priceCurrency": {{ cart.currency.iso_code | json }},
-        "price": {{ product.price | money_without_currency | json }},
-        "availability": "https://schema.org/{% if product.available %}InStock{% else %}OutOfStock{% endif %}",
-        "seller": {
-          "@type": "Organization",
-          "name": {{ shop.name | json }}
+      "isPartOf": {
+        "@type": "WebSite",
+        "@id": "{{ shop.url }}/#website"
+      },
+      {%- comment -%} Speakable — AI assistants read this {%- endcomment -%}
+      "speakable": {
+        "@type": "SpeakableSpecification",
+        "cssSelector": [".product-page__title", ".product-page__price", ".product-page__description"]
+      },
+      {%- comment -%} Offers: AggregateOffer for variants, single Offer if one price {%- endcomment -%}
+      {%- if product.price_min != product.price_max -%}
+        "offers": {
+          "@type": "AggregateOffer",
+          "url": "{{ shop.url }}{{ product.url }}",
+          "priceCurrency": {{ cart.currency.iso_code | json }},
+          "lowPrice": {{ product.price_min | money_without_currency | json }},
+          "highPrice": {{ product.price_max | money_without_currency | json }},
+          "offerCount": {{ product.variants.size }},
+          "availability": "https://schema.org/{% if product.available %}InStock{% else %}OutOfStock{% endif %}",
+          "seller": {
+            "@type": "Organization",
+            "name": {{ shop.name | json }}
+          }
         }
-      }
+      {%- else -%}
+        "offers": {
+          "@type": "Offer",
+          "url": "{{ shop.url }}{{ product.url }}",
+          "priceCurrency": {{ cart.currency.iso_code | json }},
+          "price": {{ product.price | money_without_currency | json }},
+          "availability": "https://schema.org/{% if product.available %}InStock{% else %}OutOfStock{% endif %}",
+          "itemCondition": "https://schema.org/NewCondition",
+          "seller": {
+            "@type": "Organization",
+            "name": {{ shop.name | json }}
+          }
+        }
+      {%- endif -%}
+      {%- comment -%} AggregateRating from Judge.me {%- endcomment -%}
+      {%- if product.metafields.judgeme.badge != blank -%}
+        {%- assign jm_badge = product.metafields.judgeme.badge -%}
+        {%- assign rating_match = jm_badge | split: 'data-average-rating="' | last | split: '"' | first -%}
+        {%- assign count_match = jm_badge | split: 'data-number-of-reviews="' | last | split: '"' | first -%}
+        {%- if rating_match != blank and count_match != blank and count_match != '0' -%}
+          ,"aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": {{ rating_match | json }},
+            "reviewCount": {{ count_match | json }},
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        {%- endif -%}
+      {%- endif -%}
     }
   </script>
 {%- endif -%}
+
+{%- comment -%} ════════════════════════════════════════
+  COLLECTION: ItemList
+════════════════════════════════════════ {%- endcomment -%}
+{%- if request.page_type == 'collection' -%}
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ItemList",
+      "name": {{ collection.title | json }},
+      "description": {{ collection.description | strip_html | truncate: 1000 | json }},
+      "url": "{{ shop.url }}{{ collection.url }}",
+      "numberOfItems": {{ collection.products_count }},
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "{{ shop.url }}{{ collection.url }}"
+      },
+      "itemListElement": [
+        {%- for product in collection.products limit: 50 -%}
+          {
+            "@type": "ListItem",
+            "position": {{ forloop.index }},
+            "url": "{{ shop.url }}{{ product.url }}",
+            "name": {{ product.title | json }},
+            "image": "https:{{ product.featured_image | image_url: width: 600 }}"
+          }{%- unless forloop.last -%},{%- endunless -%}
+        {%- endfor -%}
+      ]
+    }
+  </script>
+{%- endif -%}
+
+{%- comment -%} ════════════════════════════════════════
+  ARTICLE: BlogPosting + Person + ImageObject
+════════════════════════════════════════ {%- endcomment -%}
+{%- if request.page_type == 'article' -%}
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "@id": "{{ shop.url }}{{ article.url }}#article",
+      "headline": {{ article.title | json }},
+      "description": {{ article.excerpt_or_content | strip_html | truncate: 500 | json }},
+      "articleBody": {{ article.content | strip_html | json }},
+      "url": "{{ shop.url }}{{ article.url }}",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "{{ shop.url }}{{ article.url }}"
+      },
+      "isPartOf": {
+        "@type": "WebSite",
+        "@id": "{{ shop.url }}/#website"
+      },
+      "inLanguage": {{ request.locale.iso_code | json }},
+      "datePublished": {{ article.published_at | date: '%Y-%m-%dT%H:%M:%S%z' | json }},
+      "dateModified": {{ article.updated_at | date: '%Y-%m-%dT%H:%M:%S%z' | json }},
+      "wordCount": {{ article.content | strip_html | split: ' ' | size }},
+      {%- if article.image -%}
+        "image": {
+          "@type": "ImageObject",
+          "url": "https:{{ article.image | image_url: width: 1200 }}",
+          "width": {{ article.image.width }},
+          "height": {{ article.image.height }}
+        },
+      {%- endif -%}
+      "author": {
+        "@type": "Person",
+        "name": {{ article.author | json }}
+      },
+      "publisher": {
+        "@type": "Organization",
+        "@id": "{{ shop.url }}/#organization",
+        "name": {{ shop.name | json }}
+        {%- if shop.brand.logo -%}
+          ,"logo": {
+            "@type": "ImageObject",
+            "url": "https:{{ shop.brand.logo | image_url: width: 600 }}"
+          }
+        {%- endif -%}
+      },
+      "speakable": {
+        "@type": "SpeakableSpecification",
+        "cssSelector": [".article-page__title", ".article-page__content"]
+      }
+      {%- if article.tags.size > 0 -%}
+        ,"keywords": {{ article.tags | join: ', ' | json }}
+      {%- endif -%}
+      {%- if article.comments_count > 0 -%}
+        ,"commentCount": {{ article.comments_count }}
+        ,"comment": [
+          {%- for comment in article.comments limit: 20 -%}
+            {
+              "@type": "Comment",
+              "author": {
+                "@type": "Person",
+                "name": {{ comment.author | json }}
+              },
+              "datePublished": {{ comment.created_at | date: '%Y-%m-%dT%H:%M:%S%z' | json }},
+              "text": {{ comment.content | strip_html | json }}
+            }{%- unless forloop.last -%},{%- endunless -%}
+          {%- endfor -%}
+        ]
+      {%- endif -%}
+    }
+  </script>
+{%- endif -%}
+
+{%- comment -%} ════════════════════════════════════════
+  BLOG: ItemList of articles
+════════════════════════════════════════ {%- endcomment -%}
+{%- if request.page_type == 'blog' -%}
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ItemList",
+      "name": {{ blog.title | json }},
+      "url": "{{ shop.url }}{{ blog.url }}",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "{{ shop.url }}{{ blog.url }}"
+      },
+      "itemListElement": [
+        {%- for article in blog.articles limit: 50 -%}
+          {
+            "@type": "ListItem",
+            "position": {{ forloop.index }},
+            "url": "{{ shop.url }}{{ article.url }}",
+            "name": {{ article.title | json }}
+          }{%- unless forloop.last -%},{%- endunless -%}
+        {%- endfor -%}
+      ]
+    }
+  </script>
+{%- endif -%}
+
+{%- comment -%} ════════════════════════════════════════
+  STORE LOCATOR: LocalBusiness + ContactPoint
+  Rendered separately via: {% render 'json-ld-store', store_blocks: section.blocks %}
+  in main-store-locator.liquid (needs section.blocks access)
+════════════════════════════════════════ {%- endcomment -%}

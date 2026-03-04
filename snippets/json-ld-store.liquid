@@ -1,0 +1,35 @@
+{%- comment -%}
+  LocalBusiness schema for store locator pages
+  Usage: {% render 'json-ld-store', store_blocks: section.blocks %}
+{%- endcomment -%}
+{%- for block in store_blocks -%}
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "name": {{ block.settings.name | json }},
+      {%- if block.settings.address != blank -%}
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": {{ block.settings.address | json }}
+        },
+      {%- endif -%}
+      {%- if block.settings.phone != blank -%}
+        "telephone": {{ block.settings.phone | json }},
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "telephone": {{ block.settings.phone | json }},
+          "contactType": "customer service"
+        },
+      {%- endif -%}
+      {%- if block.settings.hours != blank -%}
+        "openingHours": {{ block.settings.hours | json }},
+      {%- endif -%}
+      "parentOrganization": {
+        "@type": "Organization",
+        "@id": "{{ shop.url }}/#organization",
+        "name": {{ shop.name | json }}
+      }
+    }
+  </script>
+{%- endfor -%}
