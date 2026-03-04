@@ -1,5 +1,5 @@
 <div class="testimonials" style="--tm-pt-desktop: {{ section.settings.padding_top_desktop }}px; --tm-pb-desktop: {{ section.settings.padding_bottom_desktop }}px; --tm-pt-mobile: {{ section.settings.padding_top_mobile }}px; --tm-pb-mobile: {{ section.settings.padding_bottom_mobile }}px;" {{ section.shopify_attributes }}>
-  <div class="container">
+  <div class="{{ section.settings.container_type }}">
     {%- if section.settings.title != blank -%}
       <div class="">
         {%- render 'section-heading',
@@ -37,6 +37,20 @@
   "tag": "section",
   "class": "testimonials-section",
   "settings": [
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "container_type",
+      "label": "Container type",
+      "options": [
+        { "value": "container", "label": "Container" },
+        { "value": "container-fluid", "label": "Container fluid" }
+      ],
+      "default": "container"
+    },
     {
       "type": "text",
       "id": "title",

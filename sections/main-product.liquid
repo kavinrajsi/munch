@@ -1,9 +1,9 @@
 <div class="main-product" {{ section.shopify_attributes }}>
-  <div class="container">
+  <div class="{{ section.settings.container_type }}">
 
     {%- comment -%} Breadcrumbs {%- endcomment -%}
     <nav class="main-product__breadcrumbs" aria-label="Breadcrumb">
-      <a href="/">Home</a>
+      <a href="{{ routes.root_url }}">Home</a>
       <svg viewBox="0 0 6 10" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
         <polyline points="1 1 5 5 1 9"/>
       </svg>
@@ -42,7 +42,7 @@
 
           {%- liquid
             assign has_extra_thumbs = false
-            if product.media.size > 1 or section.settings.video_url_1 != blank or section.settings.video_url_2 != blank
+            if product.media.size > 1
               assign has_extra_thumbs = true
             endif
           -%}
@@ -103,41 +103,6 @@
                 {%- endif -%}
               {%- endfor -%}
 
-              {%- comment -%} External video URLs from section settings {%- endcomment -%}
-              {%- if section.settings.video_url_1 != blank -%}
-                <button
-                  type="button"
-                  class="main-product__gallery-thumb--video"
-                  data-media-type="external_setting"
-                  data-video-host="{{ section.settings.video_url_1.type }}"
-                  data-video-id="{{ section.settings.video_url_1.id }}"
-                  aria-label="Play external video 1"
-                >
-                  {%- if section.settings.video_url_1.type == 'youtube' -%}
-                    <img src="https://img.youtube.com/vi/{{ section.settings.video_url_1.id }}/default.jpg" alt="Video thumbnail" loading="lazy">
-                  {%- else -%}
-                    <span class="main-product__video-placeholder">▶</span>
-                  {%- endif -%}
-                  <span class="main-product__play-icon">▶</span>
-                </button>
-              {%- endif -%}
-              {%- if section.settings.video_url_2 != blank -%}
-                <button
-                  type="button"
-                  class="main-product__gallery-thumb--video"
-                  data-media-type="external_setting"
-                  data-video-host="{{ section.settings.video_url_2.type }}"
-                  data-video-id="{{ section.settings.video_url_2.id }}"
-                  aria-label="Play external video 2"
-                >
-                  {%- if section.settings.video_url_2.type == 'youtube' -%}
-                    <img src="https://img.youtube.com/vi/{{ section.settings.video_url_2.id }}/default.jpg" alt="Video thumbnail" loading="lazy">
-                  {%- else -%}
-                    <span class="main-product__video-placeholder">▶</span>
-                  {%- endif -%}
-                  <span class="main-product__play-icon">▶</span>
-                </button>
-              {%- endif -%}
             </div>
           {%- endif -%}
         </div>
@@ -180,22 +145,24 @@
         </div>
 
         {%- comment -%} Meta Badges (Shelf Life, Sweetness, etc.) {%- endcomment -%}
-        {%- if section.settings.meta_badge_1_text != blank or section.settings.meta_badge_2_text != blank -%}
+        {%- assign badge_1_text = product.metafields.custom.badge_1_text | default: section.settings.meta_badge_1_text -%}
+        {%- assign badge_2_text = product.metafields.custom.badge_2_text | default: section.settings.meta_badge_2_text -%}
+        {%- if badge_1_text != blank or badge_2_text != blank -%}
           <div class="main-product__meta">
-            {%- if section.settings.meta_badge_1_text != blank -%}
+            {%- if badge_1_text != blank -%}
               <div class="main-product__meta-item">
                 {%- if section.settings.meta_badge_1_icon != blank -%}
                   {{ section.settings.meta_badge_1_icon }}
                 {%- endif -%}
-                <span>{{ section.settings.meta_badge_1_text }}</span>
+                <span>{{ badge_1_text }}</span>
               </div>
             {%- endif -%}
-            {%- if section.settings.meta_badge_2_text != blank -%}
+            {%- if badge_2_text != blank -%}
               <div class="main-product__meta-item">
                 {%- if section.settings.meta_badge_2_icon != blank -%}
                   {{ section.settings.meta_badge_2_icon }}
                 {%- endif -%}
-                <span>{{ section.settings.meta_badge_2_text }}</span>
+                <span>{{ badge_2_text }}</span>
               </div>
             {%- endif -%}
           </div>
@@ -540,6 +507,20 @@
   "class": "main-product-section",
   "settings": [
     {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "container_type",
+      "label": "Container type",
+      "options": [
+        { "value": "container", "label": "Container" },
+        { "value": "container-fluid", "label": "Container fluid" }
+      ],
+      "default": "container"
+    },
+    {
       "type": "checkbox",
       "id": "show_vendor",
       "label": "Show Vendor",
@@ -609,23 +590,6 @@
     },
     {
       "type": "header",
-      "content": "Videos"
-    },
-    {
-      "type": "video_url",
-      "id": "video_url_1",
-      "label": "External Video URL 1",
-      "accept": ["youtube", "vimeo"],
-      "info": "YouTube or Vimeo URL. Appears as a thumbnail in the gallery."
-    },
-    {
-      "type": "video_url",
-      "id": "video_url_2",
-      "label": "External Video URL 2",
-      "accept": ["youtube", "vimeo"]
-    },
-    {
-      "type": "header",
       "content": "Meta Badges"
     },
     {
@@ -637,8 +601,9 @@
     {
       "type": "text",
       "id": "meta_badge_1_text",
-      "label": "Badge 1 Text",
-      "default": "Shelf Life - 15 days"
+      "label": "Badge 1 Text (fallback)",
+      "default": "Shelf Life - 15 days",
+      "info": "Overridden by product metafield custom.badge_1_text"
     },
     {
       "type": "html",
@@ -649,8 +614,9 @@
     {
       "type": "text",
       "id": "meta_badge_2_text",
-      "label": "Badge 2 Text",
-      "default": "Medium Sweetness"
+      "label": "Badge 2 Text (fallback)",
+      "default": "Medium Sweetness",
+      "info": "Overridden by product metafield custom.badge_2_text"
     }
   ],
   "blocks": [

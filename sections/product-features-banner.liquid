@@ -6,7 +6,7 @@
   "
   {{ section.shopify_attributes }}
 >
-  <div class="container">
+  <div class="{{ section.settings.container_type }}">
     {%- if section.settings.title != blank -%}
       {% render 'section-heading',
         title: section.settings.title,
@@ -48,6 +48,20 @@
   "tag": "section",
   "class": "product-features-banner-section",
   "settings": [
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "container_type",
+      "label": "Container type",
+      "options": [
+        { "value": "container", "label": "Container" },
+        { "value": "container-fluid", "label": "Container fluid" }
+      ],
+      "default": "container"
+    },
     {
       "type": "text",
       "id": "title",

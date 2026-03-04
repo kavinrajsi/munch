@@ -13,7 +13,7 @@
   data-url="{{ routes.product_recommendations_url }}?section_id={{ section.id }}&product_id={{ product.id }}&limit={{ section.settings.products_to_show }}"
   {{ section.shopify_attributes }}
 >
-  <div class="container">
+  <div class="{{ section.settings.container_type }}">
     {%- if section.settings.heading != blank -%}
       <div>
         {%- render 'section-heading',
@@ -55,6 +55,20 @@
   "tag": "section",
   "class": "related-products-section",
   "settings": [
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "container_type",
+      "label": "Container type",
+      "options": [
+        { "value": "container", "label": "Container" },
+        { "value": "container-fluid", "label": "Container fluid" }
+      ],
+      "default": "container"
+    },
     {
       "type": "text",
       "id": "heading",
