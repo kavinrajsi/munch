@@ -76,6 +76,93 @@
   .main-product__pickup-store-directions:hover {
     text-decoration: underline;
   }
+
+  .main-product__accordion-trigger-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .main-product__accordion-trigger-label svg {
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+  }
+
+  .nutrition__table-wrap {
+    padding: 16px 0 8px;
+  }
+  .nutrition__table-wrap table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+  }
+  .nutrition__table-wrap thead th {
+    font-weight: 600;
+    text-align: left;
+    padding: 8px 0;
+    border-bottom: 3px solid #0B090A;
+    color: var(--color-headings, #0B090A);
+  }
+  .nutrition__table-wrap thead th:last-child {
+    text-align: right;
+  }
+  .nutrition__table-wrap tbody td {
+    padding: 8px 0;
+    border-bottom: 1px solid #e5e5e5;
+    color: var(--color-text, #333);
+  }
+  .nutrition__table-wrap tbody td:last-child {
+    text-align: right;
+    font-weight: 600;
+  }
+  .nutrition__table-wrap tbody tr.nutrition__sub-row td {
+    padding-left: 20px;
+    font-weight: 400;
+  }
+  .nutrition__table-wrap tbody tr.nutrition__sub-row td:first-child {
+    border-bottom: none;
+  }
+  .nutrition__table-wrap tbody tr:last-child td {
+    border-bottom: none;
+  }
+  .nutrition__table-wrap .rte table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .nutrition__table-wrap .rte th {
+    font-weight: 600;
+    text-align: left;
+    padding: 8px 0;
+    border-bottom: 3px solid #0B090A;
+    color: var(--color-headings, #0B090A);
+  }
+  .nutrition__table-wrap .rte th:last-child {
+    text-align: right;
+  }
+  .nutrition__table-wrap .rte td {
+    padding: 8px 0;
+    border-bottom: 1px solid #e5e5e5;
+    color: var(--color-text, #333);
+  }
+  .nutrition__table-wrap .rte td:last-child {
+    text-align: right;
+    font-weight: 600;
+  }
+  .nutrition__disclaimer {
+    font-size: 0.8rem;
+    color: var(--color-text, #888);
+    line-height: 1.5;
+    margin: 16px 0 0;
+    font-style: italic;
+  }
+
+  .nutrition__ingredients {
+    padding: 12px 0;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: var(--color-text, #333);
+  }
+
   .bis-alert {
     margin-top: 16px;
     padding: 20px;
@@ -483,6 +570,47 @@
           {%- endif -%}
         {%- endfor -%}
 
+        {%- comment -%} Ingredients Accordion {%- endcomment -%}
+        {%- assign ingredients = product.metafields.custom.ingredients -%}
+        {%- if section.settings.show_ingredients and ingredients != blank -%}
+          <div class="main-product__accordion">
+            <button class="main-product__accordion-trigger" type="button" data-accordion-trigger>
+              <span class="main-product__accordion-trigger-label">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15h2v-6h-2v6zm0-8h2V7h-2v2z"/></svg>
+                Ingredients
+              </span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="main-product__accordion-content" data-accordion-content>
+              <div class="nutrition__ingredients">
+                {{ ingredients | metafield_tag }}
+              </div>
+            </div>
+          </div>
+        {%- endif -%}
+
+        {%- comment -%} Nutritional Information Accordion {%- endcomment -%}
+        {%- assign nutrition_info = product.metafields.custom.nutritional_info -%}
+        {%- if section.settings.show_nutrition and nutrition_info != blank -%}
+          <div class="main-product__accordion">
+            <button class="main-product__accordion-trigger" type="button" data-accordion-trigger>
+              <span class="main-product__accordion-trigger-label">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><line x1="9" y1="12" x2="15" y2="12"/><line x1="9" y1="16" x2="13" y2="16"/></svg>
+                Nutritional information
+              </span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="main-product__accordion-content" data-accordion-content>
+              <div class="nutrition__table-wrap">
+                {{ nutrition_info | metafield_tag }}
+              </div>
+              {%- if section.settings.nutrition_disclaimer != blank -%}
+                <p class="nutrition__disclaimer">{{ section.settings.nutrition_disclaimer }}</p>
+              {%- endif -%}
+            </div>
+          </div>
+        {%- endif -%}
+
         {%- comment -%} In-Store Pickup Accordion {%- endcomment -%}
         {%- if pickup_count > 0 -%}
           <div class="main-product__accordion" id="pickup-accordion">
@@ -508,6 +636,14 @@
                     {%- if store_matches -%}
                       <div class="main-product__pickup-store" {{ block.shopify_attributes }}>
                         <div class="main-product__pickup-store-name">{{ block.settings.store_name }}</div>
+                        {%- if block.settings.store_address != blank -%}
+                          <div class="main-product__pickup-store-detail">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+                            </svg>
+                            {{ block.settings.store_address }}
+                          </div>
+                        {%- endif -%}
                         {%- if block.settings.store_hours != blank -%}
                           <div class="main-product__pickup-store-detail">
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
@@ -988,6 +1124,30 @@
       "id": "dispatch_details_text",
       "label": "Dispatch Details text",
       "default": "<p>Product will be dispatched within 2-4 working days.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Ingredients & Nutrition"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_ingredients",
+      "label": "Show Ingredients accordion",
+      "default": true,
+      "info": "Reads from product metafield custom.ingredients (rich text)"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_nutrition",
+      "label": "Show Nutritional Information accordion",
+      "default": true,
+      "info": "Reads from product metafield custom.nutritional_info (rich text with table)"
+    },
+    {
+      "type": "text",
+      "id": "nutrition_disclaimer",
+      "label": "Nutrition disclaimer",
+      "default": "* The % Daily Value tells you how much a nutrient a serving of food contributes to a daily diet."
     },
     {
       "type": "header",
