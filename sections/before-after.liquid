@@ -1,0 +1,326 @@
+{%- style -%}
+  .before-after {
+    padding-top: {{ section.settings.padding_top_mobile }}px;
+    padding-bottom: {{ section.settings.padding_bottom_mobile }}px;
+  }
+  @media (min-width: 750px) {
+    .before-after {
+      padding-top: {{ section.settings.padding_top_desktop }}px;
+      padding-bottom: {{ section.settings.padding_bottom_desktop }}px;
+    }
+  }
+
+  .before-after__slider {
+    position: relative;
+    overflow: hidden;
+    cursor: ew-resize;
+    user-select: none;
+    -webkit-user-select: none;
+    border-radius: 8px;
+    max-width: {{ section.settings.max_width }}px;
+    margin: 0 auto;
+  }
+
+  .before-after__img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .before-after__before {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    width: 50%;
+  }
+  .before-after__before img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: var(--ba-full-width, 100%);
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .before-after__handle {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 4px;
+    background: #fff;
+    transform: translateX(-50%);
+    z-index: 2;
+    box-shadow: 0 0 8px rgba(0,0,0,0.3);
+  }
+  .before-after__handle::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 40px;
+    height: 40px;
+    background: #fff;
+    border-radius: 50%;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  }
+  .before-after__handle::before {
+    content: '\2039\00a0\203a';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #333;
+    letter-spacing: 8px;
+  }
+
+  .before-after__label {
+    position: absolute;
+    bottom: 16px;
+    padding: 6px 14px;
+    background: rgba(0,0,0,0.6);
+    color: #fff;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-radius: 4px;
+    z-index: 1;
+    pointer-events: none;
+  }
+  .before-after__label--before {
+    left: 16px;
+  }
+  .before-after__label--after {
+    right: 16px;
+  }
+{%- endstyle -%}
+
+<div class="before-after color-{{ section.settings.color_scheme }}" {{ section.shopify_attributes }}>
+  <div class="container">
+    {%- if section.settings.title != blank -%}
+      <div>
+        {%- render 'section-heading',
+          title: section.settings.title,
+          heading_tag: 'h2',
+          show_left_line: true,
+          show_left_icon: true,
+          show_right_icon: true,
+          show_right_line: true
+        -%}
+      </div>
+    {%- endif -%}
+
+    {%- if section.settings.description != blank -%}
+      <div style="text-align:center;max-width:720px;margin:0 auto 40px;">
+        <div class="rte">{{ section.settings.description }}</div>
+      </div>
+    {%- endif -%}
+
+    {%- for block in section.blocks -%}
+      <div class="before-after__slider" data-before-after data-aos="fade-up" {{ block.shopify_attributes }}>
+        {%- if block.settings.after_image != blank -%}
+          <img class="before-after__img" src="{{ block.settings.after_image | image_url: width: 1200 }}" alt="{{ block.settings.after_label | default: 'After' }}" loading="lazy" width="1200" height="{{ 1200 | divided_by: block.settings.after_image.aspect_ratio | round }}">
+        {%- else -%}
+          {{ 'image' | placeholder_svg_tag: 'before-after__img' }}
+        {%- endif -%}
+
+        <div class="before-after__before" data-ba-before>
+          {%- if block.settings.before_image != blank -%}
+            <img src="{{ block.settings.before_image | image_url: width: 1200 }}" alt="{{ block.settings.before_label | default: 'Before' }}" loading="lazy">
+          {%- else -%}
+            {{ 'image' | placeholder_svg_tag }}
+          {%- endif -%}
+        </div>
+
+        <div class="before-after__handle" data-ba-handle></div>
+
+        {%- if section.settings.show_labels -%}
+          <span class="before-after__label before-after__label--before">{{ block.settings.before_label }}</span>
+          <span class="before-after__label before-after__label--after">{{ block.settings.after_label }}</span>
+        {%- endif -%}
+      </div>
+    {%- endfor -%}
+  </div>
+</div>
+
+<script>
+(function() {
+  document.querySelectorAll('[data-before-after]').forEach(function(slider) {
+    var handle = slider.querySelector('[data-ba-handle]');
+    var before = slider.querySelector('[data-ba-before]');
+    if (!handle || !before) return;
+
+    var dragging = false;
+
+    function setPosition(x) {
+      var rect = slider.getBoundingClientRect();
+      var pct = Math.max(0, Math.min(1, (x - rect.left) / rect.width));
+      before.style.width = (pct * 100) + '%';
+      handle.style.left = (pct * 100) + '%';
+      before.style.setProperty('--ba-full-width', (rect.width) + 'px');
+    }
+
+    function onStart(e) {
+      e.preventDefault();
+      dragging = true;
+    }
+    function onMove(e) {
+      if (!dragging) return;
+      var x = e.touches ? e.touches[0].clientX : e.clientX;
+      setPosition(x);
+    }
+    function onEnd() { dragging = false; }
+
+    handle.addEventListener('mousedown', onStart);
+    handle.addEventListener('touchstart', onStart, { passive: false });
+    window.addEventListener('mousemove', onMove);
+    window.addEventListener('touchmove', onMove, { passive: true });
+    window.addEventListener('mouseup', onEnd);
+    window.addEventListener('touchend', onEnd);
+
+    slider.addEventListener('click', function(e) {
+      setPosition(e.clientX);
+    });
+
+    function initWidth() {
+      before.style.setProperty('--ba-full-width', slider.offsetWidth + 'px');
+    }
+    initWidth();
+    window.addEventListener('resize', initWidth);
+  });
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Before / After",
+  "tag": "section",
+  "class": "before-after-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Before & After"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_labels",
+      "label": "Show labels",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "label": "Max width (px)",
+      "min": 400,
+      "max": 1200,
+      "step": 50,
+      "unit": "px",
+      "default": 800
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Section Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top_desktop",
+      "label": "Padding top — desktop",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 56
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_desktop",
+      "label": "Padding bottom — desktop",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 56
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "label": "Padding top — mobile",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "label": "Padding bottom — mobile",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 20
+    }
+  ],
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "Slide",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "before_image",
+          "label": "Before image"
+        },
+        {
+          "type": "image_picker",
+          "id": "after_image",
+          "label": "After image"
+        },
+        {
+          "type": "text",
+          "id": "before_label",
+          "label": "Before label",
+          "default": "Before"
+        },
+        {
+          "type": "text",
+          "id": "after_label",
+          "label": "After label",
+          "default": "After"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Before / After",
+      "category": "Image",
+      "blocks": [
+        {
+          "type": "slide"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 10
+}
+{% endschema %}
