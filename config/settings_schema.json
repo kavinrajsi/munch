@@ -1662,5 +1662,74 @@
         "label": "WhatsApp"
       }
     ]
+  },
+  {
+    "name": "AI Chatbot",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "chatbot_enabled",
+        "label": "Enable AI Chatbot",
+        "default": false
+      },
+      {
+        "type": "select",
+        "id": "chatbot_provider",
+        "label": "AI Provider",
+        "options": [
+          { "value": "openai", "label": "OpenAI (ChatGPT)" },
+          { "value": "claude", "label": "Claude (Anthropic)" }
+        ],
+        "default": "openai"
+      },
+      {
+        "type": "text",
+        "id": "chatbot_api_key",
+        "label": "API Key",
+        "info": "Your OpenAI or Claude API key"
+      },
+      {
+        "type": "text",
+        "id": "chatbot_model",
+        "label": "Model",
+        "default": "gpt-4o-mini",
+        "info": "e.g. gpt-4o-mini, claude-haiku-4-5-20251001"
+      },
+      {
+        "type": "text",
+        "id": "chatbot_title",
+        "label": "Chat Title",
+        "default": "Chat with us"
+      },
+      {
+        "type": "textarea",
+        "id": "chatbot_greeting",
+        "label": "Greeting Message",
+        "default": "Hi! How can I help you today?"
+      },
+      {
+        "type": "textarea",
+        "id": "chatbot_system_prompt",
+        "label": "System Prompt",
+        "default": "You are a friendly and helpful shopping assistant.",
+        "info": "Custom instructions for the AI. Store info is automatically included."
+      },
+      {
+        "type": "color",
+        "id": "chatbot_accent_color",
+        "label": "Accent Color",
+        "default": "#C61D23"
+      },
+      {
+        "type": "select",
+        "id": "chatbot_icon",
+        "label": "Button Icon",
+        "options": [
+          { "value": "chat", "label": "Chat bubble" },
+          { "value": "robot", "label": "Robot" }
+        ],
+        "default": "chat"
+      }
+    ]
   }
 ]
