@@ -1,0 +1,30 @@
+{% layout none %}{% capture output %}# {{ shop.name }}
+
+> {{ shop.description | strip_html | strip_newlines }}
+
+{{ shop.url }}
+
+## About
+
+{{ shop.name }} is an authentic South Indian sweets and savories store based in Chennai. We offer traditional homemade sweets, ghee sweets, savories, and snacks made with pure ingredients.
+
+## Collections
+
+{% for collection in collections %}{% if collection.handle != 'all' and collection.products_count > 0 %}- [{{ collection.title }}]({{ shop.url }}{{ collection.url }}): {{ collection.description | strip_html | strip_newlines | truncate: 150 }}{% if collection.description == blank %}{{ collection.products_count }} products{% endif %}
+{% endif %}{% endfor %}
+
+## Pages
+
+{% for page in pages %}{% if page.published? %}- [{{ page.title }}]({{ shop.url }}{{ page.url }})
+{% endif %}{% endfor %}
+
+## Products
+
+Browse our full catalog at {{ shop.url }}/collections/all
+
+## Contact
+
+- Website: {{ shop.url }}
+- Email: {{ shop.email }}
+
+{% endcapture %}{{ output | strip }}
