@@ -4,6 +4,14 @@
   padding-top: var(--fcc-pt-mobile, 40px);
   padding-bottom: var(--fcc-pb-mobile, 40px);
 
+  .container {
+    padding-right: 0;
+
+    @media (min-width: 992px) {
+      padding-right: 16px;
+    }
+  }
+
   @media (min-width: 992px) {
     padding-top: var(--fcc-pt-desktop, 56px);
     padding-bottom: var(--fcc-pb-desktop, 56px);

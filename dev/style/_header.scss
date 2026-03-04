@@ -26,6 +26,16 @@
     padding: 12px 0;
   }
 
+  &__left {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+
+    @media (min-width: 750px) {
+      gap: 16px;
+    }
+  }
+
   &__logo {
     flex-shrink: 0;
     display: flex;
@@ -177,7 +187,11 @@
   &__icons {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 4px;
+
+    @media (min-width: 750px) {
+      gap: 8px;
+    }
   }
 
   &__icon {
@@ -185,8 +199,8 @@
     align-items: center;
     justify-content: center;
     position: relative;
-    width: 40px;
-    height: 40px;
+    width: 32px;
+    height: 32px;
     padding: 0;
     background: none;
     border: none;
@@ -194,9 +208,22 @@
     cursor: pointer;
     text-decoration: none;
 
+    @media (min-width: 750px) {
+      width: 40px;
+      height: 40px;
+    }
+
     svg {
       width: 20px;
       height: 20px;
+    }
+
+    &--account {
+      display: none;
+
+      @media (min-width: 750px) {
+        display: inline-flex;
+      }
     }
   }
 
@@ -271,7 +298,7 @@
   &__header {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     padding: 16px 24px;
     position: relative;
   }
@@ -419,8 +446,7 @@
 
   // Account section
   &__account {
-    padding: 24px;
-    margin-top: auto;
+    display: none;
   }
 
   &__account-title {

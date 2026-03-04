@@ -567,12 +567,12 @@
       this.$overlay.addClass('is-open');
       this.$overlay.find('[data-search-input]').val('').focus();
       this.clearResults();
-      $('body').css('overflow', 'hidden');
+      $('html').addClass('search-open');
     },
 
     close: function() {
       this.$overlay.removeClass('is-open');
-      $('body').css('overflow', '');
+      $('html').removeClass('search-open');
     },
 
     clearResults: function() {

@@ -88,12 +88,15 @@
       {%- for block in section.blocks -%}
         {%- case block.type -%}
           {%- when 'menu' -%}
-            <nav class="footer__nav" data-animate="fade-up" data-animate-delay="{{ forloop.index0 | times: 100 }}" {{ block.shopify_attributes }} aria-labelledby="footer-nav-{{ block.id }}">
+            <nav class="footer__nav footer__accordion" data-animate="fade-up" data-animate-delay="{{ forloop.index0 | times: 100 }}" {{ block.shopify_attributes }} aria-labelledby="footer-nav-{{ block.id }}">
               {%- if block.settings.title != blank -%}
-                <h2 id="footer-nav-{{ block.id }}" class="footer__title">{{ block.settings.title }}</h2>
+                <h2 id="footer-nav-{{ block.id }}" class="footer__title" data-footer-toggle>
+                  {{ block.settings.title }}
+                  <svg class="footer__title-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+                </h2>
               {%- endif -%}
               {%- if block.settings.menu != blank -%}
-                <ul class="footer__list">
+                <ul class="footer__list footer__collapsible">
                   {%- for link in block.settings.menu.links -%}
                     <li class="footer__item">
                       <a href="{{ link.url }}" class="footer__link">{{ link.title }}</a>
@@ -106,7 +109,7 @@
           {%- when 'contact' -%}
             <div class="footer__contact-block" data-animate="fade-up" data-animate-delay="{{ forloop.index0 | times: 100 }}" {{ block.shopify_attributes }}>
               {%- if block.settings.title != blank -%}
-                <h2 class="footer__title">{{ block.settings.title }}</h2>
+                <h2 class="footer__title footer__title--static">{{ block.settings.title }}</h2>
               {%- endif -%}
 
               <address class="footer__address">
@@ -271,6 +274,30 @@
     </div>
   </div>
 </footer>
+
+<script>
+  (function() {
+    var toggles = document.querySelectorAll('[data-footer-toggle]');
+    if (!toggles.length || window.innerWidth >= 768) return;
+
+    toggles.forEach(function(toggle) {
+      toggle.addEventListener('click', function() {
+        var accordion = this.closest('.footer__accordion');
+        if (accordion) {
+          accordion.classList.toggle('is-open');
+        }
+      });
+    });
+
+    window.addEventListener('resize', function() {
+      if (window.innerWidth >= 768) {
+        document.querySelectorAll('.footer__accordion').forEach(function(el) {
+          el.classList.remove('is-open');
+        });
+      }
+    });
+  })();
+</script>
 
 {% schema %}
 {

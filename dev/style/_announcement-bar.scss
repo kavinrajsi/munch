@@ -37,12 +37,10 @@
     font-weight: 400;
     font-size: var(--announcement-font-size-mobile);
     line-height: normal;
-    padding-right: 40px;
 
     @media (min-width: 749px) {
       font-size: var(--announcement-font-size);
       white-space: nowrap;
-      padding-right: 0;
     }
 
     &.is-active {
@@ -53,7 +51,7 @@
   }
 
   &__close {
-    display: flex;
+    display: none;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
@@ -67,6 +65,10 @@
     cursor: pointer;
     opacity: 0.7;
     transition: opacity 0.2s;
+
+    @media (min-width: 749px) {
+      display: flex;
+    }
 
     &:hover {
       opacity: 1;

@@ -4,6 +4,14 @@
 // Cart Drawer (Mini Cart) — Figma spec
 // ============================================================
 
+html.cart-open,
+html.cart-open body,
+html.search-open,
+html.search-open body {
+  overflow: hidden !important;
+  height: 100%;
+}
+
 .cart-drawer {
   position: fixed;
   inset: 0;

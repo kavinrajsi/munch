@@ -155,6 +155,7 @@
 {%- if settings.chatbot_voice_enabled -%}
 <style>
   .search-overlay__mic-btn { background:none; border:none; cursor:pointer; padding:8px; display:flex; align-items:center; justify-content:center; border-radius:50%; transition:all .2s; flex-shrink:0; }
+  @media (min-width: 768px) { .search-overlay__mic-btn { display:none !important; } }
   .search-overlay__mic-btn svg { width:20px; height:20px; }
   .search-overlay__mic-btn:hover { background:rgba(0,0,0,.05); }
   .search-overlay__mic-btn.recording { background:#c61d23; animation:search-mic-pulse 1.5s ease-in-out infinite; }
