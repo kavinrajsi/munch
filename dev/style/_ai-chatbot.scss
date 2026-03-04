@@ -11,7 +11,7 @@
 // Floating trigger button
 .chatbot__trigger {
   position: fixed;
-  bottom: 24px;
+  bottom: 76px;
   right: 24px;
   z-index: z(chatbot);
   width: 56px;
@@ -48,7 +48,7 @@
 // Chat panel
 .chatbot__panel {
   position: fixed;
-  bottom: 96px;
+  bottom: 148px;
   right: 24px;
   z-index: z(chatbot);
   width: 380px;
@@ -256,7 +256,7 @@
 // Responsive – mobile
 @media (max-width: 767px) {
   .chatbot__trigger {
-    bottom: 16px;
+    bottom: 68px;
     right: 16px;
     width: 50px;
     height: 50px;

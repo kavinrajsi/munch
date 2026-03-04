@@ -1013,7 +1013,7 @@ button {
 
 .chatbot__trigger {
   position: fixed;
-  bottom: 24px;
+  bottom: 76px;
   right: 24px;
   z-index: 58;
   width: 56px;
@@ -1048,7 +1048,7 @@ button {
 
 .chatbot__panel {
   position: fixed;
-  bottom: 96px;
+  bottom: 148px;
   right: 24px;
   z-index: 58;
   width: 380px;
@@ -1244,7 +1244,7 @@ button {
 
 @media (max-width: 767px) {
   .chatbot__trigger {
-    bottom: 16px;
+    bottom: 68px;
     right: 16px;
     width: 50px;
     height: 50px;
