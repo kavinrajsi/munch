@@ -1,5 +1,5 @@
-<div class="cart-page" {{ section.shopify_attributes }}>
-  <div class="container">
+<div class="cart-page" style="--cart-pt-desktop: {{ section.settings.padding_top_desktop }}px; --cart-pb-desktop: {{ section.settings.padding_bottom_desktop }}px; --cart-pt-mobile: {{ section.settings.padding_top_mobile }}px; --cart-pb-mobile: {{ section.settings.padding_bottom_mobile }}px;" {{ section.shopify_attributes }}>
+  <div class="{{ section.settings.container_type }}">
     {%- comment -%} Breadcrumbs {%- endcomment -%}
     <nav class="cart-page__breadcrumbs" aria-label="Breadcrumb">
       <ol>
@@ -182,6 +182,60 @@
       "id": "show_note",
       "label": "Show Order Note",
       "default": true
+    },
+    {
+      "type": "select",
+      "id": "container_type",
+      "label": "Container type",
+      "options": [
+        { "value": "container", "label": "Container" },
+        { "value": "container-fluid", "label": "Container fluid" }
+      ],
+      "default": "container"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top_desktop",
+      "label": "Padding Top (Desktop)",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_desktop",
+      "label": "Padding Bottom (Desktop)",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "label": "Padding Top (Mobile)",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "label": "Padding Bottom (Mobile)",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 40
     }
   ]
 }
