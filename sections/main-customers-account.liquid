@@ -1,12 +1,274 @@
-<div class="customer-account section-padding" {{ section.shopify_attributes }}>
+{%- style -%}
+  .customer-profile {
+    padding: 40px 0 60px;
+  }
+  .customer-profile__title {
+    font-family: 'Aleo', serif;
+    font-weight: 700;
+    font-size: 28px;
+    line-height: 36px;
+    color: #0B090A;
+    margin: 0 0 32px;
+  }
+  @media (min-width: 768px) {
+    .customer-profile__title {
+      font-size: 32px;
+      line-height: 40px;
+    }
+  }
+
+  .customer-profile__card {
+    background: #F9F8F7;
+    border-radius: 8px;
+    padding: 24px;
+    margin-bottom: 20px;
+  }
+
+  .customer-profile__card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  .customer-profile__card-header-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .customer-profile__card-title {
+    font-family: 'Aleo', serif;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 22px;
+    color: #0B090A;
+    margin: 0;
+  }
+  .customer-profile__edit-btn {
+    display: inline-flex;
+    align-items: center;
+    background: none;
+    border: none;
+    padding: 4px;
+    cursor: pointer;
+    color: #3B82F6;
+    transition: opacity 0.2s;
+  }
+  .customer-profile__edit-btn:hover {
+    opacity: 0.7;
+  }
+  .customer-profile__add-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    font-family: 'Aller', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: #3B82F6;
+    text-decoration: none;
+    transition: opacity 0.2s;
+  }
+  .customer-profile__add-btn:hover {
+    opacity: 0.7;
+  }
+
+  .customer-profile__info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  @media (max-width: 575px) {
+    .customer-profile__info-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  .customer-profile__info-label {
+    font-family: 'Aller', sans-serif;
+    font-size: 13px;
+    line-height: 18px;
+    color: #6F6F6F;
+    margin: 0 0 2px;
+  }
+  .customer-profile__info-value {
+    font-family: 'Aller', sans-serif;
+    font-size: 14px;
+    line-height: 20px;
+    color: #0B090A;
+    margin: 0;
+  }
+
+  .customer-profile__addresses-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  @media (max-width: 575px) {
+    .customer-profile__addresses-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .customer-profile__address-item {
+    position: relative;
+  }
+  .customer-profile__address-label {
+    font-family: 'Aller', sans-serif;
+    font-size: 13px;
+    color: #6F6F6F;
+    margin: 0 0 6px;
+  }
+  .customer-profile__address-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 4px;
+  }
+  .customer-profile__address-text {
+    font-family: 'Aller', sans-serif;
+    font-size: 14px;
+    line-height: 22px;
+    color: #0B090A;
+    margin: 0;
+  }
+  .customer-profile__address-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 8px;
+  }
+  .customer-profile__address-actions button {
+    background: none;
+    border: none;
+    padding: 0;
+    font-family: 'Aller', sans-serif;
+    font-size: 13px;
+    color: #C61D23;
+    cursor: pointer;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  .customer-profile__address-actions button:hover {
+    opacity: 0.7;
+  }
+
+  .customer-profile__orders-card {
+    background: #F9F8F7;
+    border-radius: 8px;
+    padding: 24px;
+    margin-bottom: 20px;
+  }
+
+  .customer-profile__logout {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'Aller', sans-serif;
+    font-size: 14px;
+    color: #6F6F6F;
+    text-decoration: none;
+    margin-top: 8px;
+    transition: color 0.2s;
+  }
+  .customer-profile__logout:hover {
+    color: #C61D23;
+  }
+{%- endstyle -%}
+
+<div class="customer-profile" {{ section.shopify_attributes }}>
   <div class="container">
-    <div class="customer-account__header">
-      <h1>{{ 'customer.account.title' | t }}</h1>
-      <a href="{{ routes.account_logout_url }}" class="btn btn--ghost btn--small">{{ 'customer.account.logout' | t }}</a>
+    <div class="customer-profile__card-header" style="margin-bottom: 24px;">
+      <h1 class="customer-profile__title" style="margin: 0;">Profile</h1>
+      <a href="{{ routes.account_logout_url }}" class="customer-profile__logout">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        Logout
+      </a>
     </div>
 
-    <div class="customer-account__orders">
-      <h3>{{ 'customer.account.orders' | t }}</h3>
+    {%- comment -%} Profile Info Card {%- endcomment -%}
+    <div class="customer-profile__card">
+      <div class="customer-profile__card-header">
+        <div class="customer-profile__card-header-left">
+          <h2 class="customer-profile__card-title">{{ customer.name }}</h2>
+          <span class="customer-profile__edit-btn" aria-label="Edit profile">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/>
+            </svg>
+          </span>
+        </div>
+      </div>
+      <div class="customer-profile__info-grid">
+        <div>
+          <p class="customer-profile__info-label">Email</p>
+          <p class="customer-profile__info-value">{{ customer.email }}</p>
+        </div>
+        {%- if customer.phone != blank -%}
+          <div>
+            <p class="customer-profile__info-label">Phone number</p>
+            <p class="customer-profile__info-value">{{ customer.phone }}</p>
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+
+    {%- comment -%} Addresses Card {%- endcomment -%}
+    {%- if customer.addresses.size > 0 -%}
+      <div class="customer-profile__card">
+        <div class="customer-profile__card-header">
+          <div class="customer-profile__card-header-left">
+            <h2 class="customer-profile__card-title">Addresses</h2>
+            <a href="{{ routes.account_addresses_url }}" class="customer-profile__add-btn">+ Add</a>
+          </div>
+        </div>
+        <div class="customer-profile__addresses-grid">
+          {%- for address in customer.addresses -%}
+            <div class="customer-profile__address-item">
+              {%- if address == customer.default_address -%}
+                <p class="customer-profile__address-label">Default address</p>
+              {%- endif -%}
+              <div class="customer-profile__address-top">
+                <div>
+                  <p class="customer-profile__address-text">
+                    {%- if address.name != blank -%}{{ address.name }}<br>{%- endif -%}
+                    {%- if address.address1 != blank -%}{{ address.address1 }}<br>{%- endif -%}
+                    {%- if address.address2 != blank -%}{{ address.address2 }}<br>{%- endif -%}
+                    {%- if address.city != blank or address.province != blank -%}
+                      {{ address.city }}{% if address.city != blank and address.province != blank %}, {% endif %}{{ address.province }}<br>
+                    {%- endif -%}
+                    {%- if address.zip != blank -%}{{ address.zip }} {%- endif -%}
+                    {%- if address.country != blank -%}{{ address.country }}<br>{%- endif -%}
+                    {%- if address.phone != blank -%}{{ address.phone }}{%- endif -%}
+                  </p>
+                </div>
+                <a href="{{ routes.account_addresses_url }}" class="customer-profile__edit-btn" aria-label="Edit address">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/>
+                  </svg>
+                </a>
+              </div>
+            </div>
+          {%- endfor -%}
+        </div>
+      </div>
+    {%- else -%}
+      <div class="customer-profile__card">
+        <div class="customer-profile__card-header">
+          <div class="customer-profile__card-header-left">
+            <h2 class="customer-profile__card-title">Addresses</h2>
+            <a href="{{ routes.account_addresses_url }}" class="customer-profile__add-btn">+ Add</a>
+          </div>
+        </div>
+        <p class="customer-profile__info-value">No addresses saved yet.</p>
+      </div>
+    {%- endif -%}
+
+    {%- comment -%} Orders Card {%- endcomment -%}
+    <div class="customer-profile__orders-card">
+      <div class="customer-profile__card-header">
+        <h2 class="customer-profile__card-title">Order History</h2>
+      </div>
 
       {%- if customer.orders.size > 0 -%}
         <table class="customer-account__order-table">
@@ -22,30 +284,18 @@
           <tbody>
             {%- for order in customer.orders -%}
               <tr>
-                <td><a href="{{ order.customer_url }}">{{ order.name }}</a></td>
-                <td>{{ order.created_at | date: '%B %d, %Y' }}</td>
-                <td>{{ order.financial_status_label }}</td>
-                <td>{{ order.fulfillment_status_label }}</td>
-                <td>{{ order.total_price | money }}</td>
+                <td data-label="Order"><a href="{{ order.customer_url }}">{{ order.name }}</a></td>
+                <td data-label="Date">{{ order.created_at | date: '%B %d, %Y' }}</td>
+                <td data-label="Payment">{{ order.financial_status_label }}</td>
+                <td data-label="Fulfillment">{{ order.fulfillment_status_label }}</td>
+                <td data-label="Total">{{ order.total_price | money }}</td>
               </tr>
             {%- endfor -%}
           </tbody>
         </table>
       {%- else -%}
-        <p>{{ 'customer.account.no_orders' | t }}</p>
+        <p class="customer-profile__info-value">You haven't placed any orders yet.</p>
       {%- endif -%}
-    </div>
-
-    <div class="customer-account__details">
-      <h3>{{ 'customer.account.details' | t }}</h3>
-      <p>{{ customer.name }}</p>
-      <p>{{ customer.email }}</p>
-      {%- if customer.default_address -%}
-        <p>{{ customer.default_address | format_address }}</p>
-      {%- endif -%}
-      <a href="{{ routes.account_addresses_url }}" class="customer-account__link">
-        {{ 'customer.account.addresses' | t }} →
-      </a>
     </div>
   </div>
 </div>
