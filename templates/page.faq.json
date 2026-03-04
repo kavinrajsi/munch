@@ -1,0 +1,14 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "settings": {}
+    },
+    "faq": {
+      "type": "faq",
+      "settings": {},
+      "blocks": {}
+    }
+  },
+  "order": ["main", "faq"]
+}
