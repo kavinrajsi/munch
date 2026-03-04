@@ -1,0 +1,159 @@
+// RTL (Right-to-Left) overrides
+// All rules scoped under [dir="rtl"] so they only apply when RTL is enabled.
+
+[dir="rtl"] {
+
+  // ── Base ──────────────────────────────────────────────────────────────
+
+  body {
+    text-align: right;
+  }
+
+  // ── Header ────────────────────────────────────────────────────────────
+
+  .header__nav-link::after {
+    left: auto;
+    right: 0;
+  }
+
+  .header__nav-chevron {
+    margin-left: 0;
+    margin-right: 4px;
+  }
+
+  .header__dropdown {
+    left: auto;
+    right: 0;
+  }
+
+  .header__cart-count {
+    right: auto;
+    left: 4px;
+  }
+
+  // ── Mobile menu ───────────────────────────────────────────────────────
+
+  .mobile-menu {
+    left: auto;
+    right: 0;
+  }
+
+  .mobile-menu__panel {
+    left: auto;
+    right: 0;
+    transform: translateX(100%);
+  }
+
+  .mobile-menu.is-open .mobile-menu__panel {
+    transform: translateX(0);
+  }
+
+  .mobile-menu__close {
+    right: auto;
+    left: 16px;
+  }
+
+  .mobile-menu__nav-link,
+  .mobile-menu__back,
+  .mobile-menu__submenu-link {
+    text-align: right;
+  }
+
+  .mobile-menu__submenu {
+    left: auto;
+    right: 0;
+    transform: translateX(-100%);
+  }
+
+  .mobile-menu__submenu.is-open {
+    transform: translateX(0);
+  }
+
+  // ── Cart drawer ───────────────────────────────────────────────────────
+
+  .cart-drawer__panel {
+    right: auto;
+    left: 0;
+    transform: translateX(-100%);
+    box-shadow: 4px 0 24px rgba(0, 0, 0, 0.08);
+    border-radius: 0 10px 10px 0;
+  }
+
+  .cart-drawer.is-open .cart-drawer__panel {
+    transform: translateX(0);
+  }
+
+  .cart-drawer__footer {
+    border-radius: 0 0 10px 0;
+  }
+
+  // ── Product drawer ────────────────────────────────────────────────────
+
+  .product-drawer__panel {
+    right: auto;
+    left: 0;
+    transform: translateX(-100%);
+    box-shadow: 4px 0 24px rgba(0, 0, 0, 0.08);
+  }
+
+  .product-drawer.is-open .product-drawer__panel {
+    transform: translateX(0);
+  }
+
+  // ── Announcement bar ──────────────────────────────────────────────────
+
+  .announcement-bar__close {
+    margin-left: 0;
+    margin-right: 8px;
+  }
+
+  // ── Hero slider ───────────────────────────────────────────────────────
+
+  .hero-slider__arrow--prev {
+    left: auto;
+    right: var(--hero-arrow-gap, 16px);
+    transform: translateY(-50%) scaleX(-1);
+  }
+
+  .hero-slider__arrow--next {
+    right: auto;
+    left: var(--hero-arrow-gap, 16px);
+    transform: translateY(-50%);
+  }
+
+  // ── Search overlay ────────────────────────────────────────────────────
+
+  .search-overlay__result-price .compare-price {
+    margin-left: 0;
+    margin-right: 4px;
+  }
+
+  // ── Main collection ───────────────────────────────────────────────────
+
+  .collection__filter-menu {
+    right: auto;
+    left: 0;
+  }
+
+  .collection__sort-menu {
+    right: auto;
+    left: 0;
+  }
+
+  .collection__sort-menu button {
+    text-align: right;
+  }
+
+  .collection-card__price-compare,
+  .collection-card__price-badge {
+    margin-left: 0;
+    margin-right: 4px;
+  }
+
+  // ── Footer ────────────────────────────────────────────────────────────
+
+  .footer__list .footer__link::before {
+    left: auto;
+    right: 0;
+  }
+}

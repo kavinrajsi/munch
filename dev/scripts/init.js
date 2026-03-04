@@ -95,11 +95,54 @@
         var line = $item.data('line');
         self.updateItem(line, 0);
       });
+
+      // Cart note toggle
+      this.$drawer.on('click', '[data-cart-note-toggle]', function() {
+        var $toggle = $(this);
+        var $content = $toggle.next('[data-cart-note-content]');
+        var expanded = $toggle.attr('aria-expanded') === 'true';
+        $toggle.attr('aria-expanded', !expanded);
+        $content.toggleClass('is-open');
+      });
+
+      // Cart note save (debounced)
+      var noteTimer;
+      this.$drawer.on('input', '[data-cart-note-input]', function() {
+        var note = $(this).val();
+        clearTimeout(noteTimer);
+        noteTimer = setTimeout(function() {
+          var root = window.Shopify.routes.root || '/';
+          fetch(root + 'cart/update.js', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ note: note })
+          });
+        }, 500);
+      });
+
+      // Recommendation "Add" button
+      this.$drawer.on('click', '[data-rec-add]', function() {
+        var $btn = $(this);
+        var variantId = $btn.data('rec-variant');
+        if (!variantId) return;
+        $btn.prop('disabled', true).text('Adding...');
+        self.addItem(variantId, 1);
+      });
     },
 
     open: function() {
       this.$drawer.addClass('is-open');
       $('body').css('overflow', 'hidden');
+
+      // Load recommendations if not already loaded
+      var $list = this.$drawer.find('[data-cart-recommendations-list]');
+      if ($list.length && !$list.children().length) {
+        var self = this;
+        var root = window.Shopify.routes.root || '/';
+        fetch(root + 'cart.js')
+          .then(function(res) { return res.json(); })
+          .then(function(cart) { self.loadRecommendations(cart); });
+      }
     },
 
     close: function() {
@@ -172,7 +215,19 @@
         return;
       }
 
+      var noteVal = cart.note || '';
       $footer.html(
+        '<div class="cart-drawer__note" data-cart-drawer-note>' +
+          '<button type="button" class="cart-drawer__note-toggle" data-cart-note-toggle aria-expanded="false">' +
+            '<span>Order Notes</span>' +
+            '<svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">' +
+              '<path d="M1 1.5L6 6.5L11 1.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>' +
+            '</svg>' +
+          '</button>' +
+          '<div class="cart-drawer__note-content" data-cart-note-content>' +
+            '<textarea data-cart-note-input placeholder="Special instructions for your order...">' + noteVal + '</textarea>' +
+          '</div>' +
+        '</div>' +
         '<div class="cart-drawer__subtotal">' +
           '<span class="cart-drawer__subtotal-label">Subtotal</span>' +
           '<span class="cart-drawer__subtotal-price" data-cart-subtotal>' + formatMoney(cart.total_price) + '</span>' +
@@ -211,6 +266,87 @@
         html += '</div></div>';
       });
       $items.html(html);
+      this.loadRecommendations(cart);
+    },
+
+    loadRecommendations: function(cart) {
+      var self = this;
+      var $section = this.$drawer.find('[data-cart-recommendations]');
+      var $list = $section.find('[data-cart-recommendations-list]');
+
+      if (!cart || !cart.items || cart.items.length === 0) {
+        $section.hide();
+        return;
+      }
+
+      // Get unique product IDs from cart
+      var cartProductIds = [];
+      var cartVariantIds = [];
+      cart.items.forEach(function(item) {
+        if (cartProductIds.indexOf(item.product_id) === -1) {
+          cartProductIds.push(item.product_id);
+        }
+        cartVariantIds.push(item.variant_id);
+      });
+
+      var root = window.Shopify.routes.root || '/';
+      var limit = 4;
+
+      // Fetch recommendations for all cart products
+      var fetches = cartProductIds.map(function(pid) {
+        return fetch(root + 'recommendations/products.json?product_id=' + pid + '&limit=' + limit)
+          .then(function(res) { return res.json(); })
+          .then(function(data) { return data.products || []; })
+          .catch(function() { return []; });
+      });
+
+      Promise.all(fetches).then(function(results) {
+        // Merge and deduplicate
+        var seen = {};
+        var products = [];
+        // Exclude products already in cart
+        cartProductIds.forEach(function(id) { seen[id] = true; });
+
+        results.forEach(function(list) {
+          list.forEach(function(product) {
+            if (!seen[product.id] && product.available) {
+              seen[product.id] = true;
+              products.push(product);
+            }
+          });
+        });
+
+        if (products.length === 0) {
+          $section.hide();
+          return;
+        }
+
+        // Limit to 6 products
+        products = products.slice(0, 6);
+
+        var html = '';
+        products.forEach(function(product) {
+          var image = product.featured_image ? product.featured_image.replace(/(\.[^.]+)$/, '_190x$1') : '';
+          var variant = product.variants && product.variants[0];
+          var price = variant ? formatMoney(variant.price) : '';
+          var variantId = variant ? variant.id : '';
+
+          html += '<div class="cart-drawer__rec-card">';
+          html += '<div class="cart-drawer__rec-top">';
+          if (image) {
+            html += '<div class="cart-drawer__rec-image"><img src="' + image + '" alt="' + product.title + '" width="72" height="72" loading="lazy"></div>';
+          }
+          html += '<div class="cart-drawer__rec-info">';
+          html += '<p class="cart-drawer__rec-title">' + product.title + '</p>';
+          html += '<p class="cart-drawer__rec-price">' + price + '</p>';
+          html += '</div></div>';
+          html += '<button type="button" class="cart-drawer__rec-add" data-rec-add data-rec-variant="' + variantId + '">Add</button>';
+          html += '</div>';
+        });
+
+        $list.html(html);
+        $section.show();
+      });
     }
   };
 

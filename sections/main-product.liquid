@@ -25,13 +25,13 @@
       <div class="main-product__media">
         <div id="ProductGallery" data-product-gallery>
           <div class="main-product__gallery-main" data-gallery-main>
-            {%- if product.featured_image -%}
-              <a href="{{ product.featured_image | image_url: width: 1600 }}" data-pswp-image data-pswp-width="{{ product.featured_image.width }}" data-pswp-height="{{ product.featured_image.height }}">
+            {%- if product.featured_media -%}
+              <a href="{{ product.featured_media.preview_image | image_url: width: 1600 }}" data-pswp-image data-pswp-width="{{ product.featured_media.preview_image.width }}" data-pswp-height="{{ product.featured_media.preview_image.height }}">
                 <img
-                  src="{{ product.featured_image | image_url: width: 800 }}"
-                  alt="{{ product.featured_image.alt | default: product.title | escape }}"
-                  width="{{ product.featured_image.width }}"
-                  height="{{ product.featured_image.height }}"
+                  src="{{ product.featured_media.preview_image | image_url: width: 800 }}"
+                  alt="{{ product.featured_media.alt | default: product.title | escape }}"
+                  width="{{ product.featured_media.preview_image.width }}"
+                  height="{{ product.featured_media.preview_image.height }}"
                   id="ProductMainImage"
                 >
               </a>
@@ -40,28 +40,113 @@
             {%- endif -%}
           </div>
 
-          {%- if product.images.size > 1 -%}
+          {%- liquid
+            assign has_extra_thumbs = false
+            if product.media.size > 1 or section.settings.video_url_1 != blank or section.settings.video_url_2 != blank
+              assign has_extra_thumbs = true
+            endif
+          -%}
+          {%- if has_extra_thumbs -%}
             <div class="main-product__gallery-thumbs" data-gallery-thumbs>
-              {%- for image in product.images -%}
+              {%- for media in product.media -%}
+                {%- if media.media_type == 'image' -%}
+                  <button
+                    type="button"
+                    data-thumb-index="{{ forloop.index0 }}"
+                    data-media-type="image"
+                    data-full-src="{{ media | image_url: width: 800 }}"
+                    data-zoom-src="{{ media | image_url: width: 1600 }}"
+                    data-zoom-width="{{ media.width }}"
+                    data-zoom-height="{{ media.height }}"
+                    class="{% if forloop.first %}is-active{% endif %}"
+                    aria-label="View image {{ forloop.index }}"
+                  >
+                    <img
+                      src="{{ media | image_url: width: 128 }}"
+                      alt="{{ media.alt | default: product.title | escape }}"
+                      loading="lazy"
+                    >
+                  </button>
+                {%- elsif media.media_type == 'video' -%}
+                  <button
+                    type="button"
+                    class="main-product__gallery-thumb--video"
+                    data-thumb-index="{{ forloop.index0 }}"
+                    data-media-type="video"
+                    data-video-sources='{{ media.sources | json }}'
+                    aria-label="Play video {{ forloop.index }}"
+                  >
+                    <img
+                      src="{{ media.preview_image | image_url: width: 128 }}"
+                      alt="{{ media.alt | default: product.title | escape }}"
+                      loading="lazy"
+                    >
+                    <span class="main-product__play-icon">▶</span>
+                  </button>
+                {%- elsif media.media_type == 'external_video' -%}
+                  <button
+                    type="button"
+                    class="main-product__gallery-thumb--video"
+                    data-thumb-index="{{ forloop.index0 }}"
+                    data-media-type="external_video"
+                    data-video-host="{{ media.host }}"
+                    data-video-id="{{ media.external_id }}"
+                    aria-label="Play video {{ forloop.index }}"
+                  >
+                    <img
+                      src="{{ media.preview_image | image_url: width: 128 }}"
+                      alt="{{ media.alt | default: product.title | escape }}"
+                      loading="lazy"
+                    >
+                    <span class="main-product__play-icon">▶</span>
+                  </button>
+                {%- endif -%}
+              {%- endfor -%}
+
+              {%- comment -%} External video URLs from section settings {%- endcomment -%}
+              {%- if section.settings.video_url_1 != blank -%}
                 <button
                   type="button"
-                  data-thumb-index="{{ forloop.index0 }}"
-                  data-full-src="{{ image | image_url: width: 800 }}"
-                  data-zoom-src="{{ image | image_url: width: 1600 }}"
-                  data-zoom-width="{{ image.width }}"
-                  data-zoom-height="{{ image.height }}"
-                  class="{% if forloop.first %}is-active{% endif %}"
-                  aria-label="View image {{ forloop.index }}"
+                  class="main-product__gallery-thumb--video"
+                  data-media-type="external_setting"
+                  data-video-host="{{ section.settings.video_url_1.type }}"
+                  data-video-id="{{ section.settings.video_url_1.id }}"
+                  aria-label="Play external video 1"
                 >
-                  <img
-                    src="{{ image | image_url: width: 128 }}"
-                    alt="{{ image.alt | default: product.title | escape }}"
-                    loading="lazy"
-                  >
+                  {%- if section.settings.video_url_1.type == 'youtube' -%}
+                    <img src="https://img.youtube.com/vi/{{ section.settings.video_url_1.id }}/default.jpg" alt="Video thumbnail" loading="lazy">
+                  {%- else -%}
+                    <span class="main-product__video-placeholder">▶</span>
+                  {%- endif -%}
+                  <span class="main-product__play-icon">▶</span>
                 </button>
-              {%- endfor -%}
+              {%- endif -%}
+              {%- if section.settings.video_url_2 != blank -%}
+                <button
+                  type="button"
+                  class="main-product__gallery-thumb--video"
+                  data-media-type="external_setting"
+                  data-video-host="{{ section.settings.video_url_2.type }}"
+                  data-video-id="{{ section.settings.video_url_2.id }}"
+                  aria-label="Play external video 2"
+                >
+                  {%- if section.settings.video_url_2.type == 'youtube' -%}
+                    <img src="https://img.youtube.com/vi/{{ section.settings.video_url_2.id }}/default.jpg" alt="Video thumbnail" loading="lazy">
+                  {%- else -%}
+                    <span class="main-product__video-placeholder">▶</span>
+                  {%- endif -%}
+                  <span class="main-product__play-icon">▶</span>
+                </button>
+              {%- endif -%}
             </div>
           {%- endif -%}
+        </div>
+
+        {%- comment -%} Video Modal {%- endcomment -%}
+        <div class="product-video-modal" data-video-modal>
+          <div class="product-video-modal__overlay" data-video-modal-close></div>
+          <div class="product-video-modal__content" data-video-modal-content></div>
+          <button class="product-video-modal__close" data-video-modal-close aria-label="Close video">&#10005;</button>
         </div>
       </div>
 
@@ -371,9 +456,65 @@
       });
     });
 
+    // Video modal
+    var videoModal = document.querySelector('[data-video-modal]');
+    var videoModalContent = document.querySelector('[data-video-modal-content]');
+
+    function openVideoModal(html) {
+      if (!videoModal || !videoModalContent) return;
+      videoModalContent.innerHTML = html;
+      videoModal.classList.add('is-open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeVideoModal() {
+      if (!videoModal || !videoModalContent) return;
+      videoModal.classList.remove('is-open');
+      videoModalContent.innerHTML = '';
+      document.body.style.overflow = '';
+    }
+
+    document.querySelectorAll('[data-video-modal-close]').forEach(function (el) {
+      el.addEventListener('click', closeVideoModal);
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && videoModal && videoModal.classList.contains('is-open')) {
+        closeVideoModal();
+      }
+    });
+
     // Gallery thumbs
     document.querySelectorAll('[data-gallery-thumbs] button').forEach(function (thumb) {
       thumb.addEventListener('click', function () {
+        var mediaType = thumb.dataset.mediaType;
+
+        // Video thumbs → open modal
+        if (mediaType === 'video') {
+          var sources = JSON.parse(thumb.dataset.videoSources || '[]');
+          var src = sources.length ? sources[0].url : '';
+          if (src) {
+            openVideoModal('<video controls autoplay playsinline><source src="' + src + '"></video>');
+          }
+          return;
+        }
+
+        if (mediaType === 'external_video' || mediaType === 'external_setting') {
+          var host = thumb.dataset.videoHost;
+          var id = thumb.dataset.videoId;
+          var embedUrl = '';
+          if (host === 'youtube') {
+            embedUrl = 'https://www.youtube.com/embed/' + id + '?autoplay=1';
+          } else if (host === 'vimeo') {
+            embedUrl = 'https://player.vimeo.com/video/' + id + '?autoplay=1';
+          }
+          if (embedUrl) {
+            openVideoModal('<iframe src="' + embedUrl + '" allow="autoplay; fullscreen" allowfullscreen></iframe>');
+          }
+          return;
+        }
+
+        // Image thumbs → swap main image
         var mainImg = document.getElementById('ProductMainImage');
         if (mainImg) {
           mainImg.src = thumb.dataset.fullSrc;
@@ -465,6 +606,23 @@
       "id": "dispatch_details_text",
       "label": "Dispatch Details text",
       "default": "<p>Product will be dispatched within 2-4 working days.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Videos"
+    },
+    {
+      "type": "video_url",
+      "id": "video_url_1",
+      "label": "External Video URL 1",
+      "accept": ["youtube", "vimeo"],
+      "info": "YouTube or Vimeo URL. Appears as a thumbnail in the gallery."
+    },
+    {
+      "type": "video_url",
+      "id": "video_url_2",
+      "label": "External Video URL 2",
+      "accept": ["youtube", "vimeo"]
     },
     {
       "type": "header",

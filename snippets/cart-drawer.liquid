@@ -66,8 +66,28 @@
       {%- endif -%}
     </div>
 
+    <div class="cart-drawer__recommendations" data-cart-recommendations style="display:none">
+      <h4 class="cart-drawer__recommendations-title">You may also like</h4>
+      <div class="cart-drawer__recommendations-scroll" data-cart-recommendations-list></div>
+    </div>
+
     <div class="cart-drawer__footer" {% if cart.item_count == 0 %}data-cart-empty-footer{% endif %}>
       {%- if cart.item_count > 0 -%}
+        <div class="cart-drawer__note" data-cart-drawer-note>
+          <button type="button" class="cart-drawer__note-toggle" data-cart-note-toggle aria-expanded="false">
+            <span>{{ 'cart.general.note' | t }}</span>
+            <svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M1 1.5L6 6.5L11 1.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          <div class="cart-drawer__note-content" data-cart-note-content>
+            <textarea
+              data-cart-note-input
+              placeholder="{{ 'cart.general.note_placeholder' | t }}"
+              aria-label="{{ 'cart.general.note' | t }}"
+            >{{ cart.note }}</textarea>
+          </div>
+        </div>
         <div class="cart-drawer__subtotal">
           <span class="cart-drawer__subtotal-label">Subtotal</span>
           <span class="cart-drawer__subtotal-price" data-cart-subtotal>{{ cart.total_price | money }}</span>
