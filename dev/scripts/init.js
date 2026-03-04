@@ -1228,8 +1228,7 @@
       try {
         var parsed = JSON.parse(configEl.text());
         this.config = {
-          provider: this.$el.data('provider') || 'openai',
-          model: this.$el.data('model') || 'gpt-4o-mini',
+          model: this.$el.data('model') || 'claude-haiku-4-5-20251001',
           title: this.$el.data('title') || 'Chat with us',
           greeting: this.$el.data('greeting') || 'Hi! How can I help you today?',
           apiKey: parsed.apiKey || '',
@@ -1337,42 +1336,19 @@
     callAPI: function(messages) {
       var cfg = this.config;
 
-      if (cfg.provider === 'claude') {
-        return fetch('https://api.anthropic.com/v1/messages', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'x-api-key': cfg.apiKey,
-            'anthropic-version': '2023-06-01',
-            'anthropic-dangerous-direct-browser-access': 'true'
-          },
-          body: JSON.stringify({
-            model: cfg.model,
-            max_tokens: 1024,
-            system: cfg.systemPrompt,
-            messages: messages
-          })
-        })
-        .then(function(res) {
-          if (!res.ok) return res.json().then(function(e) { throw new Error(e.error && e.error.message || 'API error ' + res.status); });
-          return res.json();
-        })
-        .then(function(data) {
-          return data.content && data.content[0] && data.content[0].text || '';
-        });
-      }
-
-      // OpenAI (default)
-      var apiMessages = [{ role: 'system', content: cfg.systemPrompt }].concat(messages);
-      return fetch('https://api.openai.com/v1/chat/completions', {
+      return fetch('https://api.anthropic.com/v1/messages', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + cfg.apiKey
+          'x-api-key': cfg.apiKey,
+          'anthropic-version': '2023-06-01',
+          'anthropic-dangerous-direct-browser-access': 'true'
         },
         body: JSON.stringify({
           model: cfg.model,
-          messages: apiMessages
+          max_tokens: 1024,
+          system: cfg.systemPrompt,
+          messages: messages
         })
       })
       .then(function(res) {
@@ -1380,7 +1356,7 @@
         return res.json();
       })
       .then(function(data) {
-        return data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content || '';
+        return data.content && data.content[0] && data.content[0].text || '';
       });
     }
   };

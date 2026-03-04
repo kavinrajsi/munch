@@ -15,7 +15,6 @@ Refund policy: {{ shop.refund_policy.body | strip_html | strip_newlines | trunca
     class="chatbot"
     id="AiChatbot"
     data-chatbot
-    data-provider="{{ settings.chatbot_provider }}"
     data-model="{{ settings.chatbot_model }}"
     data-title="{{ settings.chatbot_title | escape }}"
     data-greeting="{{ settings.chatbot_greeting | escape }}"
@@ -51,7 +50,7 @@ Refund policy: {{ shop.refund_policy.body | strip_html | strip_newlines | trunca
       <div class="chatbot__header">
         <div class="chatbot__header-info">
           <h3 class="chatbot__title">{{ settings.chatbot_title }}</h3>
-          <span class="chatbot__badge">{{ settings.chatbot_provider | capitalize }}</span>
+          <span class="chatbot__badge">Claude</span>
         </div>
         <button class="chatbot__close" data-chatbot-toggle aria-label="Close chat">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">

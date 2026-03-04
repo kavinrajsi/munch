@@ -1660,6 +1660,11 @@
         "type": "url",
         "id": "social_whatsapp",
         "label": "WhatsApp"
+      },
+      {
+        "type": "url",
+        "id": "social_pinterest",
+        "label": "Pinterest"
       }
     ]
   },
@@ -1673,27 +1678,17 @@
         "default": false
       },
       {
-        "type": "select",
-        "id": "chatbot_provider",
-        "label": "AI Provider",
-        "options": [
-          { "value": "openai", "label": "OpenAI (ChatGPT)" },
-          { "value": "claude", "label": "Claude (Anthropic)" }
-        ],
-        "default": "openai"
-      },
-      {
         "type": "text",
         "id": "chatbot_api_key",
         "label": "API Key",
-        "info": "Your OpenAI or Claude API key"
+        "info": "Your Claude (Anthropic) API key"
       },
       {
         "type": "text",
         "id": "chatbot_model",
         "label": "Model",
-        "default": "gpt-4o-mini",
-        "info": "e.g. gpt-4o-mini, claude-haiku-4-5-20251001"
+        "default": "claude-haiku-4-5-20251001",
+        "info": "e.g. claude-haiku-4-5-20251001, claude-sonnet-4-5-20241022"
       },
       {
         "type": "text",
