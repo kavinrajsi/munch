@@ -1,4 +1,4 @@
-{%- if settings.chatbot_enabled and settings.chatbot_api_key != blank -%}
+{%- if settings.chatbot_enabled -%}
 {% raw %}
 <style>
   :root {
@@ -566,9 +566,6 @@ RESPONSE FORMAT:
 - Use food emojis tastefully 🍬🌟🫐`;
 
 let isOpen = false, conversationHistory = [], isLoading = false;
-{% endraw %}
-let apiKey = '{{ settings.chatbot_api_key }}';
-{% raw %}
 
 window.addEventListener('DOMContentLoaded', () => {
   initChat();
@@ -658,19 +655,12 @@ async function naSend() {
   document.getElementById('na-send-btn').disabled = true;
   showTyping();
   try {
-    const resp = await fetch('https://api.anthropic.com/v1/messages', {
+    const resp = await fetch('/apps/chatbot/chat', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': apiKey,
-        'anthropic-version': '2023-06-01',
-        'anthropic-dangerous-direct-browser-access': 'true'
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 700,
-        system: SYSTEM_PROMPT,
-        messages: conversationHistory
+        messages: conversationHistory,
+        system: SYSTEM_PROMPT
       })
     });
     const data = await resp.json();

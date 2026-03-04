@@ -1687,13 +1687,8 @@
         "type": "checkbox",
         "id": "chatbot_enabled",
         "label": "Enable AI Chatbot",
-        "default": false
-      },
-      {
-        "type": "text",
-        "id": "chatbot_api_key",
-        "label": "Anthropic API Key",
-        "info": "Enter your Claude API key (starts with sk-ant-api03-...)"
+        "default": false,
+        "info": "Requires the Chatbot Proxy app to be installed and configured."
       }
     ]
   }
