@@ -30,7 +30,7 @@
       <div class="splide__list">
     {%- if section.settings.collection != blank -%}
       {%- for product in section.settings.collection.products limit: section.settings.products_to_show -%}
-        <div class="splide__slide" data-aos="fade-up" data-aos-delay="{{ forloop.index0 | times: 100 }}">
+        <div class="splide__slide" data-animate="fade-up" data-animate-delay="{{ forloop.index0 | times: 100 }}">
           {%- render 'fcc-product-card',
             product: product,
             show_vendor: section.settings.show_vendor,

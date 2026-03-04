@@ -15,7 +15,7 @@
 
   <div class="container">
     <div class="promo-banner__inner">
-      <div class="promo-banner__content" data-aos="fade-right">
+      <div class="promo-banner__content" data-animate="fade-right">
         {%- if section.settings.heading != blank -%}
           <h2 class="promo-banner__heading">{{ section.settings.heading }}</h2>
         {%- endif -%}
@@ -34,7 +34,7 @@
         {%- endif -%}
       </div>
 
-      <div class="promo-banner__media" data-aos="fade-left" data-aos-delay="200">
+      <div class="promo-banner__media" data-animate="fade-left" data-animate-delay="200">
         {%- if section.settings.image != blank -%}
           {{ section.settings.image
             | image_url: width: 1100

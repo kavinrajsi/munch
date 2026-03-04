@@ -25,7 +25,7 @@
     {%- paginate blog.articles by section.settings.articles_per_page -%}
       <div class="blog-page__grid">
         {%- for article in blog.articles -%}
-          <div data-aos="fade-up" data-aos-delay="{{ forloop.index0 | times: 100 | at_most: 200 }}">
+          <div data-animate="fade-up" data-animate-delay="{{ forloop.index0 | times: 100 | at_most: 200 }}">
             {% render 'blog-card', article: article %}
           </div>
         {%- endfor -%}

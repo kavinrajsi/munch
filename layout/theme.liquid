@@ -217,17 +217,17 @@
   {{ 'base.css' | asset_url | stylesheet_tag }}
   {{ 'splide-core.min.css' | asset_url | stylesheet_tag }}
   <style>
-    [data-aos] {
+    [data-animate] {
       opacity: 0;
       transition: none;
     }
-    [data-aos="fade-up"] {
+    [data-animate="fade-up"] {
       transform: translateY(30px);
     }
-    [data-aos="fade-left"] {
+    [data-animate="fade-left"] {
       transform: translateX(30px);
     }
-    [data-aos="fade-right"] {
+    [data-animate="fade-right"] {
       transform: translateX(-30px);
     }
   </style>
@@ -277,10 +277,10 @@
     gsap.registerPlugin(ScrollTrigger);
 
     function initScrollAnimations() {
-      var elements = document.querySelectorAll('[data-aos]');
+      var elements = document.querySelectorAll('[data-animate]');
       elements.forEach(function(el) {
-        var type = el.getAttribute('data-aos');
-        var delay = (parseInt(el.getAttribute('data-aos-delay'), 10) || 0) / 1000;
+        var type = el.getAttribute('data-animate');
+        var delay = (parseInt(el.getAttribute('data-animate-delay'), 10) || 0) / 1000;
 
         var fromVars = { opacity: 0 };
         if (type === 'fade-up') fromVars.y = 30;

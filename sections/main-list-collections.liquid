@@ -57,8 +57,8 @@
           <a
             href="{{ collection.url }}"
             class="collections-grid__item"
-            data-aos="fade-up"
-            data-aos-delay="{{ forloop.index0 | times: 100 | at_most: 300 }}"
+            data-animate="fade-up"
+            data-animate-delay="{{ forloop.index0 | times: 100 | at_most: 300 }}"
             data-products-count="{{ collection.products_count }}"
             data-title="{{ collection.title | downcase }}"
           >

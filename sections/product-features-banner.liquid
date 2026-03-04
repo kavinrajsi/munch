@@ -21,7 +21,7 @@
 
     <div class="product-features-banner__grid">
       {%- for block in section.blocks -%}
-        <div class="product-features-banner__item" data-aos="fade-up" data-aos-delay="{{ forloop.index0 | times: 100 }}" {{ block.shopify_attributes }}>
+        <div class="product-features-banner__item" data-animate="fade-up" data-animate-delay="{{ forloop.index0 | times: 100 }}" {{ block.shopify_attributes }}>
           {%- if block.settings.icon != blank -%}
             <div class="product-features-banner__icon">
               {{ block.settings.icon }}

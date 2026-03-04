@@ -16,7 +16,7 @@
 >
   <div class="footer__container container">
     <!-- Brand with lines -->
-    <div class="footer__brand" data-aos="fade-up">
+    <div class="footer__brand" data-animate="fade-up">
       <span class="footer__brand-line" aria-hidden="true">
         <svg
           preserveAspectRatio="none"
@@ -88,7 +88,7 @@
       {%- for block in section.blocks -%}
         {%- case block.type -%}
           {%- when 'menu' -%}
-            <nav class="footer__nav" data-aos="fade-up" data-aos-delay="{{ forloop.index0 | times: 100 }}" {{ block.shopify_attributes }} aria-labelledby="footer-nav-{{ block.id }}">
+            <nav class="footer__nav" data-animate="fade-up" data-animate-delay="{{ forloop.index0 | times: 100 }}" {{ block.shopify_attributes }} aria-labelledby="footer-nav-{{ block.id }}">
               {%- if block.settings.title != blank -%}
                 <h2 id="footer-nav-{{ block.id }}" class="footer__title">{{ block.settings.title }}</h2>
               {%- endif -%}
@@ -104,7 +104,7 @@
             </nav>
 
           {%- when 'contact' -%}
-            <div class="footer__contact-block" data-aos="fade-up" data-aos-delay="{{ forloop.index0 | times: 100 }}" {{ block.shopify_attributes }}>
+            <div class="footer__contact-block" data-animate="fade-up" data-animate-delay="{{ forloop.index0 | times: 100 }}" {{ block.shopify_attributes }}>
               {%- if block.settings.title != blank -%}
                 <h2 class="footer__title">{{ block.settings.title }}</h2>
               {%- endif -%}
@@ -154,7 +154,7 @@
     </div>
 
     <!-- Bottom Section -->
-    <div class="footer__bottom" data-aos="fade-up" data-aos-delay="200">
+    <div class="footer__bottom" data-animate="fade-up" data-animate-delay="200">
       <span class="footer__bottom-border" aria-hidden="true">
         <svg
           preserveAspectRatio="none"

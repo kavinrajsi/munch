@@ -26,7 +26,7 @@
       {%- for block in section.blocks -%}
         {%- if block.settings.collection != blank -%}
           {%- assign col = block.settings.collection -%}
-          <a href="{{ col.url }}" class="exclusive-collections__card" data-aos="fade-up" data-aos-delay="{{ forloop.index0 | times: 100 }}" {{ block.shopify_attributes }}>
+          <a href="{{ col.url }}" class="exclusive-collections__card" data-animate="fade-up" data-animate-delay="{{ forloop.index0 | times: 100 }}" {{ block.shopify_attributes }}>
             <div class="exclusive-collections__image">
               {%- if block.settings.image != blank -%}
                 {{ block.settings.image

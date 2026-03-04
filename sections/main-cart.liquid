@@ -36,7 +36,7 @@
             </thead>
             <tbody>
               {%- for item in cart.items -%}
-                <tr class="cart-page__row" data-cart-item data-line="{{ forloop.index }}" data-aos="fade-up" data-aos-delay="{{ forloop.index0 | times: 100 | at_most: 300 }}">
+                <tr class="cart-page__row" data-cart-item data-line="{{ forloop.index }}" data-animate="fade-up" data-animate-delay="{{ forloop.index0 | times: 100 | at_most: 300 }}">
                   {%- comment -%} Product {%- endcomment -%}
                   <td class="cart-page__cell cart-page__cell--product">
                     <a href="{{ item.url }}" class="cart-page__product-img">
@@ -98,7 +98,7 @@
         {%- comment -%} Mobile Cards {%- endcomment -%}
         <div class="cart-page__mobile-items">
           {%- for item in cart.items -%}
-            <div class="cart-page__mobile-card" data-cart-item data-line="{{ forloop.index }}" data-aos="fade-up" data-aos-delay="{{ forloop.index0 | times: 100 | at_most: 300 }}">
+            <div class="cart-page__mobile-card" data-cart-item data-line="{{ forloop.index }}" data-animate="fade-up" data-animate-delay="{{ forloop.index0 | times: 100 | at_most: 300 }}">
               <a href="{{ item.url }}" class="cart-page__mobile-img">
                 {%- if item.image -%}
                   <img

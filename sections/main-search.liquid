@@ -102,7 +102,7 @@
           <div class="collection__grid">
             {%- for item in search.results -%}
               {%- if item.object_type == 'product' -%}
-                <div data-aos="fade-up" data-aos-delay="{{ forloop.index0 | times: 100 | at_most: 300 }}">
+                <div data-animate="fade-up" data-animate-delay="{{ forloop.index0 | times: 100 | at_most: 300 }}">
                   {%- render 'fcc-product-card',
                     product: item,
                     show_vendor: false,
@@ -110,11 +110,11 @@
                   -%}
                 </div>
               {%- elsif item.object_type == 'article' -%}
-                <div data-aos="fade-up" data-aos-delay="{{ forloop.index0 | times: 100 | at_most: 300 }}">
+                <div data-animate="fade-up" data-animate-delay="{{ forloop.index0 | times: 100 | at_most: 300 }}">
                   {% render 'blog-card', article: item %}
                 </div>
               {%- else -%}
-                <div class="blog-card" data-aos="fade-up" data-aos-delay="{{ forloop.index0 | times: 100 | at_most: 300 }}">
+                <div class="blog-card" data-animate="fade-up" data-animate-delay="{{ forloop.index0 | times: 100 | at_most: 300 }}">
                   <h3 class="blog-card__title"><a href="{{ item.url }}">{{ item.title }}</a></h3>
                   <p class="blog-card__excerpt">{{ item.content | strip_html | truncate: 150 }}</p>
                 </div>

@@ -140,7 +140,7 @@
   }
 {%- endstyle -%}
 
-<div class="countdown-timer color-{{ section.settings.color_scheme }}" data-countdown-section data-end-date="{{ section.settings.end_date }}" data-end-time="{{ section.settings.end_time }}" data-expiry-action="{{ section.settings.expiry_action }}" {{ section.shopify_attributes }}>
+<div class="countdown-timer color-{{ section.settings.color_scheme }}" data-countdown-section="{{ section.id }}" data-end-date="{{ section.settings.end_date }}" data-end-time="{{ section.settings.end_time }}" data-expiry-action="{{ section.settings.expiry_action }}" {{ section.shopify_attributes }}>
   <div class="container">
     <div class="countdown-timer__inner" data-countdown-content>
       {%- if section.settings.title != blank -%}
@@ -189,7 +189,7 @@
 
 <script>
   (function() {
-    var section = document.querySelector('[{{ section.shopify_attributes }}]');
+    var section = document.querySelector('[data-countdown-section="{{ section.id }}"]');
     if (!section) return;
 
     var endDate = section.dataset.endDate;

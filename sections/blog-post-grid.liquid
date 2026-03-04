@@ -16,7 +16,7 @@
   >
     {%- if section.settings.blog != blank -%}
       {%- for article in section.settings.blog.articles limit: section.settings.posts_to_show -%}
-        <article class="blog-post-grid__item" data-aos="fade-up" data-aos-delay="{{ forloop.index0 | times: 100 }}">
+        <article class="blog-post-grid__item" data-animate="fade-up" data-animate-delay="{{ forloop.index0 | times: 100 }}">
           <a href="{{ article.url }}" class="blog-post-grid__link">
             {%- if article.image != blank -%}
               <div class="blog-post-grid__image-wrapper">

@@ -122,7 +122,7 @@
     {%- endif -%}
 
     {%- for block in section.blocks -%}
-      <div class="before-after__slider" data-before-after data-aos="fade-up" {{ block.shopify_attributes }}>
+      <div class="before-after__slider" data-before-after data-animate="fade-up" {{ block.shopify_attributes }}>
         {%- if block.settings.after_image != blank -%}
           <img class="before-after__img" src="{{ block.settings.after_image | image_url: width: 1200 }}" alt="{{ block.settings.after_label | default: 'After' }}" loading="lazy" width="1200" height="{{ 1200 | divided_by: block.settings.after_image.aspect_ratio | round }}">
         {%- else -%}

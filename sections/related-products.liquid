@@ -33,7 +33,7 @@
           <div class="splide__track">
             <div class="splide__list">
               {%- for product in recommendations.products -%}
-                <div class="splide__slide" data-aos="fade-up" data-aos-delay="{{ forloop.index0 | times: 100 }}">
+                <div class="splide__slide" data-animate="fade-up" data-animate-delay="{{ forloop.index0 | times: 100 }}">
                   {%- render 'fcc-product-card',
                     product: product,
                     show_vendor: section.settings.show_vendor,

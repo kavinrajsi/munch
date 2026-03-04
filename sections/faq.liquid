@@ -87,7 +87,7 @@
 
     <div class="faq-list">
       {%- for block in section.blocks -%}
-        <div class="faq-item" data-aos="fade-up" data-aos-delay="{{ forloop.index0 | times: 50 }}" {{ block.shopify_attributes }}>
+        <div class="faq-item" data-animate="fade-up" data-animate-delay="{{ forloop.index0 | times: 50 }}" {{ block.shopify_attributes }}>
           <button class="faq-item__trigger" type="button" data-faq-trigger>
             {{ block.settings.question }}
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
