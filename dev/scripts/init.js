@@ -441,6 +441,7 @@
 
     clearResults: function() {
       this.$overlay.find('[data-search-results]').empty();
+      this.$overlay.find('[data-search-view-all]').hide();
       this.$overlay.find('[data-search-loading]').removeClass('is-visible');
       this.$overlay.find('[data-search-popular]').show();
       this.activeIndex = -1;
@@ -520,9 +521,6 @@
             }
             html += '<div class="search-overlay__result-info">';
             html += '<div class="search-overlay__result-title">' + self.escapeHtml(p.title) + '</div>';
-            if (cfg.showProductVendor && p.vendor) {
-              html += '<div class="search-overlay__result-meta">' + self.escapeHtml(p.vendor) + '</div>';
-            }
             html += '</div>';
             if (cfg.showProductPrice) {
               html += '<div class="search-overlay__result-price">';
@@ -573,18 +571,16 @@
             html += '<a href="' + a.url + '" class="search-overlay__result-item search-overlay__result-item--text">';
             html += '<div class="search-overlay__result-info">';
             html += '<div class="search-overlay__result-title">' + self.escapeHtml(a.title) + '</div>';
-            if (a.author) {
-              html += '<div class="search-overlay__result-meta">by ' + self.escapeHtml(a.author) + '</div>';
-            }
             html += '</div></a>';
           });
           html += '</div>';
         }
 
-        // View all link
-        html += '<a href="/search?q=' + encodeURIComponent(query) + '&type=' + encodeURIComponent(cfg.resourceTypes) + '" class="search-overlay__view-all">View all results</a>';
-
         $results.html(html);
+
+        // View all link (fixed outside scrollable results)
+        var $viewAll = self.$overlay.find('[data-search-view-all]');
+        $viewAll.attr('href', '/search?q=' + encodeURIComponent(query) + '&type=' + encodeURIComponent(cfg.resourceTypes)).show();
       }).fail(function() {
         if (self.lastQuery !== query) return;
         $loading.removeClass('is-visible');

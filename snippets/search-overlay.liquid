@@ -88,22 +88,41 @@
         </a>
       </div>
 
-      {%- comment -%} Search Form {%- endcomment -%}
-      <form class="search-overlay__form" action="{{ routes.search_url }}" method="get" role="search">
-        <input
-          class="search-overlay__input"
-          type="search"
-          name="q"
-          placeholder="{{ placeholder | escape }}"
-          autocomplete="off"
-          data-search-input
-          aria-label="{{ 'general.search.title' | t }}"
-        >
-        <input type="hidden" name="type" value="{{ resource_types }}">
-        <button class="search-overlay__submit" type="submit" aria-label="{{ 'general.search.submit' | t }}">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-        </button>
-      </form>
+      {%- comment -%} Search Form + Popular Searches {%- endcomment -%}
+      <div class="search-overlay__search-wrap">
+        <form class="search-overlay__form" action="{{ routes.search_url }}" method="get" role="search">
+          <input
+            class="search-overlay__input"
+            type="search"
+            name="q"
+            placeholder="{{ placeholder | escape }}"
+            autocomplete="off"
+            data-search-input
+            aria-label="{{ 'general.search.title' | t }}"
+          >
+          <input type="hidden" name="type" value="{{ resource_types }}">
+          <button class="search-overlay__submit" type="submit" aria-label="{{ 'general.search.submit' | t }}">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          </button>
+        </form>
+
+        {%- if show_popular and popular_terms != blank -%}
+          {%- assign popular_array = popular_terms | split: ',' -%}
+          <div class="search-overlay__popular" data-search-popular>
+            <span class="search-overlay__popular-label">{{ popular_label | escape }}</span>
+            {%- for term in popular_array -%}
+              {%- assign trimmed = term | strip -%}
+              {%- if trimmed != blank -%}
+                <a
+                  href="{{ routes.search_url }}?q={{ trimmed | url_encode }}&type={{ resource_types }}"
+                  class="search-overlay__popular-link"
+                  data-popular-term="{{ trimmed | escape }}"
+                >{{ trimmed }}</a>
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+      </div>
 
       {%- comment -%} Icons {%- endcomment -%}
       <div class="search-overlay__icons">
@@ -118,28 +137,12 @@
 
     {%- comment -%} Dropdown area {%- endcomment -%}
     <div class="search-overlay__dropdown">
-      {%- if show_popular and popular_terms != blank -%}
-        {%- assign popular_array = popular_terms | split: ',' -%}
-        <div class="search-overlay__popular" data-search-popular>
-          <span class="search-overlay__popular-label">{{ popular_label | escape }}</span>
-          {%- for term in popular_array -%}
-            {%- assign trimmed = term | strip -%}
-            {%- if trimmed != blank -%}
-              <a
-                href="{{ routes.search_url }}?q={{ trimmed | url_encode }}&type={{ resource_types }}"
-                class="search-overlay__popular-link"
-                data-popular-term="{{ trimmed | escape }}"
-              >{{ trimmed }}</a>
-            {%- endif -%}
-          {%- endfor -%}
-        </div>
-      {%- endif -%}
-
       <div class="search-overlay__loading" data-search-loading>
         <span class="search-overlay__spinner"></span>
       </div>
 
       <div class="search-overlay__results" data-search-results></div>
+      <a href="#" class="search-overlay__view-all" data-search-view-all style="display:none;">View all results</a>
     </div>
   </div>
 </div>

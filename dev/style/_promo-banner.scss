@@ -2,6 +2,11 @@
   position: relative;
   overflow: hidden;
   background-color: var(--pb-bg, #C61D23);
+  background-image: var(--pb-pattern, none);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-blend-mode: soft-light;
   padding-top: var(--pb-pt-mobile, 32px);
   padding-bottom: var(--pb-pb-mobile, 32px);
 
@@ -9,21 +14,6 @@
     padding-top: var(--pb-pt-desktop, 40px);
     padding-bottom: var(--pb-pb-desktop, 40px);
   }
-}
-
-// Pattern overlay
-.promo-banner__pattern {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  opacity: 0.4;
-  mix-blend-mode: soft-light;
-}
-
-.promo-banner__pattern-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
 }
 
 // Inner layout

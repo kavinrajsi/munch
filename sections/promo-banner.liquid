@@ -6,20 +6,12 @@
     --pb-pb-desktop: {{ section.settings.padding_bottom_desktop }}px;
     --pb-pt-mobile: {{ section.settings.padding_top_mobile }}px;
     --pb-pb-mobile: {{ section.settings.padding_bottom_mobile }}px;
+    {%- if section.settings.pattern_image != blank -%}
+      --pb-pattern: url('{{ section.settings.pattern_image | image_url: width: 600 }}');
+    {%- endif -%}
   "
   {{ section.shopify_attributes }}
 >
-  {%- if section.settings.pattern_image != blank -%}
-    <div class="promo-banner__pattern">
-      {{ section.settings.pattern_image
-        | image_url: width: 600
-        | image_tag:
-            loading: 'lazy',
-            class: 'promo-banner__pattern-img',
-            alt: ''
-      }}
-    </div>
-  {%- endif -%}
 
   <div class="container">
     <div class="promo-banner__inner">
