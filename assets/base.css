@@ -1743,6 +1743,13 @@ a.icon-with-text__title:hover {
 .iwt-scroll__track::-webkit-scrollbar {
   display: none;
 }
+@media (min-width: 992px) {
+  .iwt-scroll__track {
+    overflow-x: visible;
+    scroll-snap-type: none;
+    flex-wrap: nowrap;
+  }
+}
 
 .iwt-scroll__item {
   flex: 0 0 auto;
@@ -1752,6 +1759,13 @@ a.icon-with-text__title:hover {
   gap: var(--iwt-gap-img-text, 8px);
   background-color: var(--iwt-item-bg, transparent);
   scroll-snap-align: start;
+}
+@media (min-width: 992px) {
+  .iwt-scroll__item {
+    flex: 1 1 0;
+    min-width: 0;
+    scroll-snap-align: none;
+  }
 }
 
 .iwt-scroll__image {
