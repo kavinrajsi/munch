@@ -1,6 +1,12 @@
 // ── Blog Page ──
 .blog-page {
-  padding-bottom: 56px;
+  padding-top: var(--blog-pt-mobile, 0px);
+  padding-bottom: var(--blog-pb-mobile, 56px);
+
+  @media (min-width: 750px) {
+    padding-top: var(--blog-pt-desktop, 0px);
+    padding-bottom: var(--blog-pb-desktop, 56px);
+  }
 }
 
 // ── Blog Grid ──

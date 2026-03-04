@@ -1,14 +1,16 @@
-<div class="blog-page" {{ section.shopify_attributes }}>
-  <div class="container">
+<div class="blog-page" style="--blog-pt-desktop: {{ section.settings.padding_top_desktop }}px; --blog-pb-desktop: {{ section.settings.padding_bottom_desktop }}px; --blog-pt-mobile: {{ section.settings.padding_top_mobile }}px; --blog-pb-mobile: {{ section.settings.padding_bottom_mobile }}px;" {{ section.shopify_attributes }}>
+  <div class="{{ section.settings.container_type }}">
 
     {%- comment -%} Decorated heading {%- endcomment -%}
+    {%- assign heading_title = section.settings.custom_title | default: blog.title -%}
+    {%- assign heading_type = section.settings.heading_type -%}
     {% render 'section-heading',
-      title: blog.title,
+      title: heading_title,
       heading_tag: 'h1',
-      show_left_line: true,
-      show_left_icon: true,
-      show_right_icon: true,
-      show_right_line: true,
+      show_left_line: heading_type == 'decorated' or heading_type == 'lines_only',
+      show_left_icon: heading_type == 'decorated' or heading_type == 'icons_only',
+      show_right_icon: heading_type == 'decorated' or heading_type == 'icons_only',
+      show_right_line: heading_type == 'decorated' or heading_type == 'lines_only',
       margin_bottom_desktop: 24,
       margin_bottom_mobile: 16
     %}
@@ -70,6 +72,34 @@
   "class": "main-blog-section",
   "settings": [
     {
+      "type": "select",
+      "id": "container_type",
+      "label": "Container type",
+      "options": [
+        { "value": "container", "label": "Container" },
+        { "value": "container-fluid", "label": "Container fluid" }
+      ],
+      "default": "container"
+    },
+    {
+      "type": "text",
+      "id": "custom_title",
+      "label": "Custom Title",
+      "info": "Leave blank to use blog title"
+    },
+    {
+      "type": "select",
+      "id": "heading_type",
+      "label": "Heading Type",
+      "options": [
+        { "value": "decorated", "label": "Decorated (Lines + Icons)" },
+        { "value": "lines_only", "label": "Lines Only" },
+        { "value": "icons_only", "label": "Icons Only" },
+        { "value": "plain", "label": "Plain" }
+      ],
+      "default": "decorated"
+    },
+    {
       "type": "range",
       "id": "articles_per_page",
       "label": "Articles per Page",
@@ -83,6 +113,50 @@
       "id": "show_tags",
       "label": "Show Tags",
       "default": false
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top_desktop",
+      "label": "Padding Top (Desktop)",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_desktop",
+      "label": "Padding Bottom (Desktop)",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 56
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "label": "Padding Top (Mobile)",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "label": "Padding Bottom (Mobile)",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 56
     }
   ]
 }

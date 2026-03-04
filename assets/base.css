@@ -5019,11 +5019,13 @@ a.store-card__info-text:hover {
 
 .article-page {
   background-color: #FFFFFF;
-  padding-bottom: 40px;
+  padding-top: var(--article-pt-mobile, 0px);
+  padding-bottom: var(--article-pb-mobile, 40px);
 }
 @media (min-width: 750px) {
   .article-page {
-    padding-bottom: 80px;
+    padding-top: var(--article-pt-desktop, 0px);
+    padding-bottom: var(--article-pb-desktop, 80px);
   }
 }
 
@@ -5384,7 +5386,14 @@ a.store-card__info-text:hover {
 }
 
 .blog-page {
-  padding-bottom: 56px;
+  padding-top: var(--blog-pt-mobile, 0px);
+  padding-bottom: var(--blog-pb-mobile, 56px);
+}
+@media (min-width: 750px) {
+  .blog-page {
+    padding-top: var(--blog-pt-desktop, 0px);
+    padding-bottom: var(--blog-pb-desktop, 56px);
+  }
 }
 
 .blog-page__grid {

@@ -1,5 +1,13 @@
-<div class="section-padding" {{ section.shopify_attributes }}>
-  <div class="container text-center">
+<div class="section-padding" style="padding-top: {{ section.settings.padding_top_mobile }}px; padding-bottom: {{ section.settings.padding_bottom_mobile }}px;" {{ section.shopify_attributes }}>
+<style>
+  @media (min-width: 750px) {
+    .main-404-section .section-padding {
+      padding-top: {{ section.settings.padding_top_desktop }}px !important;
+      padding-bottom: {{ section.settings.padding_bottom_desktop }}px !important;
+    }
+  }
+</style>
+  <div class="{{ section.settings.container_type }} text-center">
     <h1>{{ 'templates.404.title' | t }}</h1>
     <p>{{ 'templates.404.subtext' | t }}</p>
     <a href="{{ routes.root_url }}" class="btn btn--primary">{{ 'templates.404.button' | t }}</a>
@@ -11,6 +19,61 @@
   "name": "404 Page",
   "tag": "section",
   "class": "main-404-section",
-  "settings": []
+  "settings": [
+    {
+      "type": "select",
+      "id": "container_type",
+      "label": "Container type",
+      "options": [
+        { "value": "container", "label": "Container" },
+        { "value": "container-fluid", "label": "Container fluid" }
+      ],
+      "default": "container"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top_desktop",
+      "label": "Padding Top (Desktop)",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_desktop",
+      "label": "Padding Bottom (Desktop)",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "label": "Padding Top (Mobile)",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "label": "Padding Bottom (Mobile)",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 40
+    }
+  ]
 }
 {% endschema %}
