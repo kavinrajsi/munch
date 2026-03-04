@@ -21,6 +21,8 @@
 
   {%- if settings.favicon -%}
     <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
+  {%- else -%}
+    <link rel="icon" href="data:,">
   {%- endif -%}
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
