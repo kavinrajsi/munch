@@ -3,7 +3,6 @@
     background: {{ section.settings.bg_color }};
     padding-top: {{ section.settings.padding_top_mobile }}px;
     padding-bottom: {{ section.settings.padding_bottom_mobile }}px;
-    text-align: center;
   }
   @media (min-width: 750px) {
     .countdown-timer {
@@ -12,130 +11,179 @@
     }
   }
 
-  .countdown-timer__description {
-    max-width: 720px;
-    margin: 0 auto 40px;
-    text-align: center;
+  .countdown-timer__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+  }
+  @media (min-width: 990px) {
+    .countdown-timer__inner {
+      flex-direction: row;
+      justify-content: center;
+      gap: 40px;
+    }
+  }
+
+  .countdown-timer__title {
+    font-family: var(--font-heading-family, "Aller", sans-serif);
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: var(--color-headings, inherit);
+    margin: 0;
+    white-space: nowrap;
+  }
+  @media (min-width: 750px) {
+    .countdown-timer__title {
+      font-size: 1.75rem;
+    }
   }
 
   .countdown-timer__grid {
     display: flex;
-    justify-content: center;
-    gap: 12px;
-    margin-bottom: 32px;
-  }
-  @media (min-width: 750px) {
-    .countdown-timer__grid {
-      gap: 24px;
-    }
+    align-items: center;
+    gap: 0;
   }
 
   .countdown-timer__group {
     display: flex;
     flex-direction: column;
     align-items: center;
-    min-width: 64px;
+    padding: 0 16px;
   }
   @media (min-width: 750px) {
     .countdown-timer__group {
-      min-width: 100px;
+      padding: 0 24px;
     }
   }
 
+  .countdown-timer__group + .countdown-timer__group {
+    border-left: 1px solid var(--color-headings, currentColor);
+    opacity: 1;
+  }
+
   .countdown-timer__digit {
-    font-size: 2rem;
-    font-weight: 700;
-    line-height: 1;
+    font-family: var(--font-heading-family, "Aller", sans-serif);
+    font-size: 2.25rem;
+    font-weight: 400;
+    line-height: 1.1;
     color: var(--color-headings, inherit);
-    background: var(--color-background, rgba(0,0,0,0.05));
-    border-radius: 8px;
-    padding: 16px 12px;
-    width: 100%;
-    border: 1px solid var(--color-borders, #F5F3F4);
+    font-variant-numeric: tabular-nums;
   }
   @media (min-width: 750px) {
     .countdown-timer__digit {
       font-size: 3rem;
-      padding: 20px 16px;
     }
   }
 
   .countdown-timer__label {
-    margin-top: 8px;
-    font-size: 0.75rem;
+    margin-top: 4px;
+    font-size: 0.625rem;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: var(--color-text, inherit);
-    opacity: 0.7;
+    letter-spacing: 0.1em;
+    color: var(--color-headings, inherit);
   }
   @media (min-width: 750px) {
     .countdown-timer__label {
-      font-size: 0.875rem;
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
     }
+  }
+
+  .countdown-timer__right {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+  @media (min-width: 990px) {
+    .countdown-timer__right {
+      flex-direction: row;
+      gap: 32px;
+    }
+  }
+
+  .countdown-timer__description {
+    font-size: 0.875rem;
+    color: var(--color-text, inherit);
+    margin: 0;
+    text-align: center;
+  }
+  @media (min-width: 990px) {
+    .countdown-timer__description {
+      font-size: 1rem;
+      text-align: left;
+    }
+  }
+
+  .countdown-timer__cta .btn--outline {
+    background: transparent;
+    border: 1px solid var(--color-headings, currentColor);
+    color: var(--color-headings, inherit);
+    border-radius: 0;
+    padding: 12px 28px;
+    font-size: 0.8125rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-weight: 400;
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+  .countdown-timer__cta .btn--outline:hover {
+    background: var(--color-headings, currentColor);
+    color: var(--color-background, #fff);
   }
 
   .countdown-timer__expired {
     font-size: 1.25rem;
     color: var(--color-text, inherit);
-    padding: 32px 0;
-  }
-
-  .countdown-timer__cta {
-    margin-top: 8px;
+    padding: 16px 0;
   }
 {%- endstyle -%}
 
 <div class="countdown-timer color-{{ section.settings.color_scheme }}" data-countdown-section data-end-date="{{ section.settings.end_date }}" data-end-time="{{ section.settings.end_time }}" data-expiry-action="{{ section.settings.expiry_action }}" {{ section.shopify_attributes }}>
   <div class="container">
-    {%- if section.settings.title != blank -%}
-      <div>
-        {%- render 'section-heading',
-          title: section.settings.title,
-          heading_tag: 'h2',
-          show_left_line: true,
-          show_left_icon: true,
-          show_right_icon: true,
-          show_right_line: true
-        -%}
-      </div>
-    {%- endif -%}
+    <div class="countdown-timer__inner" data-countdown-content>
+      {%- if section.settings.title != blank -%}
+        <h2 class="countdown-timer__title">{{ section.settings.title }}</h2>
+      {%- endif -%}
 
-    {%- if section.settings.description != blank -%}
-      <div class="countdown-timer__description rte">
-        {{ section.settings.description }}
+      <div class="countdown-timer__grid" data-countdown-grid>
+        <div class="countdown-timer__group">
+          <span class="countdown-timer__digit" data-countdown-days>0</span>
+          <span class="countdown-timer__label">Days</span>
+        </div>
+        <div class="countdown-timer__group">
+          <span class="countdown-timer__digit" data-countdown-hours>00</span>
+          <span class="countdown-timer__label">Hours</span>
+        </div>
+        <div class="countdown-timer__group">
+          <span class="countdown-timer__digit" data-countdown-mins>00</span>
+          <span class="countdown-timer__label">Minutes</span>
+        </div>
+        <div class="countdown-timer__group">
+          <span class="countdown-timer__digit" data-countdown-secs>00</span>
+          <span class="countdown-timer__label">Seconds</span>
+        </div>
       </div>
-    {%- endif -%}
 
-    <div class="countdown-timer__grid" data-aos="fade-up" data-countdown-grid>
-      <div class="countdown-timer__group">
-        <span class="countdown-timer__digit" data-countdown-days>00</span>
-        <span class="countdown-timer__label">Days</span>
-      </div>
-      <div class="countdown-timer__group">
-        <span class="countdown-timer__digit" data-countdown-hours>00</span>
-        <span class="countdown-timer__label">Hours</span>
-      </div>
-      <div class="countdown-timer__group">
-        <span class="countdown-timer__digit" data-countdown-mins>00</span>
-        <span class="countdown-timer__label">Mins</span>
-      </div>
-      <div class="countdown-timer__group">
-        <span class="countdown-timer__digit" data-countdown-secs>00</span>
-        <span class="countdown-timer__label">Secs</span>
+      <div class="countdown-timer__right">
+        {%- if section.settings.description != blank -%}
+          <p class="countdown-timer__description">{{ section.settings.description }}</p>
+        {%- endif -%}
+
+        {%- if section.settings.button_text != blank -%}
+          <div class="countdown-timer__cta" data-countdown-cta>
+            <a href="{{ section.settings.button_link }}" class="btn btn--outline">
+              {{ section.settings.button_text }}
+            </a>
+          </div>
+        {%- endif -%}
       </div>
     </div>
 
     <div class="countdown-timer__expired" data-countdown-expired style="display:none;">
       {{ section.settings.expired_message }}
     </div>
-
-    {%- if section.settings.button_text != blank -%}
-      <div class="countdown-timer__cta" data-countdown-cta>
-        <a href="{{ section.settings.button_link }}" class="btn btn--primary">
-          {{ section.settings.button_text }}
-        </a>
-      </div>
-    {%- endif -%}
   </div>
 </div>
 
@@ -149,9 +197,8 @@
     if (!endDate) return;
 
     var target = new Date(endDate + 'T' + endTime + ':00').getTime();
-    var grid = section.querySelector('[data-countdown-grid]');
+    var contentEl = section.querySelector('[data-countdown-content]');
     var expiredEl = section.querySelector('[data-countdown-expired]');
-    var ctaEl = section.querySelector('[data-countdown-cta]');
     var daysEl = section.querySelector('[data-countdown-days]');
     var hoursEl = section.querySelector('[data-countdown-hours]');
     var minsEl = section.querySelector('[data-countdown-mins]');
@@ -169,8 +216,7 @@
         if (expiryAction === 'hide') {
           section.style.display = 'none';
         } else {
-          grid.style.display = 'none';
-          if (ctaEl) ctaEl.style.display = 'none';
+          contentEl.style.display = 'none';
           expiredEl.style.display = '';
         }
         return;
@@ -181,7 +227,7 @@
       var mins = Math.floor((diff % 3600000) / 60000);
       var secs = Math.floor((diff % 60000) / 1000);
 
-      daysEl.textContent = pad(days);
+      daysEl.textContent = days;
       hoursEl.textContent = pad(hours);
       minsEl.textContent = pad(mins);
       secsEl.textContent = pad(secs);
@@ -202,12 +248,13 @@
       "type": "text",
       "id": "title",
       "label": "Title",
-      "default": "Limited Time Offer"
+      "default": "Annual Sale Event"
     },
     {
-      "type": "richtext",
+      "type": "text",
       "id": "description",
-      "label": "Description"
+      "label": "Description",
+      "default": "Save on all best selling and exclusive styles"
     },
     {
       "type": "header",
@@ -251,7 +298,7 @@
       "type": "text",
       "id": "button_text",
       "label": "Button text",
-      "default": "Shop Now"
+      "default": "GET NOTIFIED"
     },
     {
       "type": "url",
@@ -267,7 +314,7 @@
       "type": "color",
       "id": "bg_color",
       "label": "Background color",
-      "default": "#ffffff"
+      "default": "#F5F0EB"
     },
     {
       "type": "color_scheme",
@@ -287,7 +334,7 @@
       "max": 100,
       "step": 4,
       "unit": "px",
-      "default": 56
+      "default": 24
     },
     {
       "type": "range",
@@ -297,7 +344,7 @@
       "max": 100,
       "step": 4,
       "unit": "px",
-      "default": 56
+      "default": 24
     },
     {
       "type": "range",

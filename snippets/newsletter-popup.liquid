@@ -1,0 +1,409 @@
+{%- if settings.newsletter_popup_enabled and customer == nil -%}
+{%- style -%}
+  .newsletter-popup {
+    position: fixed;
+    inset: 0;
+    z-index: 65;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.6);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.35s ease, visibility 0.35s ease;
+    pointer-events: none;
+  }
+  .newsletter-popup.is-open {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+
+  .newsletter-popup__card {
+    position: relative;
+    display: flex;
+    background: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    max-width: 820px;
+    width: 92%;
+    max-height: 90vh;
+    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.25);
+    transform: translateY(20px) scale(0.97);
+    transition: transform 0.35s ease;
+  }
+  .newsletter-popup.is-open .newsletter-popup__card {
+    transform: translateY(0) scale(1);
+  }
+
+  .newsletter-popup__image {
+    flex: 0 0 42%;
+    min-height: 480px;
+    background-size: cover;
+    background-position: center;
+  }
+
+  .newsletter-popup__content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 48px 40px;
+    text-align: center;
+  }
+
+  .newsletter-popup__close {
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    background: none;
+    border: none;
+    font-size: 1.6rem;
+    line-height: 1;
+    cursor: pointer;
+    color: #333;
+    padding: 4px;
+    z-index: 1;
+    transition: opacity 0.2s;
+  }
+  .newsletter-popup__close:hover {
+    opacity: 0.6;
+  }
+
+  .newsletter-popup__subtitle {
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-text, #555);
+    margin: 0 0 8px;
+  }
+
+  .newsletter-popup__heading {
+    font-family: var(--font-heading-family, serif);
+    font-size: 2.8rem;
+    font-weight: 400;
+    line-height: 1.1;
+    margin: 0 0 12px;
+    color: var(--color-headings, #161a1d);
+  }
+
+  .newsletter-popup__description {
+    font-size: 1rem;
+    color: var(--color-text, #555);
+    margin: 0 0 32px;
+    line-height: 1.5;
+  }
+
+  .newsletter-popup__form {
+    width: 100%;
+    max-width: 360px;
+  }
+
+  .newsletter-popup__input {
+    width: 100%;
+    padding: 14px 16px;
+    border: 1px solid var(--color-borders, #ccc);
+    border-radius: 4px;
+    font-size: 1rem;
+    font-family: inherit;
+    margin-bottom: 12px;
+    outline: none;
+    transition: border-color 0.2s;
+    box-sizing: border-box;
+  }
+  .newsletter-popup__input:focus {
+    border-color: var(--color-headings, #333);
+  }
+
+  .newsletter-popup__submit {
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    background: var(--btn-primary-bg, #d4e4a2);
+    color: var(--btn-primary-text, #161a1d);
+    transition: opacity 0.2s;
+  }
+  .newsletter-popup__submit:hover {
+    opacity: 0.85;
+  }
+
+  .newsletter-popup__dismiss {
+    display: inline-block;
+    margin-top: 16px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--color-headings, #161a1d);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+    padding: 0;
+  }
+  .newsletter-popup__dismiss:hover {
+    opacity: 0.7;
+  }
+
+  .newsletter-popup__disclaimer {
+    font-size: 0.8rem;
+    color: var(--color-text, #888);
+    margin-top: 20px;
+    line-height: 1.5;
+    max-width: 360px;
+  }
+
+  .newsletter-popup__success {
+    display: none;
+  }
+  .newsletter-popup__success.is-visible {
+    display: block;
+  }
+  .newsletter-popup__success p {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--color-headings, #161a1d);
+    margin: 0 0 8px;
+  }
+  .newsletter-popup__success span {
+    font-size: 0.95rem;
+    color: var(--color-text, #555);
+  }
+
+  .newsletter-popup__form-wrap.is-hidden {
+    display: none;
+  }
+
+  .newsletter-popup__error {
+    color: #d00;
+    font-size: 0.85rem;
+    margin-bottom: 12px;
+    display: none;
+  }
+  .newsletter-popup__error.is-visible {
+    display: block;
+  }
+
+  @media (max-width: 749px) {
+    .newsletter-popup__image {
+      display: none;
+    }
+    .newsletter-popup__card {
+      max-width: 400px;
+    }
+    .newsletter-popup__content {
+      padding: 40px 24px;
+    }
+    .newsletter-popup__heading {
+      font-size: 2rem;
+    }
+  }
+{%- endstyle -%}
+
+<div
+  class="newsletter-popup"
+  id="NewsletterPopup"
+  data-newsletter-popup
+  data-trigger="{{ settings.newsletter_popup_trigger }}"
+  data-delay="{{ settings.newsletter_popup_delay }}"
+  data-scroll-pct="{{ settings.newsletter_popup_scroll_pct }}"
+  data-dismiss-days="{{ settings.newsletter_popup_dismiss_days }}"
+  aria-hidden="true"
+  role="dialog"
+  aria-label="{{ settings.newsletter_popup_heading | escape }}"
+>
+  <div class="newsletter-popup__card">
+    <button type="button" class="newsletter-popup__close" data-newsletter-close aria-label="Close popup">&times;</button>
+
+    {%- if settings.newsletter_popup_image != blank -%}
+      <div class="newsletter-popup__image" style="background-image: url('{{ settings.newsletter_popup_image | image_url: width: 800 }}');" role="img" aria-label="Newsletter popup image"></div>
+    {%- endif -%}
+
+    <div class="newsletter-popup__content">
+      {%- if settings.newsletter_popup_subtitle != blank -%}
+        <p class="newsletter-popup__subtitle">{{ settings.newsletter_popup_subtitle }}</p>
+      {%- endif -%}
+
+      {%- if settings.newsletter_popup_heading != blank -%}
+        <h2 class="newsletter-popup__heading">{{ settings.newsletter_popup_heading }}</h2>
+      {%- endif -%}
+
+      {%- if settings.newsletter_popup_description != blank -%}
+        <p class="newsletter-popup__description">{{ settings.newsletter_popup_description }}</p>
+      {%- endif -%}
+
+      <div class="newsletter-popup__form-wrap" data-newsletter-form-wrap>
+        {%- form 'customer', id: 'NewsletterPopupForm' -%}
+          <input type="hidden" name="customer[accepts_marketing]" value="true">
+          <input type="hidden" name="customer[tags]" value="newsletter-popup">
+
+          <div class="newsletter-popup__form">
+            <p class="newsletter-popup__error" data-newsletter-error></p>
+            <input
+              type="email"
+              name="customer[email]"
+              class="newsletter-popup__input"
+              placeholder="{{ settings.newsletter_popup_placeholder | default: 'Your email' }}"
+              required
+              autocomplete="email"
+              aria-label="Email address"
+            >
+            <button type="submit" class="newsletter-popup__submit">
+              {{ settings.newsletter_popup_button_text | default: 'Get offer' }}
+            </button>
+          </div>
+        {%- endform -%}
+
+        <button type="button" class="newsletter-popup__dismiss" data-newsletter-close>
+          {{ settings.newsletter_popup_dismiss_text | default: 'No thanks' }}
+        </button>
+      </div>
+
+      <div class="newsletter-popup__success" data-newsletter-success>
+        <p>{{ settings.newsletter_popup_success_heading | default: 'Thank you!' }}</p>
+        <span>{{ settings.newsletter_popup_success_text | default: 'Check your inbox for your discount code.' }}</span>
+      </div>
+
+      {%- if settings.newsletter_popup_disclaimer != blank -%}
+        <p class="newsletter-popup__disclaimer">{{ settings.newsletter_popup_disclaimer }}</p>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  var el = document.getElementById('NewsletterPopup');
+  if (!el) return;
+
+  var trigger = el.dataset.trigger;
+  var delay = parseInt(el.dataset.delay, 10) || 5;
+  var scrollPct = parseInt(el.dataset.scrollPct, 10) || 50;
+  var dismissDays = parseInt(el.dataset.dismissDays, 10) || 14;
+  var DISMISS_KEY = 'newsletter_popup_dismissed';
+  var SIGNUP_KEY = 'newsletter_popup_signed_up';
+  var shown = false;
+
+  function getCookie(name) {
+    var m = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+    return m ? m[2] : null;
+  }
+
+  function setCookie(name, value, days) {
+    var d = new Date();
+    d.setTime(d.getTime() + days * 86400000);
+    document.cookie = name + '=' + value + ';expires=' + d.toUTCString() + ';path=/;SameSite=Lax';
+  }
+
+  if (localStorage.getItem(SIGNUP_KEY) === 'true') return;
+  if (getCookie(DISMISS_KEY) === '1') return;
+
+  function open() {
+    if (shown) return;
+    shown = true;
+    el.classList.add('is-open');
+    el.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function close() {
+    el.classList.remove('is-open');
+    el.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    setCookie(DISMISS_KEY, '1', dismissDays);
+    cleanup();
+  }
+
+  function cleanup() {
+    if (scrollHandler) window.removeEventListener('scroll', scrollHandler);
+    if (exitHandler) document.removeEventListener('mouseout', exitHandler);
+  }
+
+  // Close buttons & backdrop
+  el.querySelectorAll('[data-newsletter-close]').forEach(function(btn) {
+    btn.addEventListener('click', close);
+  });
+  el.addEventListener('click', function(e) {
+    if (e.target === el) close();
+  });
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && el.classList.contains('is-open')) close();
+  });
+
+  // Trigger: delay
+  var scrollHandler = null;
+  var exitHandler = null;
+
+  if (trigger === 'delay') {
+    setTimeout(open, delay * 1000);
+  }
+
+  // Trigger: scroll
+  if (trigger === 'scroll') {
+    scrollHandler = function() {
+      var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      var docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      if (docHeight > 0 && (scrollTop / docHeight) * 100 >= scrollPct) {
+        open();
+      }
+    };
+    window.addEventListener('scroll', scrollHandler, { passive: true });
+  }
+
+  // Trigger: exit intent
+  if (trigger === 'exit_intent') {
+    var isMobile = /Mobi|Android/i.test(navigator.userAgent);
+    if (isMobile) {
+      setTimeout(open, delay * 1000);
+    } else {
+      exitHandler = function(e) {
+        if (e.clientY <= 0) open();
+      };
+      document.addEventListener('mouseout', exitHandler);
+    }
+  }
+
+  // Form submit
+  var form = document.getElementById('NewsletterPopupForm');
+  if (form) {
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      var email = form.querySelector('input[type="email"]').value;
+      var errorEl = el.querySelector('[data-newsletter-error]');
+
+      if (!email) {
+        if (errorEl) {
+          errorEl.textContent = 'Please enter your email address.';
+          errorEl.classList.add('is-visible');
+        }
+        return;
+      }
+
+      var formData = new FormData(form);
+      fetch('/account', {
+        method: 'POST',
+        body: formData,
+        headers: { 'Accept': 'application/json' }
+      }).then(function() {
+        localStorage.setItem(SIGNUP_KEY, 'true');
+        el.querySelector('[data-newsletter-form-wrap]').classList.add('is-hidden');
+        el.querySelector('[data-newsletter-success]').classList.add('is-visible');
+        setTimeout(function() { close(); }, 4000);
+      }).catch(function() {
+        if (errorEl) {
+          errorEl.textContent = 'Something went wrong. Please try again.';
+          errorEl.classList.add('is-visible');
+        }
+      });
+    });
+  }
+})();
+</script>
+{%- endif -%}

@@ -1788,5 +1788,198 @@
         "info": "Enable for Arabic, Hebrew, Urdu, and other right-to-left languages."
       }
     ]
+  },
+  {
+    "name": "Newsletter Popup",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "newsletter_popup_enabled",
+        "label": "Enable newsletter popup",
+        "default": false
+      },
+      {
+        "type": "header",
+        "content": "Trigger"
+      },
+      {
+        "type": "select",
+        "id": "newsletter_popup_trigger",
+        "label": "Trigger type",
+        "options": [
+          { "value": "delay", "label": "Delay after page load" },
+          { "value": "exit_intent", "label": "Exit intent (desktop)" },
+          { "value": "scroll", "label": "Scroll percentage" }
+        ],
+        "default": "delay"
+      },
+      {
+        "type": "range",
+        "id": "newsletter_popup_delay",
+        "label": "Delay (seconds)",
+        "info": "Used for delay trigger and as mobile fallback for exit intent.",
+        "min": 1,
+        "max": 30,
+        "step": 1,
+        "default": 5,
+        "unit": "s"
+      },
+      {
+        "type": "range",
+        "id": "newsletter_popup_scroll_pct",
+        "label": "Scroll percentage",
+        "info": "Show popup after scrolling this far down the page.",
+        "min": 10,
+        "max": 90,
+        "step": 5,
+        "default": 50,
+        "unit": "%"
+      },
+      {
+        "type": "range",
+        "id": "newsletter_popup_dismiss_days",
+        "label": "Days before showing again",
+        "info": "After dismissing, how many days before the popup reappears.",
+        "min": 1,
+        "max": 90,
+        "step": 1,
+        "default": 14
+      },
+      {
+        "type": "header",
+        "content": "Image"
+      },
+      {
+        "type": "image_picker",
+        "id": "newsletter_popup_image",
+        "label": "Image",
+        "info": "Left panel image. Hidden on mobile."
+      },
+      {
+        "type": "header",
+        "content": "Content"
+      },
+      {
+        "type": "text",
+        "id": "newsletter_popup_subtitle",
+        "label": "Subtitle",
+        "default": "GET 10% OFF"
+      },
+      {
+        "type": "text",
+        "id": "newsletter_popup_heading",
+        "label": "Heading",
+        "default": "Join us"
+      },
+      {
+        "type": "text",
+        "id": "newsletter_popup_description",
+        "label": "Description",
+        "default": "Signup and get 10% off your first purchase"
+      },
+      {
+        "type": "text",
+        "id": "newsletter_popup_placeholder",
+        "label": "Email placeholder",
+        "default": "Your email"
+      },
+      {
+        "type": "text",
+        "id": "newsletter_popup_button_text",
+        "label": "Button text",
+        "default": "Get offer"
+      },
+      {
+        "type": "text",
+        "id": "newsletter_popup_dismiss_text",
+        "label": "Dismiss text",
+        "default": "No thanks"
+      },
+      {
+        "type": "text",
+        "id": "newsletter_popup_disclaimer",
+        "label": "Disclaimer text",
+        "default": "By completing this form, you are signing up to receive our emails and can unsubscribe at any time"
+      },
+      {
+        "type": "header",
+        "content": "Success message"
+      },
+      {
+        "type": "text",
+        "id": "newsletter_popup_success_heading",
+        "label": "Success heading",
+        "default": "Thank you!"
+      },
+      {
+        "type": "text",
+        "id": "newsletter_popup_success_text",
+        "label": "Success text",
+        "default": "Check your inbox for your discount code."
+      }
+    ]
+  },
+  {
+    "name": "Back in Stock",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "bis_enabled",
+        "label": "Enable back-in-stock alerts",
+        "default": false
+      },
+      {
+        "type": "select",
+        "id": "bis_mode",
+        "label": "Notification mode",
+        "options": [
+          { "value": "builtin", "label": "Built-in (Shopify Customer)" },
+          { "value": "klaviyo", "label": "Klaviyo" },
+          { "value": "webhook", "label": "Custom webhook" }
+        ],
+        "default": "builtin",
+        "info": "Built-in creates a Shopify customer tagged with 'back-in-stock'. Klaviyo uses their back-in-stock API. Webhook posts to your custom endpoint."
+      },
+      {
+        "type": "text",
+        "id": "bis_klaviyo_key",
+        "label": "Klaviyo public API key",
+        "info": "Required when using Klaviyo mode. Found in Klaviyo > Settings > API Keys."
+      },
+      {
+        "type": "text",
+        "id": "bis_webhook_url",
+        "label": "Custom webhook URL",
+        "info": "Required when using webhook mode. Email, variant ID, product handle, and title will be posted as JSON."
+      },
+      {
+        "type": "header",
+        "content": "Content"
+      },
+      {
+        "type": "text",
+        "id": "bis_heading",
+        "label": "Heading",
+        "default": "Get notified when this is back in stock"
+      },
+      {
+        "type": "text",
+        "id": "bis_placeholder",
+        "label": "Email placeholder",
+        "default": "Your email"
+      },
+      {
+        "type": "text",
+        "id": "bis_button_text",
+        "label": "Button text",
+        "default": "Notify Me"
+      },
+      {
+        "type": "text",
+        "id": "bis_success_text",
+        "label": "Success message",
+        "default": "We'll email you when this product is back in stock."
+      }
+    ]
   }
 ]
