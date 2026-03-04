@@ -146,7 +146,8 @@
   <div class="age-verifier__card">
     <h2 class="age-verifier__heading">{{ settings.age_verify_heading }}</h2>
     <p class="age-verifier__description">
-      {{ settings.age_verify_description | replace: '{{ age }}', settings.age_verify_min_age }}
+      {%- assign age_placeholder = '{{ age }}' -%}
+      {{ settings.age_verify_description | replace: age_placeholder, settings.age_verify_min_age }}
     </p>
 
     {%- comment -%} Mode: Simple Confirm {%- endcomment -%}
