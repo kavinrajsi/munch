@@ -18,6 +18,7 @@
     "social_youtube": "https://www.youtube.com/@Nithyaamirtham",
     "social_whatsapp": "tel:+91 7418 971 444",
     "social_pinterest": "https://in.pinterest.com/nithya_amirtham/",
+    "judgeme_enabled": true,
     "chatbot_enabled": true,
     "chatbot_api_key": "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",
     "chatbot_model": "claude-haiku-4-5-20251001",
