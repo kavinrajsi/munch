@@ -59,6 +59,11 @@
   margin: 0;
   font-size: 14px;
   line-height: normal;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1 1 170px;
+  max-width: 170px;
   @media (min-width: 768px) {
     font-size: 16px;
     line-height: 20px;
