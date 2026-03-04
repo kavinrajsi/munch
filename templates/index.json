@@ -504,6 +504,21 @@
         "padding_top_mobile": 20,
         "padding_bottom_mobile": 20
       }
+    },
+    "countdown_banner_gwLAVR": {
+      "type": "countdown-banner",
+      "name": "Countdown Banner",
+      "settings": {
+        "label": "🔥 Sale ends in",
+        "end_date": "2027-12-31",
+        "end_time": "00:00",
+        "expiry_action": "hide",
+        "expired_message": "This offer has ended.",
+        "link_text": "Shop Now",
+        "link_url": "shopify://collections/all",
+        "bg_color": "#C61D23",
+        "text_color": "#FFFFFF"
+      }
     }
   },
   "order": [
@@ -515,6 +530,7 @@
     "about_strip_JkKynW",
     "featured_collection_carousel_kbJ7rW",
     "visit_us_locations_hzNWNb",
-    "testimonials_xGAihr"
+    "testimonials_xGAihr",
+    "countdown_banner_gwLAVR"
   ]
 }
