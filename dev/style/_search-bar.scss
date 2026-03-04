@@ -1,0 +1,213 @@
+.search-bar {
+  max-width: 600px;
+  margin: 0 auto 32px;
+  position: relative;
+}
+
+.search-bar__form {
+  display: flex;
+  align-items: center;
+  border: 1px solid #d3d3d3;
+  border-radius: 10px;
+  background: #ffffff;
+  overflow: hidden;
+  transition: border-color 0.2s;
+
+  &:focus-within {
+    border-color: #0b090a;
+  }
+}
+
+.search-bar__input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  padding: 12px 16px;
+  font-family: "Aller", sans-serif;
+  font-size: 16px;
+  line-height: 20px;
+  color: #0b090a;
+
+  &::placeholder {
+    color: #999;
+  }
+
+  &::-webkit-search-cancel-button,
+  &::-webkit-search-decoration {
+    -webkit-appearance: none;
+  }
+}
+
+.search-bar__btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 12px 16px;
+  color: #0b090a;
+
+  &:hover {
+    color: #c61d23;
+  }
+}
+
+// ── Predictive Search Dropdown ──
+.search-predict {
+  display: none;
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  background: #ffffff;
+  border: 1px solid #d3d3d3;
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+  max-height: 480px;
+  overflow-y: auto;
+
+  &.is-open {
+    display: block;
+  }
+}
+
+.search-predict__inner {
+  display: flex;
+  padding: 24px;
+  gap: 32px;
+
+  @media (max-width: 599px) {
+    flex-direction: column;
+    gap: 24px;
+  }
+}
+
+.search-predict__heading {
+  font-family: "Aller", sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 22px;
+  color: #0b090a;
+  margin: 0 0 16px;
+}
+
+// ── Suggestions column ──
+.search-predict__suggestions {
+  flex: 0 0 35%;
+  min-width: 0;
+  border-right: 1px solid #f0f0f0;
+  padding-right: 32px;
+
+  @media (max-width: 599px) {
+    border-right: none;
+    border-bottom: 1px solid #f0f0f0;
+    padding-right: 0;
+    padding-bottom: 20px;
+  }
+}
+
+.search-predict__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  li {
+    margin-bottom: 12px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  a {
+    font-family: "Aller", sans-serif;
+    font-size: 15px;
+    line-height: 20px;
+    color: #0b090a;
+    text-decoration: none;
+
+    &:hover {
+      color: #c61d23;
+    }
+
+    mark {
+      background: #fff44f;
+      color: inherit;
+      padding: 1px 2px;
+      border-radius: 2px;
+    }
+  }
+}
+
+// ── Products column ──
+.search-predict__products {
+  flex: 1;
+  min-width: 0;
+}
+
+.search-predict__product-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.search-predict__product {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  color: #0b090a;
+  transition: opacity 0.2s;
+
+  &:hover {
+    opacity: 0.75;
+  }
+}
+
+.search-predict__product-img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 8px;
+  flex-shrink: 0;
+}
+
+.search-predict__product-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.search-predict__product-title {
+  font-family: "Aller", sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 20px;
+  color: #0b090a;
+}
+
+.search-predict__product-price {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.search-predict__price {
+  font-family: "Aleo", serif;
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 20px;
+  color: #0b090a;
+}
+
+.search-predict__compare-price {
+  font-family: "Aleo", serif;
+  font-size: 14px;
+  line-height: 18px;
+  color: #999;
+  text-decoration: line-through;
+}

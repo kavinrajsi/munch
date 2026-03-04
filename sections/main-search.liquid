@@ -1,79 +1,320 @@
-{% render 'breadcrumbs' %}
-
-<div class="section-padding" {{ section.shopify_attributes }}>
+<div class="collection section-padding" {{ section.shopify_attributes }}>
   <div class="container">
-    <h1 class="text-center" style="margin-bottom:24px;">{{ 'general.search.title' | t }}</h1>
 
-    <div style="max-width:600px;margin:0 auto 32px;">
-      <form action="{{ routes.search_url }}" method="get" role="search">
-        <div style="display:flex;gap:8px;">
-          <input
-            type="search"
-            name="q"
-            value="{{ search.terms | escape }}"
-            placeholder="{{ 'general.search.placeholder' | t }}"
-            aria-label="{{ 'general.search.title' | t }}"
-          >
-          <input type="hidden" name="type" value="product,article,page">
-          <button type="submit" class="btn btn--primary">{{ 'general.search.submit' | t }}</button>
-        </div>
+    {%- comment -%} Decorated heading {%- endcomment -%}
+    {% render 'section-heading',
+      title: 'Search' | t,
+      heading_tag: 'h1',
+      show_left_line: true,
+      show_left_icon: true,
+      show_right_icon: true,
+      show_right_line: true,
+      margin_bottom_desktop: 24,
+      margin_bottom_mobile: 16
+    %}
+
+    {%- comment -%} Search form {%- endcomment -%}
+    <div class="search-bar" data-search-bar>
+      <form action="{{ routes.search_url }}" method="get" role="search" class="search-bar__form">
+        <input
+          type="search"
+          name="q"
+          value="{{ search.terms | escape }}"
+          placeholder="Search"
+          aria-label="Search"
+          class="search-bar__input"
+          autocomplete="off"
+          data-search-bar-input
+        >
+        <input type="hidden" name="type" value="product,article,page">
+        <button type="submit" class="search-bar__btn" aria-label="Search">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"/>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+        </button>
       </form>
+
+      {%- comment -%} Predictive search dropdown {%- endcomment -%}
+      <div class="search-predict" data-search-predict>
+        <div class="search-predict__inner">
+          <div class="search-predict__suggestions" data-search-predict-suggestions>
+            <h3 class="search-predict__heading">Suggestions</h3>
+            <ul class="search-predict__list" data-search-predict-suggestions-list></ul>
+          </div>
+          <div class="search-predict__products" data-search-predict-products>
+            <h3 class="search-predict__heading">Products</h3>
+            <div class="search-predict__product-list" data-search-predict-products-list></div>
+          </div>
+        </div>
+      </div>
     </div>
 
     {%- if search.performed -%}
       {%- if search.results_count > 0 -%}
-        <p class="text-center" style="margin-bottom:24px;color:var(--color-secondary);">
-          {{ 'general.search.results_count' | t: count: search.results_count, terms: search.terms }}
-        </p>
 
-        <div class="collection__grid">
-          {%- paginate search.results by 16 -%}
+        {%- comment -%} Toolbar: breadcrumbs + sort {%- endcomment -%}
+        <div class="collection__toolbar">
+          <nav class="collection__breadcrumbs" aria-label="Breadcrumb">
+            <a href="/">Home</a>
+            <svg viewBox="0 0 6 10" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+              <polyline points="1 1 5 5 1 9"/>
+            </svg>
+            <span>{{ 'general.search.title' | t }}</span>
+          </nav>
+
+          <div class="collection__controls">
+            <span style="font-family:'Aller',sans-serif;font-size:14px;color:#0B090A;">
+              {{ 'general.search.results_count' | t: count: search.results_count, terms: search.terms }}
+            </span>
+
+            {%- if section.settings.show_sort -%}
+              <span class="collection__controls-separator"></span>
+              <div class="collection__sort-dropdown">
+                <button type="button" class="collection__control-btn" data-sort-toggle aria-expanded="false">
+                  {%- assign current_sort = search.sort_by | default: 'relevance' -%}
+                  {%- case current_sort -%}
+                    {%- when 'price-ascending' -%}{%- assign current_sort_label = 'Price: Low to High' -%}
+                    {%- when 'price-descending' -%}{%- assign current_sort_label = 'Price: High to Low' -%}
+                    {%- when 'created-descending' -%}{%- assign current_sort_label = 'Newest' -%}
+                    {%- when 'created-ascending' -%}{%- assign current_sort_label = 'Oldest' -%}
+                    {%- else -%}{%- assign current_sort_label = 'Sort' -%}
+                  {%- endcase -%}
+                  {{ current_sort_label }}
+                  <svg viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                    <polyline points="1 1 5 5 9 1"/>
+                  </svg>
+                </button>
+                <div class="collection__sort-menu" data-sort-menu>
+                  <button type="button" data-sort-value="relevance" class="{% if current_sort == 'relevance' %}is-active{% endif %}">Relevance</button>
+                  <button type="button" data-sort-value="price-ascending" class="{% if current_sort == 'price-ascending' %}is-active{% endif %}">Price: Low to High</button>
+                  <button type="button" data-sort-value="price-descending" class="{% if current_sort == 'price-descending' %}is-active{% endif %}">Price: High to Low</button>
+                  <button type="button" data-sort-value="created-descending" class="{% if current_sort == 'created-descending' %}is-active{% endif %}">Newest</button>
+                  <button type="button" data-sort-value="created-ascending" class="{% if current_sort == 'created-ascending' %}is-active{% endif %}">Oldest</button>
+                </div>
+              </div>
+            {%- endif -%}
+          </div>
+        </div>
+
+        {%- comment -%} Product / Content Grid {%- endcomment -%}
+        {%- paginate search.results by section.settings.products_per_page -%}
+          <div class="collection__grid">
             {%- for item in search.results -%}
               {%- if item.object_type == 'product' -%}
-                {% render 'product-card', product: item %}
+                <div data-aos="fade-up" data-aos-delay="{{ forloop.index0 | times: 100 | at_most: 300 }}">
+                  {%- render 'fcc-product-card',
+                    product: item,
+                    show_vendor: false,
+                    show_price: true
+                  -%}
+                </div>
               {%- elsif item.object_type == 'article' -%}
-                {% render 'blog-card', article: item %}
+                <div data-aos="fade-up" data-aos-delay="{{ forloop.index0 | times: 100 | at_most: 300 }}">
+                  {% render 'blog-card', article: item %}
+                </div>
               {%- else -%}
-                <div class="blog-card">
+                <div class="blog-card" data-aos="fade-up" data-aos-delay="{{ forloop.index0 | times: 100 | at_most: 300 }}">
                   <h3 class="blog-card__title"><a href="{{ item.url }}">{{ item.title }}</a></h3>
                   <p class="blog-card__excerpt">{{ item.content | strip_html | truncate: 150 }}</p>
                 </div>
               {%- endif -%}
             {%- endfor -%}
+          </div>
 
-            {%- if paginate.pages > 1 -%}
-              <div class="pagination" style="grid-column: 1 / -1;">
-                {%- if paginate.previous -%}
-                  <a href="{{ paginate.previous.url }}">←</a>
+          {%- comment -%} Pagination {%- endcomment -%}
+          {%- if paginate.pages > 1 -%}
+            <nav class="collection__pagination" aria-label="Pagination">
+              {%- if paginate.previous -%}
+                <a href="{{ paginate.previous.url }}" class="collection__pagination-arrow" aria-label="Previous page">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <polyline points="15 18 9 12 15 6"/>
+                  </svg>
+                </a>
+              {%- endif -%}
+
+              {%- for part in paginate.parts -%}
+                {%- if part.is_link -%}
+                  <a href="{{ part.url }}">{{ part.title }}</a>
+                {%- else -%}
+                  <span class="{% if part.title == paginate.current_page %}is-active{% endif %}">{{ part.title }}</span>
                 {%- endif -%}
-                {%- for part in paginate.parts -%}
-                  {%- if part.is_link -%}
-                    <a href="{{ part.url }}">{{ part.title }}</a>
-                  {%- else -%}
-                    <span class="{% if part.title == paginate.current_page %}is-active{% endif %}">{{ part.title }}</span>
-                  {%- endif -%}
-                {%- endfor -%}
-                {%- if paginate.next -%}
-                  <a href="{{ paginate.next.url }}">→</a>
-                {%- endif -%}
-              </div>
-            {%- endif -%}
-          {%- endpaginate -%}
-        </div>
+              {%- endfor -%}
+
+              {%- if paginate.next -%}
+                <a href="{{ paginate.next.url }}" class="collection__pagination-arrow" aria-label="Next page">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <polyline points="9 18 15 12 9 6"/>
+                  </svg>
+                </a>
+              {%- endif -%}
+            </nav>
+          {%- endif -%}
+        {%- endpaginate -%}
+
       {%- else -%}
-        <p class="text-center" style="color:var(--color-secondary);">
-          {{ 'general.search.no_results' | t: terms: search.terms }}
-        </p>
+        <div class="collection__empty">
+          <p>{{ 'general.search.no_results' | t: terms: search.terms }}</p>
+          <a href="{{ routes.all_products_collection_url }}" class="btn btn--primary">Browse All Products</a>
+        </div>
       {%- endif -%}
     {%- endif -%}
+
   </div>
 </div>
+
+<script>
+  (function () {
+    /* ── Sort dropdown toggle + navigation ── */
+    var sortToggle = document.querySelector('[data-sort-toggle]');
+    var sortMenu   = document.querySelector('[data-sort-menu]');
+    if (sortToggle && sortMenu) {
+      sortToggle.addEventListener('click', function () {
+        var open = sortMenu.classList.toggle('is-open');
+        sortToggle.setAttribute('aria-expanded', open);
+      });
+      sortMenu.querySelectorAll('[data-sort-value]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var url = new URL(window.location.href);
+          url.searchParams.set('sort_by', btn.dataset.sortValue);
+          window.location.href = url.toString();
+        });
+      });
+    }
+
+    /* ── Close dropdown on outside click ── */
+    document.addEventListener('click', function (e) {
+      if (sortToggle && !sortToggle.contains(e.target) && sortMenu && !sortMenu.contains(e.target)) {
+        sortMenu.classList.remove('is-open');
+        sortToggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    /* ── Predictive search on search bar ── */
+    (function () {
+      var wrapper = document.querySelector('[data-search-bar]');
+      var input = document.querySelector('[data-search-bar-input]');
+      var dropdown = document.querySelector('[data-search-predict]');
+      var suggestionsList = document.querySelector('[data-search-predict-suggestions-list]');
+      var productsList = document.querySelector('[data-search-predict-products-list]');
+      if (!input || !dropdown) return;
+
+      var debounceTimer = null;
+      var lastQuery = '';
+
+      function escapeHtml(str) {
+        var div = document.createElement('div');
+        div.textContent = str;
+        return div.innerHTML;
+      }
+
+      function formatMoney(cents) {
+        if (window.Shopify && window.Shopify.formatMoney) return window.Shopify.formatMoney(cents);
+        return 'Rs. ' + (parseFloat(cents) / 100).toFixed(2);
+      }
+
+      function show() { dropdown.classList.add('is-open'); }
+      function hide() { dropdown.classList.remove('is-open'); }
+
+      function fetchResults(query) {
+        if (query === lastQuery) return;
+        lastQuery = query;
+
+        fetch('/search/suggest.json?q=' + encodeURIComponent(query) + '&resources[type]=product,collection,query&resources[limit]=6&resources[options][fields]=title,product_type,vendor,tag,body')
+          .then(function (r) { return r.json(); })
+          .then(function (data) {
+            if (lastQuery !== query) return;
+            var results = data.resources && data.resources.results;
+            if (!results) { hide(); return; }
+
+            var products = results.products || [];
+            var collections = results.collections || [];
+            var queries = results.queries || [];
+
+            /* ── Suggestions column ── */
+            var suggestionsHtml = '';
+
+            // Search term itself
+            suggestionsHtml += '<li><a href="/search?q=' + encodeURIComponent(query) + '&type=product,article,page"><mark>' + escapeHtml(query) + '</mark></a></li>';
+
+            // Collection suggestions
+            collections.forEach(function (c) {
+              suggestionsHtml += '<li><a href="' + c.url + '">' + escapeHtml(c.title) + '</a></li>';
+            });
+
+            // Query suggestions
+            if (queries.length) {
+              queries.forEach(function (q) {
+                suggestionsHtml += '<li><a href="/search?q=' + encodeURIComponent(q.text) + '&type=product,article,page">' + escapeHtml(q.text) + '</a></li>';
+              });
+            }
+
+            suggestionsList.innerHTML = suggestionsHtml;
+
+            /* ── Products column ── */
+            var productsHtml = '';
+            products.forEach(function (p) {
+              productsHtml += '<a href="' + p.url + '" class="search-predict__product">';
+              if (p.image) {
+                productsHtml += '<img class="search-predict__product-img" src="' + p.image + '" alt="' + escapeHtml(p.title) + '" loading="lazy" width="80" height="80">';
+              }
+              productsHtml += '<div class="search-predict__product-info">';
+              productsHtml += '<span class="search-predict__product-title">' + escapeHtml(p.title) + '</span>';
+              productsHtml += '<div class="search-predict__product-price">';
+              if (p.compare_at_price_max && parseFloat(p.compare_at_price_max) > parseFloat(p.price)) {
+                productsHtml += '<span class="search-predict__price">' + formatMoney(p.price) + '</span>';
+                productsHtml += '<span class="search-predict__compare-price">' + formatMoney(p.compare_at_price_max) + '</span>';
+              } else {
+                productsHtml += '<span class="search-predict__price">' + formatMoney(p.price) + '</span>';
+              }
+              productsHtml += '</div></div></a>';
+            });
+            productsList.innerHTML = productsHtml;
+
+            if (products.length || suggestionsHtml) { show(); } else { hide(); }
+          })
+          .catch(function () { hide(); });
+      }
+
+      input.addEventListener('input', function () {
+        var val = input.value.trim();
+        clearTimeout(debounceTimer);
+        if (val.length < 2) { hide(); lastQuery = ''; return; }
+        debounceTimer = setTimeout(function () { fetchResults(val); }, 300);
+      });
+
+      input.addEventListener('focus', function () {
+        if (input.value.trim().length >= 2 && lastQuery) show();
+      });
+
+      document.addEventListener('click', function (e) {
+        if (wrapper && !wrapper.contains(e.target)) hide();
+      });
+    })();
+  })();
+</script>
 
 {% schema %}
 {
   "name": "Search",
   "tag": "section",
   "class": "main-search-section",
-  "settings": []
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_sort",
+      "label": "Show Sort",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "products_per_page",
+      "label": "Results per Page",
+      "min": 8,
+      "max": 48,
+      "step": 4,
+      "default": 16
+    }
+  ]
 }
 {% endschema %}
