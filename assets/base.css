@@ -1025,13 +1025,18 @@ button {
 .cart-drawer {
   position: fixed;
   inset: 0;
-  z-index: 55;
+  z-index: 99999;
   pointer-events: none;
   visibility: hidden;
 }
 .cart-drawer.is-open {
   pointer-events: auto;
   visibility: visible;
+}
+html.cart-open,
+html.cart-open body {
+  overflow: hidden !important;
+  height: 100%;
 }
 .cart-drawer.is-open .cart-drawer__overlay {
   opacity: 1;

@@ -132,7 +132,7 @@
 
     open: function() {
       this.$drawer.addClass('is-open');
-      $('body').css('overflow', 'hidden');
+      $('html').addClass('cart-open');
 
       // Load recommendations if not already loaded
       var $list = this.$drawer.find('[data-cart-recommendations-list]');
@@ -147,7 +147,7 @@
 
     close: function() {
       this.$drawer.removeClass('is-open');
-      $('body').css('overflow', '');
+      $('html').removeClass('cart-open');
     },
 
     updateItem: function(line, quantity) {
