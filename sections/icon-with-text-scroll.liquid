@@ -33,14 +33,20 @@
       {%- for block in section.blocks -%}
         <div class="iwt-scroll__item" style="--iwt-item-bg: {{ block.settings.item_bg_color }};" {{ block.shopify_attributes }}>
           {%- if block.settings.image != blank -%}
-            <img
-              class="iwt-scroll__image"
-              src="{{ block.settings.image | image_url: width: 400 }}"
-              alt="{{ block.settings.title | escape }}"
-              loading="lazy"
-              width="{{ section.settings.image_width_desktop }}"
-              height="{{ section.settings.image_height_desktop }}"
-            >
+            {%- if block.settings.link != blank -%}
+              <a href="{{ block.settings.link }}" class="iwt-scroll__image-link">
+            {%- endif -%}
+              <img
+                class="iwt-scroll__image"
+                src="{{ block.settings.image | image_url: width: 400 }}"
+                alt="{{ block.settings.title | escape }}"
+                loading="lazy"
+                width="{{ section.settings.image_width_desktop }}"
+                height="{{ section.settings.image_height_desktop }}"
+              >
+            {%- if block.settings.link != blank -%}
+              </a>
+            {%- endif -%}
           {%- else -%}
             <div class="iwt-scroll__image iwt-scroll__placeholder">
               {{ 'image' | placeholder_svg_tag }}
