@@ -22,10 +22,40 @@
     },
     "exclusive": {
       "type": "exclusive-collections",
+      "blocks": {
+        "collection_card_NCb3Yq": {
+          "type": "collection_card",
+          "settings": {
+            "collection": "home-made-savouries",
+            "image": "shopify://shop_images/traditional-savories.png"
+          }
+        },
+        "collection_card_PMdqPR": {
+          "type": "collection_card",
+          "settings": {
+            "collection": "home-made-sweets",
+            "image": "shopify://shop_images/home-made-sweets.png"
+          }
+        },
+        "collection_card_VMAUwW": {
+          "type": "collection_card",
+          "settings": {
+            "collection": "gheesweets",
+            "image": "shopify://shop_images/ghee-sweets.png"
+          }
+        }
+      },
+      "block_order": [
+        "collection_card_NCb3Yq",
+        "collection_card_PMdqPR",
+        "collection_card_VMAUwW"
+      ],
       "settings": {
         "title": "Exclusive Collections",
         "padding_top": 40,
-        "padding_bottom": 40
+        "padding_bottom": 40,
+        "padding_top_mobile": 20,
+        "padding_bottom_mobile": 20
       }
     }
   },
