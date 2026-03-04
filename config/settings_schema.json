@@ -1689,6 +1689,13 @@
         "label": "Enable AI Chatbot",
         "default": false,
         "info": "Requires the Chatbot Proxy app to be installed and configured."
+      },
+      {
+        "type": "checkbox",
+        "id": "chatbot_voice_enabled",
+        "label": "Enable Voice Features",
+        "default": true,
+        "info": "Adds mic button for voice input and spoken replies (requires ElevenLabs via proxy)."
       }
     ]
   }
