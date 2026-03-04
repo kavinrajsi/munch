@@ -175,6 +175,8 @@ button {
 }
 .header__logo {
   flex-shrink: 0;
+  display: flex;
+  align-items: center;
 }
 .header__logo-link {
   display: inline-flex;
@@ -321,6 +323,11 @@ button {
 .header__icon svg {
   width: 20px;
   height: 20px;
+}
+@media (max-width: 749px) {
+  .header__icon--account {
+    display: none;
+  }
 }
 @media (min-width: 750px) {
   .header__menu-toggle {

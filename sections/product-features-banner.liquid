@@ -1,12 +1,11 @@
-<div
-  class="product-features-banner"
-  style="
-    margin-top: {{ section.settings.margin_top }}px;
-    margin-bottom: {{ section.settings.margin_bottom }}px;
-  "
-  {{ section.shopify_attributes }}
->
-  <div class="{{ section.settings.container_type }}">
+<div class="{{ section.settings.container_type }}" {{ section.shopify_attributes }}>
+  <div
+    class="product-features-banner"
+    style="
+      margin-top: {{ section.settings.margin_top }}px;
+      margin-bottom: {{ section.settings.margin_bottom }}px;
+    "
+  >
     {%- if section.settings.title != blank -%}
       {% render 'section-heading',
         title: section.settings.title,
