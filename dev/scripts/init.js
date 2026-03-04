@@ -1210,158 +1210,6 @@
   }
 
   // ============================================================
-  // AI Chatbot Widget
-  // ============================================================
-  var ChatbotWidget = {
-    $el: null,
-    config: {},
-    messages: [],
-    isLoading: false,
-
-    init: function() {
-      this.$el = $('[data-chatbot]');
-      if (!this.$el.length) return;
-
-      var configEl = this.$el.find('[data-chatbot-config]');
-      if (!configEl.length) return;
-
-      try {
-        var parsed = JSON.parse(configEl.text());
-        this.config = {
-          model: this.$el.data('model') || 'claude-haiku-4-5-20251001',
-          title: this.$el.data('title') || 'Chat with us',
-          greeting: this.$el.data('greeting') || 'Hi! How can I help you today?',
-          apiKey: parsed.apiKey || '',
-          systemPrompt: (parsed.systemPrompt || '') + '\n' + (parsed.customPrompt || '')
-        };
-      } catch (e) {
-        return;
-      }
-
-      this.messages = [];
-      this.$messages = this.$el.find('[data-chatbot-messages]');
-      this.$input = this.$el.find('[data-chatbot-input]');
-      this.$form = this.$el.find('[data-chatbot-form]');
-
-      var self = this;
-
-      // Toggle open/close
-      $(document).on('click', '[data-chatbot-toggle]', function(e) {
-        e.preventDefault();
-        if (self.$el.hasClass('is-open')) {
-          self.close();
-        } else {
-          self.open();
-        }
-      });
-
-      // Send message on form submit
-      this.$form.on('submit', function(e) {
-        e.preventDefault();
-        var text = self.$input.val().trim();
-        if (text && !self.isLoading) {
-          self.sendMessage(text);
-        }
-      });
-    },
-
-    open: function() {
-      if (!this.$el) return;
-      this.$el.addClass('is-open');
-      // Show greeting on first open
-      if (this.$messages.children().length === 0 && this.config.greeting) {
-        this.appendMessage('bot', this.config.greeting);
-      }
-      this.$input.focus();
-    },
-
-    close: function() {
-      if (!this.$el) return;
-      this.$el.removeClass('is-open');
-    },
-
-    appendMessage: function(role, content) {
-      var cls = role === 'user' ? 'chatbot__msg--user' : 'chatbot__msg--bot';
-      var $msg = $('<div class="chatbot__msg ' + cls + '"></div>').text(content);
-      this.$messages.append($msg);
-      this.$messages.scrollTop(this.$messages[0].scrollHeight);
-      return $msg;
-    },
-
-    showTyping: function() {
-      var $typing = $(
-        '<div class="chatbot__typing" data-chatbot-typing>' +
-          '<span class="chatbot__typing-dot"></span>' +
-          '<span class="chatbot__typing-dot"></span>' +
-          '<span class="chatbot__typing-dot"></span>' +
-        '</div>'
-      );
-      this.$messages.append($typing);
-      this.$messages.scrollTop(this.$messages[0].scrollHeight);
-    },
-
-    hideTyping: function() {
-      this.$messages.find('[data-chatbot-typing]').remove();
-    },
-
-    sendMessage: function(text) {
-      this.appendMessage('user', text);
-      this.$input.val('');
-      this.messages.push({ role: 'user', content: text });
-      this.isLoading = true;
-      this.$form.find('button').prop('disabled', true);
-      this.showTyping();
-
-      var self = this;
-      this.callAPI(this.messages)
-        .then(function(reply) {
-          self.hideTyping();
-          self.appendMessage('bot', reply);
-          self.messages.push({ role: 'assistant', content: reply });
-        })
-        .catch(function(err) {
-          self.hideTyping();
-          var $errMsg = $('<div class="chatbot__msg chatbot__msg--error"></div>')
-            .text('Error: ' + (err.message || 'Something went wrong.'));
-          self.$messages.append($errMsg);
-          self.$messages.scrollTop(self.$messages[0].scrollHeight);
-        })
-        .finally(function() {
-          self.isLoading = false;
-          self.$form.find('button').prop('disabled', false);
-          self.$input.focus();
-        });
-    },
-
-    callAPI: function(messages) {
-      var cfg = this.config;
-
-      return fetch('https://api.anthropic.com/v1/messages', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-api-key': cfg.apiKey,
-          'anthropic-version': '2023-06-01',
-          'anthropic-dangerous-direct-browser-access': 'true'
-        },
-        body: JSON.stringify({
-          model: cfg.model,
-          max_tokens: 1024,
-          system: cfg.systemPrompt,
-          messages: messages
-        })
-      })
-      .then(function(res) {
-        if (!res.ok) return res.json().then(function(e) { throw new Error(e.error && e.error.message || 'API error ' + res.status); });
-        return res.json();
-      })
-      .then(function(data) {
-        return data.content && data.content[0] && data.content[0].text || '';
-      });
-    }
-  };
-
-  // ============================================================
   // Escape Key Handler
   // ============================================================
   function initEscapeHandler() {
@@ -1370,7 +1218,6 @@
         CartDrawer.close();
         ProductDrawer.close();
         SearchOverlay.close();
-        ChatbotWidget.close();
         $('[data-mobile-menu]').removeClass('is-open');
         $('body').css('overflow', '');
       }
@@ -1395,7 +1242,6 @@
     initVideoCards();
     initCollectionSort();
     initEscapeHandler();
-    ChatbotWidget.init();
   });
 
 })(jQuery);

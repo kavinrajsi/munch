@@ -6,37 +6,39 @@
   "
   {{ section.shopify_attributes }}
 >
-  {%- if section.settings.title != blank -%}
-    {% render 'section-heading',
-      title: section.settings.title,
-      heading_tag: 'h2',
-      show_left_line: true,
-      show_left_icon: true,
-      show_right_icon: true,
-      show_right_line: true,
-      margin_bottom_desktop: 40,
-      margin_bottom_mobile: 24
-    %}
-  {%- endif -%}
+  <div class="container">
+    {%- if section.settings.title != blank -%}
+      {% render 'section-heading',
+        title: section.settings.title,
+        heading_tag: 'h2',
+        show_left_line: true,
+        show_left_icon: true,
+        show_right_icon: true,
+        show_right_line: true,
+        margin_bottom_desktop: 40,
+        margin_bottom_mobile: 24
+      %}
+    {%- endif -%}
 
-  <div class="product-features-banner__grid">
-    {%- for block in section.blocks -%}
-      <div class="product-features-banner__item" data-aos="fade-up" data-aos-delay="{{ forloop.index0 | times: 100 }}" {{ block.shopify_attributes }}>
-        {%- if block.settings.icon != blank -%}
-          <div class="product-features-banner__icon">
-            {{ block.settings.icon }}
+    <div class="product-features-banner__grid">
+      {%- for block in section.blocks -%}
+        <div class="product-features-banner__item" data-aos="fade-up" data-aos-delay="{{ forloop.index0 | times: 100 }}" {{ block.shopify_attributes }}>
+          {%- if block.settings.icon != blank -%}
+            <div class="product-features-banner__icon">
+              {{ block.settings.icon }}
+            </div>
+          {%- endif -%}
+          <div class="product-features-banner__content">
+            {%- if block.settings.title != blank -%}
+              <p class="product-features-banner__title">{{ block.settings.title }}</p>
+            {%- endif -%}
+            {%- if block.settings.text != blank -%}
+              <p class="product-features-banner__text">{{ block.settings.text }}</p>
+            {%- endif -%}
           </div>
-        {%- endif -%}
-        <div class="product-features-banner__content">
-          {%- if block.settings.title != blank -%}
-            <p class="product-features-banner__title">{{ block.settings.title }}</p>
-          {%- endif -%}
-          {%- if block.settings.text != blank -%}
-            <p class="product-features-banner__text">{{ block.settings.text }}</p>
-          {%- endif -%}
         </div>
-      </div>
-    {%- endfor -%}
+      {%- endfor -%}
+    </div>
   </div>
 </div>
 
