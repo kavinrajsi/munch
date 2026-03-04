@@ -2,33 +2,81 @@
   .countdown-banner {
     background: {{ section.settings.bg_color }};
     color: {{ section.settings.text_color }};
-    padding: 10px 0;
-    font-size: 0.875rem;
+    padding: 12px 0;
+  }
+
+  .countdown-banner__wrap {
+    position: relative;
   }
 
   .countdown-banner__inner {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 6px;
+    gap: 0;
     flex-wrap: wrap;
   }
 
   .countdown-banner__label {
+    font-family: 'Aller', sans-serif;
     font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 0.02em;
+    padding-right: 20px;
+    border-right: 1px solid rgba(255, 255, 255, 0.3);
+    margin-right: 20px;
   }
 
-  .countdown-banner__time {
+  .countdown-banner__digits {
+    display: flex;
+    align-items: center;
+    gap: 0;
+  }
+
+  .countdown-banner__digit-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 44px;
+  }
+
+  .countdown-banner__digit-value {
+    font-family: 'Aleo', serif;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 1.1;
     font-variant-numeric: tabular-nums;
+  }
+
+  .countdown-banner__digit-label {
+    font-family: 'Aller', sans-serif;
+    font-size: 11px;
+    font-weight: 400;
     letter-spacing: 0.02em;
+    opacity: 0.85;
+    margin-top: 1px;
+  }
+
+  .countdown-banner__separator {
+    font-family: 'Aleo', serif;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 1;
+    padding: 0 6px;
+    align-self: flex-start;
+    margin-top: 2px;
   }
 
   .countdown-banner__link {
     color: inherit;
     text-decoration: underline;
-    text-underline-offset: 2px;
+    text-underline-offset: 3px;
+    font-family: 'Aller', sans-serif;
     font-weight: 600;
-    margin-left: 4px;
+    font-size: 14px;
+    padding-left: 20px;
+    border-left: 1px solid rgba(255, 255, 255, 0.3);
+    margin-left: 20px;
   }
   .countdown-banner__link:hover {
     opacity: 0.8;
@@ -36,7 +84,7 @@
 
   .countdown-banner__close {
     position: absolute;
-    right: 16px;
+    right: 0;
     top: 50%;
     transform: translateY(-50%);
     background: none;
@@ -55,13 +103,37 @@
     height: 16px;
   }
 
-  .countdown-banner__wrap {
-    position: relative;
-  }
-
   .countdown-banner__expired {
     text-align: center;
+    font-family: 'Aller', sans-serif;
     font-weight: 600;
+    font-size: 14px;
+  }
+
+  @media (max-width: 575px) {
+    .countdown-banner__label {
+      font-size: 12px;
+      padding-right: 12px;
+      margin-right: 12px;
+    }
+    .countdown-banner__digit-value {
+      font-size: 18px;
+    }
+    .countdown-banner__digit-label {
+      font-size: 9px;
+    }
+    .countdown-banner__separator {
+      font-size: 18px;
+      padding: 0 3px;
+    }
+    .countdown-banner__digit-group {
+      min-width: 32px;
+    }
+    .countdown-banner__link {
+      font-size: 12px;
+      padding-left: 12px;
+      margin-left: 12px;
+    }
   }
 {%- endstyle -%}
 
@@ -71,9 +143,29 @@
       {%- if section.settings.label != blank -%}
         <span class="countdown-banner__label">{{ section.settings.label }}</span>
       {%- endif -%}
-      <span class="countdown-banner__time" data-countdown-banner-time></span>
+      <div class="countdown-banner__digits" data-countdown-banner-digits>
+        <div class="countdown-banner__digit-group">
+          <span class="countdown-banner__digit-value" data-cd-days>00</span>
+          <span class="countdown-banner__digit-label">Days</span>
+        </div>
+        <span class="countdown-banner__separator">:</span>
+        <div class="countdown-banner__digit-group">
+          <span class="countdown-banner__digit-value" data-cd-hours>00</span>
+          <span class="countdown-banner__digit-label">Hours</span>
+        </div>
+        <span class="countdown-banner__separator">:</span>
+        <div class="countdown-banner__digit-group">
+          <span class="countdown-banner__digit-value" data-cd-mins>00</span>
+          <span class="countdown-banner__digit-label">Minutes</span>
+        </div>
+        <span class="countdown-banner__separator">:</span>
+        <div class="countdown-banner__digit-group">
+          <span class="countdown-banner__digit-value" data-cd-secs>00</span>
+          <span class="countdown-banner__digit-label">Seconds</span>
+        </div>
+      </div>
       {%- if section.settings.link_text != blank and section.settings.link_url != blank -%}
-        <a href="{{ section.settings.link_url }}" class="countdown-banner__link">{{ section.settings.link_text }} &rarr;</a>
+        <a href="{{ section.settings.link_url }}" class="countdown-banner__link">{{ section.settings.link_text }}</a>
       {%- endif -%}
     </div>
     <div class="countdown-banner__expired" data-countdown-banner-expired style="display:none;">
@@ -93,13 +185,11 @@
     var sectionId = banner.dataset.sectionId;
     var storageKey = 'countdown-banner-dismissed-' + sectionId;
 
-    // Check if dismissed this session
     if (sessionStorage.getItem(storageKey)) {
       banner.style.display = 'none';
       return;
     }
 
-    // Dismiss button
     var closeBtn = banner.querySelector('[data-countdown-banner-close]');
     if (closeBtn) {
       closeBtn.addEventListener('click', function() {
@@ -113,7 +203,10 @@
     if (!endDate) return;
 
     var target = new Date(endDate + 'T' + endTime + ':00').getTime();
-    var timeEl = banner.querySelector('[data-countdown-banner-time]');
+    var daysEl = banner.querySelector('[data-cd-days]');
+    var hoursEl = banner.querySelector('[data-cd-hours]');
+    var minsEl = banner.querySelector('[data-cd-mins]');
+    var secsEl = banner.querySelector('[data-cd-secs]');
     var innerEl = banner.querySelector('[data-countdown-banner-inner]');
     var expiredEl = banner.querySelector('[data-countdown-banner-expired]');
     var expiryAction = banner.dataset.expiryAction;
@@ -141,7 +234,10 @@
       var mins = Math.floor((diff % 3600000) / 60000);
       var secs = Math.floor((diff % 60000) / 1000);
 
-      timeEl.textContent = pad(days) + 'd ' + pad(hours) + 'h ' + pad(mins) + 'm ' + pad(secs) + 's';
+      daysEl.textContent = pad(days);
+      hoursEl.textContent = pad(hours);
+      minsEl.textContent = pad(mins);
+      secsEl.textContent = pad(secs);
     }
 
     update();
@@ -159,7 +255,7 @@
       "type": "text",
       "id": "label",
       "label": "Label text",
-      "default": "🔥 Sale ends in"
+      "default": "Sale Up to 50%"
     },
     {
       "type": "header",
@@ -203,7 +299,7 @@
       "type": "text",
       "id": "link_text",
       "label": "Link text",
-      "default": "Shop Now"
+      "default": "Shop now"
     },
     {
       "type": "url",
@@ -219,7 +315,7 @@
       "type": "color",
       "id": "bg_color",
       "label": "Background color",
-      "default": "#C61D23"
+      "default": "#0D0D6B"
     },
     {
       "type": "color",
