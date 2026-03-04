@@ -16,12 +16,14 @@
     "social_instagram": "https://www.instagram.com/nithya.amirtham/",
     "social_twitter": "https://x.com/NithyaAmirthamm",
     "social_youtube": "https://www.youtube.com/@Nithyaamirtham",
+    "social_whatsapp": "tel:+91 7418 971 444",
+    "social_pinterest": "https://in.pinterest.com/nithya_amirtham/",
     "chatbot_enabled": true,
-    "chatbot_provider": "claude",
     "chatbot_api_key": "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",
     "chatbot_model": "claude-haiku-4-5-20251001",
     "chatbot_system_prompt": "You are a friendly and helpful shopping AI assistant.",
     "chatbot_icon": "robot",
+    "chatbot_provider": "claude",
     "content_for_index": [],
     "color_schemes": {
       "scheme-1": {
