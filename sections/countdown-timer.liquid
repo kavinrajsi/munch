@@ -1,0 +1,330 @@
+{%- style -%}
+  .countdown-timer {
+    background: {{ section.settings.bg_color }};
+    padding-top: {{ section.settings.padding_top_mobile }}px;
+    padding-bottom: {{ section.settings.padding_bottom_mobile }}px;
+    text-align: center;
+  }
+  @media (min-width: 750px) {
+    .countdown-timer {
+      padding-top: {{ section.settings.padding_top_desktop }}px;
+      padding-bottom: {{ section.settings.padding_bottom_desktop }}px;
+    }
+  }
+
+  .countdown-timer__description {
+    max-width: 720px;
+    margin: 0 auto 40px;
+    text-align: center;
+  }
+
+  .countdown-timer__grid {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 32px;
+  }
+  @media (min-width: 750px) {
+    .countdown-timer__grid {
+      gap: 24px;
+    }
+  }
+
+  .countdown-timer__group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 64px;
+  }
+  @media (min-width: 750px) {
+    .countdown-timer__group {
+      min-width: 100px;
+    }
+  }
+
+  .countdown-timer__digit {
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--color-headings, inherit);
+    background: var(--color-background, rgba(0,0,0,0.05));
+    border-radius: 8px;
+    padding: 16px 12px;
+    width: 100%;
+    border: 1px solid var(--color-borders, #F5F3F4);
+  }
+  @media (min-width: 750px) {
+    .countdown-timer__digit {
+      font-size: 3rem;
+      padding: 20px 16px;
+    }
+  }
+
+  .countdown-timer__label {
+    margin-top: 8px;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-text, inherit);
+    opacity: 0.7;
+  }
+  @media (min-width: 750px) {
+    .countdown-timer__label {
+      font-size: 0.875rem;
+    }
+  }
+
+  .countdown-timer__expired {
+    font-size: 1.25rem;
+    color: var(--color-text, inherit);
+    padding: 32px 0;
+  }
+
+  .countdown-timer__cta {
+    margin-top: 8px;
+  }
+{%- endstyle -%}
+
+<div class="countdown-timer color-{{ section.settings.color_scheme }}" data-countdown-section data-end-date="{{ section.settings.end_date }}" data-end-time="{{ section.settings.end_time }}" data-expiry-action="{{ section.settings.expiry_action }}" {{ section.shopify_attributes }}>
+  <div class="container">
+    {%- if section.settings.title != blank -%}
+      <div>
+        {%- render 'section-heading',
+          title: section.settings.title,
+          heading_tag: 'h2',
+          show_left_line: true,
+          show_left_icon: true,
+          show_right_icon: true,
+          show_right_line: true
+        -%}
+      </div>
+    {%- endif -%}
+
+    {%- if section.settings.description != blank -%}
+      <div class="countdown-timer__description rte">
+        {{ section.settings.description }}
+      </div>
+    {%- endif -%}
+
+    <div class="countdown-timer__grid" data-aos="fade-up" data-countdown-grid>
+      <div class="countdown-timer__group">
+        <span class="countdown-timer__digit" data-countdown-days>00</span>
+        <span class="countdown-timer__label">Days</span>
+      </div>
+      <div class="countdown-timer__group">
+        <span class="countdown-timer__digit" data-countdown-hours>00</span>
+        <span class="countdown-timer__label">Hours</span>
+      </div>
+      <div class="countdown-timer__group">
+        <span class="countdown-timer__digit" data-countdown-mins>00</span>
+        <span class="countdown-timer__label">Mins</span>
+      </div>
+      <div class="countdown-timer__group">
+        <span class="countdown-timer__digit" data-countdown-secs>00</span>
+        <span class="countdown-timer__label">Secs</span>
+      </div>
+    </div>
+
+    <div class="countdown-timer__expired" data-countdown-expired style="display:none;">
+      {{ section.settings.expired_message }}
+    </div>
+
+    {%- if section.settings.button_text != blank -%}
+      <div class="countdown-timer__cta" data-countdown-cta>
+        <a href="{{ section.settings.button_link }}" class="btn btn--primary">
+          {{ section.settings.button_text }}
+        </a>
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+<script>
+  (function() {
+    var section = document.querySelector('[{{ section.shopify_attributes }}]');
+    if (!section) return;
+
+    var endDate = section.dataset.endDate;
+    var endTime = section.dataset.endTime || '00:00';
+    if (!endDate) return;
+
+    var target = new Date(endDate + 'T' + endTime + ':00').getTime();
+    var grid = section.querySelector('[data-countdown-grid]');
+    var expiredEl = section.querySelector('[data-countdown-expired]');
+    var ctaEl = section.querySelector('[data-countdown-cta]');
+    var daysEl = section.querySelector('[data-countdown-days]');
+    var hoursEl = section.querySelector('[data-countdown-hours]');
+    var minsEl = section.querySelector('[data-countdown-mins]');
+    var secsEl = section.querySelector('[data-countdown-secs]');
+    var expiryAction = section.dataset.expiryAction;
+
+    function pad(n) { return n < 10 ? '0' + n : n; }
+
+    function update() {
+      var now = Date.now();
+      var diff = target - now;
+
+      if (diff <= 0) {
+        clearInterval(timer);
+        if (expiryAction === 'hide') {
+          section.style.display = 'none';
+        } else {
+          grid.style.display = 'none';
+          if (ctaEl) ctaEl.style.display = 'none';
+          expiredEl.style.display = '';
+        }
+        return;
+      }
+
+      var days = Math.floor(diff / 86400000);
+      var hours = Math.floor((diff % 86400000) / 3600000);
+      var mins = Math.floor((diff % 3600000) / 60000);
+      var secs = Math.floor((diff % 60000) / 1000);
+
+      daysEl.textContent = pad(days);
+      hoursEl.textContent = pad(hours);
+      minsEl.textContent = pad(mins);
+      secsEl.textContent = pad(secs);
+    }
+
+    update();
+    var timer = setInterval(update, 1000);
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Countdown Timer",
+  "tag": "section",
+  "class": "countdown-timer-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Limited Time Offer"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description"
+    },
+    {
+      "type": "header",
+      "content": "Countdown"
+    },
+    {
+      "type": "text",
+      "id": "end_date",
+      "label": "End date",
+      "info": "Format: YYYY-MM-DD (e.g. 2026-12-31)",
+      "default": "2026-12-31"
+    },
+    {
+      "type": "text",
+      "id": "end_time",
+      "label": "End time (24h)",
+      "info": "Format: HH:MM (e.g. 18:00)",
+      "default": "00:00"
+    },
+    {
+      "type": "select",
+      "id": "expiry_action",
+      "label": "When countdown ends",
+      "options": [
+        { "value": "hide", "label": "Hide section" },
+        { "value": "show_message", "label": "Show expired message" }
+      ],
+      "default": "show_message"
+    },
+    {
+      "type": "text",
+      "id": "expired_message",
+      "label": "Expired message",
+      "default": "This offer has ended."
+    },
+    {
+      "type": "header",
+      "content": "Button"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button text",
+      "default": "Shop Now"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link",
+      "default": "/collections/all"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Section Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top_desktop",
+      "label": "Padding top — desktop",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 56
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_desktop",
+      "label": "Padding bottom — desktop",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 56
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "label": "Padding top — mobile",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "label": "Padding bottom — mobile",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 20
+    }
+  ],
+  "presets": [
+    {
+      "name": "Countdown Timer",
+      "category": "Promotional"
+    }
+  ]
+}
+{% endschema %}
