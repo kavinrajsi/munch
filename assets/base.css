@@ -4149,7 +4149,7 @@ a.store-card__info-text:hover {
   height: 16px;
   transition: transform 0.3s;
 }
-.main-product__accordion-trigger.is-open svg {
+.main-product__accordion-trigger.is-active svg {
   transform: rotate(180deg);
 }
 

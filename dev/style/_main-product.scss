@@ -379,7 +379,7 @@
     transition: transform 0.3s;
   }
 
-  &.is-open svg {
+  &.is-active svg {
     transform: rotate(180deg);
   }
 }
