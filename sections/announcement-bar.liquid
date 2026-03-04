@@ -42,11 +42,18 @@
     aria-label="{{ 'sections.announcement_bar.close' | t }}"
   >
     <div class="announcement-bar__inner{% if section.settings.container_type == 'box' %} container{% endif %}">
-      <div class="announcement-bar__scroll">
-        <div class="announcement-bar__track">
-          {{ announcement_items }}
-          {{ announcement_items }}
-        </div>
+      <div class="announcement-bar__rotator" data-announcement-rotator>
+        {%- for block in section.blocks -%}
+          {%- if block.settings.link != blank -%}
+            <a href="{{ block.settings.link }}" class="announcement-bar__slide{% if forloop.first %} is-active{% endif %}" {{ block.shopify_attributes }}>
+              {{ block.settings.text }}
+            </a>
+          {%- else -%}
+            <span class="announcement-bar__slide{% if forloop.first %} is-active{% endif %}" {{ block.shopify_attributes }}>
+              {{ block.settings.text }}
+            </span>
+          {%- endif -%}
+        {%- endfor -%}
       </div>
 
       <button
@@ -92,6 +99,27 @@
           localStorage.setItem(storageKey, Date.now().toString());
         }
       });
+    }
+
+    // Text rotator
+    var rotator = bar.querySelector('[data-announcement-rotator]');
+    if (rotator) {
+      var slides = rotator.querySelectorAll('.announcement-bar__slide');
+      if (slides.length > 1) {
+        var current = 0;
+        var speed = (parseInt(bar.dataset.announcementSpeed, 10) || 5) * 1000;
+        var paused = false;
+
+        bar.addEventListener('mouseenter', function () { paused = true; });
+        bar.addEventListener('mouseleave', function () { paused = false; });
+
+        setInterval(function () {
+          if (paused) return;
+          slides[current].classList.remove('is-active');
+          current = (current + 1) % slides.length;
+          slides[current].classList.add('is-active');
+        }, speed);
+      }
     }
   })();
 </script>
