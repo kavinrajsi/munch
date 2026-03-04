@@ -287,15 +287,20 @@
         else if (type === 'fade-left') fromVars.x = 30;
         else if (type === 'fade-right') fromVars.x = -30;
 
-        gsap.from(el, {
-          ...fromVars,
+        gsap.fromTo(el, fromVars, {
+          opacity: 1,
+          x: 0,
+          y: 0,
           duration: 0.8,
           delay: delay,
           ease: 'power2.out',
           scrollTrigger: {
             trigger: el,
             start: 'top 85%',
-            once: true
+            toggleActions: 'play none none none',
+            onEnter: function() {
+              console.log('ScrollTrigger fired:', type, el);
+            }
           }
         });
       });
