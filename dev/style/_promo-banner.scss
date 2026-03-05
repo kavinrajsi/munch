@@ -5,11 +5,11 @@
   background-image: var(--pb-pattern, none);
   background-size: cover;
   background-position: center;
-  background-repeat: no-repeat;
+  background-repeat: repeat;
   background-blend-mode: soft-light;
   padding-top: var(--pb-pt-mobile, 32px);
   padding-bottom: var(--pb-pb-mobile, 32px);
-
+  
   @media (min-width: 750px) {
     padding-top: var(--pb-pt-desktop, 40px);
     padding-bottom: var(--pb-pb-desktop, 40px);

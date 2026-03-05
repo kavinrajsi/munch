@@ -1,12 +1,28 @@
-<header class="header{% if section.settings.sticky %} header--sticky{% endif %}" data-header {{ section.shopify_attributes }}>
+<header
+  class="header{% if section.settings.sticky %} header--sticky{% endif %}"
+  data-header
+  {{ section.shopify_attributes }}
+>
   <div class="{% if section.settings.container_type == 'container-fluid' %}container-fluid{% else %}container{% endif %}">
     <div class="header__inner">
       {%- comment -%} Left group: menu toggle + logo {%- endcomment -%}
-        <button class="header__icon header__menu-toggle" data-mobile-menu-toggle aria-label="{{ 'sections.header.menu' | t }}" type="button">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-        </button>
+      <button
+        class="header__icon header__menu-toggle"
+        data-mobile-menu-toggle
+        aria-label="{{ 'sections.header.menu' | t }}"
+        type="button"
+      >
+        <svg width="24" height="18" viewBox="0 0 24 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M0 1H24" stroke="#0B090A" stroke-width="1.3"/>
+          <path d="M0 9H24" stroke="#0B090A" stroke-width="1.3"/>
+          <path d="M0 17H24" stroke="#0B090A" stroke-width="1.3"/>
+        </svg>
+      </button>
 
-        <div class="header__logo" style="--logo-width: {{ section.settings.logo_width }}px; --logo-width-mobile: {{ section.settings.logo_width_mobile }}px;">
+      <div
+        class="header__logo"
+        style="--logo-width: {{ section.settings.logo_width }}px; --logo-width-mobile: {{ section.settings.logo_width_mobile }}px;"
+      >
         <a href="{{ routes.root_url }}" class="header__logo-link">
           {%- if section.settings.logo_type == 'image' and section.settings.logo -%}
             <img
@@ -34,12 +50,23 @@
             <a href="{{ link.url }}" class="header__nav-link{% if link.active %} header__nav-link--active{% endif %}">
               {{- link.title -}}
               {%- if link.links.size > 0 -%}
-                <svg class="header__nav-chevron" width="10" height="9" viewBox="0 0 10 9" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M0.112982 4.1049C0.148705 4.07165 0.191143 4.04527 0.237865 4.02727C0.284586 4.00927 0.334673 4 0.385258 4C0.435842 4 0.485929 4.00927 0.532651 4.02727C0.579373 4.04527 0.62181 4.07165 0.657534 4.1049L5.0001 8.13744L9.34267 4.1049C9.37842 4.0717 9.42087 4.04537 9.46759 4.0274C9.51431 4.00943 9.56438 4.00019 9.61494 4.00019C9.66551 4.00019 9.71558 4.00943 9.7623 4.0274C9.80902 4.04537 9.85146 4.0717 9.88722 4.1049C9.92298 4.13809 9.95134 4.17751 9.97069 4.22088C9.99004 4.26425 10 4.31074 10 4.35769C10 4.40464 9.99004 4.45113 9.97069 4.4945C9.95134 4.53787 9.92298 4.57729 9.88722 4.61048L5.27238 8.8951C5.23665 8.92835 5.19422 8.95473 5.14749 8.97273C5.10077 8.99073 5.05068 9 5.0001 9C4.94952 9 4.89943 8.99073 4.85271 8.97273C4.80599 8.95473 4.76355 8.92835 4.72783 8.8951L0.112982 4.61048C0.0771683 4.57732 0.0487541 4.53791 0.0293668 4.49454C0.00997949 4.45116 0 4.40465 0 4.35769C0 4.31073 0.00997949 4.26422 0.0293668 4.22084C0.0487541 4.17747 0.0771683 4.13806 0.112982 4.1049Z" fill="currentColor"/></svg>
+                <svg
+                  class="header__nav-chevron"
+                  width="10"
+                  height="9"
+                  viewBox="0 0 10 9"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M0.112982 4.1049C0.148705 4.07165 0.191143 4.04527 0.237865 4.02727C0.284586 4.00927 0.334673 4 0.385258 4C0.435842 4 0.485929 4.00927 0.532651 4.02727C0.579373 4.04527 0.62181 4.07165 0.657534 4.1049L5.0001 8.13744L9.34267 4.1049C9.37842 4.0717 9.42087 4.04537 9.46759 4.0274C9.51431 4.00943 9.56438 4.00019 9.61494 4.00019C9.66551 4.00019 9.71558 4.00943 9.7623 4.0274C9.80902 4.04537 9.85146 4.0717 9.88722 4.1049C9.92298 4.13809 9.95134 4.17751 9.97069 4.22088C9.99004 4.26425 10 4.31074 10 4.35769C10 4.40464 9.99004 4.45113 9.97069 4.4945C9.95134 4.53787 9.92298 4.57729 9.88722 4.61048L5.27238 8.8951C5.23665 8.92835 5.19422 8.95473 5.14749 8.97273C5.10077 8.99073 5.05068 9 5.0001 9C4.94952 9 4.89943 8.99073 4.85271 8.97273C4.80599 8.95473 4.76355 8.92835 4.72783 8.8951L0.112982 4.61048C0.0771683 4.57732 0.0487541 4.53791 0.0293668 4.49454C0.00997949 4.45116 0 4.40465 0 4.35769C0 4.31073 0.00997949 4.26422 0.0293668 4.22084C0.0487541 4.17747 0.0771683 4.13806 0.112982 4.1049Z" fill="currentColor"/>
+                </svg>
               {%- endif -%}
             </a>
             {%- if link.links.size > 0 -%}
               <div class="header__dropdown">
-                <a href="{{ link.url }}" class="header__dropdown-link header__dropdown-link--primary">{{ 'sections.header.shop_all' | t }}</a>
+                <a href="{{ link.url }}" class="header__dropdown-link header__dropdown-link--primary">
+                  {{- 'sections.header.shop_all' | t -}}
+                </a>
                 {%- for child_link in link.links -%}
                   <a href="{{ child_link.url }}" class="header__dropdown-link">{{ child_link.title }}</a>
                 {%- endfor -%}
@@ -56,27 +83,49 @@
             {%- if section.settings.search_icon_svg != blank -%}
               {{ section.settings.search_icon_svg }}
             {%- else -%}
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g clip-path="url(#clip0_742_9280)">
+                <path d="M19.8104 18.9119L14.6467 13.8308C15.9989 12.3616 16.8298 10.4187 16.8298 8.28068C16.8291 3.7071 13.062 0 8.41465 0C3.76731 0 0.000183105 3.7071 0.000183105 8.28068C0.000183105 12.8543 3.76731 16.5614 8.41465 16.5614C10.4226 16.5614 12.2643 15.8668 13.7109 14.7122L18.8946 19.8134C19.1472 20.0622 19.5572 20.0622 19.8098 19.8134C20.063 19.5646 20.063 19.1607 19.8104 18.9119ZM8.41465 15.2873C4.4825 15.2873 1.29487 12.1504 1.29487 8.28068C1.29487 4.41101 4.4825 1.27403 8.41465 1.27403C12.3468 1.27403 15.5344 4.41101 15.5344 8.28068C15.5344 12.1504 12.3468 15.2873 8.41465 15.2873Z" fill="#0B090A"/>
+                </g>
+                <defs>
+                <clipPath id="clip0_742_9280">
+                <rect width="20" height="20" fill="white"/>
+                </clipPath>
+                </defs>
+              </svg>
             {%- endif -%}
           </button>
         {%- endif -%}
 
         {%- if section.settings.show_account and shop.customer_accounts_enabled -%}
-          <a href="{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}" class="header__icon header__icon--account" aria-label="{{ 'sections.header.account' | t }}">
+          <a
+            href="{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}"
+            class="header__icon header__icon--account"
+            aria-label="{{ 'sections.header.account' | t }}"
+          >
             {%- if section.settings.account_icon_svg != blank -%}
               {{ section.settings.account_icon_svg }}
             {%- else -%}
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+              </svg>
             {%- endif -%}
           </a>
         {%- endif -%}
 
         {%- if section.settings.show_cart -%}
-          <button class="header__icon" data-cart-toggle aria-label="{{ 'sections.header.cart' | t }} ({{ cart.item_count }})" type="button">
+          <button
+            class="header__icon"
+            data-cart-toggle
+            aria-label="{{ 'sections.header.cart' | t }} ({{ cart.item_count }})"
+            type="button"
+          >
             {%- if section.settings.cart_icon_svg != blank -%}
               {{ section.settings.cart_icon_svg }}
             {%- else -%}
-              <svg width="21" height="20" viewBox="0 0 21 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_742_9289)"><path d="M16.9697 14.4772C17.8428 14.4681 18.6063 13.8797 18.8303 13.0359L20.9835 5.03556C21.0521 4.77557 20.9012 4.51102 20.6406 4.43805C20.5995 4.42892 20.5583 4.4198 20.5172 4.4198H4.32013L3.21838 0.360335C3.16352 0.15052 2.97152 0 2.75208 0H0V0.971535H2.36807L3.43325 4.93978C3.42867 4.97171 3.42867 5.00363 3.43325 5.03556L5.6276 13.0633C5.64131 13.1271 5.66417 13.1955 5.68703 13.2594L6.42762 15.9505C5.71446 16.3291 5.22987 17.0771 5.22987 17.9392C5.22987 19.1844 6.24019 20.1924 7.48822 20.1924C8.73626 20.1924 9.74658 19.1844 9.74658 17.9392C9.74658 17.5515 9.646 17.182 9.47228 16.8627C9.43114 16.7898 9.38999 16.7168 9.33971 16.6438H15.0862C14.8302 17.0087 14.6747 17.4557 14.6747 17.9392C14.6747 19.1844 15.685 20.1924 16.9331 20.1924C18.1811 20.1924 19.1914 19.1844 19.1914 17.9392C19.1914 17.3508 18.9674 16.8171 18.5971 16.4158C18.1994 15.9642 17.6142 15.6768 16.9605 15.6723H7.40136L7.0585 14.4179C7.20479 14.4544 7.35565 14.4772 7.50651 14.4772H16.9697ZM16.9376 16.6438C17.6554 16.6438 18.236 17.2231 18.236 17.9392C18.236 18.6553 17.6554 19.2346 16.9376 19.2346C16.2199 19.2346 15.6393 18.6553 15.6393 17.9392C15.6393 17.2231 16.2199 16.6438 16.9376 16.6438ZM7.48822 16.6438C8.20596 16.6438 8.78198 17.2276 8.78198 17.9392C8.78198 18.6553 8.20139 19.2346 7.48365 19.2346C6.76592 19.2346 6.1899 18.6553 6.1899 17.9392C6.1899 17.2231 6.77049 16.6438 7.48822 16.6438ZM6.61963 12.8899L5.52702 8.90346L4.55328 5.40046H19.8634L17.884 12.817C17.7742 13.2412 17.3948 13.5376 16.9559 13.5468H7.49737C7.09964 13.524 6.7522 13.2685 6.61963 12.8899Z" fill="currentColor"/></g><defs><clipPath id="clip0_742_9289"><rect width="21" height="20" fill="white"/></clipPath></defs></svg>
+              <svg width="21" height="20" viewBox="0 0 21 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g clip-path="url(#clip0_742_9289)"><path d="M16.9697 14.4772C17.8428 14.4681 18.6063 13.8797 18.8303 13.0359L20.9835 5.03556C21.0521 4.77557 20.9012 4.51102 20.6406 4.43805C20.5995 4.42892 20.5583 4.4198 20.5172 4.4198H4.32013L3.21838 0.360335C3.16352 0.15052 2.97152 0 2.75208 0H0V0.971535H2.36807L3.43325 4.93978C3.42867 4.97171 3.42867 5.00363 3.43325 5.03556L5.6276 13.0633C5.64131 13.1271 5.66417 13.1955 5.68703 13.2594L6.42762 15.9505C5.71446 16.3291 5.22987 17.0771 5.22987 17.9392C5.22987 19.1844 6.24019 20.1924 7.48822 20.1924C8.73626 20.1924 9.74658 19.1844 9.74658 17.9392C9.74658 17.5515 9.646 17.182 9.47228 16.8627C9.43114 16.7898 9.38999 16.7168 9.33971 16.6438H15.0862C14.8302 17.0087 14.6747 17.4557 14.6747 17.9392C14.6747 19.1844 15.685 20.1924 16.9331 20.1924C18.1811 20.1924 19.1914 19.1844 19.1914 17.9392C19.1914 17.3508 18.9674 16.8171 18.5971 16.4158C18.1994 15.9642 17.6142 15.6768 16.9605 15.6723H7.40136L7.0585 14.4179C7.20479 14.4544 7.35565 14.4772 7.50651 14.4772H16.9697ZM16.9376 16.6438C17.6554 16.6438 18.236 17.2231 18.236 17.9392C18.236 18.6553 17.6554 19.2346 16.9376 19.2346C16.2199 19.2346 15.6393 18.6553 15.6393 17.9392C15.6393 17.2231 16.2199 16.6438 16.9376 16.6438ZM7.48822 16.6438C8.20596 16.6438 8.78198 17.2276 8.78198 17.9392C8.78198 18.6553 8.20139 19.2346 7.48365 19.2346C6.76592 19.2346 6.1899 18.6553 6.1899 17.9392C6.1899 17.2231 6.77049 16.6438 7.48822 16.6438ZM6.61963 12.8899L5.52702 8.90346L4.55328 5.40046H19.8634L17.884 12.817C17.7742 13.2412 17.3948 13.5376 16.9559 13.5468H7.49737C7.09964 13.524 6.7522 13.2685 6.61963 12.8899Z" fill="currentColor"/></g><defs><clipPath id="clip0_742_9289"><rect width="21" height="20" fill="white"/></clipPath></defs>
+              </svg>
             {%- endif -%}
             {%- if cart.item_count > 0 -%}
               <span class="header__cart-count" data-cart-count-badge>{{ cart.item_count }}</span>
@@ -92,7 +141,6 @@
 <div class="mobile-menu" id="MobileMenu" data-mobile-menu>
   <div class="mobile-menu__overlay" data-mobile-menu-close></div>
   <div class="mobile-menu__panel">
-
     {%- comment -%} Header with logo + close {%- endcomment -%}
     <div class="mobile-menu__header">
       <div class="mobile-menu__logo">
@@ -116,8 +164,15 @@
           {%- endif -%}
         </a>
       </div>
-      <button class="mobile-menu__close" data-mobile-menu-close aria-label="{{ 'accessibility.close' | t }}" type="button">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      <button
+        class="mobile-menu__close"
+        data-mobile-menu-close
+        aria-label="{{ 'accessibility.close' | t }}"
+        type="button"
+      >
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
       </button>
     </div>
 
@@ -128,7 +183,17 @@
           <div class="mobile-menu__nav-item mobile-menu__nav-item--has-children">
             <button type="button" class="mobile-menu__nav-link" data-mobile-submenu-trigger>
               {{ link.title }}
-              <svg class="mobile-menu__chevron" width="10" height="16" viewBox="0 0 10 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <svg
+                class="mobile-menu__chevron"
+                width="10"
+                height="16"
+                viewBox="0 0 10 16"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
                 <polyline points="2 2 8 8 2 14"/>
               </svg>
             </button>
@@ -137,7 +202,16 @@
             <div class="mobile-menu__submenu" data-mobile-submenu>
               <div class="mobile-menu__submenu-header">
                 <button type="button" class="mobile-menu__back" data-mobile-back>
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
                     <polyline points="15 18 9 12 15 6"/>
                   </svg>
                   {{ link.title }}
@@ -149,7 +223,17 @@
                     <div class="mobile-menu__nav-item mobile-menu__nav-item--has-children">
                       <button type="button" class="mobile-menu__submenu-link" data-mobile-submenu-trigger>
                         {{ child_link.title }}
-                        <svg class="mobile-menu__chevron" width="10" height="16" viewBox="0 0 10 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <svg
+                          class="mobile-menu__chevron"
+                          width="10"
+                          height="16"
+                          viewBox="0 0 10 16"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        >
                           <polyline points="2 2 8 8 2 14"/>
                         </svg>
                       </button>
@@ -158,7 +242,16 @@
                       <div class="mobile-menu__submenu" data-mobile-submenu>
                         <div class="mobile-menu__submenu-header">
                           <button type="button" class="mobile-menu__back" data-mobile-back>
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <svg
+                              width="16"
+                              height="16"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            >
                               <polyline points="15 18 9 12 15 6"/>
                             </svg>
                             {{ child_link.title }}
@@ -166,7 +259,9 @@
                         </div>
                         <div class="mobile-menu__submenu-body">
                           {%- for grandchild_link in child_link.links -%}
-                            <a href="{{ grandchild_link.url }}" class="mobile-menu__submenu-link">{{ grandchild_link.title }}</a>
+                            <a href="{{ grandchild_link.url }}" class="mobile-menu__submenu-link">
+                              {{- grandchild_link.title -}}
+                            </a>
                           {%- endfor -%}
                         </div>
                       </div>
@@ -192,46 +287,51 @@
         <h3 class="mobile-menu__account-title">My Account</h3>
         {%- if customer -%}
           <a href="{{ routes.account_url }}" class="mobile-menu__account-btn btn btn--primary btn--full">My Account</a>
-          <a href="{{ routes.account_logout_url }}" class="mobile-menu__account-btn btn btn--ghost btn--full">Log out</a>
+          <a href="{{ routes.account_logout_url }}" class="mobile-menu__account-btn btn btn--ghost btn--full"
+            >Log out</a
+          >
         {%- else -%}
-          <a href="{{ routes.account_login_url }}" class="mobile-menu__account-btn btn btn--primary btn--full">Log in</a>
-          <a href="{{ routes.account_register_url }}" class="mobile-menu__account-btn btn btn--ghost btn--full">Register</a>
+          <a href="{{ routes.account_login_url }}" class="mobile-menu__account-btn btn btn--primary btn--full"
+            >Log in</a
+          >
+          <a href="{{ routes.account_register_url }}" class="mobile-menu__account-btn btn btn--ghost btn--full"
+            >Register</a
+          >
         {%- endif -%}
       </div>
     {%- endif -%}
-
   </div>
 </div>
 
 {%- if section.settings.sticky -%}
-<script>
-  (function () {
-    var header = document.querySelector('[data-header]');
-    if (!header) return;
+  <script>
+    (function () {
+      var header = document.querySelector('[data-header]');
+      if (!header) return;
 
-    var lastScroll = 0;
-    var customThreshold = {{ section.settings.sticky_threshold }};
-    var threshold = customThreshold > 0 ? customThreshold : window.innerHeight;
+      var lastScroll = 0;
+      var customThreshold = {{ section.settings.sticky_threshold }};
+      var threshold = customThreshold > 0 ? customThreshold : window.innerHeight;
 
-    window.addEventListener('scroll', function () {
-      var currentScroll = window.scrollY;
+      window.addEventListener('scroll', function () {
+        var currentScroll = window.scrollY;
 
-      if (currentScroll > threshold) {
-        header.classList.add('header--fixed');
+        if (currentScroll > threshold) {
+          header.classList.add('header--fixed');
 
-        if (currentScroll < lastScroll) {
-          header.classList.add('header--visible');
+          if (currentScroll < lastScroll) {
+            header.classList.add('header--visible');
+          } else {
+            header.classList.remove('header--visible');
+          }
         } else {
-          header.classList.remove('header--visible');
+          header.classList.remove('header--fixed', 'header--visible');
         }
-      } else {
-        header.classList.remove('header--fixed', 'header--visible');
-      }
 
-      lastScroll = currentScroll;
-    });
-  })();
-</script>
+        lastScroll = currentScroll;
+      });
+    })();
+  </script>
 {%- endif -%}
 
 {% schema %}
