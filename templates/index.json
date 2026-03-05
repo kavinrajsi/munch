@@ -15,8 +15,8 @@
         "slide_tm6Xke": {
           "type": "slide",
           "settings": {
-            "mobile_image": "shopify://shop_images/nithyaamirtham-pongal-special-mobile.jpg",
-            "desktop_image": "shopify://shop_images/nithyaamirtham-pongal-special.jpg",
+            "mobile_image": "shopify://shop_images/mobile-banner.png",
+            "desktop_image": "shopify://shop_images/desktop-banner.png",
             "image_link": "shopify://collections/gheesweets",
             "show_content": false,
             "heading": "Welcome to Nithyaamirtham",
