@@ -2,7 +2,6 @@
   <div class="{% if section.settings.container_type == 'container-fluid' %}container-fluid{% else %}container{% endif %}">
     <div class="header__inner">
       {%- comment -%} Left group: menu toggle + logo {%- endcomment -%}
-      <div class="header__left">
         <button class="header__icon header__menu-toggle" data-mobile-menu-toggle aria-label="{{ 'sections.header.menu' | t }}" type="button">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
         </button>
@@ -26,7 +25,6 @@
             <span class="header__logo-text">{{ shop.name }}</span>
           {%- endif -%}
         </a>
-      </div>
       </div>
 
       {%- comment -%} Desktop Navigation {%- endcomment -%}
@@ -78,7 +76,7 @@
             {%- if section.settings.cart_icon_svg != blank -%}
               {{ section.settings.cart_icon_svg }}
             {%- else -%}
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+              <svg width="21" height="20" viewBox="0 0 21 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_742_9289)"><path d="M16.9697 14.4772C17.8428 14.4681 18.6063 13.8797 18.8303 13.0359L20.9835 5.03556C21.0521 4.77557 20.9012 4.51102 20.6406 4.43805C20.5995 4.42892 20.5583 4.4198 20.5172 4.4198H4.32013L3.21838 0.360335C3.16352 0.15052 2.97152 0 2.75208 0H0V0.971535H2.36807L3.43325 4.93978C3.42867 4.97171 3.42867 5.00363 3.43325 5.03556L5.6276 13.0633C5.64131 13.1271 5.66417 13.1955 5.68703 13.2594L6.42762 15.9505C5.71446 16.3291 5.22987 17.0771 5.22987 17.9392C5.22987 19.1844 6.24019 20.1924 7.48822 20.1924C8.73626 20.1924 9.74658 19.1844 9.74658 17.9392C9.74658 17.5515 9.646 17.182 9.47228 16.8627C9.43114 16.7898 9.38999 16.7168 9.33971 16.6438H15.0862C14.8302 17.0087 14.6747 17.4557 14.6747 17.9392C14.6747 19.1844 15.685 20.1924 16.9331 20.1924C18.1811 20.1924 19.1914 19.1844 19.1914 17.9392C19.1914 17.3508 18.9674 16.8171 18.5971 16.4158C18.1994 15.9642 17.6142 15.6768 16.9605 15.6723H7.40136L7.0585 14.4179C7.20479 14.4544 7.35565 14.4772 7.50651 14.4772H16.9697ZM16.9376 16.6438C17.6554 16.6438 18.236 17.2231 18.236 17.9392C18.236 18.6553 17.6554 19.2346 16.9376 19.2346C16.2199 19.2346 15.6393 18.6553 15.6393 17.9392C15.6393 17.2231 16.2199 16.6438 16.9376 16.6438ZM7.48822 16.6438C8.20596 16.6438 8.78198 17.2276 8.78198 17.9392C8.78198 18.6553 8.20139 19.2346 7.48365 19.2346C6.76592 19.2346 6.1899 18.6553 6.1899 17.9392C6.1899 17.2231 6.77049 16.6438 7.48822 16.6438ZM6.61963 12.8899L5.52702 8.90346L4.55328 5.40046H19.8634L17.884 12.817C17.7742 13.2412 17.3948 13.5376 16.9559 13.5468H7.49737C7.09964 13.524 6.7522 13.2685 6.61963 12.8899Z" fill="currentColor"/></g><defs><clipPath id="clip0_742_9289"><rect width="21" height="20" fill="white"/></clipPath></defs></svg>
             {%- endif -%}
             {%- if cart.item_count > 0 -%}
               <span class="header__cart-count" data-cart-count-badge>{{ cart.item_count }}</span>

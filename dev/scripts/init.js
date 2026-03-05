@@ -1140,7 +1140,7 @@
         arrows: true,
         breakpoints: {
           1024: { perPage: 3 },
-          750: { perPage: 1, padding: { right: '17%' }, pagination: false }
+          750: { perPage: 1, padding: { right: '25%' }, pagination: true }
         }
       }).mount();
       replaceSplideArrows(el);
@@ -1195,7 +1195,7 @@
               arrows: true,
               breakpoints: {
                 1024: { perPage: 3 },
-                750: { perPage: 1, padding: { right: '17%' }, pagination: false }
+                750: { perPage: 1, padding: { right: '25%' }, pagination: true }
               }
             }).mount();
             replaceSplideArrows(el);
@@ -1280,7 +1280,7 @@
         arrows: true,
         breakpoints: {
           1024: { perPage: 3 },
-          750: { perPage: 1, padding: { right: '17%' }, pagination: false }
+          750: { perPage: 1, padding: { right: '25%' }, pagination: true }
         }
       }).mount();
       replaceSplideArrows(el);
@@ -1296,7 +1296,7 @@
         arrows: true,
         breakpoints: {
           1024: { perPage: 2 },
-          750: { perPage: 1, padding: { right: '17%' }, pagination: false }
+          750: { perPage: 1, padding: { right: '25%' }, pagination: true }
         }
       });
 
