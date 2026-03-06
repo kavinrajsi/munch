@@ -71,7 +71,7 @@
             "image": "shopify://shop_images/traditonal-savories-2.png",
             "title": "Home Made Savouries",
             "link": "shopify://collections/home-made-savouries",
-            "item_bg_color": "transparent"
+            "item_bg_color": "rgba(0,0,0,0)"
           }
         },
         "icon_item_Cjjxfi": {
@@ -80,7 +80,7 @@
             "image": "shopify://shop_images/home-made-sweets-2.png",
             "title": "Home Made Sweets",
             "link": "shopify://collections/home-made-sweets",
-            "item_bg_color": "transparent"
+            "item_bg_color": "rgba(0,0,0,0)"
           }
         },
         "icon_item_XE3BXY": {
@@ -89,7 +89,7 @@
             "image": "shopify://shop_images/ghee-2.png",
             "title": "Ghee Sweets",
             "link": "shopify://collections/gheesweets",
-            "item_bg_color": "transparent"
+            "item_bg_color": "rgba(0,0,0,0)"
           }
         }
       },
@@ -102,8 +102,8 @@
       "settings": {
         "container_type": "container",
         "title": "Exclusive Collections",
-        "items_per_row_desktop": 6,
-        "items_per_row_tablet": 4,
+        "items_per_row_desktop": 3,
+        "items_per_row_tablet": 3,
         "items_per_row_mobile": 3,
         "image_width_desktop": 120,
         "image_height_desktop": 120,
@@ -115,8 +115,8 @@
         "padding_bottom_desktop": 40,
         "padding_top_mobile": 20,
         "padding_bottom_mobile": 20,
-        "text_color": "#161A1D",
-        "bg_color": "transparent"
+        "text_color": "#161a1d",
+        "bg_color": "rgba(0,0,0,0)"
       }
     }
   },
