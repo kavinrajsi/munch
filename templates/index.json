@@ -131,7 +131,7 @@
         "container_type": "container",
         "title": "Shop by Category",
         "items_per_row_desktop": 6,
-        "items_per_row_tablet": 4,
+        "items_per_row_tablet": 6,
         "items_per_row_mobile": 3,
         "image_width_desktop": 120,
         "image_height_desktop": 120,

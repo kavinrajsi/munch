@@ -76,7 +76,7 @@
         "padding_top_desktop": 56,
         "padding_bottom_desktop": 56,
         "padding_top_mobile": 56,
-        "padding_bottom_mobile": 20,
+        "padding_bottom_mobile": 56,
         "text_color": "#161a1d",
         "bg_color": "rgba(0,0,0,0)"
       }
