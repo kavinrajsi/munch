@@ -37,53 +37,47 @@
     </div>
   </a>
   <div class="feat-collection-carousel__controls" data-fcc-controls>
-    <div class="feat-collection-carousel__buy-row">
+    <div class="feat-collection-carousel__variants-qty">
       {%- if product.variants.size > 1 -%}
-        <div class="feat-collection-carousel__variant-select-wrap">
-          <select class="feat-collection-carousel__variant-select" data-fcc-variant-select>
-            {%- for variant in product.variants -%}
-              <option
-                value="{{ variant.id }}"
-                data-variant-price="{{ variant.price | money }}"
-                data-variant-available="{{ variant.available }}"
-                {% if variant.id == product.first_available_variant.id %}selected{% endif %}
-                {% unless variant.available %}disabled{% endunless %}
-              >
-                {{ variant.title }} – {{ variant.price | money }}
-              </option>
-            {%- endfor -%}
-          </select>
-          <svg class="feat-collection-carousel__variant-chevron" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-            <polyline points="1 1 5 5 9 1"/>
-          </svg>
-        </div>
-      {%- else -%}
-        <div class="feat-collection-carousel__variant-select-wrap">
-          <select class="feat-collection-carousel__variant-select" data-fcc-variant-select>
-            <option value="{{ product.first_available_variant.id }}">
-              {{ product.first_available_variant.title }} – {{ product.first_available_variant.price | money }}
-            </option>
-          </select>
-          <svg class="feat-collection-carousel__variant-chevron" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-            <polyline points="1 1 5 5 9 1"/>
-          </svg>
+        <div class="feat-collection-carousel__variants">
+          {%- for variant in product.variants -%}
+            <button
+              type="button"
+              class="feat-collection-carousel__variant-btn{% if variant.id == product.first_available_variant.id %} feat-collection-carousel__variant-btn--active{% endif %}"
+              data-fcc-variant-btn
+              data-variant-id="{{ variant.id }}"
+              data-variant-price="{{ variant.price | money }}"
+              data-variant-available="{{ variant.available }}"
+              {% unless variant.available %}disabled{% endunless %}
+            >
+              {{ variant.title }}
+            </button>
+          {%- endfor -%}
         </div>
       {%- endif -%}
 
-      {%- if product.available -%}
-        <button
-          class="feat-collection-carousel__atc"
-          type="button"
-          data-variant-id="{{ product.first_available_variant.id }}"
-          data-fcc-add-to-cart
-        >
-          Add to cart
-        </button>
-      {%- else -%}
-        <button class="feat-collection-carousel__atc feat-collection-carousel__atc--sold-out" type="button" disabled>
-          Sold Out
-        </button>
-      {%- endif -%}
+      <div class="feat-collection-carousel__qty-cart">
+        <div class="feat-collection-carousel__qty">
+          <button type="button" class="feat-collection-carousel__qty-btn" data-fcc-qty-minus>-</button>
+          <input type="number" class="feat-collection-carousel__qty-input" value="1" min="1" data-fcc-qty-input readonly>
+          <button type="button" class="feat-collection-carousel__qty-btn" data-fcc-qty-plus>+</button>
+        </div>
+      </div>
     </div>
+
+    {%- if product.available -%}
+      <button
+        class="feat-collection-carousel__atc"
+        type="button"
+        data-variant-id="{{ product.first_available_variant.id }}"
+        data-fcc-add-to-cart
+      >
+        Add to cart
+      </button>
+    {%- else -%}
+      <button class="feat-collection-carousel__atc feat-collection-carousel__atc--sold-out" type="button" disabled>
+        Sold Out
+      </button>
+    {%- endif -%}
   </div>
 </div>
