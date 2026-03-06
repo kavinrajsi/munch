@@ -17,6 +17,12 @@
   .splide__slide {
     width: auto;
   }
+
+  .splide__pagination {
+    @media (min-width: 992px) {
+      justify-content: center;
+    }
+  }
 }
 
 .iwt-scroll__item {

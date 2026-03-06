@@ -2114,6 +2114,11 @@ a.icon-with-text__title:hover {
 .iwt-scroll__slider .splide__slide {
   width: auto;
 }
+@media (min-width: 992px) {
+  .iwt-scroll__slider .splide__pagination {
+    justify-content: center;
+  }
+}
 
 .iwt-scroll__item {
   display: flex;
