@@ -131,7 +131,7 @@
 
         <div class="before-after__before" data-ba-before>
           {%- if block.settings.before_image != blank -%}
-            <img src="{{ block.settings.before_image | image_url: width: 1200 }}" alt="{{ block.settings.before_label | default: 'Before' }}" loading="lazy">
+            <img src="{{ block.settings.before_image | image_url: width: 1200 }}" alt="{{ block.settings.before_label | default: 'Before' }}" loading="lazy" width="1200" height="{{ 1200 | divided_by: block.settings.before_image.aspect_ratio | round }}">
           {%- else -%}
             {{ 'image' | placeholder_svg_tag }}
           {%- endif -%}

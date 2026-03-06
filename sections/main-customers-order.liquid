@@ -29,7 +29,7 @@
             <td>
               {%- if line_item.image -%}
                 <span class="customer-order__item-image">
-                  <img src="{{ line_item.image | image_url: width: 96 }}" alt="{{ line_item.title | escape }}" loading="lazy">
+                  <img src="{{ line_item.image | image_url: width: 96 }}" alt="{{ line_item.title | escape }}" loading="lazy" width="96" height="{{ 96 | divided_by: line_item.image.aspect_ratio | round }}">
                 </span>
               {%- endif -%}
               <a href="{{ line_item.product.url }}">{{ line_item.title }}</a>

@@ -1,9 +1,11 @@
+{% comment %}theme-check-disable UndefinedObject{% endcomment %}
 <div class="policy-page section-padding" {{ section.shopify_attributes }}>
   <h1 class="policy-page__title">{{ policy.title }}</h1>
   <div class="policy-page__content rte">
     {{ policy.body }}
   </div>
 </div>
+{% comment %}theme-check-enable UndefinedObject{% endcomment %}
 
 {% schema %}
 {

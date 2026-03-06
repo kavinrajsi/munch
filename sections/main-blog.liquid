@@ -2,15 +2,13 @@
   <div class="{{ section.settings.container_type }}">
 
     {%- comment -%} Decorated heading {%- endcomment -%}
-    {%- assign heading_title = section.settings.custom_title | default: blog.title -%}
-    {%- assign heading_type = section.settings.heading_type -%}
     {% render 'section-heading',
-      title: heading_title,
+      title: section.settings.custom_title | default: blog.title,
       heading_tag: 'h1',
-      show_left_line: heading_type == 'decorated' or heading_type == 'lines_only',
-      show_left_icon: heading_type == 'decorated' or heading_type == 'icons_only',
-      show_right_icon: heading_type == 'decorated' or heading_type == 'icons_only',
-      show_right_line: heading_type == 'decorated' or heading_type == 'lines_only',
+      show_left_line: section.settings.heading_type == 'decorated' or section.settings.heading_type == 'lines_only',
+      show_left_icon: section.settings.heading_type == 'decorated' or section.settings.heading_type == 'icons_only',
+      show_right_icon: section.settings.heading_type == 'decorated' or section.settings.heading_type == 'icons_only',
+      show_right_line: section.settings.heading_type == 'decorated' or section.settings.heading_type == 'lines_only',
       margin_bottom_desktop: 24,
       margin_bottom_mobile: 16
     %}

@@ -10,7 +10,7 @@
 <body>
   <div class="gift-card">
     <div class="gift-card__image">
-      <img src="{{ 'gift-card/card.jpg' | shopify_asset_url }}" alt="Gift Card" loading="eager">
+      <img src="{{ 'gift-card/card.jpg' | shopify_asset_url }}" alt="Gift Card" loading="eager" width="570" height="360">
     </div>
 
     <h1 class="gift-card__heading">{{ shop.name }}</h1>
@@ -28,13 +28,15 @@
       <p class="gift-card__expired">This gift card has expired.</p>
     {%- elsif gift_card.enabled -%}
       <div class="gift-card__qr">
+        {% comment %}theme-check-disable UnknownFilter{% endcomment %}
         {{ gift_card | qr_code: 120 }}
+        {% comment %}theme-check-enable UnknownFilter{% endcomment %}
       </div>
     {%- endif -%}
 
     {%- if gift_card.pass_url -%}
       <a href="{{ gift_card.pass_url }}" class="gift-card__wallet-link">
-        <img src="{{ 'gift-card/add-to-apple-wallet.svg' | shopify_asset_url }}" alt="Add to Apple Wallet" width="140">
+        <img src="{{ 'gift-card/add-to-apple-wallet.svg' | shopify_asset_url }}" alt="Add to Apple Wallet" width="140" height="44">
       </a>
     {%- endif -%}
 

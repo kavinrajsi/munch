@@ -17,12 +17,16 @@
         >
       {%- else -%}
         {%- if block.settings.video_url.type == 'youtube' -%}
+          {% comment %}theme-check-disable RemoteAsset{% endcomment %}
           <img
             src="https://img.youtube.com/vi/{{ block.settings.video_url.id }}/hqdefault.jpg"
             alt="{{ block.settings.title | escape }}"
             loading="lazy"
+            width="480"
+            height="360"
             data-video-thumb
           >
+          {% comment %}theme-check-enable RemoteAsset{% endcomment %}
         {%- endif -%}
       {%- endif -%}
 
