@@ -506,52 +506,58 @@
         "padding_bottom_mobile": 56
       }
     },
-    "visit_us_locations_PYVhbC": {
-      "type": "visit-us-locations",
+    "icon_with_text_scroll_qETnBf": {
+      "type": "icon-with-text-scroll",
       "blocks": {
-        "location_yfmm8h": {
-          "type": "location",
+        "icon_item_9kHc9P": {
+          "type": "icon_item",
           "settings": {
-            "name": "Aminjikarai",
-            "address": "No. 52, Priyan Plaza, Nelson Manickam Road, Railway Colony, Aminjikarai, Chennai, Tamil Nadu - 600 029.",
-            "phone": "044-4359 1021, 8056164927",
-            "hours": "8am - 11pm",
-            "directions_url": ""
+            "image": "shopify://shop_images/ghee-2.png",
+            "title": "Item 1",
+            "link": "",
+            "item_bg_color": "transparent"
           }
         },
-        "location_fxaFyh": {
-          "type": "location",
+        "icon_item_rNUFNw": {
+          "type": "icon_item",
           "settings": {
-            "name": "Anna Nagar East",
-            "address": "C40, 2nd Ave, Anna Nagar, AF Block, Anna Nagar, Chennai, Tamil Nadu - 600 040.",
-            "phone": "74186 44435, 044-2853 4905",
-            "hours": "8am - 11pm",
-            "directions_url": ""
+            "image": "shopify://shop_images/ghee-2.png",
+            "title": "Title",
+            "link": "",
+            "item_bg_color": "transparent"
           }
         },
-        "location_3Vy4f9": {
-          "type": "location",
+        "icon_item_bMTdk8": {
+          "type": "icon_item",
           "settings": {
-            "name": "Arumbakkam",
-            "address": "17/6, Razzak Garden Main Road, near NSK Signal, Chennai, Tamil Nadu - 600 106.",
-            "phone": "044-4359 2744, 7358576128",
-            "hours": "8am - 11pm",
-            "directions_url": ""
+            "image": "shopify://shop_images/traditonal-savories-2.png",
+            "title": "Item 6",
+            "link": "",
+            "item_bg_color": "transparent"
           }
         }
       },
       "block_order": [
-        "location_yfmm8h",
-        "location_fxaFyh",
-        "location_3Vy4f9"
+        "icon_item_9kHc9P",
+        "icon_item_rNUFNw",
+        "icon_item_bMTdk8"
       ],
-      "name": "Visit Locations",
+      "name": "Icon with Text Scroll",
       "settings": {
-        "title": "Visit us",
-        "padding_top": 56,
-        "padding_bottom": 56,
+        "container_type": "container",
+        "title": "Shop by Category",
+        "image_width_desktop": 344,
+        "image_height_desktop": 344,
+        "image_width_mobile": 280,
+        "image_height_mobile": 280,
+        "gap_image_text": 8,
+        "gap_items": 20,
+        "padding_top_desktop": 40,
+        "padding_bottom_desktop": 40,
         "padding_top_mobile": 20,
-        "padding_bottom_mobile": 20
+        "padding_bottom_mobile": 20,
+        "text_color": "#161A1D",
+        "bg_color": "transparent"
       }
     }
   },
@@ -565,6 +571,6 @@
     "featured_collection_carousel_kbJ7rW",
     "visit_us_locations_hzNWNb",
     "testimonials_xGAihr",
-    "visit_us_locations_PYVhbC"
+    "icon_with_text_scroll_qETnBf"
   ]
 }
