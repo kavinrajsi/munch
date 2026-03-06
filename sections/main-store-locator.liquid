@@ -13,10 +13,31 @@
       </div>
     {%- endif -%}
 
+    <div class="store-locator__search">
+      <svg class="store-locator__search-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M17.5 17.5L13.875 13.875M15.8333 9.16667C15.8333 12.8486 12.8486 15.8333 9.16667 15.8333C5.48477 15.8333 2.5 12.8486 2.5 9.16667C2.5 5.48477 5.48477 2.5 9.16667 2.5C12.8486 2.5 15.8333 5.48477 15.8333 9.16667Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <input
+        type="search"
+        class="store-locator__search-input"
+        placeholder="Search by store name or area..."
+        aria-label="Search stores"
+        id="store-search"
+      >
+    </div>
+
+    <p class="store-locator__no-results" id="store-no-results" hidden>No stores found matching your search.</p>
+
     {%- if section.blocks.size > 0 -%}
-      <div class="store-locator__grid">
+      <div class="store-locator__grid" id="store-grid">
         {%- for block in section.blocks -%}
-          <div data-animate="fade-up" data-animate-delay="{{ forloop.index0 | times: 100 | at_most: 500 }}">
+          <div
+            class="store-locator__item"
+            data-animate="fade-up"
+            data-animate-delay="{{ forloop.index0 | times: 100 | at_most: 500 }}"
+            data-store-name="{{ block.settings.name | downcase | escape }}"
+            data-store-address="{{ block.settings.address | downcase | escape }}"
+          >
             {%- render 'store-card', block: block -%}
           </div>
         {%- endfor -%}
@@ -24,6 +45,32 @@
     {%- endif -%}
   </div>
 </div>
+
+<script>
+  (function () {
+    var input = document.getElementById('store-search');
+    var grid = document.getElementById('store-grid');
+    var noResults = document.getElementById('store-no-results');
+    if (!input || !grid) return;
+
+    var items = grid.querySelectorAll('.store-locator__item');
+
+    input.addEventListener('input', function () {
+      var query = this.value.toLowerCase().trim();
+      var visible = 0;
+
+      items.forEach(function (item) {
+        var name = item.getAttribute('data-store-name') || '';
+        var address = item.getAttribute('data-store-address') || '';
+        var match = !query || name.indexOf(query) !== -1 || address.indexOf(query) !== -1;
+        item.style.display = match ? '' : 'none';
+        if (match) visible++;
+      });
+
+      noResults.hidden = visible > 0;
+    });
+  })();
+</script>
 
 {% schema %}
 {
