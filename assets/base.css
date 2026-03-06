@@ -4467,6 +4467,9 @@ a.store-card__info-text:hover {
   color: #2A2A29;
   margin-bottom: 24px;
 }
+.main-product__description a {
+  text-decoration: none;
+}
 
 .main-product__price {
   display: flex;
@@ -4684,12 +4687,12 @@ a.store-card__info-text:hover {
 }
 
 .main-product {
-  padding-top: var(--product-pt-mobile, 0px);
+  padding-top: var(--product-pt-mobile, 56px);
   padding-bottom: var(--product-pb-mobile, 40px);
 }
 @media (min-width: 750px) {
   .main-product {
-    padding-top: var(--product-pt-desktop, 0px);
+    padding-top: var(--product-pt-desktop, 56px);
     padding-bottom: var(--product-pb-desktop, 40px);
   }
 }
