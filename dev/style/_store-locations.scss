@@ -85,12 +85,16 @@
 }
 
 .store-card__address {
+  color: #0B090A;
   font-family: 'Aller', sans-serif;
   font-weight: 400;
   font-size: 14px;
   line-height: 18px;
   min-height: 72px;
-  color: #0B090A;
+
+  @media (min-width: 750px) {
+    min-height: initial;
+  }
 }
 
 .store-card__info {
