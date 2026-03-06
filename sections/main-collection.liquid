@@ -25,15 +25,7 @@
   </div>
 {%- endif -%}
 
-<div class="collection section-padding" style="padding-top: {{ section.settings.padding_top_mobile }}px; padding-bottom: {{ section.settings.padding_bottom_mobile }}px;" {{ section.shopify_attributes }}>
-<style>
-  @media (min-width: 750px) {
-    .main-collection-section .collection.section-padding {
-      padding-top: {{ section.settings.padding_top_desktop }}px !important;
-      padding-bottom: {{ section.settings.padding_bottom_desktop }}px !important;
-    }
-  }
-</style>
+<div class="collection section-padding" style="--sp-pt-d: {{ section.settings.padding_top_desktop }}px; --sp-pb-d: {{ section.settings.padding_bottom_desktop }}px; --sp-pt-m: {{ section.settings.padding_top_mobile }}px; --sp-pb-m: {{ section.settings.padding_bottom_mobile }}px;" {{ section.shopify_attributes }}>
   <div class="container">
 
     {%- comment -%} Decorated heading {%- endcomment -%}

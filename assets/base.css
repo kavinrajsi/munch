@@ -3714,9 +3714,15 @@ a.store-card__info-text:hover {
   margin-bottom: 16px;
 }
 
-.collection {
-  padding-top: 0;
-  padding-bottom: 40px;
+.collection.section-padding {
+  padding-top: var(--sp-pt-m, 56px);
+  padding-bottom: var(--sp-pb-m, 56px);
+}
+@media (min-width: 750px) {
+  .collection.section-padding {
+    padding-top: var(--sp-pt-d, 56px);
+    padding-bottom: var(--sp-pb-d, 56px);
+  }
 }
 
 .collections-grid {
@@ -3843,13 +3849,13 @@ a.store-card__info-text:hover {
 
 .cart-page {
   background-color: #FFF7F3;
-  padding-top: var(--cart-pt-mobile, 40px);
-  padding-bottom: var(--cart-pb-mobile, 40px);
+  padding-top: var(--cart-pt-mobile, 56px);
+  padding-bottom: var(--cart-pb-mobile, 56px);
 }
 @media (min-width: 750px) {
   .cart-page {
-    padding-top: var(--cart-pt-desktop, 40px);
-    padding-bottom: var(--cart-pb-desktop, 40px);
+    padding-top: var(--cart-pt-desktop, 56px);
+    padding-bottom: var(--cart-pb-desktop, 56px);
   }
 }
 

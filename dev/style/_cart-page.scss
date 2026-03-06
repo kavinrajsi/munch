@@ -1,11 +1,11 @@
 .cart-page {
   background-color: #FFF7F3;
-  padding-top: var(--cart-pt-mobile, 40px);
-  padding-bottom: var(--cart-pb-mobile, 40px);
+  padding-top: var(--cart-pt-mobile, 56px);
+  padding-bottom: var(--cart-pb-mobile, 56px);
 
   @media (min-width: 750px) {
-    padding-top: var(--cart-pt-desktop, 40px);
-    padding-bottom: var(--cart-pb-desktop, 40px);
+    padding-top: var(--cart-pt-desktop, 56px);
+    padding-bottom: var(--cart-pb-desktop, 56px);
   }
 }
 
