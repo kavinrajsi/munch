@@ -17,7 +17,11 @@
         "show_sort": true,
         "show_filters": false,
         "products_per_page": 16,
-        "grid_gap": 20
+        "grid_gap": 20,
+        "padding_top_desktop": 56,
+        "padding_bottom_desktop": 0,
+        "padding_top_mobile": 0,
+        "padding_bottom_mobile": 40
       }
     },
     "exclusive": {
