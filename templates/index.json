@@ -184,63 +184,6 @@
         "padding_bottom_mobile": 40
       }
     },
-    "icon_with_text_UktifF": {
-      "type": "icon-with-text",
-      "blocks": {
-        "icon_item_KXmkay": {
-          "type": "icon_item",
-          "settings": {
-            "image": "shopify://shop_images/ghee-2.png",
-            "title": "Ghee Sweets",
-            "link": "shopify://collections/gheesweets",
-            "item_bg_color": "rgba(0,0,0,0)"
-          }
-        },
-        "icon_item_L8CtNN": {
-          "type": "icon_item",
-          "settings": {
-            "image": "shopify://shop_images/home-made-sweets-2.png",
-            "title": "Home Made Sweets",
-            "link": "shopify://collections/home-made-sweets",
-            "item_bg_color": "rgba(0,0,0,0)"
-          }
-        },
-        "icon_item_iCXCx7": {
-          "type": "icon_item",
-          "settings": {
-            "image": "shopify://shop_images/traditonal-savories-2.png",
-            "title": "Traditional Savories",
-            "link": "shopify://collections/home-made-savouries",
-            "item_bg_color": "rgba(0,0,0,0)"
-          }
-        }
-      },
-      "block_order": [
-        "icon_item_KXmkay",
-        "icon_item_L8CtNN",
-        "icon_item_iCXCx7"
-      ],
-      "name": "Exclusive Collections",
-      "settings": {
-        "container_type": "container",
-        "title": "Exclusive Collections",
-        "items_per_row_desktop": 3,
-        "items_per_row_tablet": 3,
-        "items_per_row_mobile": 1,
-        "image_width_desktop": 368,
-        "image_height_desktop": 368,
-        "image_width_mobile": 280,
-        "image_height_mobile": 280,
-        "gap_image_text": 8,
-        "gap_items": 20,
-        "padding_top_desktop": 56,
-        "padding_bottom_desktop": 56,
-        "padding_top_mobile": 56,
-        "padding_bottom_mobile": 56,
-        "text_color": "#161a1d",
-        "bg_color": "rgba(0,0,0,0)"
-      }
-    },
     "icon_with_text_scroll_qETnBf": {
       "type": "icon-with-text-scroll",
       "blocks": {
@@ -290,7 +233,7 @@
         "padding_top_desktop": 56,
         "padding_bottom_desktop": 56,
         "padding_top_mobile": 56,
-        "padding_bottom_mobile": 40,
+        "padding_bottom_mobile": 56,
         "text_color": "#161a1d",
         "bg_color": "rgba(0,0,0,0)"
       }
@@ -568,7 +511,6 @@
     "icon_with_text_scroll_QniYB3",
     "featured_collection_carousel_9NjQpC",
     "promo_banner_KF3mq3",
-    "icon_with_text_UktifF",
     "icon_with_text_scroll_qETnBf",
     "about_strip_JkKynW",
     "featured_collection_carousel_kbJ7rW",
