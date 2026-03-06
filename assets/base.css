@@ -251,7 +251,7 @@ button {
   font-weight: 400;
   font-size: 16px;
   line-height: 20px;
-  color: #0B090A;
+  color: #0b090a;
   position: relative;
 }
 .header__nav-link::after {
@@ -261,7 +261,7 @@ button {
   bottom: -4px;
   width: 100%;
   height: 1px;
-  background: linear-gradient(90deg, rgba(198, 29, 35, 0) 0%, #C61D23 50%, rgba(198, 29, 35, 0) 100%);
+  background: linear-gradient(90deg, rgba(198, 29, 35, 0) 0%, #c61d23 50%, rgba(198, 29, 35, 0) 100%);
   opacity: 0;
   transition: opacity 0.2s;
 }
@@ -285,7 +285,7 @@ button {
   left: 0;
   min-width: 200px;
   padding: 16px 0;
-  background: #FFFFFF;
+  background: #ffffff;
   border-radius: 0 0 10px 10px;
   box-shadow: 0px 1px 4px 0px rgba(12, 12, 13, 0.18);
   opacity: 0;
@@ -302,20 +302,20 @@ button {
   font-weight: 400;
   font-size: 14px;
   line-height: 20px;
-  color: #0B090A;
+  color: #0b090a;
   white-space: nowrap;
 }
 .header__dropdown-link:hover {
-  background-color: #F6F6F6;
+  background-color: #f6f6f6;
 }
 .header__dropdown-link--primary {
-  background-color: #C61D23;
-  color: #FFFFFF;
+  background-color: #c61d23;
+  color: #ffffff;
   font-family: "allerbold", sans-serif;
   font-weight: 700;
 }
 .header__dropdown-link--primary:hover {
-  background-color: #A5161A;
+  background-color: #a5161a;
 }
 .header__icons {
   display: flex;
@@ -332,8 +332,8 @@ button {
   align-items: center;
   justify-content: center;
   position: relative;
-  width: 24px;
-  height: 24px;
+  width: 40px;
+  height: 40px;
   padding: 0;
   background: none;
   border: none;
@@ -347,16 +347,13 @@ button {
     height: 40px;
   }
 }
-.header__icon svg {
-  width: 20px;
-  height: 20px;
-}
 .header__icon--account {
   display: none;
 }
 @media (min-width: 750px) {
   .header__icon--account {
     display: inline-flex;
+    display: none;
   }
 }
 @media (min-width: 750px) {
@@ -371,7 +368,7 @@ button {
   min-width: 16px;
   height: 16px;
   border-radius: 50%;
-  background-color: var(--color-primary, #C61D23);
+  background-color: var(--color-primary, #c61d23);
   color: #fff;
   font-size: 10px;
   font-weight: 600;
