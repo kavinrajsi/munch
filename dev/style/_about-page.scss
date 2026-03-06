@@ -104,79 +104,21 @@
   }
 }
 
-.about-page__story-images {
-  position: relative;
-  min-height: 400px;
-
+.about-page__story-image {
   @media (min-width: 750px) {
     flex: 1;
-    min-height: 550px;
   }
 }
 
-.about-page__story-main-img {
-  position: relative;
-  z-index: 1;
-  transform: rotate(-2.38deg);
-  box-shadow: 0 8px 10px rgba(0, 0, 0, 0.28);
-  overflow: hidden;
-  margin: 30px auto 0;
+.about-page__story-img {
+  width: 100%;
+  height: auto;
+  display: block;
 
   @media (min-width: 750px) {
-    margin: 26px 0 0 79px;
-  }
-
-  img {
-    width: 100%;
-    height: auto;
-    display: block;
-  }
-}
-
-.about-page__story-float {
-  position: absolute;
-  z-index: 2;
-  box-shadow: 0 8px 10px rgba(0, 0, 0, 0.28);
-  display: none;
-
-  @media (min-width: 750px) {
-    display: block;
-  }
-
-  img {
-    width: 100%;
-    height: 100%;
+    height: 422px;
     object-fit: cover;
-    display: block;
   }
-}
-
-.about-page__story-float--1 {
-  width: 128px;
-  height: 130px;
-  left: 0;
-  top: 209px;
-}
-
-.about-page__story-float--2 {
-  width: 141px;
-  height: 143px;
-  left: 22px;
-  top: 0;
-}
-
-.about-page__story-float--3 {
-  width: 136px;
-  height: 136px;
-  left: 79px;
-  top: 370px;
-}
-
-.about-page__story-float--4 {
-  width: 296px;
-  height: 178px;
-  left: 289px;
-  top: 419px;
 }
 
 // Tradition section
@@ -215,11 +157,13 @@
   flex-direction: column;
   gap: 16px;
   padding: 0 16px;
+  order: -1;
 
   @media (min-width: 750px) {
     width: 550px;
     flex-shrink: 0;
     padding: 0 0 0 80px;
+    order: 0;
   }
 }
 
