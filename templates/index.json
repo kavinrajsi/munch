@@ -181,10 +181,10 @@
         "image": "shopify://shop_images/Mask_group.png",
         "pattern_image": "shopify://shop_images/reg-bg.png",
         "bg_color": "#c61d23",
-        "padding_top_desktop": 40,
-        "padding_bottom_desktop": 40,
-        "padding_top_mobile": 40,
-        "padding_bottom_mobile": 40
+        "padding_top_desktop": 56,
+        "padding_bottom_desktop": 56,
+        "padding_top_mobile": 56,
+        "padding_bottom_mobile": 56
       }
     },
     "icon_with_text_scroll_qETnBf": {
