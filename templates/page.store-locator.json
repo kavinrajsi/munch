@@ -11,25 +11,234 @@
   "sections": {
     "main": {
       "type": "main-store-locator",
+      "settings": {
+        "title": "Our Stores",
+        "map_embed": ""
+      },
       "blocks": {
-        "location_Upzqic": {
+        "store_aminjikarai": {
           "type": "location",
           "settings": {
-            "name": "Main Store",
-            "address": "",
-            "phone": "",
-            "hours": "Mon-Sat: 9am - 8pm",
-            "directions_url": ""
+            "name": "Aminjikarai",
+            "address": "No. 52, Priyan Plaza, Nelson Manickam Road, Railway Colony, Aminjikarai, Chennai, Tamil Nadu - 600029",
+            "phone": "044-4359 1021, 8056164927",
+            "hours": "8am - 11pm",
+            "directions_url": "https://www.google.com/maps/place/Nithya+Amirtham+-+Aminjikarai/@13.0709245,80.2228562"
+          }
+        },
+        "store_anna_nagar_east": {
+          "type": "location",
+          "settings": {
+            "name": "Anna Nagar East",
+            "address": "C40, 2nd Ave, AF Block, Anna Nagar, Chennai, Tamil Nadu - 600040",
+            "phone": "7418644435, 044-28534905",
+            "hours": "8am - 11pm",
+            "directions_url": "https://www.google.com/maps/place/Nithya+Amirtham+-+Anna+Nagar+East/@13.0850124,80.203992"
+          }
+        },
+        "store_arumbakkam": {
+          "type": "location",
+          "settings": {
+            "name": "Arumbakkam",
+            "address": "17/6, Razzak Garden Main Road, Near NSK Signal, Chennai, Tamil Nadu - 600106",
+            "phone": "044-43592744, 7358576128",
+            "hours": "8am - 11pm",
+            "directions_url": "https://www.google.com/search?q=Nithya+Amirtham+-+Arumbakkam"
+          }
+        },
+        "store_kanchipuram": {
+          "type": "location",
+          "settings": {
+            "name": "Kanchipuram",
+            "address": "No. 70, Annai Indira Gandhi Salai, Nellukara Street, near Sri Chirtra Guptar Temple, Kanchipuram, Tamil Nadu - 631502",
+            "phone": "044-49573774, 7358521113",
+            "hours": "6am - 11pm",
+            "directions_url": "https://www.google.com/maps/place/Nithya+Amirtham+-+Kanchipuram/@12.837274,79.7044968"
+          }
+        },
+        "store_kilpauk": {
+          "type": "location",
+          "settings": {
+            "name": "Kilpauk",
+            "address": "58, Taylors Road, Telecom Quarters, Chennai, Tamil Nadu - 600010",
+            "phone": "044-42821020, 7397246628",
+            "hours": "8am - 10pm",
+            "directions_url": "https://www.google.com/maps/place/Nithya+Amirtham+-+Kilpauk/@13.0787284,80.2371799"
+          }
+        },
+        "store_mogappair": {
+          "type": "location",
+          "settings": {
+            "name": "Mogappair",
+            "address": "Plot No.B, 27, Mogappair West, Mogappair Industrial Estate, Chennai, Tamil Nadu - 600037",
+            "phone": "044-26530029, 8925355531",
+            "hours": "8am - 11pm",
+            "directions_url": "https://www.google.com/maps/place/Nithya+Amirtham+-+Mogappair/@13.0861736,80.1697993"
+          }
+        },
+        "store_mylapore": {
+          "type": "location",
+          "settings": {
+            "name": "Mylapore",
+            "address": "39, North Mada Street, Madhavaperumalpuram, Chennai, Tamil Nadu - 600004",
+            "phone": "044-42014172, 8056167327",
+            "hours": "6am - 11pm",
+            "directions_url": "https://www.google.com/maps/place/Nithya+Amirtham+-+Mylapore/@13.0343718,80.2698657"
+          }
+        },
+        "store_nerkundram": {
+          "type": "location",
+          "settings": {
+            "name": "Nerkundram",
+            "address": "2/52A, Karuneegar Street, Nerkundrum, Koyambedu, Chennai, Tamil Nadu - 600107",
+            "phone": "7550020038, 044-24791101",
+            "hours": "8am - 10pm",
+            "directions_url": "https://www.google.com/maps/place/Nithyam+Foods/@13.0700624,80.1842346"
+          }
+        },
+        "store_nungambakkam": {
+          "type": "location",
+          "settings": {
+            "name": "Nungambakkam",
+            "address": "No. 11, Haddows Road, near Shastri Bhavan, Nungambakkam, Chennai, Tamil Nadu - 600006",
+            "phone": "044-47760504, 7305057844",
+            "hours": "6am - 11pm",
+            "directions_url": "https://www.google.com/maps/place/Nithya+Amirtham+-+Nungambakkam/@13.0636683,80.2477658"
+          }
+        },
+        "store_eternal_fine_dine": {
+          "type": "location",
+          "settings": {
+            "name": "Eternal - Veg Fine Dine",
+            "address": "1st Floor, above Nithya Amirtham, 11 Haddows Road, Nungambakkam, Chennai, Tamil Nadu - 600034",
+            "phone": "7845845273",
+            "hours": "12pm - 3:30pm & 7pm - 11pm",
+            "directions_url": "https://www.google.com/maps/place/Eternal+Veg+Fine+Dine/@13.0636327,80.2479022"
+          }
+        },
+        "store_perambur": {
+          "type": "location",
+          "settings": {
+            "name": "Perambur",
+            "address": "4, Paper Mills Road, Chelliamman Colony, Chennai, Tamil Nadu - 600110",
+            "phone": "044-43556802, 7338951114",
+            "hours": "6am - 11pm",
+            "directions_url": "https://www.google.com/maps/place/Nithya+Amirtham+-+Peravalur/@13.1182487,80.2266541"
+          }
+        },
+        "store_saligramam": {
+          "type": "location",
+          "settings": {
+            "name": "Saligramam",
+            "address": "33, Arunachalam Rd, Pushpa Colony, Saligramam, Chennai, Tamil Nadu - 600093",
+            "phone": "044-23722902, 7418704440",
+            "hours": "6am - 11pm",
+            "directions_url": "https://www.google.com/maps/place/Nithya+Amirtham+-+Saligramam/@13.0520019,80.2038943"
+          }
+        },
+        "store_thiruvallur": {
+          "type": "location",
+          "settings": {
+            "name": "Thiruvallur",
+            "address": "No. 5/4, C.V. Naidu Salai, Chennai, Tamil Nadu - 602001",
+            "phone": "044-27660142, 7539962555",
+            "hours": "6am - 11pm",
+            "directions_url": "https://www.google.com/maps/place/Nithya+Amirtham+-+Tiruvallur/@13.1418713,79.9026565"
+          }
+        },
+        "store_washermenpet": {
+          "type": "location",
+          "settings": {
+            "name": "Washermenpet",
+            "address": "836, Thiruvottiyur High Road, Sanjeevarayanpet, Tondiarpet, Chennai, Tamil Nadu - 600021",
+            "phone": "044-47871275, 7845847921",
+            "hours": "6am - 11pm",
+            "directions_url": "https://www.google.com/maps/place/Nithya+Amirtham+-+Washermenpet/@13.11537,80.2828337"
+          }
+        },
+        "store_thuritham_adyar": {
+          "type": "location",
+          "settings": {
+            "name": "Thuritham - Adyar",
+            "address": "Door no.39, Plot No.3, Mahatma Gandhi Rd, Besant Nagar Road, RBI Colony, Thiruvanmiyur, Chennai, Tamil Nadu 600041",
+            "phone": "8438802906",
+            "hours": "7am - 11pm",
+            "directions_url": "https://www.google.com/maps/place/Nithya+Amirtham+-+Thuritham+-+Adyar/@12.996389,80.259725"
+          }
+        },
+        "store_peravallur": {
+          "type": "location",
+          "settings": {
+            "name": "Peravallur",
+            "address": "170, SRP Colony, Jawahar Nagar, Peravallur, Chennai - 600082",
+            "phone": "8925943938",
+            "hours": "7am - 11pm",
+            "directions_url": "https://www.google.com/maps/place/Nithya+Amirtham+-+Perambur/@13.1182487,80.2266541"
+          }
+        },
+        "store_anna_nagar_3rd_ave": {
+          "type": "location",
+          "settings": {
+            "name": "Anna Nagar 3rd Avenue",
+            "address": "23, 3rd Avenue, Anna Nagar East, Chennai - 600102",
+            "phone": "8925943939",
+            "hours": "8am - 11pm",
+            "directions_url": "https://www.google.com/maps/place/Nithya+Amirtham+-+Anna+Nagar+3rd+Avenue/@13.0895959,80.218348"
+          }
+        },
+        "store_thuritham_alandur": {
+          "type": "location",
+          "settings": {
+            "name": "Thuritham - Alandur Metro",
+            "address": "Arignar Anna Alandur Metro Station, GST Rd, Ramapuram, Alandur, Chennai, Tamil Nadu 600016",
+            "phone": "8925912855",
+            "hours": "7am - 11pm",
+            "directions_url": "https://www.google.com/maps/place/Nithya+Amirtham+-+Anna+Nagar+3rd+Avenue/@13.0895959,80.218348"
+          }
+        },
+        "store_padi": {
+          "type": "location",
+          "settings": {
+            "name": "Nithya Amirtham - Padi",
+            "address": "C.T.H Road (Madras Thiruvallur High Rd), Padi, Chennai, Tamil Nadu 600050",
+            "phone": "8925912856",
+            "hours": "8am - 11pm",
+            "directions_url": "https://maps.app.goo.gl/yjcpiw8Wz3cyNxz16"
+          }
+        },
+        "store_vanagaram": {
+          "type": "location",
+          "settings": {
+            "name": "Vanagaram",
+            "address": "Ground Floor Flat No G2, Radhe Shyam, S.No 105/1B2A, Vanagaram-Ambattur Rd, Maduravoyal, Adayalampattu, Chennai, Tamil Nadu 600095",
+            "phone": "8925912860",
+            "hours": "8:00 am - 11:00 pm",
+            "directions_url": "https://maps.app.goo.gl/rbFYsunUwoosvBFQA"
           }
         }
       },
       "block_order": [
-        "location_Upzqic"
-      ],
-      "settings": {
-        "title": "Our Stores",
-        "map_embed": ""
-      }
+        "store_aminjikarai",
+        "store_anna_nagar_east",
+        "store_arumbakkam",
+        "store_kanchipuram",
+        "store_kilpauk",
+        "store_mogappair",
+        "store_mylapore",
+        "store_nerkundram",
+        "store_nungambakkam",
+        "store_eternal_fine_dine",
+        "store_perambur",
+        "store_saligramam",
+        "store_thiruvallur",
+        "store_washermenpet",
+        "store_thuritham_adyar",
+        "store_peravallur",
+        "store_anna_nagar_3rd_ave",
+        "store_thuritham_alandur",
+        "store_padi",
+        "store_vanagaram"
+      ]
     }
   },
   "order": [
