@@ -73,3 +73,21 @@ button {
     scroll-behavior: smooth;
   }
 }
+
+// ── Add-to-cart loading icon ──
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+.btn-loading-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  animation: blink 1s ease-in-out infinite;
+
+  svg {
+    width: 36px;
+    height: 36px;
+  }
+}

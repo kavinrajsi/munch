@@ -2,6 +2,11 @@
   'use strict';
 
   // ============================================================
+  // Loading icon for Add to Cart buttons
+  // ============================================================
+  var LOADING_ICON = '<span class="btn-loading-icon"><svg width="30" height="48" viewBox="0 0 30 48" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_2022_3150)"><path d="M14.4499 0C15.4625 2.37545 17.0963 7.9488 13.8167 14.2986C12.8282 16.2145 11.5715 18.0263 10.3559 19.7777C6.80081 24.9011 3.15148 30.1624 5.50783 38.5805C1.07547 32.4701 0 27.4386 0 23.9988C0 12.8884 10.9093 2.93907 14.4499 0Z" fill="currentColor"/><path d="M29.7069 23.9988C29.7069 13.4883 19.948 4.02035 15.895 0.539429C16.8424 3.25595 17.7729 8.05039 15.489 13.4665C15.6147 13.7423 15.7452 14.018 15.8902 14.2962C16.8787 16.2121 18.1354 18.0239 19.351 19.7752C22.9061 24.8986 26.5554 30.16 24.1991 38.578C28.6339 32.4677 29.7093 27.4362 29.7093 23.9964" fill="currentColor"/><path d="M21.4248 25.1357C20.7602 26.1856 20.0521 27.2064 19.3488 28.2223C18.1331 29.9737 16.8764 31.7855 15.888 33.7014C12.6108 40.0512 14.2421 45.6245 15.2548 48C16.6903 46.8099 19.3391 44.4659 21.9782 41.3575C24.9895 34.2601 23.8053 29.4222 21.4248 25.1357Z" fill="currentColor"/><path d="M13.8191 33.7014C12.8307 31.7855 11.5739 29.9737 10.3583 28.2223C9.65501 27.2064 8.94689 26.1856 8.28228 25.1357C5.90175 29.4222 4.71753 34.2577 7.72642 41.355C10.0127 44.045 12.3062 46.1664 13.8119 47.4581C12.8645 44.7416 11.934 39.9472 14.2179 34.5311C14.0922 34.2553 13.9617 33.9795 13.8167 33.7014" fill="currentColor"/></g><defs><clipPath id="clip0_2022_3150"><rect width="30" height="48" fill="currentColor"/></clipPath></defs></svg></span>';
+
+  // ============================================================
   // Utility: Format money using Shopify's money_format
   // ============================================================
   function formatMoney(cents, format) {
@@ -125,7 +130,7 @@
         var $btn = $(this);
         var variantId = $btn.data('rec-variant');
         if (!variantId) return;
-        $btn.prop('disabled', true).text('Adding...');
+        $btn.prop('disabled', true).html(LOADING_ICON);
         self.addItem(variantId, 1);
       });
     },
@@ -844,7 +849,7 @@
       e.preventDefault();
       var $btn = $(this);
       var variantId = $btn.data('variant-id');
-      $btn.prop('disabled', true).text('Adding...');
+      $btn.prop('disabled', true).html(LOADING_ICON);
       CartDrawer.addItem(variantId, 1);
       setTimeout(function() {
         $btn.prop('disabled', false).text('Quick Add');
@@ -932,7 +937,7 @@
 
       var root = window.Shopify.routes.root || '/';
 
-      $btn.prop('disabled', true).text('Adding...');
+      $btn.prop('disabled', true).html(LOADING_ICON);
 
       fetch(root + 'cart/add.js', {
         method: 'POST',
@@ -987,7 +992,7 @@
 
       var root = window.Shopify.routes.root || '/';
 
-      $btn.prop('disabled', true).text('Adding...');
+      $btn.prop('disabled', true).html(LOADING_ICON);
 
       var formData = {};
       $form.serializeArray().forEach(function(field) { formData[field.name] = field.value; });

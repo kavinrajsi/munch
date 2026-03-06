@@ -338,10 +338,10 @@ html.chatbot-open body {
 // Recommendations
 .cart-drawer__recommendations {
   flex-shrink: 0;
-  padding: 0 24px 16px;
+  padding: 16px 24px 16px;
 
   @media (min-width: 768px) {
-    padding: 0 40px 16px;
+    padding: 16px 40px 16px;
   }
 }
 

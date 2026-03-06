@@ -80,6 +80,25 @@ button {
     scroll-behavior: smooth;
   }
 }
+@keyframes blink {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.3;
+  }
+}
+.btn-loading-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  animation: blink 1s ease-in-out infinite;
+}
+.btn-loading-icon svg {
+  width: 36px;
+  height: 36px;
+}
+
 .announcement-bar {
   background-color: var(--announcement-bg-color);
   color: var(--announcement-text-color);
@@ -1367,11 +1386,11 @@ html.chatbot-open body {
 
 .cart-drawer__recommendations {
   flex-shrink: 0;
-  padding: 0 24px 16px;
+  padding: 16px 24px 16px;
 }
 @media (min-width: 768px) {
   .cart-drawer__recommendations {
-    padding: 0 40px 16px;
+    padding: 16px 40px 16px;
   }
 }
 
@@ -2457,6 +2476,7 @@ a.iwt-scroll__title:hover {
 .feat-collection-carousel__qty-cart {
   display: flex;
   align-items: center;
+  margin-left: auto;
 }
 
 .feat-collection-carousel__qty {
