@@ -391,18 +391,21 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    min-width: 24px;
-    height: 24px;
-    font-family: 'Aller', sans-serif;
-    font-weight: 400;
-    font-size: 18px;
+    min-width: 32px;
+    height: 32px;
+    font-family: 'Aleo', serif;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 18px;
     color: #0B090A;
     text-decoration: none;
+    border-radius: 50%;
+    padding: 0 8px;
   }
 
   span.is-active {
-    font-weight: 700;
-    color: #C61D23;
+    background-color: #C61D23;
+    color: #FFFFFF;
   }
 
   .collection__pagination-arrow {

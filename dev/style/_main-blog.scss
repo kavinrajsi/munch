@@ -86,20 +86,21 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    min-width: 32px;
+    height: 32px;
     font-family: 'Aleo', serif;
     font-weight: 700;
-    font-size: 16px;
-    line-height: 20px;
+    font-size: 14px;
+    line-height: 18px;
     color: #660808;
     text-decoration: none;
+    border-radius: 50%;
+    padding: 0 8px;
   }
 
   span.is-active {
-    width: 26px;
-    height: 26px;
     background-color: #C61D23;
     color: #FFFFFF;
-    border-radius: 2px;
   }
 
   .blog-page__pagination-arrow {
