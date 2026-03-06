@@ -60,6 +60,93 @@
         "arrow_svg_height": 13
       }
     },
+    "icon_with_text_bqc7fb": {
+      "type": "icon-with-text",
+      "blocks": {
+        "icon_item_f9F7jX": {
+          "type": "icon_item",
+          "settings": {
+            "image": "shopify://shop_images/dry-fruit-sweets.png",
+            "title": "Dry Fruit Sweets",
+            "link": "shopify://collections/dry-fruit-sweets",
+            "item_bg_color": "transparent"
+          }
+        },
+        "icon_item_rj93JV": {
+          "type": "icon_item",
+          "settings": {
+            "image": "shopify://shop_images/traditional-sweets.png",
+            "title": "Traditional Sweets",
+            "link": "shopify://collections/traditional-sweets",
+            "item_bg_color": "transparent"
+          }
+        },
+        "icon_item_8gn9yU": {
+          "type": "icon_item",
+          "settings": {
+            "image": "shopify://shop_images/traditional-savouries.png",
+            "title": "Traditional Savouries",
+            "link": "shopify://collections/savouries",
+            "item_bg_color": "transparent"
+          }
+        },
+        "icon_item_gd4frF": {
+          "type": "icon_item",
+          "settings": {
+            "image": "shopify://shop_images/baklava.png",
+            "title": "Baklava",
+            "link": "shopify://collections/baklava",
+            "item_bg_color": "transparent"
+          }
+        },
+        "icon_item_dzcVHa": {
+          "type": "icon_item",
+          "settings": {
+            "image": "shopify://shop_images/traditional-savouries.png",
+            "title": "Savouries",
+            "link": "shopify://collections/savouries",
+            "item_bg_color": "transparent"
+          }
+        },
+        "icon_item_mE8Fp7": {
+          "type": "icon_item",
+          "settings": {
+            "image": "shopify://shop_images/gifting-combos.png",
+            "title": "Gifting Combo",
+            "link": "shopify://collections",
+            "item_bg_color": "transparent"
+          }
+        }
+      },
+      "block_order": [
+        "icon_item_f9F7jX",
+        "icon_item_rj93JV",
+        "icon_item_8gn9yU",
+        "icon_item_gd4frF",
+        "icon_item_dzcVHa",
+        "icon_item_mE8Fp7"
+      ],
+      "name": "Icon with Text",
+      "settings": {
+        "container_type": "container",
+        "title": "Shop by Category",
+        "items_per_row_desktop": 6,
+        "items_per_row_tablet": 4,
+        "items_per_row_mobile": 3,
+        "image_width_desktop": 120,
+        "image_height_desktop": 120,
+        "image_width_mobile": 80,
+        "image_height_mobile": 80,
+        "gap_image_text": 8,
+        "gap_items": 20,
+        "padding_top_desktop": 40,
+        "padding_bottom_desktop": 40,
+        "padding_top_mobile": 20,
+        "padding_bottom_mobile": 20,
+        "text_color": "#161A1D",
+        "bg_color": "transparent"
+      }
+    },
     "icon_with_text_scroll_QniYB3": {
       "type": "icon-with-text-scroll",
       "blocks": {
@@ -508,6 +595,7 @@
   },
   "order": [
     "hero",
+    "icon_with_text_bqc7fb",
     "icon_with_text_scroll_QniYB3",
     "featured_collection_carousel_9NjQpC",
     "promo_banner_KF3mq3",
