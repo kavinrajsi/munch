@@ -3482,7 +3482,7 @@ a.store-card__info-text:hover {
 
 .collection__grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(1, 1fr);
   -moz-column-gap: 20px;
        column-gap: 20px;
   row-gap: 40px;
