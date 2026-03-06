@@ -65,7 +65,7 @@
   font-weight: 400;
   color: #0b090a;
   margin: 0;
-  font-size: 14px;
+  font-size: 16px;
   line-height: normal;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -84,7 +84,7 @@
   font-weight: 700;
   color: #0b090a;
   margin: 0;
-  font-size: 14px;
+  font-size: 16px;
   line-height: normal;
   @media (min-width: 768px) {
     font-size: 16px;
@@ -138,7 +138,7 @@
     background-color 0.2s,
     border-color 0.2s;
   padding: 6px;
-  font-size: 10px;
+  font-size: 14px;
   line-height: normal;
   @media (min-width: 768px) {
     padding: 6px 14px;
@@ -242,12 +242,12 @@
     background-color 0.2s,
     color 0.2s;
 
-  font-size: 12px;
+  font-size: 16px;
   line-height: normal;
   padding: 10px;
   @media (min-width: 768px) {
     padding: 10px 16px;
-    font-size: 14px;
+    font-size: 16px;
     line-height: 18px;
   }
 

@@ -1742,8 +1742,8 @@ html.search-open body {
 }
 
 .footer__title {
-  font-size: 16px;
-  line-height: 20px;
+  font-size: 20px;
+  line-height: 24px;
   font-weight: 700;
   font-family: var(--font-heading-family, "Aller", sans-serif);
   color: var(--footer-title-color, #a5161a);
@@ -1755,6 +1755,8 @@ html.search-open body {
 }
 @media (min-width: 768px) {
   .footer__title {
+    font-size: 16px;
+    line-height: 20px;
     padding: 0 0 32px;
     cursor: default;
   }
