@@ -4723,8 +4723,13 @@ a.store-card__info-text:hover {
 
 .product-features-banner__grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: 1fr;
   gap: 24px;
+}
+@media (min-width: 425px) {
+  .product-features-banner__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 @media (min-width: 750px) {
   .product-features-banner__grid {
@@ -5727,7 +5732,6 @@ a.store-card__info-text:hover {
   color: var(--color-primary, #C61D23);
   text-align: center;
   margin: 0;
-  white-space: nowrap;
 }
 @media (min-width: 750px) {
   .section-heading__title {
