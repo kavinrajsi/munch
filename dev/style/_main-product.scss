@@ -1,6 +1,10 @@
 // ── Product Breadcrumbs ──
 .main-product__breadcrumbs {
-  display: flex;
+  display: none;
+
+  @media (min-width: 750px) {
+    display: flex;
+  }
   align-items: center;
   gap: 8px;
   font-family: 'Aller', sans-serif;
@@ -427,54 +431,6 @@
       color: #666;
       cursor: not-allowed;
     }
-  }
-}
-
-// ── Accordion ──
-.main-product__accordion {
-  border-bottom: 1px solid #F5F3F4;
-
-  &:first-of-type {
-    border-top: 1px solid #F5F3F4;
-  }
-}
-
-.main-product__accordion-trigger {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  padding: 16px 0;
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-family: 'Aller', sans-serif;
-  font-weight: 700;
-  font-size: 16px;
-  line-height: 20px;
-  color: #0B090A;
-
-  svg {
-    width: 16px;
-    height: 16px;
-    transition: transform 0.3s;
-  }
-
-  &.is-active svg {
-    transform: rotate(180deg);
-  }
-}
-
-.main-product__accordion-content {
-  display: none;
-  padding-bottom: 16px;
-  font-family: 'Aller', sans-serif;
-  font-size: 14px;
-  line-height: 18px;
-  color: #2A2A29;
-
-  &.is-open {
-    display: block;
   }
 }
 

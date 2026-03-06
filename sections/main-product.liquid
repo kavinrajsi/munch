@@ -236,17 +236,6 @@
     text-decoration: underline;
   }
 
-  .main-product__accordion-trigger-label {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .main-product__accordion-trigger-label svg {
-    flex-shrink: 0;
-    width: 20px;
-    height: 20px;
-  }
-
   .nutrition__table-wrap {
     padding: 16px 0 8px;
   }
@@ -732,103 +721,6 @@
           </div>
         {%- endif -%}
 
-        {%- comment -%} Accordion Blocks {%- endcomment -%}
-        {%- for block in section.blocks -%}
-          {%- if block.type == 'accordion' -%}
-            {%- liquid
-              assign accordion_has_content = false
-              if block.settings.content_source == 'metafield' and block.settings.metafield_key != blank
-                assign metafield_value = product.metafields.custom[block.settings.metafield_key]
-                if metafield_value != blank
-                  assign accordion_has_content = true
-                endif
-              elsif block.settings.text != blank
-                assign accordion_has_content = true
-              endif
-            -%}
-            {%- if accordion_has_content -%}
-              <div class="main-product__accordion" {{ block.shopify_attributes }}>
-                <button class="main-product__accordion-trigger" type="button" data-accordion-trigger>
-                  {{ block.settings.title }}
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-                </button>
-                <div class="main-product__accordion-content" data-accordion-content>
-                  {%- if block.settings.content_source == 'metafield' and block.settings.metafield_key != blank -%}
-                    {{ product.metafields.custom[block.settings.metafield_key] | metafield_tag }}
-                  {%- elsif block.settings.text != blank -%}
-                    {{ block.settings.text }}
-                  {%- endif -%}
-                </div>
-              </div>
-            {%- endif -%}
-          {%- endif -%}
-        {%- endfor -%}
-
-        {%- comment -%} Ingredients Accordion {%- endcomment -%}
-        {%- assign ingredients = product.metafields.custom.ingredients -%}
-        {%- if section.settings.show_ingredients and ingredients != blank -%}
-          <div class="main-product__accordion">
-            <button class="main-product__accordion-trigger" type="button" data-accordion-trigger>
-              <span class="main-product__accordion-trigger-label">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15h2v-6h-2v6zm0-8h2V7h-2v2z"/></svg>
-                Ingredients
-              </span>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-            </button>
-            <div class="main-product__accordion-content" data-accordion-content>
-              <div class="nutrition__ingredients">
-                {{ ingredients | metafield_tag }}
-              </div>
-            </div>
-          </div>
-        {%- endif -%}
-
-        {%- comment -%} Nutritional Information Accordion {%- endcomment -%}
-        {%- assign nutrition_info = product.metafields.custom.nutritional_info -%}
-        {%- if section.settings.show_nutrition and nutrition_info != blank -%}
-          <div class="main-product__accordion">
-            <button class="main-product__accordion-trigger" type="button" data-accordion-trigger>
-              <span class="main-product__accordion-trigger-label">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><line x1="9" y1="12" x2="15" y2="12"/><line x1="9" y1="16" x2="13" y2="16"/></svg>
-                Nutritional information
-              </span>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-            </button>
-            <div class="main-product__accordion-content" data-accordion-content>
-              <div class="nutrition__table-wrap">
-                {{ nutrition_info | metafield_tag }}
-              </div>
-              {%- if section.settings.nutrition_disclaimer != blank -%}
-                <p class="nutrition__disclaimer">{{ section.settings.nutrition_disclaimer }}</p>
-              {%- endif -%}
-            </div>
-          </div>
-        {%- endif -%}
-
-
-        {%- if section.settings.show_shipping_info and section.settings.shipping_info_text != blank -%}
-          <div class="main-product__accordion">
-            <button class="main-product__accordion-trigger" type="button" data-accordion-trigger>
-              {{ section.settings.shipping_info_title | default: 'Shipping Info' }}
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-            </button>
-            <div class="main-product__accordion-content" data-accordion-content>
-              {{ section.settings.shipping_info_text }}
-            </div>
-          </div>
-        {%- endif -%}
-
-        {%- if section.settings.show_dispatch_details and section.settings.dispatch_details_text != blank -%}
-          <div class="main-product__accordion">
-            <button class="main-product__accordion-trigger" type="button" data-accordion-trigger>
-              {{ section.settings.dispatch_details_title | default: 'Dispatch Details' }}
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-            </button>
-            <div class="main-product__accordion-content" data-accordion-content>
-              {{ section.settings.dispatch_details_text }}
-            </div>
-          </div>
-        {%- endif -%}
 
         {%- if settings.judgeme_enabled -%}
           <div class="main-product__reviews-badge">
@@ -1052,15 +944,6 @@
         qtyInput.value = Math.min(99, parseInt(qtyInput.value, 10) + 1);
       });
     }
-
-    // Accordion toggle
-    document.querySelectorAll('[data-accordion-trigger]').forEach(function (trigger) {
-      trigger.addEventListener('click', function () {
-        trigger.classList.toggle('is-open');
-        var content = trigger.nextElementSibling;
-        if (content) content.classList.toggle('is-open');
-      });
-    });
 
     // Pickup drawer
     var pickupDrawer = document.querySelector('[data-pickup-drawer]');
@@ -1291,74 +1174,6 @@
     },
     {
       "type": "header",
-      "content": "Shipping Info"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_shipping_info",
-      "label": "Show Shipping Info",
-      "default": true
-    },
-    {
-      "type": "text",
-      "id": "shipping_info_title",
-      "label": "Shipping Info title",
-      "default": "Delivery Info"
-    },
-    {
-      "type": "richtext",
-      "id": "shipping_info_text",
-      "label": "Shipping Info text",
-      "default": "<p>Delivery Within 3-5 working Days. For more details please track the product using the tracking code sent via email or WhatsApp.</p>"
-    },
-    {
-      "type": "header",
-      "content": "Dispatch Details"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_dispatch_details",
-      "label": "Show Dispatch Details",
-      "default": true
-    },
-    {
-      "type": "text",
-      "id": "dispatch_details_title",
-      "label": "Dispatch Details title",
-      "default": "Dispatch Details"
-    },
-    {
-      "type": "richtext",
-      "id": "dispatch_details_text",
-      "label": "Dispatch Details text",
-      "default": "<p>Product will be dispatched within 2-4 working days.</p>"
-    },
-    {
-      "type": "header",
-      "content": "Ingredients & Nutrition"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_ingredients",
-      "label": "Show Ingredients accordion",
-      "default": true,
-      "info": "Reads from product metafield custom.ingredients (rich text)"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_nutrition",
-      "label": "Show Nutritional Information accordion",
-      "default": true,
-      "info": "Reads from product metafield custom.nutritional_info (rich text with table)"
-    },
-    {
-      "type": "text",
-      "id": "nutrition_disclaimer",
-      "label": "Nutrition disclaimer",
-      "default": "* The % Daily Value tells you how much a nutrient a serving of food contributes to a daily diet."
-    },
-    {
-      "type": "header",
       "content": "Meta Badges"
     },
     {
@@ -1433,39 +1248,6 @@
     }
   ],
   "blocks": [
-    {
-      "type": "accordion",
-      "name": "Accordion",
-      "settings": [
-        {
-          "type": "text",
-          "id": "title",
-          "label": "Title",
-          "default": "Details"
-        },
-        {
-          "type": "select",
-          "id": "content_source",
-          "label": "Content Source",
-          "options": [
-            { "value": "text", "label": "Custom Text" },
-            { "value": "metafield", "label": "Product Metafield" }
-          ],
-          "default": "text"
-        },
-        {
-          "type": "richtext",
-          "id": "text",
-          "label": "Custom Text"
-        },
-        {
-          "type": "text",
-          "id": "metafield_key",
-          "label": "Metafield Key",
-          "info": "From custom namespace"
-        }
-      ]
-    },
     {
       "type": "pickup_store",
       "name": "Pickup Store",
