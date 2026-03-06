@@ -235,6 +235,11 @@
     line-height: 18px;
     color: #a5161a;
     padding: 0 0 16px;
+    text-align: center;
+
+    @media (min-width: 768px) {
+      text-align : initial;
+    }
   }
 
   .footer__brand-trust-icons {

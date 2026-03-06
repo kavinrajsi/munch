@@ -101,11 +101,6 @@
             aria-label="{{ 'general.search.title' | t }}"
           >
           <input type="hidden" name="type" value="{{ resource_types }}">
-          {%- if settings.chatbot_voice_enabled -%}
-          <button class="search-overlay__mic-btn" type="button" data-search-mic aria-label="Voice search">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
-          </button>
-          {%- endif -%}
           <button class="search-overlay__submit" type="submit" aria-label="{{ 'general.search.submit' | t }}">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
           </button>
@@ -152,62 +147,3 @@
   </div>
 </div>
 
-{%- if settings.chatbot_voice_enabled -%}
-<style>
-  .search-overlay__mic-btn { background:none; border:none; cursor:pointer; padding:8px; display:flex; align-items:center; justify-content:center; border-radius:50%; transition:all .2s; flex-shrink:0; }
-  @media (min-width: 768px) { .search-overlay__mic-btn { display:none !important; } }
-  .search-overlay__mic-btn svg { width:20px; height:20px; }
-  .search-overlay__mic-btn:hover { background:rgba(0,0,0,.05); }
-  .search-overlay__mic-btn.recording { background:#c61d23; animation:search-mic-pulse 1.5s ease-in-out infinite; }
-  .search-overlay__mic-btn.recording svg { stroke:white; }
-  @keyframes search-mic-pulse { 0%,100%{box-shadow:0 0 0 0 rgba(198,29,35,.4)} 50%{box-shadow:0 0 0 8px rgba(198,29,35,0)} }
-</style>
-<script>
-(function initSearchVoice() {
-  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-  const micBtn = document.querySelector('[data-search-mic]');
-  if (!SR || !micBtn) {
-    if (micBtn) micBtn.style.display = 'none';
-    return;
-  }
-  let recognition = null;
-  let isRecording = false;
-
-  micBtn.addEventListener('click', function() {
-    if (isRecording) {
-      recognition.stop();
-      return;
-    }
-    recognition = new SR();
-    recognition.lang = 'en-IN';
-    recognition.interimResults = false;
-    recognition.maxAlternatives = 1;
-    micBtn.classList.add('recording');
-    isRecording = true;
-
-    recognition.onresult = function(event) {
-      const transcript = event.results[0][0].transcript;
-      const input = document.querySelector('[data-search-input]');
-      if (input) {
-        input.value = transcript;
-        // Trigger via jQuery if available (predictive search uses jQuery .on('input'))
-        if (window.jQuery) {
-          jQuery(input).trigger('input');
-        } else {
-          input.dispatchEvent(new Event('input', { bubbles: true }));
-        }
-      }
-    };
-    recognition.onend = function() {
-      micBtn.classList.remove('recording');
-      isRecording = false;
-    };
-    recognition.onerror = function() {
-      micBtn.classList.remove('recording');
-      isRecording = false;
-    };
-    recognition.start();
-  });
-})();
-</script>
-{%- endif -%}

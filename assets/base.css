@@ -1900,6 +1900,13 @@ html.search-open body {
   line-height: 18px;
   color: #a5161a;
   padding: 0 0 16px;
+  text-align: center;
+}
+@media (min-width: 768px) {
+  .footer__bottom .footer__brand-trust-title,
+  .footer__bottom .footer__social-title {
+    text-align: initial;
+  }
 }
 .footer__bottom .footer__brand-trust-icons {
   display: inline-flex;
