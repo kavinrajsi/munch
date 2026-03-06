@@ -1,0 +1,306 @@
+<div
+  class="icon-with-text"
+  style="
+    --iwt-bg: {{ section.settings.bg_color }};
+    --iwt-text: {{ section.settings.text_color }};
+    --iwt-cols-desktop: {{ section.settings.items_per_row_desktop }};
+    --iwt-cols-tablet: {{ section.settings.items_per_row_tablet }};
+    --iwt-cols-mobile: {{ section.settings.items_per_row_mobile }};
+    --iwt-img-w-desktop: {{ section.settings.image_width_desktop }}px;
+    --iwt-img-h-desktop: {{ section.settings.image_height_desktop }}px;
+    --iwt-img-w-mobile: {{ section.settings.image_width_mobile }}px;
+    --iwt-img-h-mobile: {{ section.settings.image_height_mobile }}px;
+    --iwt-gap-img-text: {{ section.settings.gap_image_text }}px;
+    --iwt-gap-items: {{ section.settings.gap_items }}px;
+    --iwt-pt-desktop: {{ section.settings.padding_top_desktop }}px;
+    --iwt-pb-desktop: {{ section.settings.padding_bottom_desktop }}px;
+    --iwt-pt-mobile: {{ section.settings.padding_top_mobile }}px;
+    --iwt-pb-mobile: {{ section.settings.padding_bottom_mobile }}px;
+  "
+  {{ section.shopify_attributes }}
+>
+  <div class="{{ section.settings.container_type }}">
+    {%- if section.settings.title != blank -%}
+      <div class="">
+        {%- render 'section-heading',
+          title: section.settings.title,
+          heading_tag: 'h2',
+          show_left_line: true,
+          show_left_icon: true,
+          show_right_icon: true,
+          show_right_line: true
+        -%}
+      </div>
+    {%- endif -%}
+
+    <div class="icon-with-text__slider splide" data-iwt-slider>
+      <div class="splide__track">
+        <div class="splide__list">
+          {%- for block in section.blocks -%}
+            <div class="splide__slide" {{ block.shopify_attributes }}>
+              <div class="icon-with-text__item" style="--iwt-item-bg: {{ block.settings.item_bg_color }};" data-animate="fade-up" data-animate-delay="{{ forloop.index0 | times: 100 }}">
+                {%- if block.settings.image != blank -%}
+                  {%- if block.settings.link != blank -%}
+                    <a href="{{ block.settings.link }}" class="icon-with-text__image-link">
+                  {%- endif -%}
+                    <img
+                      class="icon-with-text__image"
+                      src="{{ block.settings.image | image_url: width: 400 }}"
+                      alt="{{ block.settings.title | escape }}"
+                      loading="lazy"
+                      width="{{ section.settings.image_width_desktop }}"
+                      height="{{ section.settings.image_height_desktop }}"
+                    >
+                  {%- if block.settings.link != blank -%}
+                    </a>
+                  {%- endif -%}
+                {%- else -%}
+                  <div class="icon-with-text__image icon-with-text__placeholder">
+                    {{ 'image' | placeholder_svg_tag }}
+                  </div>
+                {%- endif -%}
+
+                {%- if block.settings.title != blank -%}
+                  {%- if block.settings.link != blank -%}
+                    <a href="{{ block.settings.link }}" class="icon-with-text__title">
+                      {{ block.settings.title }}
+                    </a>
+                  {%- else -%}
+                    <span class="icon-with-text__title">
+                      {{ block.settings.title }}
+                    </span>
+                  {%- endif -%}
+                {%- endif -%}
+              </div>
+            </div>
+          {%- endfor -%}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Icon with Text Slider",
+  "tag": "section",
+  "class": "icon-with-text-slider-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "container_type",
+      "label": "Container type",
+      "options": [
+        { "value": "container", "label": "Container" },
+        { "value": "container-fluid", "label": "Container fluid" }
+      ],
+      "default": "container"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section title",
+      "default": "Shop by Category"
+    },
+    {
+      "type": "range",
+      "id": "items_per_row_desktop",
+      "label": "Items per row (desktop)",
+      "min": 1,
+      "max": 8,
+      "step": 1,
+      "default": 6
+    },
+    {
+      "type": "range",
+      "id": "items_per_row_tablet",
+      "label": "Items per row (tablet)",
+      "min": 1,
+      "max": 6,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "items_per_row_mobile",
+      "label": "Items per row (mobile)",
+      "min": 1,
+      "max": 4,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "header",
+      "content": "Image"
+    },
+    {
+      "type": "range",
+      "id": "image_width_desktop",
+      "label": "Image width — desktop (px)",
+      "min": 40,
+      "max": 624,
+      "step": 8,
+      "default": 120,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "image_height_desktop",
+      "label": "Image height — desktop (px)",
+      "min": 40,
+      "max": 624,
+      "step": 8,
+      "default": 120,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "image_width_mobile",
+      "label": "Image width — mobile (px)",
+      "min": 40,
+      "max": 624,
+      "step": 8,
+      "default": 80,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "image_height_mobile",
+      "label": "Image height — mobile (px)",
+      "min": 40,
+      "max": 624,
+      "step": 8,
+      "default": 80,
+      "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "gap_image_text",
+      "label": "Gap between image and text (px)",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "default": 8,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "gap_items",
+      "label": "Gap between items (px)",
+      "min": 0,
+      "max": 60,
+      "step": 2,
+      "default": 20,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_top_desktop",
+      "label": "Padding top — desktop (px)",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "default": 40,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_desktop",
+      "label": "Padding bottom — desktop (px)",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "default": 40,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "label": "Padding top — mobile (px)",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "default": 20,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "label": "Padding bottom — mobile (px)",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "default": 20,
+      "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#161A1D"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background color",
+      "default": "transparent"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "icon_item",
+      "name": "Icon item",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Title"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        },
+        {
+          "type": "color",
+          "id": "item_bg_color",
+          "label": "Background color",
+          "default": "transparent"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Icon with Text Slider",
+      "category": "Products",
+      "blocks": [
+        { "type": "icon_item", "settings": { "title": "Item 1" } },
+        { "type": "icon_item", "settings": { "title": "Item 2" } },
+        { "type": "icon_item", "settings": { "title": "Item 3" } },
+        { "type": "icon_item", "settings": { "title": "Item 4" } },
+        { "type": "icon_item", "settings": { "title": "Item 5" } },
+        { "type": "icon_item", "settings": { "title": "Item 6" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

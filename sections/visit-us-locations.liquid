@@ -22,6 +22,14 @@
         {%- endfor -%}
       </div>
     {%- endif -%}
+
+    {%- if section.settings.view_all_url != blank -%}
+      <div class="store-locations__view-all">
+        <a href="{{ section.settings.view_all_url }}" class="store-locations__view-all-btn">
+          {{ section.settings.view_all_text | default: 'View all Location' }}
+        </a>
+      </div>
+    {%- endif -%}
   </div>
 </div>
 
@@ -36,6 +44,17 @@
       "id": "title",
       "label": "Title",
       "default": "Visit us"
+    },
+    {
+      "type": "url",
+      "id": "view_all_url",
+      "label": "View all button link"
+    },
+    {
+      "type": "text",
+      "id": "view_all_text",
+      "label": "View all button text",
+      "default": "View all Location"
     },
     {
       "type": "range",

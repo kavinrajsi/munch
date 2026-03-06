@@ -2344,7 +2344,7 @@ a.iwt-scroll__title:hover {
   font-weight: 400;
   color: #0b090a;
   margin: 0;
-  font-size: 14px;
+  font-size: 16px;
   line-height: normal;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -2365,7 +2365,7 @@ a.iwt-scroll__title:hover {
   font-weight: 700;
   color: #0b090a;
   margin: 0;
-  font-size: 14px;
+  font-size: 16px;
   line-height: normal;
 }
 @media (min-width: 768px) {
@@ -2414,7 +2414,7 @@ a.iwt-scroll__title:hover {
   cursor: pointer;
   transition: background-color 0.2s, border-color 0.2s;
   padding: 6px;
-  font-size: 10px;
+  font-size: 14px;
   line-height: normal;
 }
 @media (min-width: 768px) {
@@ -2513,14 +2513,14 @@ a.iwt-scroll__title:hover {
   border-radius: 8px;
   cursor: pointer;
   transition: background-color 0.2s, color 0.2s;
-  font-size: 12px;
+  font-size: 16px;
   line-height: normal;
   padding: 10px;
 }
 @media (min-width: 768px) {
   .feat-collection-carousel__atc {
     padding: 10px 16px;
-    font-size: 14px;
+    font-size: 16px;
     line-height: 18px;
   }
 }
@@ -2747,6 +2747,7 @@ a.iwt-scroll__title:hover {
   font-weight: 400;
   font-size: 14px;
   line-height: 18px;
+  min-height: 72px;
   color: #0B090A;
 }
 
@@ -2797,6 +2798,37 @@ a.store-card__info-text:hover {
   box-sizing: border-box;
 }
 .store-card__btn:hover {
+  opacity: 0.9;
+}
+
+.store-locations__view-all {
+  display: flex;
+  justify-content: center;
+  margin-top: 32px;
+}
+
+.store-locations__view-all-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 400px;
+  height: 48px;
+  padding: 12px 40px;
+  background-color: #E8B931;
+  color: #C61D23;
+  font-family: "Aller", sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 20px;
+  text-align: center;
+  text-decoration: none;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+.store-locations__view-all-btn:hover {
   opacity: 0.9;
 }
 
@@ -3333,7 +3365,7 @@ a.store-card__info-text:hover {
 
 .collection__grid {
   display: grid;
-  grid-template-columns: repeat(1, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   -moz-column-gap: 20px;
        column-gap: 20px;
   row-gap: 40px;

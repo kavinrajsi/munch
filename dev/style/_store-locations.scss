@@ -89,6 +89,7 @@
   font-weight: 400;
   font-size: 14px;
   line-height: 18px;
+  min-height: 72px;
   color: #0B090A;
 }
 
@@ -127,6 +128,38 @@ a.store-card__info-text:hover {
   padding: 12px 40px;
   background-color: #C61D23;
   color: #FFFFFF;
+  font-family: 'Aller', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 20px;
+  text-align: center;
+  text-decoration: none;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  box-sizing: border-box;
+
+  &:hover {
+    opacity: 0.9;
+  }
+}
+
+.store-locations__view-all {
+  display: flex;
+  justify-content: center;
+  margin-top: 32px;
+}
+
+.store-locations__view-all-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 400px;
+  height: 48px;
+  padding: 12px 40px;
+  background-color: #E8B931;
+  color: #C61D23;
   font-family: 'Aller', sans-serif;
   font-weight: 400;
   font-size: 16px;

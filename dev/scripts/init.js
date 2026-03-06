@@ -1130,6 +1130,26 @@
       });
     }
 
+    // Icon with Text Slider – Splide
+    document.querySelectorAll('[data-iwt-slider]').forEach(function(el) {
+      var section = el.closest('.icon-with-text');
+      var colsDesktop = parseInt(getComputedStyle(section).getPropertyValue('--iwt-cols-desktop')) || 6;
+      var colsTablet = parseInt(getComputedStyle(section).getPropertyValue('--iwt-cols-tablet')) || 4;
+      var colsMobile = parseInt(getComputedStyle(section).getPropertyValue('--iwt-cols-mobile')) || 3;
+      new Splide(el, {
+        type: 'slide',
+        perPage: colsDesktop,
+        gap: '16px',
+        pagination: true,
+        arrows: true,
+        breakpoints: {
+          1024: { perPage: colsTablet },
+          750: { perPage: colsMobile, pagination: true }
+        }
+      }).mount();
+      replaceSplideArrows(el);
+    });
+
     // Featured collection carousel – Splide
     document.querySelectorAll('[data-feat-collection-carousel]').forEach(function(el) {
       new Splide(el, {
