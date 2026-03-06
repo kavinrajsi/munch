@@ -1,14 +1,5 @@
 <div class="cart-page" style="--cart-pt-desktop: {{ section.settings.padding_top_desktop }}px; --cart-pb-desktop: {{ section.settings.padding_bottom_desktop }}px; --cart-pt-mobile: {{ section.settings.padding_top_mobile }}px; --cart-pb-mobile: {{ section.settings.padding_bottom_mobile }}px;" {{ section.shopify_attributes }}>
   <div class="{{ section.settings.container_type }}">
-    {%- comment -%} Breadcrumbs {%- endcomment -%}
-    <nav class="cart-page__breadcrumbs" aria-label="Breadcrumb">
-      <ol>
-        <li><a href="{{ routes.root_url }}">{{ 'general.breadcrumbs.home' | t }}</a></li>
-        <li aria-hidden="true">&gt;</li>
-        <li aria-current="page">{{ 'cart.general.your_shopping_cart' | t }}</li>
-      </ol>
-    </nav>
-
     {%- comment -%} Section Heading {%- endcomment -%}
     {%- render 'section-heading',
       title: 'Shopping Cart' | t,
@@ -20,6 +11,15 @@
       margin_bottom_desktop: 40,
       margin_bottom_mobile: 24
     -%}
+
+    {%- comment -%} Breadcrumbs {%- endcomment -%}
+    <nav class="cart-page__breadcrumbs cart-page__breadcrumbs--center" aria-label="Breadcrumb">
+      <ol>
+        <li><a href="{{ routes.root_url }}">{{ 'general.breadcrumbs.home' | t }}</a></li>
+        <li aria-hidden="true">&gt;</li>
+        <li aria-current="page">{{ 'cart.general.your_shopping_cart' | t }}</li>
+      </ol>
+    </nav>
 
     {%- if cart.item_count > 0 -%}
       <form action="{{ routes.cart_url }}" method="post" data-cart-form>

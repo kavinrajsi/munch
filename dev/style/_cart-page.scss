@@ -38,6 +38,12 @@
   [aria-current="page"] {
     color: #C61D23;
   }
+
+  &--center {
+    ol {
+      justify-content: center;
+    }
+  }
 }
 
 // Table (desktop)

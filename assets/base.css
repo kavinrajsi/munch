@@ -3891,6 +3891,9 @@ a.store-card__info-text:hover {
 .cart-page__breadcrumbs [aria-current=page] {
   color: #C61D23;
 }
+.cart-page__breadcrumbs--center ol {
+  justify-content: center;
+}
 
 .cart-page__table-wrap {
   display: none;

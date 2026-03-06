@@ -1,4 +1,12 @@
-<div class="collection section-padding" {{ section.shopify_attributes }}>
+<div class="collection section-padding" style="padding-top: {{ section.settings.padding_top_mobile }}px; padding-bottom: {{ section.settings.padding_bottom_mobile }}px;" {{ section.shopify_attributes }}>
+  <style>
+    @media (min-width: 750px) {
+      .main-list-collections-section .collection.section-padding {
+        padding-top: {{ section.settings.padding_top_desktop }}px !important;
+        padding-bottom: {{ section.settings.padding_bottom_desktop }}px !important;
+      }
+    }
+  </style>
   <div class="container">
 
     {%- comment -%} Decorated heading {%- endcomment -%}
@@ -196,6 +204,50 @@
       "id": "hide_all_collection",
       "label": "Hide 'All' collection",
       "default": true
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top_desktop",
+      "label": "Padding Top (Desktop)",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 56
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_desktop",
+      "label": "Padding Bottom (Desktop)",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 56
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "label": "Padding Top (Mobile)",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 56
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "label": "Padding Bottom (Mobile)",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 56
     }
   ]
 }
