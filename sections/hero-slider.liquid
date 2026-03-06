@@ -70,7 +70,7 @@
   <div class="splide__track">
     <div class="splide__list">
       {%- for block in section.blocks -%}
-        <div class="hero-slider__slide splide__slide" {{ block.shopify_attributes }}>
+        <div class="hero-slider__slide splide__slide" style="{% if block.settings.slide_bg_color != blank %}background-color: {{ block.settings.slide_bg_color }};{% endif %}" {{ block.shopify_attributes }}>
 
           {%- comment -%} Slide image – mobile-first responsive <picture> with optional link {%- endcomment -%}
           <div class="hero-slider__image">
@@ -450,6 +450,11 @@
           "id": "overlay_color",
           "label": "Overlay Background Color",
           "default": "#000000"
+        },
+        {
+          "type": "color",
+          "id": "slide_bg_color",
+          "label": "Slide Background Color"
         }
       ]
     }

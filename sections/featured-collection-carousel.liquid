@@ -30,7 +30,7 @@
       <div class="splide__list">
     {%- if section.settings.collection != blank -%}
       {%- for product in section.settings.collection.products limit: section.settings.products_to_show -%}
-        <div class="splide__slide" data-animate="fade-up" data-animate-delay="{{ forloop.index0 | times: 100 }}">
+        <div class="splide__slide" style="{% if section.settings.slide_bg_color != blank %}background-color: {{ section.settings.slide_bg_color }};{% endif %}" data-animate="fade-up" data-animate-delay="{{ forloop.index0 | times: 100 }}">
           {%- render 'fcc-product-card',
             product: product,
             show_vendor: section.settings.show_vendor,
@@ -226,6 +226,11 @@
       "id": "view_all_label",
       "label": "Button label",
       "default": "View all"
+    },
+    {
+      "type": "color",
+      "id": "slide_bg_color",
+      "label": "Slide Background Color"
     }
   ],
   "presets": [

@@ -33,7 +33,7 @@
           <div class="splide__track">
             <div class="splide__list">
               {%- for product in recommendations.products -%}
-                <div class="splide__slide">
+                <div class="splide__slide" style="{% if section.settings.slide_bg_color != blank %}background-color: {{ section.settings.slide_bg_color }};{% endif %}">
                   {%- render 'fcc-product-card',
                     product: product,
                     show_vendor: section.settings.show_vendor,
@@ -177,6 +177,11 @@
       "id": "show_price",
       "label": "Show price",
       "default": true
+    },
+    {
+      "type": "color",
+      "id": "slide_bg_color",
+      "label": "Slide Background Color"
     }
   ]
 }

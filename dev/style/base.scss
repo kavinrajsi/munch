@@ -31,8 +31,14 @@
 @use 'customer-pages';
 @use 'search-bar';
 @use 'about-strip';
+@use 'countdown-banner';
+@use 'countdown-timer';
+@use 'faq';
+@use 'free-delivery-bar';
 @use 'judgeme';
 @use 'password-page';
+@use 'age-verifier';
+@use 'newsletter-popup';
 @use 'rtl';
 
 a {

@@ -18,7 +18,7 @@
         <div class="splide__track">
           <div class="splide__list">
             {%- for block in section.blocks -%}
-              <div class="splide__slide">
+              <div class="splide__slide" style="{% if block.settings.slide_bg_color != blank %}background-color: {{ block.settings.slide_bg_color }};{% endif %}">
                 {%- render 'store-card', block: block -%}
               </div>
             {%- endfor -%}
@@ -139,6 +139,11 @@
           "type": "url",
           "id": "directions_url",
           "label": "Directions URL"
+        },
+        {
+          "type": "color",
+          "id": "slide_bg_color",
+          "label": "Slide Background Color"
         }
       ]
     }

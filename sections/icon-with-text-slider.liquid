@@ -37,7 +37,7 @@
       <div class="splide__track">
         <div class="splide__list">
           {%- for block in section.blocks -%}
-            <div class="splide__slide" {{ block.shopify_attributes }}>
+            <div class="splide__slide" style="{% if block.settings.slide_bg_color != blank %}background-color: {{ block.settings.slide_bg_color }};{% endif %}" {{ block.shopify_attributes }}>
               <div class="icon-with-text__item" style="--iwt-item-bg: {{ block.settings.item_bg_color }};" data-animate="fade-up" data-animate-delay="{{ forloop.index0 | times: 100 }}">
                 {%- if block.settings.image != blank -%}
                   {%- if block.settings.link != blank -%}
@@ -284,6 +284,11 @@
           "id": "item_bg_color",
           "label": "Background color",
           "default": "transparent"
+        },
+        {
+          "type": "color",
+          "id": "slide_bg_color",
+          "label": "Slide Background Color"
         }
       ]
     }
