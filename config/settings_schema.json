@@ -1219,6 +1219,48 @@
       },
       {
         "type": "header",
+        "content": "Free delivery bar"
+      },
+      {
+        "type": "checkbox",
+        "id": "cart_free_delivery_enabled",
+        "label": "Enable free delivery progress bar",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "cart_free_delivery_threshold",
+        "label": "Free delivery threshold (₹)",
+        "info": "Minimum order amount for free delivery",
+        "default": "1000"
+      },
+      {
+        "type": "text",
+        "id": "cart_free_delivery_message",
+        "label": "Progress message",
+        "info": "Use {{ amount }} for remaining amount",
+        "default": "Add {{ amount }} more for free delivery"
+      },
+      {
+        "type": "text",
+        "id": "cart_free_delivery_success_message",
+        "label": "Success message",
+        "default": "You've unlocked free delivery!"
+      },
+      {
+        "type": "color",
+        "id": "cart_free_delivery_bar_color",
+        "label": "Progress bar color",
+        "default": "#E07A5F"
+      },
+      {
+        "type": "color",
+        "id": "cart_free_delivery_bar_complete_color",
+        "label": "Progress bar complete color",
+        "default": "#4CAF50"
+      },
+      {
+        "type": "header",
         "content": "Empty cart"
       },
       {

@@ -21,6 +21,8 @@
       </nav>
     </div>
 
+    {%- render 'free-delivery-bar' -%}
+
     {%- if cart.item_count > 0 -%}
       <form action="{{ routes.cart_url }}" method="post" data-cart-form>
         {%- comment -%} Desktop Table {%- endcomment -%}

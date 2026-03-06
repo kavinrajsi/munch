@@ -1,0 +1,43 @@
+{%- liquid
+  assign fd_enabled = settings.cart_free_delivery_enabled
+  unless fd_enabled
+    break
+  endunless
+
+  assign threshold_rupees = settings.cart_free_delivery_threshold | default: '1000' | times: 1
+  assign free_delivery_threshold = threshold_rupees | times: 100
+  assign cart_total = cart.total_price
+  assign remaining = free_delivery_threshold | minus: cart_total
+  if remaining < 0
+    assign remaining = 0
+  endif
+  assign progress = cart_total | times: 100 | divided_by: free_delivery_threshold
+  if progress > 100
+    assign progress = 100
+  endif
+
+  assign bar_color = settings.cart_free_delivery_bar_color | default: '#E07A5F'
+  assign bar_complete_color = settings.cart_free_delivery_bar_complete_color | default: '#4CAF50'
+  assign success_msg = settings.cart_free_delivery_success_message | default: "You've unlocked free delivery!"
+-%}
+
+<div
+  class="free-delivery-bar"
+  data-free-delivery-bar
+  data-threshold="{{ free_delivery_threshold }}"
+  data-success-msg="{{ success_msg | escape }}"
+  style="--fd-bar-color: {{ bar_color }}; --fd-bar-complete-color: {{ bar_complete_color }};"
+>
+  {%- if cart.item_count > 0 -%}
+    <div class="free-delivery-bar__message" data-free-delivery-message>
+      {%- if remaining == 0 -%}
+        <span class="free-delivery-bar__icon">🎉</span> {{ success_msg }}
+      {%- else -%}
+        <span class="free-delivery-bar__icon">🚚</span> Add <strong>{{ remaining | money }}</strong> more for <strong>free delivery</strong>
+      {%- endif -%}
+    </div>
+    <div class="free-delivery-bar__track">
+      <div class="free-delivery-bar__fill{% if progress >= 100 %} free-delivery-bar__fill--complete{% endif %}" data-free-delivery-fill style="width: {{ progress }}%;"></div>
+    </div>
+  {%- endif -%}
+</div>

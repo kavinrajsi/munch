@@ -24,6 +24,8 @@
       </button>
     </div>
 
+    {%- render 'free-delivery-bar' -%}
+
     <div class="cart-drawer__items" data-cart-items>
       {%- if cart.item_count > 0 -%}
         {%- for item in cart.items -%}
