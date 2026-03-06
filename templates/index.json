@@ -69,7 +69,7 @@
             "image": "shopify://shop_images/dry-fruit-sweets.png",
             "title": "Dry Fruit Sweets",
             "link": "shopify://collections/dry-fruit-sweets",
-            "item_bg_color": "transparent"
+            "item_bg_color": "rgba(0,0,0,0)"
           }
         },
         "icon_item_rj93JV": {
@@ -78,7 +78,7 @@
             "image": "shopify://shop_images/traditional-sweets.png",
             "title": "Traditional Sweets",
             "link": "shopify://collections/traditional-sweets",
-            "item_bg_color": "transparent"
+            "item_bg_color": "rgba(0,0,0,0)"
           }
         },
         "icon_item_8gn9yU": {
@@ -87,7 +87,7 @@
             "image": "shopify://shop_images/traditional-savouries.png",
             "title": "Traditional Savouries",
             "link": "shopify://collections/savouries",
-            "item_bg_color": "transparent"
+            "item_bg_color": "rgba(0,0,0,0)"
           }
         },
         "icon_item_gd4frF": {
@@ -96,7 +96,7 @@
             "image": "shopify://shop_images/baklava.png",
             "title": "Baklava",
             "link": "shopify://collections/baklava",
-            "item_bg_color": "transparent"
+            "item_bg_color": "rgba(0,0,0,0)"
           }
         },
         "icon_item_dzcVHa": {
@@ -105,7 +105,7 @@
             "image": "shopify://shop_images/traditional-savouries.png",
             "title": "Savouries",
             "link": "shopify://collections/savouries",
-            "item_bg_color": "transparent"
+            "item_bg_color": "rgba(0,0,0,0)"
           }
         },
         "icon_item_mE8Fp7": {
@@ -114,7 +114,7 @@
             "image": "shopify://shop_images/gifting-combos.png",
             "title": "Gifting Combo",
             "link": "shopify://collections",
-            "item_bg_color": "transparent"
+            "item_bg_color": "rgba(0,0,0,0)"
           }
         }
       },
@@ -143,8 +143,8 @@
         "padding_bottom_desktop": 40,
         "padding_top_mobile": 20,
         "padding_bottom_mobile": 20,
-        "text_color": "#161A1D",
-        "bg_color": "transparent"
+        "text_color": "#161a1d",
+        "bg_color": "rgba(0,0,0,0)"
       }
     },
     "icon_with_text_scroll_QniYB3": {
@@ -454,6 +454,59 @@
         "padding_bottom_mobile": 56
       }
     },
+    "visit_us_locations_slider_D7pCMj": {
+      "type": "visit-us-locations-slider",
+      "blocks": {
+        "location_trhKHT": {
+          "type": "location",
+          "settings": {
+            "image": "shopify://shop_images/aminjikarai.jpg",
+            "name": "Aminjikarai",
+            "address": "No. 52, Priyan Plaza, Nelson Manickam Road, Railway Colony, Aminjikarai, Chennai, Tamil Nadu - 600 029.",
+            "phone": "044-4359 1021, 8056164927",
+            "hours": "8am - 11pm",
+            "directions_url": "https://google.com"
+          }
+        },
+        "location_6CqNn8": {
+          "type": "location",
+          "settings": {
+            "image": "shopify://shop_images/anna-nagar-east.jpg",
+            "name": "Anna Nagar East",
+            "address": "C40, 2nd Ave, Anna Nagar, AF Block, Anna Nagar, Chennai, Tamil Nadu - 600 040.",
+            "phone": "74186 44435, 044-2853 4905",
+            "hours": "8am - 11pm",
+            "directions_url": "https://google.com"
+          }
+        },
+        "location_tYHMMX": {
+          "type": "location",
+          "settings": {
+            "image": "shopify://shop_images/arumbakkam.jpg",
+            "name": "Arumbakkam",
+            "address": "17/6, Razzak Garden Main Road, near NSK Signal, Chennai, Tamil Nadu - 600 106.",
+            "phone": "044-4359 2744, 7358576128",
+            "hours": "8am - 11pm",
+            "directions_url": "https://google.com"
+          }
+        }
+      },
+      "block_order": [
+        "location_trhKHT",
+        "location_6CqNn8",
+        "location_tYHMMX"
+      ],
+      "name": "Visit Location Slider",
+      "settings": {
+        "title": "Visit us",
+        "view_all_url": "shopify://pages/store-locations",
+        "view_all_text": "View all Location",
+        "padding_top": 56,
+        "padding_bottom": 56,
+        "padding_top_mobile": 20,
+        "padding_bottom_mobile": 20
+      }
+    },
     "testimonials_xGAihr": {
       "type": "testimonials",
       "blocks": {
@@ -603,6 +656,7 @@
     "about_strip_JkKynW",
     "featured_collection_carousel_kbJ7rW",
     "visit_us_locations_hzNWNb",
+    "visit_us_locations_slider_D7pCMj",
     "testimonials_xGAihr"
   ]
 }
