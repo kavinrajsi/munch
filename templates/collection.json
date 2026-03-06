@@ -19,9 +19,9 @@
         "products_per_page": 16,
         "grid_gap": 20,
         "padding_top_desktop": 56,
-        "padding_bottom_desktop": 0,
-        "padding_top_mobile": 0,
-        "padding_bottom_mobile": 40
+        "padding_bottom_desktop": 56,
+        "padding_top_mobile": 56,
+        "padding_bottom_mobile": 56
       }
     },
     "exclusive": {
@@ -56,9 +56,9 @@
       ],
       "settings": {
         "title": "Exclusive Collections",
-        "padding_top": 40,
-        "padding_bottom": 40,
-        "padding_top_mobile": 20,
+        "padding_top": 56,
+        "padding_bottom": 56,
+        "padding_top_mobile": 56,
         "padding_bottom_mobile": 20
       }
     }
