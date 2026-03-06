@@ -1,25 +1,23 @@
 <div class="cart-page" style="--cart-pt-desktop: {{ section.settings.padding_top_desktop }}px; --cart-pb-desktop: {{ section.settings.padding_bottom_desktop }}px; --cart-pt-mobile: {{ section.settings.padding_top_mobile }}px; --cart-pb-mobile: {{ section.settings.padding_bottom_mobile }}px;" {{ section.shopify_attributes }}>
   <div class="{{ section.settings.container_type }}">
-    {%- comment -%} Section Heading {%- endcomment -%}
-    {%- render 'section-heading',
-      title: 'Shopping Cart' | t,
-      heading_tag: 'h1',
-      show_left_line: true,
-      show_left_icon: true,
-      show_right_icon: true,
-      show_right_line: true,
-      margin_bottom_desktop: 40,
-      margin_bottom_mobile: 24
-    -%}
-
-    {%- comment -%} Breadcrumbs {%- endcomment -%}
-    <nav class="cart-page__breadcrumbs cart-page__breadcrumbs--center" aria-label="Breadcrumb">
-      <ol>
-        <li><a href="{{ routes.root_url }}">{{ 'general.breadcrumbs.home' | t }}</a></li>
-        <li aria-hidden="true">&gt;</li>
-        <li aria-current="page">{{ 'cart.general.your_shopping_cart' | t }}</li>
-      </ol>
-    </nav>
+    {%- comment -%} Title + Breadcrumbs group {%- endcomment -%}
+    <div class="cart-page__header">
+      {%- render 'section-heading',
+        title: 'Shopping Cart' | t,
+        heading_tag: 'h1',
+        show_left_line: true,
+        show_left_icon: true,
+        show_right_icon: true,
+        show_right_line: true
+      -%}
+      <nav class="cart-page__breadcrumbs cart-page__breadcrumbs--center" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="{{ routes.root_url }}">{{ 'general.breadcrumbs.home' | t }}</a></li>
+          <li aria-hidden="true">&gt;</li>
+          <li aria-current="page">{{ 'cart.general.your_shopping_cart' | t }}</li>
+        </ol>
+      </nav>
+    </div>
 
     {%- if cart.item_count > 0 -%}
       <form action="{{ routes.cart_url }}" method="post" data-cart-form>
@@ -205,7 +203,7 @@
       "max": 100,
       "step": 1,
       "unit": "px",
-      "default": 0
+      "default": 56
     },
     {
       "type": "range",
@@ -215,7 +213,7 @@
       "max": 100,
       "step": 1,
       "unit": "px",
-      "default": 80
+      "default": 56
     },
     {
       "type": "range",
@@ -225,7 +223,7 @@
       "max": 100,
       "step": 1,
       "unit": "px",
-      "default": 0
+      "default": 56
     },
     {
       "type": "range",
@@ -235,7 +233,7 @@
       "max": 100,
       "step": 1,
       "unit": "px",
-      "default": 40
+      "default": 56
     }
   ]
 }

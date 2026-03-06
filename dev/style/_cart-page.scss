@@ -9,9 +9,22 @@
   }
 }
 
+// Header group (title + breadcrumbs)
+.cart-page__header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+
+  @media (min-width: 750px) {
+    margin-bottom: 40px;
+  }
+}
+
 // Breadcrumbs
 .cart-page__breadcrumbs {
-  padding: 16px 0;
+  padding: 0;
 
   ol {
     display: flex;
@@ -325,7 +338,7 @@
     font-size: 14px;
     line-height: 18px;
     color: #0B090A;
-    resize: vertical;
+    resize: none;
   }
 }
 

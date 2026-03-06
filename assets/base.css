@@ -320,7 +320,7 @@ button {
 .header__icons {
   display: flex;
   align-items: center;
-  gap: 0;
+  gap: 16px;
 }
 @media (min-width: 750px) {
   .header__icons {
@@ -3818,8 +3818,21 @@ a.store-card__info-text:hover {
   }
 }
 
+.cart-page__header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+@media (min-width: 750px) {
+  .cart-page__header {
+    margin-bottom: 40px;
+  }
+}
+
 .cart-page__breadcrumbs {
-  padding: 16px 0;
+  padding: 0;
 }
 .cart-page__breadcrumbs ol {
   display: flex;
@@ -4117,7 +4130,7 @@ a.store-card__info-text:hover {
   font-size: 14px;
   line-height: 18px;
   color: #0B090A;
-  resize: vertical;
+  resize: none;
 }
 
 .cart-page__summary {
