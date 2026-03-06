@@ -1159,7 +1159,7 @@
         pagination: true,
         arrows: true,
         breakpoints: {
-          750: { pagination: true, arrows: false }
+          750: { pagination: true, arrows: true }
         }
       }).mount();
       replaceSplideArrows(el);
