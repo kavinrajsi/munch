@@ -856,28 +856,23 @@
   // Featured Collection Carousel – Variants, Qty & Add to Cart
   // ============================================================
   function initFccAddToCart() {
-    // Variant selection
-    $(document).on('click', '[data-fcc-variant-btn]', function(e) {
-      e.preventDefault();
-      var $btn = $(this);
-      var $controls = $btn.closest('[data-fcc-controls]');
-
-      // Toggle active state
-      $btn.siblings().removeClass('feat-collection-carousel__variant-btn--active');
-      $btn.addClass('feat-collection-carousel__variant-btn--active');
+    // Variant select dropdown
+    $(document).on('change', '[data-fcc-variant-select]', function() {
+      var $select = $(this);
+      var $controls = $select.closest('[data-fcc-controls]');
+      var $option = $select.find('option:selected');
+      var variantId = $select.val();
+      var variantAvailable = String($option.data('variant-available')) === 'true';
 
       // Update ATC button variant id
-      var variantId = $btn.data('variant-id');
-      var variantAvailable = String($btn.data('variant-available')) === 'true';
       var $atc = $controls.find('[data-fcc-add-to-cart]');
-
       if ($atc.length) {
         $atc.attr('data-variant-id', variantId);
         $atc.data('variant-id', variantId);
       }
 
       // Update price
-      var variantPrice = $btn.data('variant-price');
+      var variantPrice = $option.data('variant-price');
       if (variantPrice) {
         $controls.closest('.feat-collection-carousel__item').find('.feat-collection-carousel__price').html(variantPrice);
       }
@@ -891,22 +886,6 @@
       }
     });
 
-    // Quantity minus
-    $(document).on('click', '[data-fcc-qty-minus]', function(e) {
-      e.preventDefault();
-      var $input = $(this).siblings('[data-fcc-qty-input]');
-      var val = parseInt($input.val(), 10);
-      if (val > 1) $input.val(val - 1);
-    });
-
-    // Quantity plus
-    $(document).on('click', '[data-fcc-qty-plus]', function(e) {
-      e.preventDefault();
-      var $input = $(this).siblings('[data-fcc-qty-input]');
-      var val = parseInt($input.val(), 10);
-      $input.val(val + 1);
-    });
-
     // Add to cart
     $(document).on('click', '[data-fcc-add-to-cart]', function(e) {
       e.preventDefault();
@@ -915,11 +894,11 @@
       var $controls = $btn.closest('[data-fcc-controls]');
       var $item = $btn.closest('.feat-collection-carousel__item');
       var variantId = parseInt($btn.attr('data-variant-id'), 10);
-      var qty = parseInt($controls.find('[data-fcc-qty-input]').val(), 10) || 1;
-      var activeVariant = $controls.find('.feat-collection-carousel__variant-btn--active');
+      var qty = 1;
+      var $variantSelect = $controls.find('[data-fcc-variant-select]');
 
       var productName = $item.find('.feat-collection-carousel__title').text().trim();
-      var variantTitle = activeVariant.length ? activeVariant.text().trim() : 'Default';
+      var variantTitle = $variantSelect.length ? $variantSelect.find('option:selected').text().trim() : 'Default';
       var price = $item.find('.feat-collection-carousel__price').text().trim();
 
       console.log('🛒 Adding product to cart...', {
