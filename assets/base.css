@@ -213,11 +213,6 @@ button {
   align-items: center;
   width: 80px;
 }
-@media (min-width: 750px) {
-  .header__menu-toggle-wrap {
-    display: none;
-  }
-}
 .header__logo {
   flex-shrink: 0;
   display: flex;
@@ -2058,7 +2053,7 @@ html.chatbot-open body {
 }
 
 .icon-with-text {
-  background-color: var(--iwt-bg, transparent);
+  background-color: var(--iwt-bg, #FFF7F3);
   padding-top: var(--iwt-pt-mobile, 20px);
   padding-bottom: var(--iwt-pb-mobile, 20px);
 }
@@ -2141,7 +2136,7 @@ a.icon-with-text__title:hover {
 }
 
 .iwt-scroll {
-  background-color: var(--iwt-bg, transparent);
+  background-color: var(--iwt-bg, #FFF7F3);
   padding-top: var(--iwt-pt-mobile, 20px);
   padding-bottom: var(--iwt-pb-mobile, 20px);
 }
