@@ -241,6 +241,60 @@
         "bg_color": "rgba(0,0,0,0)"
       }
     },
+    "icon_with_text_scroll_qETnBf": {
+      "type": "icon-with-text-scroll",
+      "blocks": {
+        "icon_item_9kHc9P": {
+          "type": "icon_item",
+          "settings": {
+            "image": "shopify://shop_images/ghee-2.png",
+            "title": "Ghee Sweets",
+            "link": "shopify://collections/gheesweets",
+            "item_bg_color": "rgba(0,0,0,0)"
+          }
+        },
+        "icon_item_rNUFNw": {
+          "type": "icon_item",
+          "settings": {
+            "image": "shopify://shop_images/home-made-sweets-2.png",
+            "title": "Home Made Sweets",
+            "link": "",
+            "item_bg_color": "rgba(0,0,0,0)"
+          }
+        },
+        "icon_item_bMTdk8": {
+          "type": "icon_item",
+          "settings": {
+            "image": "shopify://shop_images/traditonal-savories-2.png",
+            "title": "Traditional Savories",
+            "link": "",
+            "item_bg_color": "rgba(0,0,0,0)"
+          }
+        }
+      },
+      "block_order": [
+        "icon_item_9kHc9P",
+        "icon_item_rNUFNw",
+        "icon_item_bMTdk8"
+      ],
+      "name": "Icon with Text Scroll",
+      "settings": {
+        "container_type": "container",
+        "title": "Exclusive Collections",
+        "image_width_desktop": 344,
+        "image_height_desktop": 344,
+        "image_width_mobile": 280,
+        "image_height_mobile": 280,
+        "gap_image_text": 8,
+        "gap_items": 20,
+        "padding_top_desktop": 40,
+        "padding_bottom_desktop": 40,
+        "padding_top_mobile": 20,
+        "padding_bottom_mobile": 20,
+        "text_color": "#161a1d",
+        "bg_color": "rgba(0,0,0,0)"
+      }
+    },
     "about_strip_JkKynW": {
       "type": "about-strip",
       "blocks": {
@@ -362,6 +416,8 @@
       "name": "Visit Locations",
       "settings": {
         "title": "Visit Us",
+        "view_all_url": "",
+        "view_all_text": "View all Location",
         "padding_top": 56,
         "padding_bottom": 56,
         "padding_top_mobile": 56,
@@ -505,60 +561,6 @@
         "padding_top_mobile": 56,
         "padding_bottom_mobile": 56
       }
-    },
-    "icon_with_text_scroll_qETnBf": {
-      "type": "icon-with-text-scroll",
-      "blocks": {
-        "icon_item_9kHc9P": {
-          "type": "icon_item",
-          "settings": {
-            "image": "shopify://shop_images/ghee-2.png",
-            "title": "Item 1",
-            "link": "",
-            "item_bg_color": "transparent"
-          }
-        },
-        "icon_item_rNUFNw": {
-          "type": "icon_item",
-          "settings": {
-            "image": "shopify://shop_images/ghee-2.png",
-            "title": "Title",
-            "link": "",
-            "item_bg_color": "transparent"
-          }
-        },
-        "icon_item_bMTdk8": {
-          "type": "icon_item",
-          "settings": {
-            "image": "shopify://shop_images/traditonal-savories-2.png",
-            "title": "Item 6",
-            "link": "",
-            "item_bg_color": "transparent"
-          }
-        }
-      },
-      "block_order": [
-        "icon_item_9kHc9P",
-        "icon_item_rNUFNw",
-        "icon_item_bMTdk8"
-      ],
-      "name": "Icon with Text Scroll",
-      "settings": {
-        "container_type": "container",
-        "title": "Shop by Category",
-        "image_width_desktop": 344,
-        "image_height_desktop": 344,
-        "image_width_mobile": 280,
-        "image_height_mobile": 280,
-        "gap_image_text": 8,
-        "gap_items": 20,
-        "padding_top_desktop": 40,
-        "padding_bottom_desktop": 40,
-        "padding_top_mobile": 20,
-        "padding_bottom_mobile": 20,
-        "text_color": "#161A1D",
-        "bg_color": "transparent"
-      }
     }
   },
   "order": [
@@ -567,10 +569,10 @@
     "featured_collection_carousel_9NjQpC",
     "promo_banner_KF3mq3",
     "icon_with_text_UktifF",
+    "icon_with_text_scroll_qETnBf",
     "about_strip_JkKynW",
     "featured_collection_carousel_kbJ7rW",
     "visit_us_locations_hzNWNb",
-    "testimonials_xGAihr",
-    "icon_with_text_scroll_qETnBf"
+    "testimonials_xGAihr"
   ]
 }
