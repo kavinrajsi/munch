@@ -1880,12 +1880,15 @@ html.search-open body {
   display: flex;
   flex-direction: column;
   gap: 24px;
+  align-items: center;
+  text-align: center;
 }
 @media (min-width: 768px) {
   .footer__bottom .footer__bottom-content {
     flex-direction: row;
     justify-content: space-between;
     align-items: flex-start;
+    text-align: left;
   }
 }
 .footer__bottom .footer__brand-trust-title,
