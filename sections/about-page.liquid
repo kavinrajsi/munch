@@ -32,37 +32,16 @@
           {%- endif -%}
         </div>
       </div>
-      <div class="about-page__story-images" data-animate="fade-left" data-animate-delay="200">
+      <div class="about-page__story-image" data-animate="fade-left" data-animate-delay="200">
         {%- if section.settings.story_image_main != blank -%}
-          <div class="about-page__story-main-img">
-            {{ section.settings.story_image_main
-              | image_url: width: 700
-              | image_tag:
-                widths: '400, 550, 700',
-                sizes: '(min-width: 750px) 550px, 90vw',
-                loading: 'lazy'
-            }}
-          </div>
-        {%- endif -%}
-        {%- if section.settings.story_image_small_1 != blank -%}
-          <div class="about-page__story-float about-page__story-float--1">
-            {{ section.settings.story_image_small_1 | image_url: width: 150 | image_tag: loading: 'lazy' }}
-          </div>
-        {%- endif -%}
-        {%- if section.settings.story_image_small_2 != blank -%}
-          <div class="about-page__story-float about-page__story-float--2">
-            {{ section.settings.story_image_small_2 | image_url: width: 150 | image_tag: loading: 'lazy' }}
-          </div>
-        {%- endif -%}
-        {%- if section.settings.story_image_small_3 != blank -%}
-          <div class="about-page__story-float about-page__story-float--3">
-            {{ section.settings.story_image_small_3 | image_url: width: 150 | image_tag: loading: 'lazy' }}
-          </div>
-        {%- endif -%}
-        {%- if section.settings.story_image_small_4 != blank -%}
-          <div class="about-page__story-float about-page__story-float--4">
-            {{ section.settings.story_image_small_4 | image_url: width: 300 | image_tag: loading: 'lazy' }}
-          </div>
+          {{ section.settings.story_image_main
+            | image_url: width: 750
+            | image_tag:
+              widths: '400, 550, 750',
+              sizes: '(min-width: 750px) 710px, 100vw',
+              class: 'about-page__story-img',
+              loading: 'lazy'
+          }}
         {%- endif -%}
       </div>
     </div>
@@ -208,27 +187,7 @@
     {
       "type": "image_picker",
       "id": "story_image_main",
-      "label": "Main image"
-    },
-    {
-      "type": "image_picker",
-      "id": "story_image_small_1",
-      "label": "Small image 1 (top-left)"
-    },
-    {
-      "type": "image_picker",
-      "id": "story_image_small_2",
-      "label": "Small image 2 (top-right)"
-    },
-    {
-      "type": "image_picker",
-      "id": "story_image_small_3",
-      "label": "Small image 3 (bottom-left)"
-    },
-    {
-      "type": "image_picker",
-      "id": "story_image_small_4",
-      "label": "Small image 4 (bottom-right)"
+      "label": "Story image"
     },
     {
       "type": "header",
