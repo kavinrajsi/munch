@@ -61,10 +61,68 @@
         "padding_top_mobile": 56,
         "padding_bottom_mobile": 20
       }
+    },
+    "icon_with_text_slider_d3qCwt": {
+      "type": "icon-with-text-slider",
+      "blocks": {
+        "icon_item_XCqxyg": {
+          "type": "icon_item",
+          "settings": {
+            "image": "shopify://shop_images/traditonal-savories-2.png",
+            "title": "Home Made Savouries",
+            "link": "shopify://collections/home-made-savouries",
+            "item_bg_color": "transparent"
+          }
+        },
+        "icon_item_Cjjxfi": {
+          "type": "icon_item",
+          "settings": {
+            "image": "shopify://shop_images/home-made-sweets-2.png",
+            "title": "Home Made Sweets",
+            "link": "shopify://collections/home-made-sweets",
+            "item_bg_color": "transparent"
+          }
+        },
+        "icon_item_XE3BXY": {
+          "type": "icon_item",
+          "settings": {
+            "image": "shopify://shop_images/ghee-2.png",
+            "title": "Ghee Sweets",
+            "link": "shopify://collections/gheesweets",
+            "item_bg_color": "transparent"
+          }
+        }
+      },
+      "block_order": [
+        "icon_item_XCqxyg",
+        "icon_item_Cjjxfi",
+        "icon_item_XE3BXY"
+      ],
+      "name": "Icon with Text Slider",
+      "settings": {
+        "container_type": "container",
+        "title": "Exclusive Collections",
+        "items_per_row_desktop": 6,
+        "items_per_row_tablet": 4,
+        "items_per_row_mobile": 3,
+        "image_width_desktop": 120,
+        "image_height_desktop": 120,
+        "image_width_mobile": 80,
+        "image_height_mobile": 80,
+        "gap_image_text": 8,
+        "gap_items": 20,
+        "padding_top_desktop": 40,
+        "padding_bottom_desktop": 40,
+        "padding_top_mobile": 20,
+        "padding_bottom_mobile": 20,
+        "text_color": "#161A1D",
+        "bg_color": "transparent"
+      }
     }
   },
   "order": [
     "main",
-    "exclusive"
+    "exclusive",
+    "icon_with_text_slider_d3qCwt"
   ]
 }
