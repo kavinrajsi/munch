@@ -16,6 +16,7 @@
       "blocks": {
         "a1": {
           "type": "announcement",
+          "disabled": true,
           "settings": {
             "text": "Order before 6PM to get delivery within 3 hours in Chennai",
             "link": ""
@@ -23,6 +24,7 @@
         },
         "a2": {
           "type": "announcement",
+          "disabled": true,
           "settings": {
             "text": "All other cities take 3-5 business days to deliver PAN India & 4-7 business days Internationally",
             "link": ""
