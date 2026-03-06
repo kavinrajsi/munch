@@ -2132,7 +2132,7 @@ a.icon-with-text__title:hover {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--iwt-gap-img-text, 8px);
+  gap: var(--iwt-gap-img-text, 12px);
   background-color: var(--iwt-item-bg, transparent);
 }
 
@@ -2162,18 +2162,13 @@ a.icon-with-text__title:hover {
 
 .iwt-scroll__title {
   font-family: "Aller", sans-serif;
+  font-style: normal;
   font-weight: 400;
-  font-size: 14px;
-  line-height: 16px;
+  font-size: 20px;
+  line-height: 24px;
   text-align: center;
-  color: #161A1D;
+  color: #0B090A;
   text-decoration: none;
-}
-@media (min-width: 992px) {
-  .iwt-scroll__title {
-    font-size: 16px;
-    line-height: 20px;
-  }
 }
 
 a.iwt-scroll__title:hover {
@@ -2295,20 +2290,12 @@ a.iwt-scroll__title:hover {
   padding-bottom: var(--fcc-pb-mobile, 40px);
 }
 .feat-collection-carousel .container {
-  padding-left: 0;
   padding-right: 0;
 }
 @media (min-width: 992px) {
   .feat-collection-carousel .container {
-    padding-left: 16px;
     padding-right: 16px;
   }
-}
-.feat-collection-carousel .splide__slide:first-child {
-  padding-left: 16px;
-}
-.feat-collection-carousel .splide__slide:last-child {
-  padding-right: 16px;
 }
 @media (min-width: 992px) {
   .feat-collection-carousel {

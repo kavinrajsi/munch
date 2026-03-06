@@ -24,7 +24,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--iwt-gap-img-text, 8px);
+  gap: var(--iwt-gap-img-text, 12px);
   background-color: var(--iwt-item-bg, transparent);
 }
 
@@ -53,17 +53,13 @@
 
 .iwt-scroll__title {
   font-family: 'Aller', sans-serif;
+  font-style: normal;
   font-weight: 400;
-  font-size: 14px;
-  line-height: 16px;
+  font-size: 20px;
+  line-height: 24px;
   text-align: center;
-  color: #161A1D;
+  color: #0B090A;
   text-decoration: none;
-
-  @media (min-width: 992px) {
-    font-size: 16px;
-    line-height: 20px;
-  }
 }
 
 a.iwt-scroll__title {
