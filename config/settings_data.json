@@ -23,7 +23,7 @@
     "age_verify_enabled": false,
     "age_verify_description": "You must be 4+ or older to enter this site.",
     "rtl_enabled": false,
-    "newsletter_popup_enabled": true,
+    "newsletter_popup_enabled": false,
     "newsletter_popup_image": "shopify://shop_images/grahmam-heritage-pack-2.webp",
     "bis_enabled": true,
     "bis_mode": "klaviyo",

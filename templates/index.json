@@ -236,7 +236,7 @@
         "padding_top_desktop": 56,
         "padding_bottom_desktop": 56,
         "padding_top_mobile": 56,
-        "padding_bottom_mobile": 40,
+        "padding_bottom_mobile": 56,
         "text_color": "#161a1d",
         "bg_color": "rgba(0,0,0,0)"
       }
@@ -290,7 +290,7 @@
         "bg_color": "#c61d23",
         "padding_top_desktop": 56,
         "padding_bottom_desktop": 56,
-        "padding_top_mobile": 32,
+        "padding_top_mobile": 56,
         "padding_bottom_mobile": 32
       }
     },
