@@ -502,8 +502,8 @@
         "show_dots": true,
         "padding_top_desktop": 56,
         "padding_bottom_desktop": 56,
-        "padding_top_mobile": 20,
-        "padding_bottom_mobile": 20
+        "padding_top_mobile": 56,
+        "padding_bottom_mobile": 56
       }
     }
   },
