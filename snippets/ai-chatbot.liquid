@@ -40,7 +40,7 @@
     opacity:0; pointer-events:none;
     transition:transform .35s cubic-bezier(.34,1.4,.64,1),opacity .25s ease;
   }
-  #na-chat-widget.open #na-chat-window { transform:scale(1) translateY(0); opacity:1; pointer-events:all; }
+  #na-chat-widget.open #na-chat-window { transform:scale(1) translateY(0); opacity:1; pointer-events:all; max-height:initial; }
 
   .na-header { background:#c61d23; padding:16px 20px; display:flex; align-items:center; gap:12px; position:relative; }
   .na-header::before { content:""; position:absolute; top:-20px; right:-20px; width:100px; height:100px; background:radial-gradient(circle,rgba(255,255,255,.1),transparent 70%); border-radius:50%; pointer-events:none; }
@@ -102,7 +102,7 @@
   .na-error { color:var(--accent-red) !important; font-style:italic; }
 
   @media(max-width:480px){ #na-chat-widget { bottom:68px; right:16px; }
-    #na-chat-window { position:fixed; top:0; left:0; right:0; bottom:0; width:100vw; height:96vh; max-height:96vh; border-radius:0; transform-origin:bottom right; }
+    #na-chat-window { position:fixed; top:0; left:0; right:0; bottom:0; width:100vw; height:100vh; border-radius:0; transform-origin:bottom right; }
     .na-messages { max-height:none; flex:1; } }
 </style>
 
@@ -592,7 +592,8 @@ function initChat() {
 function naToggleChat() {
   isOpen = !isOpen;
   document.getElementById('na-chat-widget').classList.toggle('open', isOpen);
-  document.body.style.overflow = isOpen ? 'hidden' : '';
+  document.documentElement.classList.toggle('chatbot-open', isOpen);
+  document.body.classList.toggle('chatbot-open', isOpen);
   if (isOpen) {
     const b = document.getElementById('na-badge');
     if (b) b.style.display = 'none';

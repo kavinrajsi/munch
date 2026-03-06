@@ -7,7 +7,9 @@
 html.cart-open,
 html.cart-open body,
 html.search-open,
-html.search-open body {
+html.search-open body,
+html.chatbot-open,
+html.chatbot-open body {
   overflow: hidden !important;
   height: 100%;
 }
