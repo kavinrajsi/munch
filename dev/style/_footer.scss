@@ -130,6 +130,11 @@
   .footer__item {
     margin: 0;
     padding-bottom: 8px;
+    &:last-child {
+      @media (max-width: 749px) {
+        padding-bottom: 40px;
+      }
+    }
     .footer__link {
       color: var(--footer-link-color, #161a1d);
       font-size: 14px;
