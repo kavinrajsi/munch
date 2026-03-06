@@ -287,10 +287,10 @@
         "image_height_mobile": 280,
         "gap_image_text": 8,
         "gap_items": 20,
-        "padding_top_desktop": 40,
-        "padding_bottom_desktop": 40,
-        "padding_top_mobile": 20,
-        "padding_bottom_mobile": 20,
+        "padding_top_desktop": 56,
+        "padding_bottom_desktop": 56,
+        "padding_top_mobile": 56,
+        "padding_bottom_mobile": 40,
         "text_color": "#161a1d",
         "bg_color": "rgba(0,0,0,0)"
       }
