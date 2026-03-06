@@ -66,7 +66,7 @@
         "icon_item_f9F7jX": {
           "type": "icon_item",
           "settings": {
-            "image": "shopify://shop_images/dry-fruit-sweets.png",
+            "image": "shopify://shop_images/dry.png",
             "title": "Dry Fruit Sweets",
             "link": "shopify://collections/dry-fruit-sweets",
             "item_bg_color": "rgba(0,0,0,0)"
@@ -75,7 +75,7 @@
         "icon_item_rj93JV": {
           "type": "icon_item",
           "settings": {
-            "image": "shopify://shop_images/traditional-sweets.png",
+            "image": "shopify://shop_images/traditional-sweets_0fa079a6-ff04-47ed-85d3-ba0c31596342.png",
             "title": "Traditional Sweets",
             "link": "shopify://collections/traditional-sweets",
             "item_bg_color": "rgba(0,0,0,0)"
@@ -84,7 +84,7 @@
         "icon_item_8gn9yU": {
           "type": "icon_item",
           "settings": {
-            "image": "shopify://shop_images/traditional-savouries.png",
+            "image": "shopify://shop_images/traditional-savouries_cad81435-1f3f-4ba1-aaa3-efc3c0bd28be.png",
             "title": "Traditional Savouries",
             "link": "shopify://collections/savouries",
             "item_bg_color": "rgba(0,0,0,0)"
@@ -93,7 +93,7 @@
         "icon_item_gd4frF": {
           "type": "icon_item",
           "settings": {
-            "image": "shopify://shop_images/baklava.png",
+            "image": "shopify://shop_images/baklava_82d31d38-f50a-4d7f-9b1c-b90a702a2af8.png",
             "title": "Baklava",
             "link": "shopify://collections/baklava",
             "item_bg_color": "rgba(0,0,0,0)"
@@ -102,7 +102,7 @@
         "icon_item_dzcVHa": {
           "type": "icon_item",
           "settings": {
-            "image": "shopify://shop_images/traditional-savouries.png",
+            "image": "shopify://shop_images/traditional-savouries_cad81435-1f3f-4ba1-aaa3-efc3c0bd28be.png",
             "title": "Savouries",
             "link": "shopify://collections/savouries",
             "item_bg_color": "rgba(0,0,0,0)"
@@ -111,7 +111,7 @@
         "icon_item_mE8Fp7": {
           "type": "icon_item",
           "settings": {
-            "image": "shopify://shop_images/gifting-combos.png",
+            "image": "shopify://shop_images/gifting-combos_165d3d1e-6f10-4020-b1cf-ad9ce0c91548.png",
             "title": "Gifting Combo",
             "link": "shopify://collections",
             "item_bg_color": "rgba(0,0,0,0)"
