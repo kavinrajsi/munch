@@ -1156,10 +1156,10 @@
         type: 'slide',
         autoWidth: true,
         gap: '20px',
-        pagination: false,
+        pagination: true,
         arrows: true,
         breakpoints: {
-          750: { pagination: false, arrows: false }
+          750: { pagination: true, arrows: false }
         }
       }).mount();
       replaceSplideArrows(el);
@@ -1175,6 +1175,22 @@
         arrows: true,
         breakpoints: {
           1024: { perPage: 3 },
+          750: { perPage: 1, padding: { right: '25%' }, pagination: true }
+        }
+      }).mount();
+      replaceSplideArrows(el);
+    });
+
+    // Store locations slider – Splide
+    document.querySelectorAll('[data-store-locations-slider]').forEach(function(el) {
+      new Splide(el, {
+        type: 'slide',
+        perPage: 3,
+        gap: '20px',
+        pagination: true,
+        arrows: true,
+        breakpoints: {
+          1024: { perPage: 2 },
           750: { perPage: 1, padding: { right: '25%' }, pagination: true }
         }
       }).mount();
