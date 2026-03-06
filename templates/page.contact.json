@@ -1,9 +1,29 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "main": {
       "type": "main-contact",
-      "settings": {}
+      "settings": {
+        "address": "<p>Nithya Amirtham Indian Food Pvt Ltd<br/>Old No 41 New No 2/52A, Karuneegar Street,<br/>Nerkundram, Tamil Nadu,<br/>Chennai-600107</p>",
+        "email": "feedback@nithyaamirtham.com",
+        "phone": "8754401444",
+        "instagram_url": "https://www.instagram.com/nithya.amirtham/",
+        "facebook_url": "https://www.facebook.com/NithyaAmirthamVeg/",
+        "youtube_url": "https://www.youtube.com/@Nithyaamirtham",
+        "form_heading": "We'd love to hear from you",
+        "form_subtitle": "Please use the form to send us your message or ideas."
+      }
     }
   },
-  "order": ["main"]
+  "order": [
+    "main"
+  ]
 }
