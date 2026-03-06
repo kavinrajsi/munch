@@ -1150,6 +1150,21 @@
       replaceSplideArrows(el);
     });
 
+    // Icon with Text Scroll – Splide
+    document.querySelectorAll('[data-iwt-scroll-slider]').forEach(function(el) {
+      new Splide(el, {
+        type: 'slide',
+        autoWidth: true,
+        gap: '20px',
+        pagination: false,
+        arrows: true,
+        breakpoints: {
+          750: { pagination: false, arrows: false }
+        }
+      }).mount();
+      replaceSplideArrows(el);
+    });
+
     // Featured collection carousel – Splide
     document.querySelectorAll('[data-feat-collection-carousel]').forEach(function(el) {
       new Splide(el, {
