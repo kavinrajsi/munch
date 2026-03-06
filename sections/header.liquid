@@ -1,6 +1,16 @@
 <header
   class="header{% if section.settings.sticky %} header--sticky{% endif %}"
   data-header
+  style="
+    --nav-link-color: {{ section.settings.nav_link_color }};
+    --nav-font-size: {{ section.settings.nav_font_size }}px;
+    --nav-hover-color: {{ section.settings.nav_hover_color }};
+    --dropdown-bg-color: {{ section.settings.dropdown_bg_color }};
+    --dropdown-link-color: {{ section.settings.dropdown_link_color }};
+    --mobile-menu-bg-color: {{ section.settings.mobile_menu_bg_color }};
+    --mobile-nav-link-color: {{ section.settings.mobile_nav_link_color }};
+    --mobile-nav-font-size: {{ section.settings.mobile_nav_font_size }}px;
+  "
   {{ section.shopify_attributes }}
 >
   <div class="{% if section.settings.container_type == 'container-fluid' %}container-fluid{% else %}container{% endif %}">
@@ -137,7 +147,16 @@
 </header>
 
 {%- comment -%} Mobile Menu {%- endcomment -%}
-<div class="mobile-menu" id="MobileMenu" data-mobile-menu>
+<div
+  class="mobile-menu"
+  id="MobileMenu"
+  data-mobile-menu
+  style="
+    --mobile-menu-bg-color: {{ section.settings.mobile_menu_bg_color }};
+    --mobile-nav-link-color: {{ section.settings.mobile_nav_link_color }};
+    --mobile-nav-font-size: {{ section.settings.mobile_nav_font_size }}px;
+  "
+>
   <div class="mobile-menu__overlay" data-mobile-menu-close></div>
   <div class="mobile-menu__panel">
     {%- comment -%} Header with logo + close {%- endcomment -%}
@@ -422,6 +441,70 @@
       "id": "menu",
       "label": "Menu",
       "default": "main-menu"
+    },
+    {
+      "type": "color",
+      "id": "nav_link_color",
+      "label": "Nav Link Color",
+      "default": "#0b090a"
+    },
+    {
+      "type": "range",
+      "id": "nav_font_size",
+      "label": "Nav Font Size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "default": 16,
+      "unit": "px"
+    },
+    {
+      "type": "color",
+      "id": "nav_hover_color",
+      "label": "Nav Hover/Active Underline Color",
+      "default": "#c61d23"
+    },
+    {
+      "type": "color",
+      "id": "dropdown_bg_color",
+      "label": "Dropdown Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "dropdown_link_color",
+      "label": "Dropdown Link Color",
+      "default": "#0b090a"
+    },
+    {
+      "type": "header",
+      "content": "Mobile Menu"
+    },
+    {
+      "type": "color",
+      "id": "mobile_menu_bg_color",
+      "label": "Mobile Menu Background",
+      "default": "#fff7f3"
+    },
+    {
+      "type": "color",
+      "id": "mobile_nav_link_color",
+      "label": "Mobile Nav Link Color",
+      "default": "#0b090a"
+    },
+    {
+      "type": "range",
+      "id": "mobile_nav_font_size",
+      "label": "Mobile Nav Font Size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "default": 14,
+      "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "Sticky Header"
     },
     {
       "type": "checkbox",
