@@ -1,40 +1,27 @@
 {% render 'breadcrumbs' %}
 {% render 'json-ld-store', store_blocks: section.blocks %}
 
-<div class="store-locator section-padding" {{ section.shopify_attributes }}>
+<div class="store-locator" {{ section.shopify_attributes }}>
   <div class="container">
-    <h1 class="text-center" style="margin-bottom:32px;">{{ section.settings.title }}</h1>
+    {%- if section.settings.title != blank -%}
+      <h1 class="store-locator__title">{{ section.settings.title }}</h1>
+    {%- endif -%}
 
-    <div class="store-locator__grid">
-      {%- if section.settings.map_embed != blank -%}
-        <div class="store-locator__map">
-          {{ section.settings.map_embed }}
-        </div>
-      {%- endif -%}
+    {%- if section.settings.map_embed != blank -%}
+      <div class="store-locator__map">
+        {{ section.settings.map_embed }}
+      </div>
+    {%- endif -%}
 
-      <div class="store-locator__locations">
+    {%- if section.blocks.size > 0 -%}
+      <div class="store-locator__grid">
         {%- for block in section.blocks -%}
-          <div class="store-locator__card" {{ block.shopify_attributes }}>
-            <h4>{{ block.settings.name }}</h4>
-            {%- if block.settings.address != blank -%}
-              <p>{{ block.settings.address }}</p>
-            {%- endif -%}
-            {%- if block.settings.phone != blank -%}
-              <p>Phone: <a href="tel:{{ block.settings.phone | remove: ' ' }}">{{ block.settings.phone }}</a></p>
-            {%- endif -%}
-            {%- if block.settings.hours != blank -%}
-              <p>{{ block.settings.hours }}</p>
-            {%- endif -%}
-            {%- if block.settings.directions_url != blank -%}
-              <a href="{{ block.settings.directions_url }}" target="_blank" rel="noopener" class="store-locator__directions">
-                {{ 'sections.store_locator.directions' | t }}
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-              </a>
-            {%- endif -%}
+          <div data-animate="fade-up" data-animate-delay="{{ forloop.index0 | times: 100 | at_most: 500 }}">
+            {%- render 'store-card', block: block -%}
           </div>
         {%- endfor -%}
       </div>
-    </div>
+    {%- endif -%}
   </div>
 </div>
 
