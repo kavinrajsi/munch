@@ -362,6 +362,8 @@
       "name": "Visit Locations",
       "settings": {
         "title": "Visit Us",
+        "view_all_url": "/pages/store-locator",
+        "view_all_text": "View all Location",
         "padding_top": 56,
         "padding_bottom": 56,
         "padding_top_mobile": 56,
