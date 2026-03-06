@@ -41,6 +41,15 @@
         "hero_image": "shopify://shop_images/about-banner.jpg"
       }
     },
+    "about_story_i6KYHw": {
+      "type": "about-story",
+      "name": "About Story",
+      "settings": {
+        "story_heading": "A Timeless Journey of Taste and Tradition",
+        "story_paragraph_1": "<p>At Nithya Amirtham, we believe food is more than sustenance, it's a celebration of life, culture, and togetherness. Our name itself reflects what we stand for: \"Nithya\" meaning eternal, and \"Amirtham\" meaning divine nectar.</p>",
+        "story_paragraph_2": "<p>From humble beginnings rooted in age-old family recipes, we've grown into a brand that cherishes purity, taste, and authenticity. Every product we offer is a reflection of the rich culinary heritage of South India, crafted with care and devotion.</p>"
+      }
+    },
     "about_tradition_eBMY37": {
       "type": "about-tradition",
       "name": "About Tradition",
@@ -63,21 +72,23 @@
         "mission_icon": "<svg width=\"100\" height=\"100\" viewbox=\"0 0 100 100\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n<path d=\"M100 24.8069H94.1405V11.7196H81.0532V5.85999H100V24.8069Z\" fill=\"#FFC44C\"></path>\n<path d=\"M5.85962 24.8069H0V5.85999H18.9469V11.7196H5.85962V24.8069Z\" fill=\"#FFC44C\"></path>\n<path d=\"M100 94.1397H81.0532V88.2801H94.1405V75.1929H100V94.1397Z\" fill=\"#FFC44C\"></path>\n<path d=\"M18.9469 94.1397H0V75.1929H5.85962V88.2801H18.9469V94.1397Z\" fill=\"#FFC44C\"></path>\n<path d=\"M50.0025 46.3927C48.0071 46.3927 46.3838 48.0162 46.3838 50.0114C46.3838 52.0068 48.0073 53.6303 50.0025 53.6303C51.9977 53.6303 53.6212 52.0068 53.6212 50.0114C53.6212 48.016 51.9979 46.3927 50.0025 46.3927Z\" fill=\"#FFC44C\"></path>\n<path d=\"M50.0026 30.5548C39.274 30.5548 30.5459 39.2831 30.5459 50.0115C30.5459 60.74 39.2742 69.4683 50.0026 69.4683C60.7309 69.4683 69.4592 60.74 69.4592 50.0115C69.4592 39.2831 60.7311 30.5548 50.0026 30.5548ZM50.0026 59.49C44.7762 59.49 40.5242 55.2379 40.5242 50.0115C40.5242 44.7851 44.7764 40.5331 50.0026 40.5331C55.2287 40.5331 59.4809 44.7851 59.4809 50.0115C59.4809 55.2379 55.2289 59.49 50.0026 59.49Z\" fill=\"#FFC44C\"></path>\n<path d=\"M93.1647 48.0328C86.1452 40.3666 78.9936 34.518 71.9087 30.649C64.6719 26.6975 57.3024 24.6937 50.0049 24.6937C42.7077 24.6937 35.3381 26.6973 28.1012 30.649C21.0164 34.518 13.8647 40.3666 6.84529 48.0328L5.03369 50.0114L6.84529 51.99C13.8647 59.6561 21.0164 65.5048 28.1012 69.3737C35.3381 73.3252 42.7075 75.329 50.0049 75.329C57.3022 75.329 64.6719 73.3254 71.9087 69.3737C78.9936 65.5048 86.1452 59.6561 93.1647 51.99L94.9763 50.0114L93.1647 48.0328ZM50.0027 75.3278C36.0432 75.3278 24.6865 63.9709 24.6865 50.0114C24.6865 36.0518 36.0434 24.6951 50.0027 24.6951C63.9621 24.6951 75.319 36.052 75.319 50.0114C75.319 63.9707 63.9623 75.3278 50.0027 75.3278Z\" fill=\"#FFC44C\"></path>\n</svg>"
       }
     },
-    "about_story_i6KYHw": {
-      "type": "about-story",
-      "name": "About Story",
+    "about_celebration_LKBUYj": {
+      "type": "about-celebration",
+      "name": "About Celebration",
       "settings": {
-        "story_heading": "A Timeless Journey of Taste and Tradition",
-        "story_paragraph_1": "<p>At Nithya Amirtham, we believe food is more than sustenance, it's a celebration of life, culture, and togetherness. Our name itself reflects what we stand for: \"Nithya\" meaning eternal, and \"Amirtham\" meaning divine nectar.</p>",
-        "story_paragraph_2": "<p>From humble beginnings rooted in age-old family recipes, we've grown into a brand that cherishes purity, taste, and authenticity. Every product we offer is a reflection of the rich culinary heritage of South India, crafted with care and devotion.</p>"
+        "celebration_heading": "Celebrating Our Food, Celebrating Life",
+        "celebration_paragraph_1": "<p>At Nithya Amirtham, food is not just an offering — it's a festival on a plate. Every dish tells a story. Every ingredient is chosen with care. Whether it's a hearty sambar, a festive pongal, or a comforting rasam, we celebrate the power of food to heal, connect, and uplift.</p>",
+        "celebration_paragraph_2": "<p>We don't just deliver products — we deliver moments of joy. We cherish our role in your kitchens, celebrations, and family dinners. Because we know food is how we express love, care, and community.</p>",
+        "celebration_image": "shopify://shop_images/life.png"
       }
     }
   },
   "order": [
     "main",
     "about_hero_eRrYMq",
+    "about_story_i6KYHw",
     "about_tradition_eBMY37",
     "about_vision_mission_qjrqHp",
-    "about_story_i6KYHw"
+    "about_celebration_LKBUYj"
   ]
 }
