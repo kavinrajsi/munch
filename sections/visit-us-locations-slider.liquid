@@ -1,0 +1,183 @@
+<div class="store-locations" style="--sl-pt-desktop: {{ section.settings.padding_top }}px; --sl-pb-desktop: {{ section.settings.padding_bottom }}px; --sl-pt-mobile: {{ section.settings.padding_top_mobile }}px; --sl-pb-mobile: {{ section.settings.padding_bottom_mobile }}px;" {{ section.shopify_attributes }}>
+  <div class="container">
+    {%- if section.settings.title != blank -%}
+      <div class="">
+        {%- render 'section-heading',
+          title: section.settings.title,
+          heading_tag: 'h2',
+          show_left_line: true,
+          show_left_icon: true,
+          show_right_icon: true,
+          show_right_line: true
+        -%}
+      </div>
+    {%- endif -%}
+
+    {%- if section.blocks.size > 0 -%}
+      <div class="store-locations__slider splide" data-store-locations-slider>
+        <div class="splide__track">
+          <div class="splide__list">
+            {%- for block in section.blocks -%}
+              <div class="splide__slide">
+                {%- render 'store-card', block: block -%}
+              </div>
+            {%- endfor -%}
+          </div>
+        </div>
+      </div>
+    {%- endif -%}
+
+    {%- if section.settings.view_all_url != blank -%}
+      <div class="store-locations__view-all">
+        <a href="{{ section.settings.view_all_url }}" class="store-locations__view-all-btn">
+          {{ section.settings.view_all_text | default: 'View all Location' }}
+        </a>
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Visit Location Slider",
+  "tag": "section",
+  "class": "store-locations-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Visit us"
+    },
+    {
+      "type": "url",
+      "id": "view_all_url",
+      "label": "View all button link"
+    },
+    {
+      "type": "text",
+      "id": "view_all_text",
+      "label": "View all button text",
+      "default": "View all Location"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding top — desktop",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 56
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding bottom — desktop",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 56
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "label": "Padding top — mobile",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "label": "Padding bottom — mobile",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 20
+    }
+  ],
+  "blocks": [
+    {
+      "type": "location",
+      "name": "Store Location",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Store image"
+        },
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Store name",
+          "default": "Nithya Amirtham"
+        },
+        {
+          "type": "textarea",
+          "id": "address",
+          "label": "Address",
+          "default": "123 Sweet Street, Chennai, Tamil Nadu 600001"
+        },
+        {
+          "type": "text",
+          "id": "phone",
+          "label": "Phone number",
+          "default": "+91 44 1234 5678"
+        },
+        {
+          "type": "text",
+          "id": "hours",
+          "label": "Operating hours",
+          "default": "8:00 AM - 10:00 PM"
+        },
+        {
+          "type": "url",
+          "id": "directions_url",
+          "label": "Directions URL"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Visit Location Slider",
+      "category": "Store information",
+      "blocks": [
+        {
+          "type": "location",
+          "settings": {
+            "name": "Aminjikarai",
+            "address": "No. 52, Priyan Plaza, Nelson Manickam Road, Railway Colony, Aminjikarai, Chennai, Tamil Nadu - 600 029.",
+            "phone": "044-4359 1021, 8056164927",
+            "hours": "8am - 11pm"
+          }
+        },
+        {
+          "type": "location",
+          "settings": {
+            "name": "Anna Nagar East",
+            "address": "C40, 2nd Ave, Anna Nagar, AF Block, Anna Nagar, Chennai, Tamil Nadu - 600 040.",
+            "phone": "74186 44435, 044-2853 4905",
+            "hours": "8am - 11pm"
+          }
+        },
+        {
+          "type": "location",
+          "settings": {
+            "name": "Arumbakkam",
+            "address": "17/6, Razzak Garden Main Road, near NSK Signal, Chennai, Tamil Nadu - 600 106.",
+            "phone": "044-4359 2744, 7358576128",
+            "hours": "8am - 11pm"
+          }
+        }
+      ]
+    }
+  ],
+  "max_blocks": 20
+}
+{% endschema %}
