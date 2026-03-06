@@ -1,0 +1,137 @@
+.countdown-banner {
+  padding: 12px 0;
+}
+
+.countdown-banner__wrap {
+  position: relative;
+}
+
+.countdown-banner__inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  flex-wrap: wrap;
+}
+
+.countdown-banner__label {
+  font-family: 'Aller', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: 0.02em;
+  padding-right: 20px;
+  border-right: 1px solid rgba(255, 255, 255, 0.3);
+  margin-right: 20px;
+}
+
+.countdown-banner__digits {
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+
+.countdown-banner__digit-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 44px;
+}
+
+.countdown-banner__digit-value {
+  font-family: 'Aleo', serif;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+}
+
+.countdown-banner__digit-label {
+  font-family: 'Aller', sans-serif;
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  opacity: 0.85;
+  margin-top: 1px;
+}
+
+.countdown-banner__separator {
+  font-family: 'Aleo', serif;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 1;
+  padding: 0 6px;
+  align-self: flex-start;
+  margin-top: 2px;
+}
+
+.countdown-banner__link {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  font-family: 'Aller', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  padding-left: 20px;
+  border-left: 1px solid rgba(255, 255, 255, 0.3);
+  margin-left: 20px;
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+.countdown-banner__close {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  padding: 4px;
+  opacity: 0.7;
+  line-height: 0;
+
+  &:hover {
+    opacity: 1;
+  }
+
+  svg {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+.countdown-banner__expired {
+  text-align: center;
+  font-family: 'Aller', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+@media (max-width: 575px) {
+  .countdown-banner__label {
+    font-size: 12px;
+    padding-right: 12px;
+    margin-right: 12px;
+  }
+  .countdown-banner__digit-value {
+    font-size: 18px;
+  }
+  .countdown-banner__digit-label {
+    font-size: 9px;
+  }
+  .countdown-banner__separator {
+    font-size: 18px;
+    padding: 0 3px;
+  }
+  .countdown-banner__digit-group {
+    min-width: 32px;
+  }
+  .countdown-banner__link {
+    font-size: 12px;
+    padding-left: 12px;
+    margin-left: 12px;
+  }
+}

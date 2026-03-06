@@ -65,10 +65,6 @@
       "type": "about-strip",
       "settings": {}
     },
-    "blog-post-grid": {
-      "type": "blog-post-grid",
-      "settings": {}
-    },
     "faq": {
       "type": "faq",
       "settings": {}
@@ -101,7 +97,6 @@
     "testimonials",
     "about-page",
     "about-strip",
-    "blog-post-grid",
     "faq",
     "visit-us-locations",
     "title",

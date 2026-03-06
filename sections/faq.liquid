@@ -10,58 +10,6 @@
       padding-bottom: {{ section.settings.padding_bottom_desktop }}px;
     }
   }
-
-  .faq-description {
-    text-align: center;
-    max-width: 720px;
-    margin: 0 auto 40px;
-  }
-
-  .faq-item {
-    border-bottom: 1px solid var(--color-borders, #F5F3F4);
-  }
-  .faq-item:first-child {
-    border-top: 1px solid var(--color-borders, #F5F3F4);
-  }
-
-  .faq-item__trigger {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    padding: 20px 0;
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-family: inherit;
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: var(--color-headings, inherit);
-    text-align: left;
-    gap: 16px;
-    line-height: 1.4;
-  }
-  .faq-item__trigger:hover {
-    opacity: 0.8;
-  }
-  .faq-item__trigger svg {
-    width: 20px;
-    height: 20px;
-    flex-shrink: 0;
-    transition: transform 0.3s ease;
-    color: var(--color-text, inherit);
-  }
-  .faq-item__trigger.is-active svg {
-    transform: rotate(180deg);
-  }
-
-  .faq-item__content {
-    display: none;
-    padding-bottom: 20px;
-  }
-  .faq-item__content.is-open {
-    display: block;
-  }
 {%- endstyle -%}
 
 <div class="faq color-{{ section.settings.color_scheme }}" {{ section.shopify_attributes }}>
