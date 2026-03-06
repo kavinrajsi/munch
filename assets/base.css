@@ -4931,12 +4931,25 @@ a.store-card__info-text:hover {
 }
 
 .contact-page__info-inner {
-  border: 2px solid #C61D23;
-  border-radius: 20px;
-  padding: 40px 32px;
+  position: relative;
+  margin: 0px 20px;
+  padding: 40px 40px;
   display: flex;
   flex-direction: column;
   gap: 32px;
+  overflow: hidden;
+  background: transparent url("pattern-bg.png") no-repeat center/contain;
+}
+.contact-page__info-inner::before {
+  position: absolute;
+  inset: 0;
+  border-radius: 20px;
+  background: transparent url("pattern-bg.png") no-repeat center/contain;
+  z-index: 0;
+}
+.contact-page__info-inner > * {
+  position: relative;
+  z-index: 1;
 }
 @media (min-width: 750px) {
   .contact-page__info-inner {
@@ -5087,6 +5100,10 @@ a.store-card__info-text:hover {
   .contact-page__form-row {
     flex-direction: row;
   }
+}
+.contact-page__form-row .contact-page__field {
+  width: 100%;
+  flex: 1;
 }
 
 .contact-page__input {

@@ -5,7 +5,7 @@
       src="{{ section.settings.hero_image | image_url: width: 1440 }}"
       srcset="{{ section.settings.hero_image | image_url: width: 750 }} 750w, {{ section.settings.hero_image | image_url: width: 1100 }} 1100w, {{ section.settings.hero_image | image_url: width: 1440 }} 1440w"
       sizes="100vw"
-      alt="{{ section.settings.hero_image.alt | default: 'templates.contact.title' | t | escape }}"
+      alt="{{ section.settings.hero_image.alt | default: 'Contact Us' | t | escape }}"
       class="contact-page__hero-img"
       loading="eager"
       width="1440"
@@ -18,7 +18,7 @@
   <div class="container">
     {%- comment -%} Section Heading {%- endcomment -%}
     {%- render 'section-heading',
-      title: 'templates.contact.title' | t,
+      title: 'Contact Us' | t,
       heading_tag: 'h1',
       show_left_line: true,
       show_left_icon: true,
