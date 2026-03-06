@@ -3,7 +3,7 @@
   overflow: hidden;
   background-color: var(--pb-bg, #C61D23);
   background-image: var(--pb-pattern, none);
-  background-size: cover;
+  background-size: contain;
   background-position: center;
   background-repeat: repeat;
   background-blend-mode: soft-light;

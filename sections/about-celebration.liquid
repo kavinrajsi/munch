@@ -1,0 +1,70 @@
+<div class="about-page" {{ section.shopify_attributes }}>
+  <div class="about-page__section about-page__celebration">
+    <div class="about-page__container">
+      <div class="about-page__celebration-text" data-animate="fade-right">
+        {%- if section.settings.celebration_heading != blank -%}
+          <h2 class="about-page__heading">{{ section.settings.celebration_heading }}</h2>
+        {%- endif -%}
+        <div class="about-page__body">
+          {%- if section.settings.celebration_paragraph_1 != blank -%}
+            {{ section.settings.celebration_paragraph_1 }}
+          {%- endif -%}
+          {%- if section.settings.celebration_paragraph_2 != blank -%}
+            {{ section.settings.celebration_paragraph_2 }}
+          {%- endif -%}
+        </div>
+      </div>
+      <div class="about-page__celebration-image" data-animate="fade-left" data-animate-delay="200">
+        {%- if section.settings.celebration_image != blank -%}
+          {{ section.settings.celebration_image
+            | image_url: width: 600
+            | image_tag:
+              widths: '360, 450, 600',
+              sizes: '(min-width: 750px) 550px, 90vw',
+              class: 'about-page__celebration-img',
+              loading: 'lazy'
+          }}
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "About Celebration",
+  "tag": "section",
+  "class": "about-page-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "celebration_heading",
+      "label": "Heading",
+      "default": "Celebrating Our Food, Celebrating Life"
+    },
+    {
+      "type": "richtext",
+      "id": "celebration_paragraph_1",
+      "label": "Paragraph 1",
+      "default": "<p>At Nithya Amirtham, food is not just an offering — it's a festival on a plate. Every dish tells a story. Every ingredient is chosen with care. Whether it's a hearty sambar, a festive pongal, or a comforting rasam, we celebrate the power of food to heal, connect, and uplift.</p>"
+    },
+    {
+      "type": "richtext",
+      "id": "celebration_paragraph_2",
+      "label": "Paragraph 2",
+      "default": "<p>We don't just deliver products — we deliver moments of joy. We cherish our role in your kitchens, celebrations, and family dinners. Because we know food is how we express love, care, and community.</p>"
+    },
+    {
+      "type": "image_picker",
+      "id": "celebration_image",
+      "label": "Image"
+    }
+  ],
+  "presets": [
+    {
+      "name": "About Celebration",
+      "category": "Pages"
+    }
+  ]
+}
+{% endschema %}

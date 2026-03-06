@@ -1,0 +1,86 @@
+<div class="about-page" {{ section.shopify_attributes }}>
+  <div class="about-page__vision-mission">
+    <div class="about-page__vm-inner">
+      <div class="about-page__vm-item" data-animate="fade-up">
+        <div class="about-page__vm-icon">
+          {%- if section.settings.vision_icon != blank -%}
+            {{ section.settings.vision_icon }}
+          {%- else -%}
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 88.28" fill="currentColor"><path d="M100 18.947h-5.86V5.86H81.053V0H100v18.947z"/><path d="M5.86 18.947H0V0h18.947v5.86H5.86v13.087z"/><path d="M100 88.28H81.053v-5.86h13.087V69.333H100V88.28z"/><path d="M18.947 88.28H0V69.333h5.86v13.087h13.087v5.86z"/><path d="M50.003 40.533a3.619 3.619 0 100 7.237 3.619 3.619 0 000-7.237z"/><path d="M50.003 24.695c-10.729 0-19.457 8.728-19.457 19.457 0 10.728 8.728 19.456 19.457 19.456 10.728 0 19.456-8.728 19.456-19.456 0-10.729-8.728-19.457-19.456-19.457zm0 28.935a9.478 9.478 0 110-18.957 9.478 9.478 0 010 18.957z"/><path d="M93.165 42.173c-7.02-7.666-14.171-13.515-21.256-17.384C64.672 20.838 57.302 18.834 50.005 18.834c-7.298 0-14.667 2.004-21.904 5.955-7.085 3.869-14.236 9.717-21.256 17.384L5.034 44.15l1.811 1.979h86.32l1.811-1.979-1.811-1.978zM50.003 69.468c-13.96 0-25.317-11.357-25.317-25.317S36.043 18.835 50.003 18.835 75.32 30.192 75.32 44.151 63.962 69.468 50.003 69.468z"/></svg>
+          {%- endif -%}
+        </div>
+        <div class="about-page__vm-content">
+          <h3 class="about-page__vm-title">{{ section.settings.vision_title | default: 'Vision' }}</h3>
+          {%- if section.settings.vision_text != blank -%}
+            <p class="about-page__vm-text">{{ section.settings.vision_text }}</p>
+          {%- endif -%}
+        </div>
+      </div>
+      <div class="about-page__vm-item" data-animate="fade-up" data-animate-delay="200">
+        <div class="about-page__vm-icon">
+          {%- if section.settings.mission_icon != blank -%}
+            {{ section.settings.mission_icon }}
+          {%- else -%}
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M47.86 28.6c-5.475.556-10.528 3.194-14.114 7.368-3.587 4.175-5.433 9.567-5.159 15.063.275 5.497 2.65 10.678 6.635 14.474 3.985 3.796 9.275 5.917 14.778 5.925 2.823.014 5.62-.533 8.23-1.609a21.42 21.42 0 006.97-5.661c4.012-4.027 6.269-9.476 6.28-15.16 0-.64 0-1.38-.85-1.38H65c-.85 0-.85.74-.85 1.38a14.17 14.17 0 01-4.15 10.06 14.19 14.19 0 01-20 0 14.17 14.17 0 01-4.17-10.06c.008-3.757 1.503-7.357 4.158-10.015a14.19 14.19 0 0110.012-5.835c.64 0 1.38 0 1.38-.85V6.59a1.38 1.38 0 00-2.73 0v21.16c.006.209-.066.412-.203.57a.73.73 0 01-.537.28h-.01zm40.22-4.89L75.74 36a1.38 1.38 0 01-.454.18 1.38 1.38 0 01-.546.24H66.69a1.38 1.38 0 00-1.17.53L50.84 51.55a1.38 1.38 0 11-1.915-1.91L63.5 35.08a1.38 1.38 0 00.415-.726 1.38 1.38 0 00.085-.554V25.8c.005-.179.046-.357.12-.518a1.38 1.38 0 01.31-.432L76.91 12.44a1.38 1.38 0 012.34 1c0 .011-.001 7.12-.001 7.12a.87.87 0 00.87.85h7c.276-.012.549.06.783.208.234.147.418.362.526.616a1.38 1.38 0 01-.318 1.516l-.03-.04zM75.08 48.58h18.64a1.38 1.38 0 010 2.76h-7.23a.66.66 0 00-.64.85c-.52 7.302-3.176 14.289-7.64 20.09a36.55 36.55 0 01-19.71 12.65c-.64.11-1.39 0-1.39-.85V73.77a.87.87 0 01.64-.75c3.603-1.256 6.877-3.307 9.58-6a24.25 24.25 0 007.13-17.02c0-.64 0-1.38.85-1.38l-.02-.04zm-23.71 26.42v18.6a1.38 1.38 0 01-2.77 0v-7a.73.73 0 00-.74-.85c-7.628-.51-14.89-3.46-20.714-8.41-5.825-4.951-9.904-11.643-11.636-19.09-.21-.64 0-1.27.74-1.27h9.9a.87.87 0 01.85.63 24.17 24.17 0 008.824 12.002A24.17 24.17 0 0050 74.19c.64 0 1.38 0 1.38.85l-.01-.04zm-26.5-23.7H6.36a1.38 1.38 0 010-2.76h7.23a.7.7 0 00.645-.432.7.7 0 00.355-.318c.38-7.621 3.172-14.925 7.973-20.856 4.8-5.932 11.362-10.184 18.737-12.144a.73.73 0 01.7.182.73.73 0 01.36.487V26.36a.87.87 0 01-.53.85c-3.353 1.21-6.404 3.135-8.94 5.64a24.25 24.25 0 00-7.13 17.15c0 .64 0 1.38-.85 1.38v-.08zm35.65-2.76h-1.38a.52.52 0 00-.53.32l-5.22 5.21c-4.57 4.5 2.25 11.41 6.73 6.95l4.57-4.68a.52.52 0 00.32-.53v-2.55a1.38 1.38 0 00-.85-.85c-2.302-.084-4.575.53-6.522 1.76a11.38 11.38 0 00-4.389 5.136 11.38 11.38 0 00-.723 6.716c.441 2.26 1.555 4.335 3.196 5.952 1.64 1.616 3.731 2.7 5.998 3.108 2.266.408 4.604.121 6.705-.822a11.38 11.38 0 005.07-4.464 11.38 11.38 0 001.665-6.01 1.38 1.38 0 00-1-1.36v-.04z"/></svg>
+          {%- endif -%}
+        </div>
+        <div class="about-page__vm-content">
+          <h3 class="about-page__vm-title">{{ section.settings.mission_title | default: 'Mission' }}</h3>
+          {%- if section.settings.mission_text != blank -%}
+            <p class="about-page__vm-text">{{ section.settings.mission_text }}</p>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "About Vision & Mission",
+  "tag": "section",
+  "class": "about-page-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "vision_title",
+      "label": "Vision title",
+      "default": "Vision"
+    },
+    {
+      "type": "textarea",
+      "id": "vision_text",
+      "label": "Vision text",
+      "default": "We dream of a world where every celebration begins on a sweet note. Our goal is to be South India's favourite destination for sweets and savouries, making every small victory and large celebration more delightful and memorable."
+    },
+    {
+      "type": "textarea",
+      "id": "vision_icon",
+      "label": "Vision icon SVG"
+    },
+    {
+      "type": "text",
+      "id": "mission_title",
+      "label": "Mission title",
+      "default": "Mission"
+    },
+    {
+      "type": "textarea",
+      "id": "mission_text",
+      "label": "Mission text",
+      "default": "At Nithya Amirtham, our mission is straightforward but passionate—deliver exceptional food that enhances moods and enriches celebrations. We aim to be everywhere there is a need for quality sweets and reliable catering, from intimate family gatherings to large-scale corporate events."
+    },
+    {
+      "type": "textarea",
+      "id": "mission_icon",
+      "label": "Mission icon SVG"
+    }
+  ],
+  "presets": [
+    {
+      "name": "About Vision & Mission",
+      "category": "Pages"
+    }
+  ]
+}
+{% endschema %}

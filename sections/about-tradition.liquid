@@ -1,0 +1,70 @@
+<div class="about-page" {{ section.shopify_attributes }}>
+  <div class="about-page__section about-page__tradition">
+    <div class="about-page__tradition-inner">
+      <div class="about-page__tradition-image" data-animate="fade-right">
+        {%- if section.settings.tradition_image != blank -%}
+          {{ section.settings.tradition_image
+            | image_url: width: 750
+            | image_tag:
+              widths: '400, 550, 750',
+              sizes: '(min-width: 750px) 710px, 100vw',
+              class: 'about-page__tradition-img',
+              loading: 'lazy'
+          }}
+        {%- endif -%}
+      </div>
+      <div class="about-page__tradition-text" data-animate="fade-left" data-animate-delay="200">
+        {%- if section.settings.tradition_heading != blank -%}
+          <h2 class="about-page__heading">{{ section.settings.tradition_heading }}</h2>
+        {%- endif -%}
+        <div class="about-page__body">
+          {%- if section.settings.tradition_paragraph_1 != blank -%}
+            {{ section.settings.tradition_paragraph_1 }}
+          {%- endif -%}
+          {%- if section.settings.tradition_paragraph_2 != blank -%}
+            {{ section.settings.tradition_paragraph_2 }}
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "About Tradition",
+  "tag": "section",
+  "class": "about-page-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "tradition_heading",
+      "label": "Heading",
+      "default": "A Touch of Tradition in Every Bite"
+    },
+    {
+      "type": "richtext",
+      "id": "tradition_paragraph_1",
+      "label": "Paragraph 1",
+      "default": "<p>Our journey begins at the source in the hands of traditional artisans and farmers who have preserved ancient methods of preparation for generations. From sun-dried appalams to hand-pounded masalas, we retain the essence of how our ancestors cooked: with patience, reverence, and love.</p>"
+    },
+    {
+      "type": "richtext",
+      "id": "tradition_paragraph_2",
+      "label": "Paragraph 2",
+      "default": "<p>Clay pots, stone grinders, cold-pressed oils — these are not just tools for us, they are keepers of tradition.</p>"
+    },
+    {
+      "type": "image_picker",
+      "id": "tradition_image",
+      "label": "Image"
+    }
+  ],
+  "presets": [
+    {
+      "name": "About Tradition",
+      "category": "Pages"
+    }
+  ]
+}
+{% endschema %}

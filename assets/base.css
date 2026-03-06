@@ -363,17 +363,21 @@ button {
 }
 .header__cart-count {
   position: absolute;
-  top: -4px;
-  right: -1px;
-  min-width: 16px;
-  height: 16px;
+  top: -2px;
+  right: 0px;
+  width: 24px;
+  height: 24px;
   border-radius: 50%;
   background-color: var(--color-primary, #c61d23);
   color: #fff;
-  font-size: 10px;
+  font-size: 14px;
   font-weight: 600;
   line-height: 16px;
+  font-family: "Aller", sans-serif;
   text-align: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .mobile-menu {
@@ -1900,6 +1904,13 @@ html.search-open body {
   line-height: 18px;
   color: #a5161a;
   padding: 0 0 16px;
+  text-align: center;
+}
+@media (min-width: 768px) {
+  .footer__bottom .footer__brand-trust-title,
+  .footer__bottom .footer__social-title {
+    text-align: initial;
+  }
 }
 .footer__bottom .footer__brand-trust-icons {
   display: inline-flex;
@@ -5692,7 +5703,7 @@ a.store-card__info-text:hover {
   overflow: hidden;
   background-color: var(--pb-bg, #C61D23);
   background-image: var(--pb-pattern, none);
-  background-size: cover;
+  background-size: contain;
   background-position: center;
   background-repeat: repeat;
   background-blend-mode: soft-light;

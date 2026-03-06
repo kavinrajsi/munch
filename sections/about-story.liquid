@@ -1,0 +1,111 @@
+<div class="about-page" {{ section.shopify_attributes }}>
+  <div class="about-page__section about-page__story">
+    <div class="about-page__container">
+      <div class="about-page__story-text" data-animate="fade-right">
+        {%- if section.settings.story_heading != blank -%}
+          <h2 class="about-page__heading">{{ section.settings.story_heading }}</h2>
+        {%- endif -%}
+        <div class="about-page__body">
+          {%- if section.settings.story_paragraph_1 != blank -%}
+            {{ section.settings.story_paragraph_1 }}
+          {%- endif -%}
+          {%- if section.settings.story_paragraph_2 != blank -%}
+            {{ section.settings.story_paragraph_2 }}
+          {%- endif -%}
+        </div>
+      </div>
+      <div class="about-page__story-images" data-animate="fade-left" data-animate-delay="200">
+        {%- if section.settings.story_image_main != blank -%}
+          <div class="about-page__story-main-img">
+            {{ section.settings.story_image_main
+              | image_url: width: 700
+              | image_tag:
+                widths: '400, 550, 700',
+                sizes: '(min-width: 750px) 550px, 90vw',
+                loading: 'lazy'
+            }}
+          </div>
+        {%- endif -%}
+        {%- if section.settings.story_image_small_1 != blank -%}
+          <div class="about-page__story-float about-page__story-float--1">
+            {{ section.settings.story_image_small_1 | image_url: width: 150 | image_tag: loading: 'lazy' }}
+          </div>
+        {%- endif -%}
+        {%- if section.settings.story_image_small_2 != blank -%}
+          <div class="about-page__story-float about-page__story-float--2">
+            {{ section.settings.story_image_small_2 | image_url: width: 150 | image_tag: loading: 'lazy' }}
+          </div>
+        {%- endif -%}
+        {%- if section.settings.story_image_small_3 != blank -%}
+          <div class="about-page__story-float about-page__story-float--3">
+            {{ section.settings.story_image_small_3 | image_url: width: 150 | image_tag: loading: 'lazy' }}
+          </div>
+        {%- endif -%}
+        {%- if section.settings.story_image_small_4 != blank -%}
+          <div class="about-page__story-float about-page__story-float--4">
+            {{ section.settings.story_image_small_4 | image_url: width: 300 | image_tag: loading: 'lazy' }}
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "About Story",
+  "tag": "section",
+  "class": "about-page-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "story_heading",
+      "label": "Heading",
+      "default": "A Timeless Journey of Taste and Tradition"
+    },
+    {
+      "type": "richtext",
+      "id": "story_paragraph_1",
+      "label": "Paragraph 1",
+      "default": "<p>At Nithya Amirtham, we believe food is more than sustenance, it's a celebration of life, culture, and togetherness. Our name itself reflects what we stand for: \"Nithya\" meaning eternal, and \"Amirtham\" meaning divine nectar.</p>"
+    },
+    {
+      "type": "richtext",
+      "id": "story_paragraph_2",
+      "label": "Paragraph 2",
+      "default": "<p>From humble beginnings rooted in age-old family recipes, we've grown into a brand that cherishes purity, taste, and authenticity. Every product we offer is a reflection of the rich culinary heritage of South India, crafted with care and devotion.</p>"
+    },
+    {
+      "type": "image_picker",
+      "id": "story_image_main",
+      "label": "Main image"
+    },
+    {
+      "type": "image_picker",
+      "id": "story_image_small_1",
+      "label": "Small image 1 (top-left)"
+    },
+    {
+      "type": "image_picker",
+      "id": "story_image_small_2",
+      "label": "Small image 2 (top-right)"
+    },
+    {
+      "type": "image_picker",
+      "id": "story_image_small_3",
+      "label": "Small image 3 (bottom-left)"
+    },
+    {
+      "type": "image_picker",
+      "id": "story_image_small_4",
+      "label": "Small image 4 (bottom-right)"
+    }
+  ],
+  "presets": [
+    {
+      "name": "About Story",
+      "category": "Pages"
+    }
+  ]
+}
+{% endschema %}

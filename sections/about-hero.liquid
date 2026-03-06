@@ -1,0 +1,37 @@
+<div class="about-page" {{ section.shopify_attributes }}>
+  {%- if section.settings.hero_image != blank -%}
+    <div class="about-page__hero">
+      {{ section.settings.hero_image
+        | image_url: width: 1440
+        | image_tag:
+          widths: '750, 1100, 1440',
+          sizes: '100vw',
+          class: 'about-page__hero-img',
+          loading: 'eager'
+      }}
+    </div>
+  {%- else -%}
+    <div class="about-page__hero about-page__hero--placeholder"></div>
+  {%- endif -%}
+</div>
+
+{% schema %}
+{
+  "name": "About Hero",
+  "tag": "section",
+  "class": "about-page-section",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Hero image"
+    }
+  ],
+  "presets": [
+    {
+      "name": "About Hero",
+      "category": "Pages"
+    }
+  ]
+}
+{% endschema %}
