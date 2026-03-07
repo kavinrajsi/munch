@@ -230,6 +230,11 @@
           </div>
         {%- endform -%}
 
+        <div class="main-product__wishlist">
+          {%- render 'wishlist-btn', product: product -%}
+          <span class="main-product__wishlist-label">Add to wishlist</span>
+        </div>
+
         {%- comment -%} In-Store Pickup Card {%- endcomment -%}
         {%- liquid
           assign pickup_stores_meta = product.metafields.custom.pickup_stores | default: ''

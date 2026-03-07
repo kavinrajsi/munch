@@ -4,6 +4,7 @@
 {%- endcomment -%}
 
 <div class="feat-collection-carousel__item">
+  {%- render 'wishlist-btn', product: product -%}
   <a href="{{ product.url }}" class="feat-collection-carousel__link">
     <div class="feat-collection-carousel__image-wrapper">
       {%- if product.featured_image != blank -%}

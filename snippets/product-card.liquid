@@ -50,6 +50,8 @@
       {%- endif -%}
     </a>
 
+    {%- render 'wishlist-btn', product: product -%}
+
     {%- if settings.product_card_show_secondary_image and product.images.size > 1 -%}
       <div class="product-card__media-secondary">
         <a href="{{ card_product_url }}" aria-label="{{ product.title | escape }}" tabindex="-1">

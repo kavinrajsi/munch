@@ -271,6 +271,17 @@
       active: '{{ cart.currency.iso_code }}',
       rate: '{{ cart.currency.rate }}'
     };
+    {%- if customer -%}
+      window.__shopify_customer = true;
+      {%- if customer.metafields.custom.wishlist != blank -%}
+        window.__wishlist_metafield = {{ customer.metafields.custom.wishlist }};
+      {%- else -%}
+        window.__wishlist_metafield = [];
+      {%- endif -%}
+    {%- else -%}
+      window.__shopify_customer = false;
+      window.__wishlist_metafield = [];
+    {%- endif -%}
   </script>
 
   {% comment %}theme-check-disable RemoteAsset, ParserBlockingScript{% endcomment %}
