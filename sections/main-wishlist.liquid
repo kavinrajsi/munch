@@ -1,0 +1,72 @@
+<div class="wishlist-page" data-wishlist-page {{ section.shopify_attributes }}>
+  <div class="container">
+    <div class="wishlist-page__header">
+      <h1 class="wishlist-page__title">
+        My Wishlist
+        <span class="wishlist-page__count" data-wishlist-count>0</span>
+      </h1>
+      <div class="wishlist-page__controls">
+        <button
+          class="wishlist-page__view-btn"
+          data-wishlist-view="grid"
+          aria-label="Grid view"
+          type="button"
+        >
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+            <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
+            <rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/>
+          </svg>
+        </button>
+        <button
+          class="wishlist-page__view-btn"
+          data-wishlist-view="list"
+          aria-label="List view"
+          type="button"
+        >
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/>
+            <line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/>
+            <line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    {%- comment -%} Loading skeleton {%- endcomment -%}
+    <div class="wishlist-page__skeleton" data-wishlist-skeleton style="display:none">
+      {%- for i in (1..4) -%}
+        <div class="wishlist-page__skeleton-card">
+          <div class="wishlist-page__skeleton-image"></div>
+          <div class="wishlist-page__skeleton-text">
+            <span></span>
+            <span></span>
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+
+    {%- comment -%} Product content (populated by JS) {%- endcomment -%}
+    <div data-wishlist-content></div>
+
+    {%- comment -%} Empty state {%- endcomment -%}
+    <div class="wishlist-page__empty" data-wishlist-empty style="display:none">
+      <div class="wishlist-page__empty-icon">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+        </svg>
+      </div>
+      <h2 class="wishlist-page__empty-title">Your wishlist is empty</h2>
+      <p class="wishlist-page__empty-text">Browse our products and add your favourites to your wishlist.</p>
+      <a href="{{ routes.all_products_collection_url }}" class="wishlist-page__empty-btn">Continue Shopping</a>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Wishlist Page",
+  "tag": "section",
+  "class": "main-wishlist-section",
+  "settings": []
+}
+{% endschema %}
