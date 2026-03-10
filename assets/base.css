@@ -8132,6 +8132,7 @@ a.store-card__info-text:hover {
 }
 .free-delivery-bar.is-visible {
   display: block;
+  margin: 14px 40px;
 }
 
 .free-delivery-bar__message {
