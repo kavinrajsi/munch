@@ -9092,6 +9092,13 @@ a.store-card__info-text:hover {
   right: 0;
 }
 
+.wishlist-btn,
+.header__wishlist-link,
+.main-product__wishlist,
+.customer-profile__wishlist-card {
+  display: none !important;
+}
+
 @keyframes wishlist-bounce {
   0% {
     transform: scale(0.6);

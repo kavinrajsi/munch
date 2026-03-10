@@ -2,6 +2,14 @@
 // Wishlist Styles
 // ============================================================
 
+// Hide all wishlist UI elements
+.wishlist-btn,
+.header__wishlist-link,
+.main-product__wishlist,
+.customer-profile__wishlist-card {
+  display: none !important;
+}
+
 $color-dark: #0b090a;
 $color-red: #c61d23;
 
