@@ -11,33 +11,19 @@
   if remaining < 0
     assign remaining = 0
   endif
-  assign progress = cart_total | times: 100 | divided_by: free_delivery_threshold
-  if progress > 100
-    assign progress = 100
-  endif
 
-  assign bar_color = settings.cart_free_delivery_bar_color | default: '#E07A5F'
-  assign bar_complete_color = settings.cart_free_delivery_bar_complete_color | default: '#4CAF50'
   assign success_msg = settings.cart_free_delivery_success_message | default: "You've unlocked free delivery!"
 -%}
 
 <div
-  class="free-delivery-bar"
+  class="free-delivery-bar{% if cart.item_count > 0 and remaining > 0 %} is-visible{% endif %}"
   data-free-delivery-bar
   data-threshold="{{ free_delivery_threshold }}"
   data-success-msg="{{ success_msg | escape }}"
-  style="--fd-bar-color: {{ bar_color }}; --fd-bar-complete-color: {{ bar_complete_color }};"
 >
-  {%- if cart.item_count > 0 -%}
-    <div class="free-delivery-bar__message" data-free-delivery-message>
-      {%- if remaining == 0 -%}
-        <span class="free-delivery-bar__icon">🎉</span> {{ success_msg }}
-      {%- else -%}
-        <span class="free-delivery-bar__icon">🚚</span> Add <strong>{{ remaining | money }}</strong> more for <strong>free delivery</strong>
-      {%- endif -%}
-    </div>
-    <div class="free-delivery-bar__track">
-      <div class="free-delivery-bar__fill{% if progress >= 100 %} free-delivery-bar__fill--complete{% endif %}" data-free-delivery-fill style="width: {{ progress }}%;"></div>
-    </div>
-  {%- endif -%}
+  <p class="free-delivery-bar__message" data-free-delivery-message>
+    {%- if remaining > 0 -%}
+      Order for {{ remaining | money }} more for unlocking free delivery
+    {%- endif -%}
+  </p>
 </div>

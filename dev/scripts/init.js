@@ -51,28 +51,19 @@
     $('[data-free-delivery-bar]').each(function() {
       var $bar = $(this);
       var threshold = parseInt($bar.data('threshold'), 10) || 100000;
-      var successMsg = $bar.data('success-msg') || "You've unlocked free delivery!";
       var total = cart.total_price;
       var remaining = threshold - total;
       if (remaining < 0) remaining = 0;
-      var progress = Math.min((total / threshold) * 100, 100);
-      var $fill = $bar.find('[data-free-delivery-fill]');
       var $message = $bar.find('[data-free-delivery-message]');
 
-      if (cart.item_count === 0) {
+      if (cart.item_count === 0 || remaining === 0) {
+        $bar.removeClass('is-visible');
         $message.html('');
-        $fill.css('width', '0%');
         return;
       }
 
-      if (remaining === 0) {
-        $message.html('<span class="free-delivery-bar__icon">🎉</span> ' + successMsg);
-        $fill.addClass('free-delivery-bar__fill--complete');
-      } else {
-        $message.html('<span class="free-delivery-bar__icon">🚚</span> Add <strong>' + formatMoney(remaining) + '</strong> more for <strong>free delivery</strong>');
-        $fill.removeClass('free-delivery-bar__fill--complete');
-      }
-      $fill.css('width', progress + '%');
+      $message.html('Order for ' + formatMoney(remaining) + ' more for unlocking free delivery');
+      $bar.addClass('is-visible');
     });
   }
 
