@@ -1585,7 +1585,7 @@ html.chatbot-open body {
 .product-drawer {
   position: fixed;
   inset: 0;
-  z-index: 56;
+  z-index: 10100;
   pointer-events: none;
   visibility: hidden;
 }
