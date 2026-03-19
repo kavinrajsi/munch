@@ -34,7 +34,7 @@
           autocomplete="off"
           data-search-bar-input
         >
-        <input type="hidden" name="type" value="product,article,page">
+        <input type="hidden" name="type" value="product">
         <button type="submit" class="search-bar__btn" aria-label="Search">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="11" cy="11" r="8"/>
@@ -109,24 +109,13 @@
         {%- paginate search.results by section.settings.products_per_page -%}
           <div class="collection__grid">
             {%- for item in search.results -%}
-              {%- if item.object_type == 'product' -%}
-                <div data-animate="fade-up" data-animate-delay="{{ forloop.index0 | times: 100 | at_most: 300 }}">
-                  {%- render 'fcc-product-card',
-                    product: item,
-                    show_vendor: false,
-                    show_price: true
-                  -%}
-                </div>
-              {%- elsif item.object_type == 'article' -%}
-                <div data-animate="fade-up" data-animate-delay="{{ forloop.index0 | times: 100 | at_most: 300 }}">
-                  {% render 'blog-card', article: item %}
-                </div>
-              {%- else -%}
-                <div class="blog-card" data-animate="fade-up" data-animate-delay="{{ forloop.index0 | times: 100 | at_most: 300 }}">
-                  <h3 class="blog-card__title"><a href="{{ item.url }}">{{ item.title }}</a></h3>
-                  <p class="blog-card__excerpt">{{ item.content | strip_html | truncate: 150 }}</p>
-                </div>
-              {%- endif -%}
+              <div data-animate="fade-up" data-animate-delay="{{ forloop.index0 | times: 100 | at_most: 300 }}">
+                {%- render 'fcc-product-card',
+                  product: item,
+                  show_vendor: false,
+                  show_price: true
+                -%}
+              </div>
             {%- endfor -%}
           </div>
 
