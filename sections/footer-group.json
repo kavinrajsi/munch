@@ -25,7 +25,7 @@
           "type": "menu",
           "settings": {
             "title": "Quick Links",
-            "menu": "main-menu"
+            "menu": "quick-links"
           }
         },
         "menu_2": {
