@@ -95,7 +95,74 @@
     },
     "capabilities": {
       "type": "capabilities",
-      "settings": {}
+      "blocks": {
+        "category_xzY6nc": {
+          "type": "category",
+          "settings": {
+            "title": "Baklava",
+            "content": "<p>Classic Baklava | Pistachio Baklava</p>"
+          }
+        },
+        "category_PLMJaH": {
+          "type": "category",
+          "settings": {
+            "title": "Halwa",
+            "content": "<p>Badam Halwa | Dry Fruit Halwa | Ghee Halwa</p>"
+          }
+        },
+        "category_yyw6py": {
+          "type": "category",
+          "settings": {
+            "title": "Milk Sweets",
+            "content": "<p>Peda | Rasmalai | Gulab Jamun</p>"
+          }
+        },
+        "category_BcT3K7": {
+          "type": "category",
+          "settings": {
+            "title": "Ghee Sweets",
+            "content": "<p>Mysore Pak | Motichoor Laddu | Rava Laddu | Milk Mysore Pak</p>"
+          }
+        },
+        "category_4cbK8r": {
+          "type": "category",
+          "settings": {
+            "title": "Traditional Sweets",
+            "content": "<p>Badusha | Jangiri | Boondi Laddu | Chandrakala</p>"
+          }
+        },
+        "category_Ey3qp7": {
+          "type": "category",
+          "settings": {
+            "title": "Dry Fruit Sweets",
+            "content": "<p>Kaju Katli | Badam Katli</p>"
+          }
+        }
+      },
+      "block_order": [
+        "category_xzY6nc",
+        "category_PLMJaH",
+        "category_yyw6py",
+        "category_BcT3K7",
+        "category_4cbK8r",
+        "category_Ey3qp7"
+      ],
+      "settings": {
+        "title": "Our Capabilities",
+        "bg_color": "#111111",
+        "text_color": "#777777",
+        "title_color": "#ffffff",
+        "accent_color": "#ffffff",
+        "separator_color": "#555555",
+        "font_size_desktop": 13,
+        "font_size_mobile": 11,
+        "line_height": 1.8,
+        "padding_top_desktop": 32,
+        "padding_bottom_desktop": 32,
+        "padding_top_mobile": 20,
+        "padding_bottom_mobile": 20,
+        "category_gap": 6
+      }
     },
     "credit-bar": {
       "type": "credit-bar",
