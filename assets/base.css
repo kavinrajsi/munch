@@ -9550,7 +9550,11 @@ html, body {
 
 /* Capabilities */
 .capabilities {
-  background-color: var(--capabilities-bg, #111111);
+  background-color: var(--capabilities-bg, #1a1a1a);
+  background-image: var(--capabilities-bg-image, none);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   color: var(--capabilities-text, #777777);
   padding: var(--capabilities-pt-mobile, 20px) 0 var(--capabilities-pb-mobile, 20px);
 }

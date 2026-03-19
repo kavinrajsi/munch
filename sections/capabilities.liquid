@@ -14,6 +14,9 @@
     --capabilities-font-size-mobile: {{ section.settings.font_size_mobile }}px;
     --capabilities-line-height: {{ section.settings.line_height }};
     --capabilities-category-gap: {{ section.settings.category_gap }}px;
+    {%- if section.settings.bg_image != blank -%}
+      --capabilities-bg-image: url('{{ section.settings.bg_image | image_url: width: 1920 }}');
+    {%- endif -%}
   "
   {{ section.shopify_attributes }}
 >
@@ -86,7 +89,12 @@
       "type": "color",
       "id": "bg_color",
       "label": "Background Color",
-      "default": "#111111"
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "image_picker",
+      "id": "bg_image",
+      "label": "Background Image"
     },
     {
       "type": "color",
