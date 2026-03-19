@@ -1,5 +1,5 @@
 <section
-  class="capabilities"
+  class="capabilities is-collapsed"
   style="
     --capabilities-bg: {{ section.settings.bg_color }};
     --capabilities-text: {{ section.settings.text_color }};
@@ -19,7 +19,7 @@
 >
   <div class="container">
     {%- if section.settings.title != blank -%}
-      <button class="capabilities__header" data-capabilities-toggle aria-expanded="true">
+      <button class="capabilities__header" data-capabilities-toggle aria-expanded="false">
         <span class="capabilities__heading">{{ section.settings.title }}</span>
         <span class="capabilities__arrow" aria-hidden="true">
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">

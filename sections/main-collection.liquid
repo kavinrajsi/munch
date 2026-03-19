@@ -25,7 +25,7 @@
   </div>
 {%- endif -%}
 
-<div class="collection section-padding" style="--sp-pt-d: {{ section.settings.padding_top_desktop }}px; --sp-pb-d: {{ section.settings.padding_bottom_desktop }}px; --sp-pt-m: {{ section.settings.padding_top_mobile }}px; --sp-pb-m: {{ section.settings.padding_bottom_mobile }}px;" {{ section.shopify_attributes }}>
+<div id="section-padding" class="collection section-padding" style="--sp-pt-d: {{ section.settings.padding_top_desktop }}px; --sp-pb-d: {{ section.settings.padding_bottom_desktop }}px; --sp-pt-m: {{ section.settings.padding_top_mobile }}px; --sp-pb-m: {{ section.settings.padding_bottom_mobile }}px;" {{ section.shopify_attributes }}>
   <div class="container">
 
     {%- comment -%} Decorated heading {%- endcomment -%}
@@ -177,6 +177,7 @@
         btn.addEventListener('click', function () {
           var url = new URL(window.location.href);
           url.searchParams.set('sort_by', btn.dataset.sortValue);
+          url.hash = 'section-padding';
           window.location.href = url.toString();
         });
       });

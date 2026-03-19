@@ -58,17 +58,13 @@
 }
 
 .capabilities__category {
-  margin-bottom: var(--capabilities-category-gap, 6px);
+  display: inline;
   font-size: var(--capabilities-font-size-mobile, 11px);
   line-height: var(--capabilities-line-height, 1.8);
   font-family: "Aller", sans-serif;
 
   @media (min-width: 768px) {
     font-size: var(--capabilities-font-size-desktop, 13px);
-  }
-
-  &:last-child {
-    margin-bottom: 0;
   }
 }
 

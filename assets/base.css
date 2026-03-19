@@ -2368,6 +2368,10 @@ a.iwt-scroll__title:hover {
   height: 100%;
   -o-object-fit: cover;
      object-fit: cover;
+  transition: transform 0.4s ease;
+}
+.feat-collection-carousel__item:hover .feat-collection-carousel__image-wrapper img {
+  transform: scale(1.08);
 }
 
 .feat-collection-carousel__content {
@@ -3861,6 +3865,10 @@ a.store-card__info-text:hover {
   height: 100%;
   -o-object-fit: cover;
      object-fit: cover;
+  transition: transform 0.4s ease;
+}
+.exclusive-collections__card:hover .exclusive-collections__image img {
+  transform: scale(1.08);
 }
 
 .exclusive-collections__name {
@@ -9600,7 +9608,7 @@ html, body {
   opacity: 0;
 }
 .capabilities__category {
-  margin-bottom: var(--capabilities-category-gap, 6px);
+  display: inline;
   font-size: var(--capabilities-font-size-mobile, 11px);
   line-height: var(--capabilities-line-height, 1.8);
   font-family: "Aller", sans-serif;
@@ -9609,9 +9617,6 @@ html, body {
   .capabilities__category {
     font-size: var(--capabilities-font-size-desktop, 13px);
   }
-}
-.capabilities__category:last-child {
-  margin-bottom: 0;
 }
 .capabilities__category-title {
   color: var(--capabilities-accent, #ffffff);
