@@ -95,8 +95,6 @@
     },
     "capabilities": {
       "type": "capabilities",
-      "blocks": {},
-      "block_order": [],
       "settings": {}
     },
     "credit-bar": {
