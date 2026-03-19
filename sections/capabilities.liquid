@@ -1,0 +1,246 @@
+<section
+  class="capabilities"
+  style="
+    --capabilities-bg: {{ section.settings.bg_color }};
+    --capabilities-text: {{ section.settings.text_color }};
+    --capabilities-title-color: {{ section.settings.title_color }};
+    --capabilities-accent: {{ section.settings.accent_color }};
+    --capabilities-separator: {{ section.settings.separator_color }};
+    --capabilities-pt-desktop: {{ section.settings.padding_top_desktop }}px;
+    --capabilities-pb-desktop: {{ section.settings.padding_bottom_desktop }}px;
+    --capabilities-pt-mobile: {{ section.settings.padding_top_mobile }}px;
+    --capabilities-pb-mobile: {{ section.settings.padding_bottom_mobile }}px;
+    --capabilities-font-size-desktop: {{ section.settings.font_size_desktop }}px;
+    --capabilities-font-size-mobile: {{ section.settings.font_size_mobile }}px;
+    --capabilities-line-height: {{ section.settings.line_height }};
+    --capabilities-category-gap: {{ section.settings.category_gap }}px;
+  "
+  {{ section.shopify_attributes }}
+>
+  <div class="container">
+    {%- if section.settings.title != blank -%}
+      <button class="capabilities__header" data-capabilities-toggle aria-expanded="true">
+        <span class="capabilities__heading">{{ section.settings.title }}</span>
+        <span class="capabilities__arrow" aria-hidden="true">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M7 2.5L12.5 8L11.375 9.125L7 4.75L2.625 9.125L1.5 8L7 2.5Z" fill="currentColor"/>
+          </svg>
+        </span>
+      </button>
+    {%- endif -%}
+
+    <div class="capabilities__body" data-capabilities-body>
+      {%- for block in section.blocks -%}
+        <div class="capabilities__category" {{ block.shopify_attributes }}>
+          {%- if block.settings.title != blank -%}
+            <strong class="capabilities__category-title">{{ block.settings.title }}:</strong>
+          {%- endif -%}
+          {%- if block.settings.content != blank -%}
+            <span class="capabilities__category-items">
+              {{ block.settings.content }}
+            </span>
+          {%- endif -%}
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+<script>
+  (function () {
+    var section = document.querySelector('[data-capabilities-toggle]');
+    if (!section) return;
+    var toggle = section;
+    var body = section.parentElement.querySelector('[data-capabilities-body]');
+    var parent = section.closest('.capabilities');
+    if (!body || !parent) return;
+
+    toggle.addEventListener('click', function () {
+      var isCollapsed = parent.classList.toggle('is-collapsed');
+      toggle.setAttribute('aria-expanded', !isCollapsed);
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Capabilities",
+  "tag": "section",
+  "class": "capabilities-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section Title",
+      "default": "Our Capabilities"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#777777"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Title Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Category Title / Accent Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "separator_color",
+      "label": "Separator (|) Color",
+      "default": "#555555"
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "range",
+      "id": "font_size_desktop",
+      "label": "Font Size (Desktop)",
+      "min": 10,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "default": 13
+    },
+    {
+      "type": "range",
+      "id": "font_size_mobile",
+      "label": "Font Size (Mobile)",
+      "min": 9,
+      "max": 16,
+      "step": 1,
+      "unit": "px",
+      "default": 11
+    },
+    {
+      "type": "range",
+      "id": "line_height",
+      "label": "Line Height",
+      "min": 1,
+      "max": 3,
+      "step": 0.1,
+      "default": 1.8
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top_desktop",
+      "label": "Padding Top (Desktop)",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_desktop",
+      "label": "Padding Bottom (Desktop)",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "label": "Padding Top (Mobile)",
+      "min": 0,
+      "max": 60,
+      "step": 4,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "label": "Padding Bottom (Mobile)",
+      "min": 0,
+      "max": 60,
+      "step": 4,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "category_gap",
+      "label": "Gap Between Categories",
+      "min": 0,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "default": 6
+    }
+  ],
+  "blocks": [
+    {
+      "type": "category",
+      "name": "Category",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Category Title",
+          "default": "Branding"
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Capabilities",
+          "info": "Use italic for sub-headings. Separate items with | character."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Capabilities",
+      "category": "Footer",
+      "blocks": [
+        {
+          "type": "category",
+          "settings": {
+            "title": "Branding",
+            "content": "<p><em>Brand Strategy &amp; Consultation</em> -  Brand Positioning | Brand Architecture | Competitor &amp; Market Analysis</p>"
+          }
+        },
+        {
+          "type": "category",
+          "settings": {
+            "title": "Communication",
+            "content": "<p><em>Advertising Campaigns</em> -  Print, TV, Radio, and Outdoor Ads | Digital Ad Campaigns | Creative Planning &amp; Copywriting</p>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

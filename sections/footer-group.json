@@ -93,6 +93,12 @@
         "social_title": "Follow Us"
       }
     },
+    "capabilities": {
+      "type": "capabilities",
+      "blocks": {},
+      "block_order": [],
+      "settings": {}
+    },
     "credit-bar": {
       "type": "credit-bar",
       "settings": {
@@ -123,6 +129,7 @@
   },
   "order": [
     "footer",
+    "capabilities",
     "credit-bar"
   ]
 }
