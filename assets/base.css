@@ -2625,7 +2625,7 @@ a.iwt-scroll__title:hover {
   height: auto;
 }
 
-.splide__slide {
+.testimonials__track .splide__slide {
   background: #ffffff;
   border-radius: 8px;
 }
