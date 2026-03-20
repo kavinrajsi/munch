@@ -125,8 +125,8 @@
   display: block;
 
   @media (min-width: 750px) {
-    height: 422px;
-    object-fit: cover;
+    // height: 422px;
+    object-fit: contain;
   }
 }
 
