@@ -152,7 +152,7 @@
         "bg_color": "#1a1a1a",
         "bg_image": "shopify://shop_images/background-image.png",
         "text_color": "#161616",
-        "title_color": "#161616",
+        "title_color": "#a5161a",
         "accent_color": "#161616",
         "separator_color": "#161616",
         "font_size_desktop": 13,
