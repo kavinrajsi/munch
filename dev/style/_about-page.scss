@@ -1,5 +1,5 @@
 .about-page {
-  background-color: var(--about-bg, #FFF7F3);
+  background-color: var(--about-bg, #fff7f3);
 }
 
 // Hero
@@ -37,11 +37,11 @@
 }
 
 .about-page__heading {
-  font-family: 'allerbold', sans-serif;
+  font-family: "allerbold", sans-serif;
   font-weight: 700;
   font-size: var(--about-h-fs-m, 28px);
   line-height: var(--about-h-lh-m, 34px);
-  color: #A5161A;
+  color: #a5161a;
   margin: 0;
   padding-top: var(--about-h-pt-m, 0px);
   padding-bottom: var(--about-h-pb-m, 0px);
@@ -64,11 +64,11 @@
   }
 
   p {
-    font-family: 'Aller', sans-serif;
+    font-family: "Aller", sans-serif;
     font-weight: 400;
     font-size: var(--about-p-fs-m, 14px);
     line-height: var(--about-p-lh-m, 18px);
-    color: #161A1D;
+    color: #161a1d;
     margin: 0;
 
     @media (min-width: 750px) {
@@ -224,7 +224,7 @@
   width: 60px;
   height: 60px;
   flex-shrink: 0;
-  color: #FFC44C;
+  color: #ffc44c;
 
   @media (min-width: 750px) {
     width: 100px;
@@ -245,11 +245,11 @@
 }
 
 .about-page__vm-title {
-  font-family: 'Aller', sans-serif;
+  font-family: "Aller", sans-serif;
   font-weight: 400;
   font-size: 24px;
   line-height: 28px;
-  color: #FFFFFF;
+  color: #ffffff;
   margin: 0;
 
   @media (min-width: 750px) {
@@ -259,11 +259,11 @@
 }
 
 .about-page__vm-text {
-  font-family: 'Aller', sans-serif;
+  font-family: "Aller", sans-serif;
   font-weight: 400;
   font-size: 13px;
   line-height: 17px;
-  color: #FFFFFF;
+  color: #ffffff;
   margin: 0;
 
   @media (min-width: 750px) {
@@ -320,5 +320,13 @@
   @media (min-width: 750px) {
     height: 450px;
     object-fit: cover;
+  }
+}
+
+@media (min-width: 750px) {
+  .about-page__section.about-page__story {
+    .about-page__story-inner {
+      justify-content: flex-end;
+    }
   }
 }
