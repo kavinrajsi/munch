@@ -17,7 +17,7 @@
 >
   <div class="credit-bar__inner {% if section.settings.container_type == 'container-fluid' %}container-fluid{% else %}container{% endif %}">
     <p class="credit-bar__copyright">
-      &copy; {{ 'now' | date: '%Y' }} {{ shop.name }}. All rights reserved.
+      &copy; {{ 'now' | date: '%Y' }} {{ section.settings.store_name | default: shop.name }}. All rights reserved.
     </p>
     {%- if section.settings.credit_text != blank -%}
       <p class="credit-bar__credit">
@@ -128,6 +128,12 @@
     {
       "type": "header",
       "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "store_name",
+      "label": "Store Name",
+      "info": "Leave blank to use the default shop name"
     },
     {
       "type": "text",
