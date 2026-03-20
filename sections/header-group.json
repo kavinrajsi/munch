@@ -44,7 +44,7 @@
         "a4"
       ],
       "settings": {
-        "scroll_speed": 30,
+        "scroll_speed": 10,
         "pause_on_hover": true,
         "pause_on_focus": true,
         "container_type": "fluid",
