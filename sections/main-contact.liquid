@@ -17,16 +17,7 @@
 <div class="contact-page" {{ section.shopify_attributes }}>
   <div class="container">
     {%- comment -%} Section Heading {%- endcomment -%}
-    {%- render 'section-heading',
-      title: 'Contact Us' | t,
-      heading_tag: 'h1',
-      show_left_line: true,
-      show_left_icon: true,
-      show_right_icon: true,
-      show_right_line: true,
-      margin_bottom_desktop: 40,
-      margin_bottom_mobile: 24
-    -%}
+    {%- render 'section-heading', title: 'Contact Us', heading_tag: 'h1', show_left_line: true, show_left_icon: true, show_right_icon: true, show_right_line: true, margin_bottom_desktop: 40, margin_bottom_mobile: 24 -%}
 
     <div class="contact-page__layout">
       {%- comment -%} Left: Contact Info Card {%- endcomment -%}
@@ -209,3 +200,25 @@
   ]
 }
 {% endschema %}
+{% comment %}
+
+This file has been rewritten to preserve the original behavior.
+
+---
+Changes:
+- from: |-
+    {%- render 'section-heading',
+          title: 'Contact Us' | t,
+          heading_tag: 'h1',
+          show_left_line: true,
+          show_left_icon: true,
+          show_right_icon: true,
+          show_right_line: true,
+          margin_bottom_desktop: 40,
+          margin_bottom_mobile: 24
+        -%}
+  to: "{%- render 'section-heading', title: 'Contact Us', heading_tag: 'h1', show_left_line:
+    true, show_left_icon: true, show_right_icon: true, show_right_line: true, margin_bottom_desktop:
+    40, margin_bottom_mobile: 24 -%}"
+  position: 799..1014
+{% endcomment %}

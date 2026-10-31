@@ -10,16 +10,7 @@
   <div class="{{ section.settings.container_type }}">
 
     {%- comment -%} Decorated heading {%- endcomment -%}
-    {% render 'section-heading',
-      title: 'Search' | t,
-      heading_tag: 'h1',
-      show_left_line: true,
-      show_left_icon: true,
-      show_right_icon: true,
-      show_right_line: true,
-      margin_bottom_desktop: 24,
-      margin_bottom_mobile: 16
-    %}
+    {% render 'section-heading', title: 'Search', heading_tag: 'h1', show_left_line: true, show_left_icon: true, show_right_icon: true, show_right_line: true, margin_bottom_desktop: 24, margin_bottom_mobile: 16 %}
 
     {%- comment -%} Search form {%- endcomment -%}
     <div class="search-bar" data-search-bar>
@@ -369,3 +360,25 @@
   ]
 }
 {% endschema %}
+{% comment %}
+
+This file has been rewritten to preserve the original behavior.
+
+---
+Changes:
+- from: |-
+    {% render 'section-heading',
+          title: 'Search' | t,
+          heading_tag: 'h1',
+          show_left_line: true,
+          show_left_icon: true,
+          show_right_icon: true,
+          show_right_line: true,
+          margin_bottom_desktop: 24,
+          margin_bottom_mobile: 16
+        %}
+  to: "{% render 'section-heading', title: 'Search', heading_tag: 'h1', show_left_line:
+    true, show_left_icon: true, show_right_icon: true, show_right_line: true, margin_bottom_desktop:
+    24, margin_bottom_mobile: 16 %}"
+  position: 590..799
+{% endcomment %}
